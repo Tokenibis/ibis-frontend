@@ -6,6 +6,12 @@ This is the application backend for the Token Ibis application. It is implemente
 
 Install the latest version of nodejs: https://nodejs.org/en/download/
 
+## Setup
+
+`$ yarn add axios`
+
+`$ yarn add react-social-login-buttons`
+
 ## Run
 
 `$ cd application`
