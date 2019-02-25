@@ -6,8 +6,14 @@ This is the application backend for the Token Ibis application. It is implemente
 
 Install the latest version of nodejs: https://nodejs.org/en/download/
 
+## Setup
+
+`$ npm install`
+
+`$ npm audit fix`
+
 ## Run
 
 `$ cd application`
 
-`$ yarn start`
+`$ npm start`
