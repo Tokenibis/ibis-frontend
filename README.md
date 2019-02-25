@@ -8,12 +8,12 @@ Install the latest version of nodejs: https://nodejs.org/en/download/
 
 ## Setup
 
-`$ yarn add axios`
+`$ npm install`
 
-`$ yarn add react-social-login-buttons`
+`$ npm audit fix`
 
 ## Run
 
 `$ cd application`
 
-`$ yarn start`
+`$ npm start`
