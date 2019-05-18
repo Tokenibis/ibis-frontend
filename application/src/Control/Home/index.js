@@ -137,70 +137,73 @@ class Home extends Component {
 	      <Typography variant="h6" className={classes.balance}>
   		Balance ${0}
 	      </Typography>
-	      <Typography variant="body2" className={classes.notifications}>
-		<div onClick={(e) => handlePage(<Notifications />)} >
+	      <div onClick={(e) => handlePage(<Notifications />)} >
+		<Typography variant="body2" className={classes.notifications}>
 		  Notifications ({<NotificationIcon className={classes.notificationIcon} />})
-		</div>
-	      </Typography>
+		</Typography>
+	      </div>
 	      <List
 		component="nav"
 		className={classes.list}
 	      >
 		<Divider />
-		<SubList label="Give"
-			 value={open === 'openGive'}
-			 icon={<GiveIcon />}
-			 onClick={(e) => {this.handleClick('openGive')}}
+		<Sublist
+		    label="Give"
+		    value={open === 'openGive'}
+		    icon={<GiveIcon />}
+		    onClick={(e) => {this.handleClick('openGive')}}
 		>
-		  <SubListItem
+		  <SublistItem
 		      label="Nonprofits"
 		      classes={classes}
 		      icon={<NonprofitIcon className={classes.link} />}
 		      onClick={(e) => handlePage(<Give value={NonprofitVal} />, GiveVal)}
 		  />
-		  <SubListItem
+		  <SublistItem
 		      label="Donations"
 		      classes={classes}
 		      icon={<DonationIcon className={classes.link} />}
 		      onClick={(e) => handlePage(<Give value={DonationVal} />, GiveVal)}
 		  />
-		</SubList>
-		<SubList label="Send"
-			 value={open === 'openSend'}
-			 icon={<SendIcon />}
-			 onClick={(e) => {this.handleClick('openSend')}}
+		</Sublist>
+		<Sublist
+		    label="Send"
+		    value={open === 'openSend'}
+		    icon={<SendIcon />}
+		    onClick={(e) => {this.handleClick('openSend')}}
 		>
-		  <SubListItem
+		  <SublistItem
 		      label="People"
 		      classes={classes}
 		      icon={<PersonIcon className={classes.link} />}
 		      onClick={(e) => handlePage(<Send value={PersonVal} />, SendVal)}
 		  />
-		  <SubListItem
+		  <SublistItem
 		      label="Transactions"
 		      classes={classes}
 		      icon={<TransactionIcon className={classes.link} />}
 		      onClick={(e) => handlePage(<Send value={TransactionVal} />, SendVal)}
 		  />
-		</SubList>
-		<SubList label="Connect"
-			 value={open === 'openConnect'}
-			 icon={<ConnectIcon />}
-			 onClick={(e) => {this.handleClick('openConnect')}}
+		</Sublist>
+		<Sublist
+		    label="Connect"
+		    value={open === 'openConnect'}
+		    icon={<ConnectIcon />}
+		    onClick={(e) => {this.handleClick('openConnect')}}
 		>
-		  <SubListItem
+		  <SublistItem
 		      label="News"
 		      classes={classes}
 		      icon={<NewsIcon className={classes.link} />}
-		      onClick={(e) => handlePage(<Connect value={NewsVal} />, SendVal)}
+		      onClick={(e) => handlePage(<Connect value={NewsVal} />, ConnectVal)}
 		  />
-		  <SubListItem
+		  <SublistItem
 		      label="Events"
 		      classes={classes}
 		      icon={<EventIcon className={classes.link} />}
-		      onClick={(e) => handlePage(<Connect value={EventVal} />, SendVal)}
+		      onClick={(e) => handlePage(<Connect value={EventVal} />, ConnectVal)}
 		  />
-		</SubList>
+		</Sublist>
 	      </List>
 	      {!(open) && 
 	       <div className={classes.quote} >

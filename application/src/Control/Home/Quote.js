@@ -29,5 +29,8 @@ function Quote({ classes }) {
     )
 };
 
+Quote.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 export default withStyles(styles)(Quote);
