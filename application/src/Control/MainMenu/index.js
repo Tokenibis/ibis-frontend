@@ -106,11 +106,14 @@ class MainMenu extends Component {
 		  onClose={(e) => this.handleClick(null, BlankVal)}
               >
 		<MenuItem className={classes.avatarItem}>
-		<Avatar onClick={(e) => this.handleClick(<Account />, BlankVal)}
+  		  <Grid container direction="column" justify="center" alignItems="center">
+		    <Avatar
+			onClick={(e) => this.handleClick(<Account />, BlankVal)}
 			alt="Ibis"
-			src={require('../../Static/Images/avatar.jpg')}
+			src={require('../../Static/Images/nonprofit.jpg')}
 			className={classes.avatar}
-		/>
+		    />
+		  </Grid>
 		</MenuItem>
 		<SubMenu 
 		    name="Give"

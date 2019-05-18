@@ -55,7 +55,6 @@ class NavBar extends Component {
 	      <AppBar color="default" position="static">
 		<Tabs
 		    indicatorColor="primary"
-		    textColor="secondary"
 		    variant="fullWidth"
 		    value={value}
 		    onChange={this.handleChange}

@@ -22,6 +22,9 @@ const theme = createMuiTheme({
 	secondary: {
 	    main: '#b0bf24',
 	},
+	tertiary: {
+	    main: '#9b9b9b',
+	},
     },
 });
 
