@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-
 import NotificationIcon from '@material-ui/icons/NotificationsOutlined';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
@@ -65,18 +64,18 @@ const styles = theme => ({
 
 class Home extends Component {
     state = {
-	open: null,
+	expanded: null,
     };
 
-    handleClick(open) {
-	this.state.open === open ?
-	this.setState({ open: false }) :
-	this.setState({ open });
+    handleExpand(expanded) {
+	this.state.expanded === expanded ?
+	this.setState({ expanded: null }) :
+	this.setState({ expanded });
     };
 
     render() {
 	let { classes, handlePage } = this.props;
-	let { open } = this.state;
+	let { expanded } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -99,9 +98,9 @@ class Home extends Component {
 		<Divider />
 		<Sublist
 		    label="Give"
-		    value={open === 'openGive'}
+		    value={expanded === 'Give'}
 		    icon={<GiveIcon />}
-		    onClick={(e) => {this.handleClick('openGive')}}
+		    onClick={(e) => {this.handleExpand('Give')}}
 		>
 		  <SublistItem
 		      label="Nonprofits"
@@ -118,9 +117,9 @@ class Home extends Component {
 		</Sublist>
 		<Sublist
 		    label="Send"
-		    value={open === 'openSend'}
+		    value={expanded === 'Send'}
 		    icon={<SendIcon />}
-		    onClick={(e) => {this.handleClick('openSend')}}
+		    onClick={(e) => {this.handleExpand('Send')}}
 		>
 		  <SublistItem
 		      label="People"
@@ -137,9 +136,9 @@ class Home extends Component {
 		</Sublist>
 		<Sublist
 		    label="Connect"
-		    value={open === 'openConnect'}
+		    value={expanded === 'Connect'}
 		    icon={<ConnectIcon />}
-		    onClick={(e) => {this.handleClick('openConnect')}}
+		    onClick={(e) => {this.handleExpand('Connect')}}
 		>
 		  <SublistItem
 		      label="News"
@@ -155,7 +154,7 @@ class Home extends Component {
 		  />
 		</Sublist>
 	      </List>
-	      {!(open) && 
+	      {!(expanded) && 
 	       <div className={classes.quote} >
 		 <Quote />
 	       </div>
