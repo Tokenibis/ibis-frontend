@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { BlankVal } from '../Cycler'
-import Window from '../Window';
+import Window from '../__Common__/Window';
 import MainBar from '../MainBar';
 import Home from '../Home';
 

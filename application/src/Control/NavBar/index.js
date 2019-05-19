@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 
-import Window from '../Window'
+import Window from '../__Common__/Window'
 
 function TabContainer({ children }) {
     return (
