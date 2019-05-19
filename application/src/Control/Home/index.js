@@ -37,6 +37,7 @@ const styles = theme => ({
     },
     notifications: {
 	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
 	paddingBottom: theme.spacing.unit * 4,
     },
     notificationIcon: {

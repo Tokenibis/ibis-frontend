@@ -11,16 +11,16 @@ const styles = theme => ({
     },
     author: {
 	textAlign: 'right',
-	
-color: theme.palette.tertiary.main,
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
     }
 });
 
 function Quote({ classes }) {
     return (
 	<div>
-	<Typography variant="body1" className={classes.quote}>
-	  One of the most difficult things to do is not to change society, but to change yourself.
+	<Typography variant="body2" className={classes.quote}>
+	  "One of the most difficult things to do is not to change society, but to change yourself."
 	</Typography>
 	<Typography variant="body2" className={classes.author}>
 	  -- Nelson Mandela
