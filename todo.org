@@ -1,3 +1,0 @@
-* clean up code
-* add navigation
-* comment
