@@ -9,7 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 
 import Cycler, { BlankVal } from '../Cycler';
 import Home from '../Home';
-import MainMenu from '../MainMenu';
+import SideBar from '../SideBar';
 
 const styles = {
     root: {
@@ -30,7 +30,7 @@ function MainBar({ classes, handlePage, cycle }) {
     return (
 	<AppBar color="primary" position="static">
 	  <Toolbar>
-	    <MainMenu handlePage={handlePage}/>
+	    <SideBar handlePage={handlePage}/>
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
 	      <Cycler value={cycle} handlePage={handlePage} />
 	    </Typography>
