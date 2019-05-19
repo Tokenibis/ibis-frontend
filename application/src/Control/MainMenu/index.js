@@ -6,12 +6,22 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import GiveIcon from '@material-ui/icons/CardGiftcard';
+import SendIcon from '@material-ui/icons/SendOutlined';
+import ConnectIcon from '@material-ui/icons/DeviceHub';
+import NonprofitIcon from '@material-ui/icons/StoreOutlined';
+import DonationIcon from '@material-ui/icons/AttachMoney';
+import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
+import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import NewsIcon from '@material-ui/icons/ListAlt';
+import EventIcon from '@material-ui/icons/CalendarToday';
+import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import HelpIcon from '@material-ui/icons/HelpOutline';
 
+import Sublist from '../__Common__/Sublist';
+import SublistItem from '../__Common__/SublistItem';
 import { BlankVal, GiveVal, SendVal, ConnectVal } from '../Cycler';
 import Give, { NonprofitVal, DonationVal } from '../Give';
 import Send, { PersonVal, TransactionVal } from '../Send';
@@ -20,6 +30,7 @@ import Account from '../../Pages/Account';
 import Settings from '../../Pages/Settings';
 import QRScan from '../../Pages/QRScan';
 import Help from '../../Pages/Help';
+import QRIcon from '../../__Common__/QRIcon';
 
 const styles = theme => ({
     avatar: {
@@ -27,36 +38,16 @@ const styles = theme => ({
 	width: 80,
 	height: 80,
     },
+    nested: {
+	paddingLeft: theme.spacing.unit * 4,
+    },
+    link: {
+	color: theme.palette.secondary.main,
+    },
     avatarItem: {
 	height: 80,
     }
 });
-
-function SubMenu({ name, options, expanded, onChange }) {
-    return (
-	<ExpansionPanel 
-	    expanded={expanded} 
-	    onChange={onChange}
-	>
-	  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-	    {name}
-	  </ExpansionPanelSummary>
-	  <ExpansionPanelDetails>
-	    <Grid container direction="column">
-	      {options.map((opt, i) => opt)}
-	    </Grid>
-	  </ExpansionPanelDetails>
-	</ExpansionPanel>
-    )
-};
-
-SubMenu.propTypes = {
-    name: PropTypes.string.isRequired,
-    expanded: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
-    options: PropTypes.array.isRequired,
-};
-
 
 class MainMenu extends Component {
 
@@ -80,10 +71,10 @@ class MainMenu extends Component {
 	handlePage(page, switchVal);
     };
 
-    handleExpand = (panel) => (event, expanded) => {
-	this.setState({
-	    expanded: expanded ? panel : false
-	});
+    handleExpand(expanded) {
+	this.state.expanded === expanded ?
+	this.setState({ expanded: false }) :
+	this.setState({ expanded });
     };
 
     render() {
@@ -115,91 +106,86 @@ class MainMenu extends Component {
 		    />
 		  </Grid>
 		</MenuItem>
-		<SubMenu 
-		    name="Give"
-		    expanded={expanded === 1}
-		    onChange={this.handleExpand(1)}
-		    options={[
-			<MenuItem
-			    key={1.1}
-		            onClick={(e) => this.handleClick(<Give value={NonprofitVal} />, GiveVal)}
-			>
-			  Nonprofits
-			</MenuItem>,
-			<MenuItem
-			    key={1.2}
-		            onClick={(e) => this.handleClick(<Give value={DonationVal} />, GiveVal)}
-			>
-			  Donations
-			</MenuItem>
-		    ]}
-		/>
-		<SubMenu 
-		    name="Send"
-		    expanded={expanded === 2}
-		    onChange={this.handleExpand(2)}
-		    options={[
-			<MenuItem
-			    key={2.1}
-		            onClick={(e) => this.handleClick(<Send value={PersonVal} />, SendVal)}
-			>
-			  People
-			</MenuItem>,
-			<MenuItem
-			    key={2.2}
-		            onClick={(e) => this.handleClick(<Send value={TransactionVal} />, SendVal)}
-			>
-			  Transactions
-			</MenuItem>
-		    ]}
-		/>
-		<SubMenu 
-		    name="Connect"
-		    expanded={expanded === 3}
-		    onChange={this.handleExpand(3)}
-		    options={[
-			<MenuItem
-			    key={3.1}
-		            onClick={(e) => this.handleClick(<Connect value={NewsVal} />, ConnectVal)}
-			>
-			  News
-			</MenuItem>,
-			<MenuItem
-			    key={3.2}
-		            onClick={(e) => this.handleClick(<Connect value={EventVal} />, ConnectVal)}
-			>
-			  Events
-			</MenuItem>
-		    ]}
-		/>
-		<MenuItem
-		    key={4}
-		    onClick={(e) => this.handleClick(<Account />, BlankVal)}
+		<Divider />
+		<Sublist
+		    label="Give"
+		    value={expanded === 'Give'}
+		    icon={<GiveIcon />}
+		    onClick={(e) => {this.handleExpand('Give')}}
 		>
-		  Account
-		</MenuItem>
-		<MenuItem
-		    key={5}
+		  <SublistItem
+		      label="Nonprofits"
+		      classes={classes}
+		      icon={<NonprofitIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Give value={NonprofitVal} />, GiveVal)}
+		  />
+		  <SublistItem
+		      label="Donations"
+		      classes={classes}
+		      icon={<DonationIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Give value={DonationVal} />, GiveVal)}
+		  />
+		</Sublist>
+		<Sublist
+		    label="Send"
+		    value={expanded === 'Send'}
+		    icon={<SendIcon />}
+		    onClick={(e) => {this.handleExpand('Send')}}
+		>
+		  <SublistItem
+		      label="People"
+		      classes={classes}
+		      icon={<PersonIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Send value={PersonVal} />, SendVal)}
+		  />
+		  <SublistItem
+		      label="Transactions"
+		      classes={classes}
+		      icon={<TransactionIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Send value={TransactionVal} />, SendVal)}
+		  />
+		</Sublist>
+		<Sublist
+		    label="Connect"
+		    value={expanded === 'Connect'}
+		    icon={<ConnectIcon />}
+		    onClick={(e) => {this.handleExpand('Connect')}}
+		>
+		  <SublistItem
+		      label="News"
+		      classes={classes}
+		      icon={<NewsIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Connect value={NewsVal} />, ConnectVal)}
+		  />
+		  <SublistItem
+		      label="Events"
+		      classes={classes}
+		      icon={<EventIcon className={classes.link} />}
+		      onClick={(e) => this.handleClick(<Connect value={EventVal} />, ConnectVal)}
+		  />
+		</Sublist>
+		<SublistItem
+		    label="Settings"
+		    classes={classes}
+		    icon={<SettingsIcon className={classes.link} />}
 		    onClick={(e) => this.handleClick(<Settings />, BlankVal)}
-		>
-		  Settings
-		</MenuItem>
-		<MenuItem
-		    key={6}
+		/>
+		<SublistItem
+		    label="Help"
+		    classes={classes}
+		    icon={<HelpIcon className={classes.link} />}
 		    onClick={(e) => this.handleClick(<Help />, BlankVal)}
-		>
-		  Help
-		</MenuItem>
-		<MenuItem
-		    key={6}
+		/>
+		<SublistItem
+		    label="Scanner"
+		    classes={classes}
+		    icon={<QRIcon className={classes.link} />}
 		    onClick={(e) => this.handleClick(<QRScan />, BlankVal)}
-		>
-		  QR Code Scanner
-		</MenuItem>
+		/>
               </Menu>
 	    </div>
 	);
-    }
+    };
 };
 
 MainMenu.propTypes = {
