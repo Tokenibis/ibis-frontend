@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 
-import Cycler from '../Cycler';
+import Cycler, { BlankVal } from '../Cycler';
 import Home from '../Home';
 import MainMenu from '../MainMenu';
 
@@ -36,7 +36,7 @@ function MainBar({ classes, handlePage, cycle }) {
 	    </Typography>
 	    <IconButton 
 	      color="inherit" 
-	      onClick={(e) => handlePage(<Home handlePage={handlePage} />, '')}
+	      onClick={(e) => handlePage(<Home handlePage={handlePage} />, BlankVal)}
 	    >
 	      <HomeIcon /> 
 	    </IconButton>
