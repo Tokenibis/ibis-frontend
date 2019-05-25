@@ -10,13 +10,14 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Fab from '@material-ui/core/Fab';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
 import NonprofitIcon from '@material-ui/icons/CardGiftcard';
+import ScrollToTop from "react-scroll-up";
 import UpIcon from '@material-ui/icons/ArrowUpward';
+import Fab from '@material-ui/core/Fab';
 
 import News from '../News';
 import Nonprofit from '../Nonprofit';
@@ -41,12 +42,6 @@ const styles = theme => ({
 	fontSize: 18,
 	marginBottom: -4,
 	marginRight: theme.spacing.unit,
-    },
-    fab: {
-	position: 'fixed',
-	float: 'right',
-	bottom: theme.spacing.unit * 3,
-	right: theme.spacing.unit * 3,
     },
     description: {
 	color: theme.palette.tertiary.main,
@@ -168,11 +163,11 @@ class NewsList extends Component {
 		    return this.createItem(data.allArticles);
 		}}
 	      </Query>
-	      <div className={classes.fab} onClick={(e) => {window.scrollTo(0, 0)}}>
+	      <ScrollToTop showUnder={160}>
 		<Fab color="primary">
 		  <UpIcon />
 		</Fab>
-	      </div>
+	      </ScrollToTop>
 	    </div>
 	);
     };

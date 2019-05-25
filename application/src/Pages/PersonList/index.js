@@ -6,21 +6,16 @@ import { Query } from "react-apollo";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ScrollToTop from "react-scroll-up";
+import UpIcon from '@material-ui/icons/ArrowUpward';
+import Fab from '@material-ui/core/Fab';
 
 import Person from '../Person';
 import CustomItem from '../__Common__/CustomItem';
-import UpIcon from '@material-ui/icons/ArrowUpward';
-import Fab from '@material-ui/core/Fab';
 
 const styles = theme => ({
     root: {
 	width: '100%',
-    },
-    fab: {
-	position: 'fixed',
-	float: 'right',
-	bottom: theme.spacing.unit * 3,
-	right: theme.spacing.unit * 3,
     },
     description: {
 	textAlign: 'left',
@@ -114,11 +109,11 @@ class PersonList extends Component {
 		    return this.createItem(data.allIbisUsers);
 		}}
 	      </Query>
-	      <div className={classes.fab} onClick={(e) => {window.scrollTo(0, 0)}}>
+	      <ScrollToTop showUnder={160}>
 		<Fab color="primary">
-		<UpIcon />
+		  <UpIcon />
 		</Fab>
-	      </div>
+	      </ScrollToTop>
 	    </div>
 	);
     };
