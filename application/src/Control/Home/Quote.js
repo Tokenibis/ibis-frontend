@@ -20,10 +20,10 @@ function Quote({ classes }) {
     return (
 	<div>
 	<Typography variant="body2" className={classes.quote}>
-	  "One of the most difficult things to do is not to change society, but to change yourself."
+	  "What birds can have their bills more peculiarly formed than the ibis, the spoonbill, and the heron?"
 	</Typography>
 	<Typography variant="body2" className={classes.author}>
-	  -- Nelson Mandela
+	  -- Alfred Russel Wallace
 	</Typography>
 	</div>										    
     )
