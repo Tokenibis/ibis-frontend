@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import Give, { NonprofitVal } from '../Give'
 import Send, { PersonVal } from '../Send'
@@ -30,10 +31,12 @@ class Cycler extends Component {
 
 	return (
 	    <Button
-		color="inherit"
-		onClick={(e) => (handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal))}
+	    color="inherit"
+	    onClick={(e) => (handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal))}
 	    >
+	    <Typography color="inherit" variant="button">
 	      {title && `${title}`}
+	    </Typography>
 	    </Button>
 	);
     }

@@ -60,7 +60,11 @@ class NavBar extends Component {
 		    onChange={this.handleChange}
 		>
 		  {Object.keys(options).map((label, i) => (
-		      <Tab key={i} label={label}/>
+		      <Tab key={i} label={
+			  <Typography variant="button">
+			    {label}
+			  </Typography>
+		      }/>
 		  ))}
 		</Tabs>
 	      </AppBar>
