@@ -5,8 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
 
+import IbisIcon from '../../__Common__/IbisIcon';
 import Cycler, { BlankVal } from '../Cycler';
 import Home from '../Home';
 import SideBar from '../SideBar';
@@ -38,7 +38,7 @@ function MainBar({ classes, handlePage, cycle }) {
 	      color="inherit" 
 	      onClick={(e) => handlePage(<Home handlePage={handlePage} />, BlankVal)}
 	    >
-	      <HomeIcon /> 
+	      <IbisIcon /> 
 	    </IconButton>
           </Toolbar>
 
