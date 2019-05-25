@@ -55,6 +55,9 @@ const styles = theme => ({
 	marginTop: - theme.spacing.unit * 3,
 	width: 100,
 	height: 100,
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: theme.palette.secondary.main,
     },
     quote: {
 	paddingTop: theme.spacing.unit * 4,

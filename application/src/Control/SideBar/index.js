@@ -36,6 +36,9 @@ const styles = theme => ({
 	margin: 10,
 	width: 80,
 	height: 80,
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: theme.palette.secondary.main,
     },
     sideBar: {
 	minWidth: theme.spacing.unit * 28,
@@ -46,9 +49,6 @@ const styles = theme => ({
     link: {
 	color: theme.palette.secondary.main,
     },
-    avatarItem: {
-	height: 80,
-    }
 });
 
 class SideBar extends Component {

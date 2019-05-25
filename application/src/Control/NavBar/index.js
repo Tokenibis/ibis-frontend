@@ -10,7 +10,7 @@ import Window from '../__Common__/Window'
 
 function TabContainer({ children }) {
     return (
-	<Typography component="div" style={{ padding: 8 * 3 }}>
+	<Typography component="div" style={{ padding: 16 }}>
 	  <Window>
 	    {children}
 	  </Window>
