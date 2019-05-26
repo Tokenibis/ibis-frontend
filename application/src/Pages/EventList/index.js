@@ -7,7 +7,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ModernDatepicker from 'react-modern-datepicker';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -61,9 +60,6 @@ const styles = theme => ({
     avatar: {
 	borderStyle: 'solid',
 	borderWidth: '2px',
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: theme.palette.secondary.main,
 	borderColor: theme.palette.secondary.main,
     },
     title: {
