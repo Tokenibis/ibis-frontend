@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import DonationIcon from '@material-ui/icons/CardGiftcard';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import ScrollToTop from "react-scroll-up";
 import UpIcon from '@material-ui/icons/ArrowUpward';
@@ -16,9 +15,22 @@ import Fab from '@material-ui/core/Fab';
 import Donation from '../Donation';
 import CustomItem from '../__Common__/CustomItem';
 
+import AnimalIcon from '@material-ui/icons/PetsOutlined';
+import ArtIcon from '@material-ui/icons/PaletteOutlined';
+import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
+import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
+import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
+import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
+import HealthIcon from '@material-ui/icons/HealingOutlined';
+import HumanIcon from '@material-ui/icons/GroupOutlined';
+
 const styles = theme => ({
     root: {
 	width: '100%',
+    },
+    categoryIcon: {
+	color: theme.palette.secondary.main,
+	padding: 0,
     },
     toIcon: {
 	marginBottom: -8,
@@ -41,7 +53,6 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingLeft: theme.spacing.unit * 2,
 	paddingRight: theme.spacing.unit * 2,
     },
     amount: {
@@ -87,6 +98,20 @@ class DonationList extends Component {
 	expanded: -1,
     };
 
+    constructor({ handleWindow }) {
+	super();
+	this.icons = [
+	    <AnimalIcon />,
+	    <ArtIcon />,
+	    <CivilIcon />,
+	    <DevelopmentIcon />,
+	    <EducationIcon />,
+	    <EnvironmentIcon />,
+	    <HealthIcon />,
+	    <HumanIcon />,
+	]
+    }
+
     handleExpand(expanded) {
 	this.state.expanded === expanded ?
 	this.setState({ expanded: -1 }) :
@@ -111,11 +136,11 @@ class DonationList extends Component {
 		    }
 		    value={expanded === i}
 		    icon={
-			<IconButton>
-			  <DonationIcon
-			    color="secondary"
-			  onClick={(e) => handleWindow(<Donation handleWindow={handleWindow}/>)}
-			  />
+			<IconButton
+			    className={classes.categoryIcon}
+			    onClick={(e) => handleWindow(<Donation handleWindow={handleWindow}/>)}
+			 >
+			  {this.icons[(item.node.description.length + i) % this.icons.length]}
 			</IconButton>
 		    }
 		    onClick={(e) => {this.handleExpand(i)}}>
