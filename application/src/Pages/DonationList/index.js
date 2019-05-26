@@ -10,13 +10,14 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import ListView from '../__Common__/ListView';
 import Donation from '../Donation';
 
-import GiftIcon from '@material-ui/icons/CakeOutlined';
-import MoodIcon from '@material-ui/icons/MoodOutlined';
-import TradeIcon from '@material-ui/icons/TransferWithinAStationOutlined';
-import KudosIcon from '@material-ui/icons/StarsOutlined';
-import GameIcon from '@material-ui/icons/VideogameAssetOutlined';
-import SchoolIcon from '@material-ui/icons/SchoolOutlined';
-import Commercial from '@material-ui/icons/ShoppingCartOutlined';
+import AnimalIcon from '@material-ui/icons/PetsOutlined';
+import ArtIcon from '@material-ui/icons/PaletteOutlined';
+import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
+import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
+import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
+import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
+import HealthIcon from '@material-ui/icons/HealingOutlined';
+import HumanIcon from '@material-ui/icons/GroupOutlined';
 
 const styles = theme => ({
     categoryIcon: {
@@ -76,13 +77,14 @@ class DonationList extends Component {
     constructor({ handleWindow }) {
 	super();
 	this.icons = [
-	    <GiftIcon />,
-	    <MoodIcon />,
-	    <TradeIcon />,
-	    <KudosIcon />,
-	    <GameIcon />,
-	    <SchoolIcon />,
-	    <Commercial />,
+	    <AnimalIcon />,
+	    <ArtIcon />,
+	    <CivilIcon />,
+	    <DevelopmentIcon />,
+	    <EducationIcon />,
+	    <EnvironmentIcon />,
+	    <HealthIcon />,
+	    <HumanIcon />,
 	]
     };
 
