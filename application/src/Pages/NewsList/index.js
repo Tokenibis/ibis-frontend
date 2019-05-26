@@ -32,7 +32,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     title: {
-	color: theme.palette.secondary.main,
+	color: theme.palette.primary.main,
 	fontWeight: 'bold',
     },
     subheader: {
@@ -103,7 +103,6 @@ class NewsList extends Component {
 		      }
 		      title={
 			  <Typography
-		              onClick={(e) => handleWindow(<News />)}
 			      variant="body2"
 			      className={classes.title}
 			  >
@@ -118,7 +117,6 @@ class NewsList extends Component {
 		      }
 		  />
 		  {
-		      i === 0 &&
 		      <CardMedia
 			  className={classes.media}
   			  image={require('../../Static/Images/news.jpg')}

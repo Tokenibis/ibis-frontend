@@ -63,7 +63,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     title: {
-	color: theme.palette.secondary.main,
+	color: theme.palette.primary.main,
 	fontWeight: 'bold',
     },
     subheader: {
@@ -155,10 +155,9 @@ class EventList extends Component {
 		      }
 		      title={
 			  <Typography
-		              onClick={(e) => handleWindow(<Event />)}
-				      variant="body2"
-				      className={classes.title}
-			      >
+			      variant="body2"
+			      className={classes.title}
+			  >
 			    {item.node.title}
 			  </Typography>
 		      }
