@@ -20,29 +20,50 @@ import NonprofitIcon from '@material-ui/icons/CardGiftcard';
 import ScrollToTop from "react-scroll-up";
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import Fab from '@material-ui/core/Fab';
+import DayPicker from 'react-day-picker';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CalendarIcon from '@material-ui/icons/Today';
 
 import Event from '../Event';
 import Nonprofit from '../Nonprofit';
+
+import './style.css';
+
+const birthdayStyle = `.DayPicker-Day--highlighted {
+  color: #b0bf24;
+}`;
+
+const modifiers = {
+    highlighted: [
+	new Date(2019, 4, 19),
+	new Date(2019, 4, 29),
+    ]
+};
 
 const styles = theme => ({
     body: {
 	paddingTop: theme.spacing.unit,
 	width: '100%',
     },
-    pickerPaper: {
-	width: '100%',
-	background: theme.palette.secondary.main,
-	zIndex: 1,
+    expansion: {
+	backgroundColor: theme.palette.secondary.main,
+    },
+    expansionText: {
+	color: '#ffffff',
     },
     picker: {
 	fontWeight: 'bold',
-	background: theme.palette.secondary.main,
-	textAlign: 'center',
-	color: '#ffffff'
+	color: theme.palette.tertiary.main,
     },
     avatar: {
 	borderStyle: 'solid',
 	borderWidth: '2px',
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: theme.palette.secondary.main,
 	borderColor: theme.palette.secondary.main,
     },
     title: {
@@ -53,6 +74,11 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
     },
     nonprofitIcon: {
+	fontSize: 18,
+	marginBottom: -4,
+	marginRight: theme.spacing.unit,
+    },
+    calendarIcon: {
 	fontSize: 18,
 	marginBottom: -4,
 	marginRight: theme.spacing.unit,
@@ -99,11 +125,19 @@ const QUERY = gql`
 class EventList extends Component {
 
     state = {
-	day: new Date().toLocaleDateString()
+	day: new Date().toLocaleDateString(),
+	expanded: false
     };
 
-    onDayClick(day) {
-	this.setState({ day })
+    handleExpand() {
+	this.setState({ expanded: !this.state.expanded });
+    }
+
+    handleDayClick(day) {
+	this.setState({
+	    day: new Date(day).toLocaleDateString(),
+	    expanded: false
+	})
     };
     
     createItem(allEvents) {
@@ -167,23 +201,36 @@ class EventList extends Component {
 
     render() {
 	let { classes } = this.props;
-	let { day } = this.state;
-	console.log(day)
+	let { day, expanded } = this.state;
 
 	return (
 	    <div>
-	      <Paper elevation={8} className={classes.pickerPaper}>
-		<ModernDatepicker 
-		    className={classes.picker}
-		    primaryTextColor="#9b9b9b"
-		    secondaryTextColor="#ffffff"
-		    primaryColor="#b0bf24"
-		    format={'M/D/YYYY'} 
-		    onFocus={() => {document.activeElement.setAttribute("readonly", "readonly")}}
-		    onChange={(date) => this.onDayClick(date)}
-		    date={day}
-		/>
+	      <Paper elevation={8}>
+	      <ExpansionPanel expanded={expanded} onChange={() => this.handleExpand()}>
+		<ExpansionPanelSummary className={classes.expansion}
+		    expandIcon={<ExpandMoreIcon className={classes.expansionText} />}
+		    aria-controls="panel1a-content"
+		    id="panel1a-header"
+		>
+		  <Typography className={classes.expansionText} variant="button">
+		    {<CalendarIcon className={classes.calendarIcon} />} 
+		    {day.toLocaleString()}
+		  </Typography>
+		</ExpansionPanelSummary>
+		<ExpansionPanelDetails>
+  		  <Grid container direction="column" justify="center" alignItems="center" >
+		    <style>{birthdayStyle}</style>
+		    <DayPicker
+			className={classes.picker}
+			modifiers={modifiers}
+			month={new Date(2019, 4)}
+			onDayClick={(day) => (this.handleDayClick(day))}
+		    />
+		    </Grid>
+		</ExpansionPanelDetails>
+	      </ExpansionPanel>
 	      </Paper>
+		
 	      <div className={classes.body}>
 		<Query query={QUERY}>
 		  {({ loading, error, data }) => {
