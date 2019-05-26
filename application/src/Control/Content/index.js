@@ -12,21 +12,23 @@ class Content extends Component {
 	this.state = {
 	    page: <Home handlePage={this.handlePage}/>,
 	    cycle: BlankVal,
+	    hideHome: true,
 	};
     }
 
-    handlePage = (page, cycle) => {
-        page && this.setState({ page, cycle });
+    handlePage = (page, cycle, hideHome) => {
+        page && this.setState({ page, cycle, hideHome });
     }
 
     render() {
-	const { page, cycle } = this.state;
+	const { page, cycle, hideHome } = this.state;
 
 	return (
 	    <div>
 	      <MainBar
 		  cycle={cycle} 
 		  handlePage={this.handlePage}
+	          hideHome={hideHome}
 	      />
 	      <Window>
 		{page}

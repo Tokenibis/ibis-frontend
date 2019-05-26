@@ -25,7 +25,7 @@ const styles = {
     },
 };
 
-function MainBar({ classes, handlePage, cycle }) {
+function MainBar({ classes, handlePage, cycle, hideHome }) {
 
     return (
 	<AppBar color="primary" position="static">
@@ -34,12 +34,15 @@ function MainBar({ classes, handlePage, cycle }) {
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
 	      <Cycler value={cycle} handlePage={handlePage} />
 	    </Typography>
-	    <IconButton 
-	      color="inherit" 
-	      onClick={(e) => handlePage(<Home handlePage={handlePage} />, BlankVal)}
-	    >
-	      <IbisIcon /> 
-	    </IconButton>
+	    {
+		(hideHome === undefined || hideHome === false) &&
+		<IconButton
+		    color="inherit"
+		    onClick={(e) => handlePage(<Home handlePage={handlePage} />, BlankVal, true)}
+		>
+		  <IbisIcon />
+		</IconButton>
+	    }
           </Toolbar>
 
 	</AppBar>
