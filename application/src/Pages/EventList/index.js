@@ -141,7 +141,7 @@ class EventList extends Component {
 
 	return (
 	    allEvents.edges.map((item, i) => ( 
-		<Card raised className={classes.card}>
+		<Card raised className={classes.card} key={i}>
 		  <CardHeader
 		      avatar={
 			  <div>

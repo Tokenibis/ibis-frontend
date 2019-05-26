@@ -89,7 +89,7 @@ class NewsList extends Component {
 
 	return (
 	    allArticles.edges.map((item, i) => ( 
-		<Card raised className={classes.card}>
+		<Card raised className={classes.card} key={i}>
 		  <CardHeader
 		      avatar={
 			  <div>
