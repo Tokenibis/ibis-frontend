@@ -96,7 +96,7 @@ class NewsList extends Component {
   			  <Avatar
 		              onClick={(e) => handleWindow(<Nonprofit />)}
 			      alt="Ibis"
-  			      src={require('../../Static/Images/nonprofit.jpg')}
+  			      src={require(`../../Static/Images/birds/bird${(item.node.title.length + i) % 10}.jpg`)}
   			      className={classes.avatar} />
 			  </div>
 
@@ -119,7 +119,7 @@ class NewsList extends Component {
 		  {
 		      <CardMedia
 			  className={classes.media}
-  			  image={require('../../Static/Images/news.jpg')}
+  			  image={require(`../../Static/Images/egypt/pic${(item.node.title.length + i) % 10}.jpg`)}
 			  title={item.node.title}
 		      />
 		  }

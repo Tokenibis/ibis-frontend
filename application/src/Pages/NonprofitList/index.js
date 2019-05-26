@@ -80,7 +80,7 @@ class NonprofitList extends Component {
   			<Avatar
 		      onClick={(e) => handleWindow(<Nonprofit />)}
 			      alt="Ibis"
-  			      src={require('../../Static/Images/nonprofit.jpg')}
+  			      src={require(`../../Static/Images/birds/bird${(item.node.title.length + i) % 10}.jpg`)}
   			      className={classes.avatar} />
 		  }
 		  onClick={(e) => {this.handleExpand(i)}}>
