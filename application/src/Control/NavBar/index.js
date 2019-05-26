@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import FilterIcon from '@material-ui/icons/FilterList';
 
 import Window from '../__Common__/Window'
+import DummyFilter from './filter';
 
 function TabContainer({ children }) {
     return (
@@ -27,28 +31,42 @@ const styles = theme => ({
 	flexGrow: 1,
 	backgroundColor: theme.palette.primary
     },
+    filterButton: {
+	padding: 0,
+	margin: 0,
+    }
 });
 
 class NavBar extends Component {
     constructor(props) {
 	super(props);
 	this.state = {
-	    value: props.value,
-	    children: props.children
+	    tabValue: props.value,
+	    children: props.children,
+	    openedFilter: -1,
+	    filterValue: 0,
 	};
     }
 
     componentWillReceiveProps({ value, children }) {
-	this.setState({ value, children });
+	this.setState({ tabValue: value, children });
+    };
+
+    handleTabClick(tabValue) {
+	this.setState({ tabValue });
     }
 
-    handleChange = (event, value) => {
-	this.setState({ value, children: null });
+    handleFilterOpen(openedFilter) {
+	this.setState({ openedFilter })
+    };
+
+    handleFilterClose(tabValue, filterValue) {
+	this.setState({ tabValue, filterValue, openedFilter: -1 });
     };
 
     render() {
 	let { classes, options, children } = this.props;
-	let { value } = this.state;
+	let { tabValue, openedFilter, filterValue } = this.state;
 
 	return (
 	    <div className={classes.root}>
@@ -56,14 +74,26 @@ class NavBar extends Component {
 		<Tabs
 		    indicatorColor="primary"
 		    variant="fullWidth"
-		    value={value}
-		    onChange={this.handleChange}
+		    value={tabValue}
 		>
 		  {Object.keys(options).map((label, i) => (
 		      <Tab key={i} label={
-			  <Typography variant="button">
-			    {label}
-			  </Typography>
+			  <div>
+			    <IconButton
+				className={classes.filterButton}
+				onClick={() => this.handleFilterOpen(i)}
+			      >
+			      <FilterIcon />
+			    </IconButton>
+			    <Button onClick={(e) => this.handleTabClick(i)}>
+			      {label}
+			    </Button>
+			    <DummyFilter
+				selectedValue={filterValue}
+				open={openedFilter === i}
+				onClose={(v) => this.handleFilterClose(i, v)}
+			    />
+			  </div>
 		      }/>
 		  ))}
 		</Tabs>
@@ -71,7 +101,7 @@ class NavBar extends Component {
 	      {
 		  children ?
 		  <TabContainer>{children}</TabContainer> :
-		  <TabContainer>{options[Object.keys(options)[value]]}</TabContainer>
+		  <TabContainer>{options[Object.keys(options)[tabValue]]}</TabContainer>
 	      }
 	    </div>
 	);
