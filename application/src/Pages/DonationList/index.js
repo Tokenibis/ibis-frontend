@@ -6,7 +6,9 @@ import { Query } from "react-apollo";
 import Typography from '@material-ui/core/Typography';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
 import DonationIcon from '@material-ui/icons/CardGiftcard';
+import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import ScrollToTop from "react-scroll-up";
 import UpIcon from '@material-ui/icons/ArrowUpward';
 import Fab from '@material-ui/core/Fab';
@@ -25,16 +27,30 @@ const styles = theme => ({
     },
     description: {
 	textAlign: 'left',
-	paddingLeft: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing.unit * 3,
 	paddingRight: theme.spacing.unit * 2,
 	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing.unit,
     },
     progress: {
 	position: 'absolute',
 	top: '50%',
 	left: '50%',
         transform: 'translate(-50%, -50%)'
+    },
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingLeft: theme.spacing.unit * 2,
+	paddingRight: theme.spacing.unit * 2,
+    },
+    amount: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    details: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
     }
 })
 
@@ -46,6 +62,7 @@ const QUERY = gql`
 		    id
 		    amount
 		    description
+		    created
 		    target {
 			firstName
 			lastName
@@ -94,15 +111,28 @@ class DonationList extends Component {
 		    }
 		    value={expanded === i}
 		    icon={
-			<DonationIcon
+			<IconButton>
+			  <DonationIcon
 			    color="secondary"
 			  onClick={(e) => handleWindow(<Donation handleWindow={handleWindow}/>)}
-			/>
+			  />
+			</IconButton>
 		    }
 		    onClick={(e) => {this.handleExpand(i)}}>
 		  <Typography variant="body2" className={classes.description}>
 		    {item.node.description}
 		  </Typography>
+		  <div className={classes.action}>
+		    <IconButton color="secondary" aria-label="Like">
+		      <LikeIcon />
+		    </IconButton>
+		    <Typography variant="body2" className={classes.amount}>
+		      {`$${item.node.amount}`}
+		    </Typography>
+		    <Typography variant="body2" className={classes.details}>
+		      Details
+		    </Typography>
+		  </div>
 		</CustomItem>
 	    ))
 	);
