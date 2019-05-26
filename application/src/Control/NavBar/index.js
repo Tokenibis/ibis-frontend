@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import FilterIcon from '@material-ui/icons/FilterList';
 
 import Window from '../__Common__/Window'
@@ -31,10 +29,15 @@ const styles = theme => ({
 	flexGrow: 1,
 	backgroundColor: theme.palette.primary
     },
+    tabButtons: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+    },
     filterButton: {
-	padding: 0,
-	margin: 0,
-    }
+	marginTop: theme.spacing.unit,
+	marginRight: theme.spacing.unit,
+    },
 });
 
 class NavBar extends Component {
@@ -78,16 +81,16 @@ class NavBar extends Component {
 		>
 		  {Object.keys(options).map((label, i) => (
 		      <Tab key={i} label={
-			  <div>
-			    <IconButton
+			  <div className={classes.tabButtons}>
+			    <div
 				className={classes.filterButton}
 				onClick={() => this.handleFilterOpen(i)}
 			      >
 			      <FilterIcon />
-			    </IconButton>
-			    <Button onClick={(e) => this.handleTabClick(i)}>
+			    </div>
+			    <div onClick={(e) => this.handleTabClick(i)}>
 			      {label}
-			    </Button>
+			    </div>
 			    <DummyFilter
 				selectedValue={filterValue}
 				open={openedFilter === i}
