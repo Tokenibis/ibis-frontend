@@ -2,46 +2,36 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ScrollToTop from "react-scroll-up";
-import UpIcon from '@material-ui/icons/ArrowUpward';
-import Fab from '@material-ui/core/Fab';
 
+import ListView from '../__Common__/ListView';
 import Transaction from '../Transaction';
-import CustomItem from '../__Common__/CustomItem';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+
+import GiftIcon from '@material-ui/icons/CakeOutlined';
+import MoodIcon from '@material-ui/icons/MoodOutlined';
+import TradeIcon from '@material-ui/icons/TransferWithinAStationOutlined';
+import KudosIcon from '@material-ui/icons/StarsOutlined';
+import GameIcon from '@material-ui/icons/VideogameAssetOutlined';
+import SchoolIcon from '@material-ui/icons/SchoolOutlined';
+import Commercial from '@material-ui/icons/ShoppingCartOutlined';
 
 const styles = theme => ({
-    root: {
-	width: '100%',
+    categoryIcon: {
+	color: theme.palette.secondary.main,
+	padding: 0,
     },
     toIcon: {
 	marginBottom: -8,
 	marginLeft: 4,
 	marginRight: 4,
     },
-    description: {
-	textAlign: 'left',
-	paddingLeft: theme.spacing.unit * 3,
-	paddingRight: theme.spacing.unit * 2,
-	color: theme.palette.tertiary.main,
-    },
-    progress: {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-        transform: 'translate(-50%, -50%)'
-    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingLeft: theme.spacing.unit * 2,
 	paddingRight: theme.spacing.unit * 2,
     },
     amount: {
@@ -82,78 +72,82 @@ const QUERY = gql`
 
 class TransactionList extends Component {
 
-    state = {
-	expanded: -1,
+    constructor({ handleWindow }) {
+	super();
+	this.icons = [
+	    <GiftIcon />,
+	    <MoodIcon />,
+	    <TradeIcon />,
+	    <KudosIcon />,
+	    <GameIcon />,
+	    <SchoolIcon />,
+	    <Commercial />,
+	]
     };
 
-    handleExpand(expanded) {
-	this.state.expanded === expanded ?
-	this.setState({ expanded: -1 }) :
-	this.setState({ expanded });
-    };
-
-    createItem(allTransactions) {
+    filter = (node) => {
+	return node.target.nonprofit === null;
+    }
+    
+    makeImage = (node) => {
 	let { classes, handleWindow } = this.props;
-	let { expanded } = this.state;
-
 	return (
-	    allTransactions.edges.map((item, i) => ( 
-		!item.node.target.nonprofit &&
-		<CustomItem
-		    key={i}
-		    label={
-			<Typography variant="body2" className={classes.notifications}>
-			  {`${item.node.user.firstName} ${item.node.user.lastName}`}
-			  {<ToIcon className={classes.toIcon} />}
-			  {`${item.node.target.firstName} ${item.node.target.lastName}`}
-			</Typography>
-		    }
-		    value={expanded === i}
-		    icon={
-			<TransactionIcon
-			    color="secondary"
-			  onClick={(e) => handleWindow(<Transaction handleWindow={handleWindow}/>)}
-			/>
-		    }
-		    onClick={(e) => {this.handleExpand(i)}}>
-		  <Typography variant="body2" className={classes.description}>
-		    {item.node.description}
-		  </Typography>
-		  <div className={classes.action}>
-		    <IconButton color="secondary" aria-label="Like">
-		      <LikeIcon />
-		    </IconButton>
-		    <Typography variant="body2" className={classes.amount}>
-		      {`$${item.node.amount}`}
-		    </Typography>
-		    <Typography variant="body2" className={classes.details}>
-		      Details
-		    </Typography>
-		  </div>
-		</CustomItem>
-	    ))
+	    <IconButton
+	      className={classes.categoryIcon}
+	      onClick={(e) => handleWindow(<Transaction handleWindow={handleWindow}/>)}
+	    >
+	      {this.icons[(node.description.length) % this.icons.length]}
+	    </IconButton>
+	);
+    };
+
+    makeLabel = (node) => {
+	let { classes } = this.props;
+	return (
+	    <Typography variant="body2">
+	      {`${node.user.firstName} ${node.user.lastName}`}
+	      {<ToIcon className={classes.toIcon} />}
+	      {`${node.target.firstName} ${node.target.lastName}`}
+	    </Typography>
+	);
+    }
+
+    makeBody = (node) => {
+	return (
+	    <Typography variant="body2">
+	      {node.description}
+	    </Typography>
+	);
+    }
+
+    makeActions = (node) => {
+	let { classes } = this.props;
+	return (
+	    <div className={classes.action}>
+	      <IconButton color="secondary" aria-label="Like">
+		<LikeIcon />
+	      </IconButton>
+	      <Typography variant="body2" className={classes.amount}>
+		{`$${node.amount}`}
+	      </Typography>
+	      <Typography variant="body2" className={classes.details}>
+		Details
+	      </Typography>
+	    </div>
 	);
     };
 
     render() {
-	let { classes } = this.props;
-
 	return (
-	    <div className={classes.root}>
-	      <Query query={QUERY}>
-		{({ loading, error, data }) => {
-		    if (loading) return <CircularProgress className={classes.progress} />;
-		    if (error) return `Error! ${error.message}`;
-		    return this.createItem(data.allTransactions);
-		}}
-	      </Query>
-	      <ScrollToTop showUnder={160}>
-		<Fab color="primary">
-		  <UpIcon />
-		</Fab>
-	      </ScrollToTop>
-	    </div>
-	);
+	    <ListView
+	      query={QUERY}
+	      filter={this.filter}
+	      makeImage={this.makeImage}
+	      makeLabel={this.makeLabel}
+	      makeBody={this.makeBody}
+	      makeActions={this.makeActions}
+	    />
+	)
     };
 };
 
