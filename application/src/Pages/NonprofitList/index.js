@@ -4,9 +4,20 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
 import ListView from '../__Common__/ListView';
 import Nonprofit from '../Nonprofit';
+
+import AnimalIcon from '@material-ui/icons/PetsOutlined';
+import ArtIcon from '@material-ui/icons/PaletteOutlined';
+import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
+import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
+import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
+import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
+import HealthIcon from '@material-ui/icons/HealingOutlined';
+import HumanIcon from '@material-ui/icons/GroupOutlined';
 
 const styles = theme => ({
     avatar: {
@@ -14,6 +25,24 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
+    label: {
+	fontWeight: 'bold',
+    },
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingRight: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing.unit,
+    },
+    categoryIcon: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    info: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+    }
 })
 
 const QUERY = gql`
@@ -31,6 +60,20 @@ const QUERY = gql`
 
 class NonprofitList extends Component {
 
+    constructor({ handleWindow }) {
+	super();
+	this.icons = [
+	    <AnimalIcon />,
+	    <ArtIcon />,
+	    <CivilIcon />,
+	    <DevelopmentIcon />,
+	    <EducationIcon />,
+	    <EnvironmentIcon />,
+	    <HealthIcon />,
+	    <HumanIcon />,
+	]
+    };
+
     makeImage = (node) => {
 	let { classes, handleWindow } = this.props;
 	return (
@@ -44,8 +87,9 @@ class NonprofitList extends Component {
     };
 
     makeLabel = (node) => {
+	let { classes } = this.props;
 	return (
-  	    <Typography variant="body2">
+  	    <Typography variant="body2" className={classes.label}>
   	      {node.title}
   	    </Typography>
 	);
@@ -60,7 +104,22 @@ class NonprofitList extends Component {
     }
 
     makeActions = (node) => {
-	return;
+	let { classes } = this.props;
+	return (
+	    <div className={classes.action}>
+	      <IconButton color="secondary" aria-label="Like">
+		<LikeIcon />
+	      </IconButton>
+	      <IconButton
+		  className={classes.categoryIcon}
+	      >
+		{this.icons[(node.description.length) % this.icons.length]}
+	      </IconButton>
+	      <Typography variant="body2" className={classes.info}>
+		More info
+	      </Typography>
+	    </div>
+	);
     };
 
     render() {

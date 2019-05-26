@@ -14,6 +14,9 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
+    label: {
+	fontWeight: 'bold',
+    },
 })
 
 const QUERY = gql`
@@ -52,8 +55,9 @@ class PersonList extends Component {
     };
 
     makeLabel = (node) => {
+	let { classes } = this.props;
 	return (
-  	    <Typography variant="body2">
+  	    <Typography variant="body2" className={classes.label}>
   	      {`${node.firstName} ${node.lastName}`}
   	    </Typography>
 	);
