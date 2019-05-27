@@ -4,6 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
 import ListView from '../__Common__/ListView';
 import Person from '../Person';
@@ -14,9 +17,29 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    label: {
+    name: {
 	fontWeight: 'bold',
+	color: theme.palette.primary.main,
     },
+    username: {
+	color: theme.palette.tertiary.main,
+    },
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingRight: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing.unit,
+    },
+    body: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+	paddingLeft: theme.spacing.unit * 6,
+    },
+    info: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+    }
 })
 
 const QUERY = gql`
@@ -27,6 +50,13 @@ const QUERY = gql`
   		    id
        		    firstName
   		    lastName
+		    username
+		    balance
+		    followerCount
+		    followingCount
+		    user {
+			dateJoined
+		    }
   		    nonprofit {
   			id
   		    }
@@ -57,22 +87,51 @@ class PersonList extends Component {
     makeLabel = (node) => {
 	let { classes } = this.props;
 	return (
-  	    <Typography variant="body2" className={classes.label}>
-  	      {`${node.firstName} ${node.lastName}`}
-  	    </Typography>
+	    <div>
+  	      <Typography variant="body2" className={classes.name}>
+  		{`${node.firstName} ${node.lastName}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.username}>
+  		{`@${node.username}`}
+  	      </Typography>
+	    </div>
 	);
     }
 
     makeBody = (node) => {
+	let { classes } = this.props;
 	return (
-  	    <Typography variant="body2">
-  	      I like to microwave butterflies
-  	    </Typography>
+	    <div>
+  	      <Typography variant="body2" className={classes.body}>
+		{`Date joined: ${new Date(node.user.dateJoined).toLocaleDateString()}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.body}>
+		{`Number of followers: ${node.followerCount}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.body}>
+		{`Number following: ${node.followingCount}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.body}>
+		{`Current Balance: $${node.balance}`}
+  	      </Typography>
+	    </div>
 	);
     }
 
     makeActions = (node) => {
-	return;
+	let { classes, handleWindow } = this.props;
+	return (
+	    <div className={classes.action}>
+	      <IconButton color="secondary" aria-label="Like">
+		<LikeIcon />
+	      </IconButton>
+	      <Button onClick={(e) => handleWindow(<Person />)}>
+		<Typography variant="body2" className={classes.info}>
+		  Profile
+		</Typography>
+	      </Button>
+	    </div>
+	);
     };
 
     render() {
