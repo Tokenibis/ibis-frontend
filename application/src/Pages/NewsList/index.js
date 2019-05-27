@@ -140,7 +140,7 @@ class NewsList extends Component {
 			variant="body2"
 			className={classes.readMore}
 		    >
-		      Read more...
+		      Read more
 		    </Typography>
 		  </CardActions>
 		</Card>

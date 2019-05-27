@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
@@ -27,6 +28,10 @@ const styles = theme => ({
 	marginBottom: -8,
 	marginLeft: 4,
 	marginRight: 4,
+    },
+    label: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
     },
     action: {
 	display: 'flex',
@@ -104,7 +109,7 @@ class TransactionList extends Component {
     makeLabel = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Typography variant="body2">
+	    <Typography variant="body2" className={classes.label}>
 	      {`${node.user.firstName} ${node.user.lastName}`}
 	      {<ToIcon className={classes.toIcon} />}
 	      {`${node.target.firstName} ${node.target.lastName}`}
@@ -121,7 +126,7 @@ class TransactionList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, handleWindow } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -130,9 +135,11 @@ class TransactionList extends Component {
 	      <Typography variant="body2" className={classes.amount}>
 		{`$${node.amount}`}
 	      </Typography>
-	      <Typography variant="body2" className={classes.details}>
-		Details
-	      </Typography>
+	      <Button onClick={(e) => handleWindow(<Transaction />)}>
+		<Typography variant="body2" className={classes.details}>
+		  Details
+		</Typography>
+	      </Button>
 	    </div>
 	);
     };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
@@ -25,8 +26,12 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    label: {
+    name: {
 	fontWeight: 'bold',
+	color: theme.palette.primary.main,
+    },
+    username: {
+	color: theme.palette.tertiary.main,
     },
     action: {
 	display: 'flex',
@@ -52,6 +57,9 @@ const QUERY = gql`
   		node {
   		    title
   		    description
+		    user {
+			username
+		    }
   		}
   	    }
   	}
@@ -89,9 +97,14 @@ class NonprofitList extends Component {
     makeLabel = (node) => {
 	let { classes } = this.props;
 	return (
-  	    <Typography variant="body2" className={classes.label}>
-  	      {node.title}
-  	    </Typography>
+	    <div>
+  	      <Typography variant="body2" className={classes.name}>
+  		{node.title}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.username}>
+  		{`@${node.user.username}`}
+  	      </Typography>
+	    </div>
 	);
     }
 
@@ -104,7 +117,7 @@ class NonprofitList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, handleWindow } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -115,9 +128,11 @@ class NonprofitList extends Component {
 	      >
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </IconButton>
-	      <Typography variant="body2" className={classes.info}>
-		More info
-	      </Typography>
+	      <Button onClick={(e) => handleWindow(<Nonprofit />)}>
+		<Typography variant="body2" className={classes.info}>
+		  More info
+		</Typography>
+	      </Button>
 	    </div>
 	);
     };

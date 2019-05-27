@@ -185,7 +185,7 @@ class EventList extends Component {
 			variant="body2"
 			className={classes.readMore}
 		    >
-		      More info...
+		      More info
 		    </Typography>
 		  </CardActions>
 		</Card>
