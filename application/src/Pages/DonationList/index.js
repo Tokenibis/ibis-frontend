@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
-import ListView from '../__Common__/ListView';
+import ListQuery from '../__Common__/ListQuery';
 import Donation from '../Donation';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -149,7 +149,7 @@ class DonationList extends Component {
 
     render() {
 	return (
-	    <ListView
+	    <ListQuery
 	      query={QUERY}
 	      filter={this.filter}
 	      makeImage={this.makeImage}

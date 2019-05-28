@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
-import ListView from '../__Common__/ListView';
+import ListQuery from '../__Common__/ListQuery';
 import Transaction from '../Transaction';
 
 import GiftIcon from '@material-ui/icons/CakeOutlined';
@@ -146,7 +146,7 @@ class TransactionList extends Component {
 
     render() {
 	return (
-	    <ListView
+	    <ListQuery
 	      query={QUERY}
 	      filter={this.filter}
 	      makeImage={this.makeImage}

@@ -8,7 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
-import ListView from '../__Common__/ListView';
+import ListQuery from '../__Common__/ListQuery';
 import Nonprofit from '../Nonprofit';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -139,7 +139,7 @@ class NonprofitList extends Component {
 
     render() {
 	return (
-	    <ListView
+	    <ListQuery
 	      query={QUERY}
 	      makeImage={this.makeImage}
 	      makeLabel={this.makeLabel}

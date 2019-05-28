@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
-import ListView from '../__Common__/ListView';
+import ListQuery from '../__Common__/ListQuery';
 import Person from '../Person';
 
 const styles = theme => ({
@@ -136,7 +136,7 @@ class PersonList extends Component {
 
     render() {
 	return (
-	    <ListView
+	    <ListQuery
 	      query={QUERY}
 	      filter={this.filter}
 	      makeImage={this.makeImage}
