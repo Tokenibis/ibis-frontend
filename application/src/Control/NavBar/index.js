@@ -12,7 +12,7 @@ import DummyFilter from './filter';
 
 function TabContainer({ children }) {
     return (
-	<Typography component="div" style={{ padding: 16 }}>
+	<Typography component="div">
 	  <Window>
 	    {children}
 	  </Window>
