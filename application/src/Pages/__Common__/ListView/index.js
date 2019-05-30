@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import UnfoldLess from '@material-ui/icons/UnfoldLess';
+import UnfoldMore from '@material-ui/icons/UnfoldMore';
 import Divider from '@material-ui/core/Divider';
 import ScrollToTop from "react-scroll-up";
 import Fab from '@material-ui/core/Fab';
@@ -22,12 +24,18 @@ const styles = theme => ({
 	paddingRight: theme.spacing.unit * 2,
 	color: theme.palette.tertiary.main,
     },
+    expandAll: {
+	position: 'fixed',
+	bottom: '50px',
+	right: '30px',
+    },
 })
 
 class ListView extends Component {
 
     state = {
 	expanded: -1,
+	expandedAll: false,
     };
 
     handleExpand(expanded) {
@@ -47,7 +55,7 @@ class ListView extends Component {
 	    makeActions,
 	    filter
 	} = this.props;
-	let { expanded } = this.state;
+	let { expandedAll, expanded } = this.state;
 
 	return (
 	    <div className={classes.root}>
@@ -61,11 +69,12 @@ class ListView extends Component {
 			      {makeImage(item.node)}
 			    </ListItemIcon>
 			    <ListItemText primary={makeLabel(item.node)} />
-			    {expanded === i ?
+			    {!expandedAll && (
+				expanded === i ?
 			     <ExpandLess color="secondary"/> :
-			     <ExpandMore color="secondary"/>}
+			     <ExpandMore color="secondary"/>)}
 			  </ListItem>
-			  <Collapse in={expanded === i} timeout="auto" unmountOnExit>
+			  <Collapse in={expandedAll || expanded === i} timeout="auto" unmountOnExit>
 			    <div className={classes.body}>
 			      {makeBody(item.node)}
 			    </div>
@@ -76,9 +85,15 @@ class ListView extends Component {
 		    ))
 		}
 	      </div>
+	      <Fab color="primary" className={classes.expandAll}>
+		{expandedAll ?
+		 <UnfoldLess onClick={(e) => this.setState({ expandedAll: false})}/> :
+		 <UnfoldMore onClick={(e) => this.setState({ expandedAll: true})}/>
+		}
+	      </Fab>
 	      {
 		  scrollButton && 
-		  <ScrollToTop showUnder={160}>
+		  <ScrollToTop showUnder={200}>
 		    <Fab color="primary">
 		      <UpIcon />
 		    </Fab>
