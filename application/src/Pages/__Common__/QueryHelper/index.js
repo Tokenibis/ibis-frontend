@@ -18,28 +18,24 @@ const styles = theme => ({
     },
 })
 
-function ListQuery(props) {
-    let { classes, query} = props
+function QueryHelper(props) {
+    let { classes, query, makeList} = props;
     return (
 	<Query query={query}>
 	  {({ loading, error, data }) => {
 	      if (loading) return <CircularProgress className={classes.progress} />;
 	      if (error) return `Error! ${error.message}`;
-	      return <ListView data={(data[Object.keys(data)[0]])} {...props} />
+	      return makeList(data)
 	  }}
 	</Query>
     );
 };
 
-ListQuery.propTypes = {
+QueryHelper.propTypes = {
     classes: PropTypes.object.isRequired,
-    scrollButton: PropTypes.bool.isRequired,
     query: PropTypes.object.isRequired,
-    makeImage: PropTypes.func.isRequired,
-    makeLabel: PropTypes.func.isRequired,
-    makeBody: PropTypes.func.isRequired,
-    makeActions: PropTypes.func.isRequired,
+    makeList: PropTypes.func.isRequired,
 };
 
 
-export default withStyles(styles)(ListQuery);
+export default withStyles(styles)(QueryHelper);
