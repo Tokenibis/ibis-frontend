@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import Give, { NonprofitVal } from '../Give'
 import Send, { PersonVal } from '../Send'
 import Connect, { NewsVal } from '../Connect'
+
+const styles = theme => ({
+    arrow: {
+    },
+});
 
 const cycleMap = {
     '': null,
@@ -13,6 +22,11 @@ const cycleMap = {
     'Send': <Send value={PersonVal} />,
     'Connect': <Connect value={NewsVal} />,
 };
+
+
+const mod = (a, n) => {
+    return a - (n * Math.floor(a/n));
+}
 
 class Cycler extends Component {
     constructor () {
@@ -26,18 +40,36 @@ class Cycler extends Component {
 
     render() {
 	let { title } = this.state;
-	let { handlePage, value } = this.props;
-	let nextVal = value % (Object.keys(cycleMap).length - 1) + 1;
+	let { classes, handlePage, value } = this.props;
+	let prevVal = mod(value - 1 - 1, Object.keys(cycleMap).length - 1) + 1;
+	let nextVal = mod(value - 1 + 1, Object.keys(cycleMap).length - 1) + 1;
 
 	return (
-	    <Button
-	    color="inherit"
-	    onClick={(e) => (handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal))}
-	    >
-	    <Typography color="inherit" variant="button">
-	      {title && `${title}`}
-	    </Typography>
-	    </Button>
+	    title && (
+		<div>
+		  <IconButton
+		      color="inherit"
+		      className={classes.arrow}
+		      onClick={(e) => (
+			  handlePage(cycleMap[Object.keys(cycleMap)[prevVal]], prevVal)
+		      )}
+		  >
+		    <ArrowLeftIcon />
+		  </IconButton>
+		  <Typography color="inherit" variant="button">
+		    {title && title}
+		  </Typography>
+		  <IconButton
+		      color="inherit"
+		      className={classes.arrow}
+		      onClick={(e) => (
+			  handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal)
+		      )}
+		  >
+		    <ArrowRightIcon />
+		  </IconButton>
+		</div>
+	    )
 	);
     }
 };
@@ -51,4 +83,5 @@ export const BlankVal = Object.keys(cycleMap).indexOf('');
 export const GiveVal = Object.keys(cycleMap).indexOf('Give');
 export const SendVal = Object.keys(cycleMap).indexOf('Send');
 export const ConnectVal = Object.keys(cycleMap).indexOf('Connect');
-export default Cycler;
+
+export default withStyles(styles)(Cycler);
