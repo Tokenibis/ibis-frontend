@@ -37,17 +37,17 @@ class App extends Component {
         super();
 	// Temorarily allow authentication for developing
         this.state = { isAuthenticated: true, token: ''};
-    }
+    };
 
     /* flag app the user as authenticated and set the token */
     authenticate = (token) => {
 	this.setState({isAuthenticated: true, token: token})
-    }
+    };
 
     /* flag app the user as unauthenticated and clear the token */
     logout = () => {
 	this.setState({isAuthenticated: false, token: ''})
-    }
+    };
 
     render() {
 
@@ -66,7 +66,7 @@ class App extends Component {
 	      </MuiThemeProvider> 
 	    </ApolloProvider>
 	);
-    }
-}
+    };
+};
 
 export default App;
