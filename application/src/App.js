@@ -39,6 +39,10 @@ class App extends Component {
         this.state = { isAuthenticated: true, token: ''};
     };
 
+    componentWillMount() {
+	document.title = 'Token Ibis';
+    };
+
     /* flag app the user as authenticated and set the token */
     authenticate = (token) => {
 	this.setState({isAuthenticated: true, token: token})
