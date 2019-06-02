@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
 import gql from "graphql-tag";
 import QueryHelper from "../__Common__/QueryHelper";
 

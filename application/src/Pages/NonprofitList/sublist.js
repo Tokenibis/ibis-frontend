@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
@@ -50,7 +49,7 @@ const styles = theme => ({
     }
 })
 
-class NonprofitList extends Component {
+class NonprofitSublist extends Component {
 
     constructor({ handleWindow }) {
 	super();
@@ -136,10 +135,10 @@ class NonprofitList extends Component {
     };
 };
 
-NonprofitList.propTypes = {
+NonprofitSublist.propTypes = {
     classes: PropTypes.object.isRequired,
     handleWindow: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(NonprofitList);
+export default withStyles(styles)(NonprofitSublist);

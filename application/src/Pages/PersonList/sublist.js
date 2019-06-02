@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -42,31 +41,7 @@ const styles = theme => ({
     }
 })
 
-const QUERY = gql`
-    query {
-  	allIbisUsers {
-  	    edges {
-  		node {
-  		    id
-       		    firstName
-  		    lastName
-		    username
-		    balance
-		    followerCount
-		    followingCount
-		    user {
-			dateJoined
-		    }
-  		    nonprofit {
-  			id
-  		    }
-  		}
-  	    }
-  	} 
-    }    
-`;
-
-class PersonList extends Component {
+class PersonSublist extends Component {
 
     filter = (node) => {
 	return node.nonprofit === null;
@@ -150,10 +125,10 @@ class PersonList extends Component {
     };
 };
 
-PersonList.propTypes = {
+PersonSublist.propTypes = {
     classes: PropTypes.object.isRequired,
     handleWindow: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(PersonList);
+export default withStyles(styles)(PersonSublist);

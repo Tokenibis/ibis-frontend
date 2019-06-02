@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query } from "react-apollo";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import ScrollToTop from "react-scroll-up";
-import Fab from '@material-ui/core/Fab';
-import UpIcon from '@material-ui/icons/ArrowUpward';
-
-import ListView from '../ListView';
 
 const styles = theme => ({
     progress: {
