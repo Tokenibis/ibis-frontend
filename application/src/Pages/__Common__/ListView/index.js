@@ -18,6 +18,9 @@ const styles = theme => ({
     root: {
 	width: '100%',
     },
+    media: {
+	paddingBottom: theme.spacing.unit,
+    },
     body: {
 	textAlign: 'left',
 	paddingLeft: theme.spacing.unit * 3,
@@ -33,10 +36,13 @@ const styles = theme => ({
 
 class ListView extends Component {
 
-    state = {
-	expanded: -1,
-	expandedAll: false,
-    };
+    constructor({ expanded, expandedAll }) {
+	super();
+	this.state = {
+	    expanded: expanded ? expanded : -1,
+	    expandedAll: expandedAll ? expandedAll : false,
+	}
+    }
 
     handleExpand(expanded) {
 	this.state.expanded === expanded ?
@@ -51,6 +57,7 @@ class ListView extends Component {
 	    data,
 	    makeImage,
 	    makeLabel,
+	    makeMedia,
 	    makeBody,
 	    makeActions,
 	    filter
@@ -75,6 +82,13 @@ class ListView extends Component {
 			     <ExpandMore color="secondary"/>)}
 			  </ListItem>
 			  <Collapse in={expandedAll || expanded === i} timeout="auto" unmountOnExit>
+			    {
+				makeMedia && (
+				    <div className={classes.media}>
+				      {makeMedia(item.node)}
+				    </div>
+				)
+			    }
 			    <div className={classes.body}>
 			      {makeBody(item.node)}
 			    </div>
