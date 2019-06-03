@@ -4,19 +4,15 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import FilterIcon from '../../__Common__/FilterIcon';
 
+import FilterIcon from '../../__Common__/FilterIcon';
 import Window from '../__Common__/Window'
-import DummyFilter from './filter';
 
 function TabContainer({ children }) {
     return (
-	<Typography component="div">
-	  <Window>
-	    {children}
-	  </Window>
-	</Typography>
+	<Window>
+	  {children}
+	</Window>
     );
 }
 
@@ -79,7 +75,7 @@ class NavBar extends Component {
 		    variant="fullWidth"
 		    value={tabValue}
 		>
-		  {Object.keys(options).map((label, i) => (
+		  {options.map((opt, i) => (
 		      <Tab key={i} label={
 			  <div className={classes.tabButtons}>
 			    <div
@@ -89,13 +85,9 @@ class NavBar extends Component {
 			      <FilterIcon />
 			    </div>
 			    <div onClick={(e) => this.handleTabClick(i)}>
-			      {label}
+			      {opt[0]}
 			    </div>
-			    <DummyFilter
-				selectedValue={filterValue}
-				open={openedFilter === i}
-				onClose={(v) => this.handleFilterClose(i, v)}
-			    />
+			    {openedFilter === i && options[i][1]((v) => this.handleFilterClose(i, v))}
 			  </div>
 		      }/>
 		  ))}
@@ -104,7 +96,7 @@ class NavBar extends Component {
 	      {
 		  children ?
 		  <TabContainer>{children}</TabContainer> :
-		  <TabContainer>{options[Object.keys(options)[tabValue]]}</TabContainer>
+		  <TabContainer>{options[tabValue][2]}</TabContainer>
 	      }
 	    </div>
 	);
@@ -114,7 +106,7 @@ class NavBar extends Component {
 NavBar.propTypes = {
     classes: PropTypes.object.isRequired,
     value: PropTypes.number.isRequired,
-    options: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(NavBar);

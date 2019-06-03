@@ -121,7 +121,6 @@ class ListView extends Component {
 ListView.propTypes = {
     classes: PropTypes.object.isRequired,
     scrollButton: PropTypes.bool.isRequired,
-    query: PropTypes.object.isRequired,
     makeImage: PropTypes.func.isRequired,
     makeLabel: PropTypes.func.isRequired,
     makeBody: PropTypes.func.isRequired,

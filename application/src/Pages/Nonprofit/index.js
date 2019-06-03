@@ -9,6 +9,8 @@ import NewsList from '../NewsList';
 import EventList from '../EventList';
 import ListView from '../__Common__/ListView';
 import DonationSublist from '../DonationList/sublist';
+import NewsSublist from '../DonationList/sublist';
+import EventSublist from '../DonationList/sublist';
 
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
@@ -73,6 +75,18 @@ const styles = theme => ({
 })
 
 class Nonprofit extends Component {
+
+    processDonations(data) {
+	return data;
+    }
+    
+    processNews(data) {
+	return data;
+    }
+
+    processEvents(data) {
+	return data;
+    }
     
     createPage(nonprofit) {
 	let { classes } = this.props
@@ -97,12 +111,17 @@ class Nonprofit extends Component {
 		  </IconButton>
 		</CardActions>
 	      </Card>
-	      <Typography
-		  variant="h6"
-	      >
+	      <Typography variant="h6">
 		Donations
 	      </Typography>
-	      <DonationSublist data={(nonprofit.user.transactionSet)} />
+	      <DonationSublist data={nonprofit.user.transactionSet} />
+	      <Typography variant="h6">
+		News
+	      </Typography>
+	      <NewsSublist data={(nonprofit.user.transactionSet)} />
+	      <Typography variant="h6">
+		Events
+	      </Typography>
 	    </div>
 	); 
     }
