@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
-import NewsFilter from '../../Pages/NewsList/filter';
-import EventFilter from '../../Pages/EventList/filter';
-import NewsList from '../../Pages/NewsList';
-import EventList from '../../Pages/EventList';
+import NewsList, { NewsFilter } from '../../Pages/NewsList';
+import EventList, { EventFilter } from '../../Pages/EventList';
 
 const NewsVal = 0;
 const EventVal = 1;

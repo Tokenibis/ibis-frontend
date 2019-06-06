@@ -71,10 +71,14 @@ class ListView extends Component {
 		    data.edges.map((item, i) => ( 
 			(filter === undefined || filter(item.node) === true) &&
 			<div key={i}>
+			  <Divider />
 			  <ListItem button onClick={(e) => {this.handleExpand(i)}}>
-			    <ListItemIcon>
-			      {makeImage(item.node)}
-			    </ListItemIcon>
+			    {
+				makeImage && 
+				<ListItemIcon>
+				  {makeImage(item.node)}
+				</ListItemIcon>
+			    }
 			    <ListItemText primary={makeLabel(item.node)} />
 			    {!expandedAll && (
 				expanded === i ?
@@ -94,24 +98,25 @@ class ListView extends Component {
 			    </div>
 			    {makeActions(item.node)}
 			  </Collapse>
-			  <Divider />
 			</div>
 		    ))
 		}
 	      </div>
-	      <Fab color="primary" className={classes.expandAll}>
-		{expandedAll ?
-		 <UnfoldLess onClick={(e) => this.setState({ expandedAll: false})}/> :
-		 <UnfoldMore onClick={(e) => this.setState({ expandedAll: true})}/>
-		}
-	      </Fab>
 	      {
 		  scrollButton && 
-		  <ScrollToTop showUnder={200}>
-		    <Fab color="primary">
-		      <UpIcon />
-		    </Fab>
-		  </ScrollToTop>
+		  <div>
+		      <Fab color="primary" className={classes.expandAll}>
+			{expandedAll ?
+			 <UnfoldLess onClick={(e) => this.setState({ expandedAll: false})}/> :
+			 <UnfoldMore onClick={(e) => this.setState({ expandedAll: true})}/>
+			}
+		      </Fab>
+		      <ScrollToTop showUnder={200}>
+			<Fab color="primary">
+			  <UpIcon />
+			</Fab>
+		      </ScrollToTop>
+		  </div>
 	      }
 	    </div>
 	);
@@ -120,7 +125,6 @@ class ListView extends Component {
 
 ListView.propTypes = {
     classes: PropTypes.object.isRequired,
-    scrollButton: PropTypes.bool.isRequired,
     makeImage: PropTypes.func.isRequired,
     makeLabel: PropTypes.func.isRequired,
     makeBody: PropTypes.func.isRequired,

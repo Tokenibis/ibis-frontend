@@ -3,60 +3,37 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
+import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
-import ListView from '../__Common__/ListView';
-import DonationSublist from '../DonationList/sublist';
-import NewsSublist from '../DonationList/sublist';
-import EventSublist from '../DonationList/sublist';
 
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
-import NonprofitIcon from '@material-ui/icons/CardGiftcard';
-import ScrollToTop from "react-scroll-up";
-import UpIcon from '@material-ui/icons/ArrowUpward';
-import Fab from '@material-ui/core/Fab';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 const styles = theme => ({
     root: {
 	width: '100%',
     },
-    avatar: {
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: theme.palette.secondary.main,
-    },
-    title: {
-	color: theme.palette.primary.main,
-	fontWeight: 'bold',
-    },
-    subheader: {
-	color: theme.palette.tertiary.main,
-    },
-    nonprofitIcon: {
-	fontSize: 18,
-	marginBottom: -4,
-	marginRight: theme.spacing.unit,
-    },
     description: {
 	color: theme.palette.tertiary.main,
     },
+    link: {
+	color: theme.palette.secondary.main,
+	paddingTop: theme.spacing.unit,
+    },
     progress: {
-	position: 'absolute',
-	top: '50%',
-	left: '50%',
-        transform: 'translate(-50%, -50%)'
+	marginTop: theme.spacing.unit,
     },
     card: {
 	width: '100%',
@@ -65,16 +42,38 @@ const styles = theme => ({
     media: {
 	height: 160,
     },
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingRight: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing.unit,
+    },
     readMore: {
 	marginLeft: 'auto',
 	marginRight: theme.spacing.unit * 2,
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	float: 'right',
+    },
+    preview: {
+	textAlign: 'center',
+    },
+    heading: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
     }
 })
 
 class Nonprofit extends Component {
+    
+    state = {
+	expanded: false,
+    }
+    
+    toggleExpand() {
+	this.setState({ expanded: !this.state.expanded });
+    }
 
     processDonations(data) {
 	return data;
@@ -89,7 +88,9 @@ class Nonprofit extends Component {
     }
     
     createPage(nonprofit) {
-	let { classes } = this.props
+	let { classes, handleWindow } = this.props;
+	let { expanded } = this.state;
+
 	return (
 	    <div className={classes.root}>
 	      <Card raised className={classes.card}>
@@ -98,30 +99,62 @@ class Nonprofit extends Component {
   		    image={require(`../../Static/Images/egypt/pic1.jpg`)}
 		/>
 		<CardContent>
-		  {nonprofit.description}
 		  <Typography variant="body2" className={classes.description}>
+  		    {
+			expanded ? 
+			nonprofit.description :
+			`${nonprofit.description.substring(0, 300)} ...`
+		    }
 		  </Typography>
-		  <Typography variant="body2" className={classes.description}>
+		  <Typography variant="body2" className={classes.link}>
 		    https://www.trevornoahfoundation.org
 		  </Typography>
 		</CardContent>
-		<CardActions>
+		<CardActions className={classes.action} >
 		  <IconButton color="secondary" aria-label="Like">
 		    <LikeIcon />
 		  </IconButton>
+		  <IconButton color="secondary" onClick={() => this.toggleExpand()}>
+		    {
+			expanded ?
+			<ExpandLessIcon /> :
+			<ExpandMoreIcon />
+		    }
+		  </IconButton>
 		</CardActions>
 	      </Card>
-	      <Typography variant="h6">
-		Donations
-	      </Typography>
-	      <DonationSublist data={nonprofit.user.transactionSet} />
-	      <Typography variant="h6">
-		News
-	      </Typography>
-	      <NewsSublist data={(nonprofit.user.transactionSet)} />
-	      <Typography variant="h6">
-		Events
-	      </Typography>
+	      <div className={classes.preview} >
+		<Button onClick={() => handleWindow(<DonationList />)}>
+		  <Typography variant="button" className={classes.heading} >
+		    Donations
+		  </Typography>
+		</Button>
+		<DonationList
+		    variant="minimal"
+		    handleWindow={handleWindow}
+		    count={3}
+		/>
+		<Button onClick={() => handleWindow(<NewsList />)}>
+		  <Typography variant="button" className={classes.heading} >
+		    News
+		  </Typography>
+		</Button>
+		<NewsList
+		    variant="minimal"
+		    handleWindow={handleWindow}
+		    count={3}
+		/>
+		<Button onClick={() => handleWindow(<EventList />)}>
+		  <Typography variant="button" className={classes.heading} >
+		    Events
+		  </Typography>
+		</Button>
+		<EventList
+		    variant="minimal"
+		    handleWindow={handleWindow}
+		    count={3}
+		/>
+	      </div>
 	    </div>
 	); 
     }
@@ -136,45 +169,6 @@ class Nonprofit extends Component {
 		    title
 		    user {
 			followerCount
-			transactionSet {
-			    edges {
-				node {
-				    id
-				    amount
-				    description
-				    created
-				    user {
-					id
-					firstName
-					lastName
-				    }
-				    target {
-					id
-					firstName
-					lastName
-					nonprofit {
-					    id 
-					    title
-					}
-				    }
-				}
-			    }
-			}
-			postSet {
-			    edges {
-				node {
-				    id
-				    event {
-					id
-					title
-				    }
-				    article {
-					id
-					title
-				    }
-				}
-			    }
-			}
 		    }
 		}
 	    }
@@ -183,7 +177,7 @@ class Nonprofit extends Component {
 	return (
 	    <Query query={query}>
 	      {({ loading, error, data }) => {
-		  if (loading) return <CircularProgress className={classes.progress} />;
+		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return this.createPage(data.nonprofit);
 	      }}

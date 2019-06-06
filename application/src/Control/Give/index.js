@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
-import NonprofitFilter from '../../Pages/NonprofitList/filter';
-import DonationFilter from '../../Pages/DonationList/filter';
-import NonprofitList from '../../Pages/NonprofitList';
-import DonationList from '../../Pages/DonationList';
+import NonprofitList, { NonprofitFilter } from '../../Pages/NonprofitList';
+import DonationList, { DonationFilter }from '../../Pages/DonationList';
 
 const NonprofitVal = 0;
 const DonationVal = 1;

@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import NavBar from '../NavBar';
-import PersonFilter from '../../Pages/PersonList/filter';
-import TransactionFilter from '../../Pages/TransactionList/filter';
-import PersonList from '../../Pages/PersonList';
-import TransactionList from '../../Pages/TransactionList';
+import PersonList, { PersonFilter } from '../../Pages/PersonList';
+import TransactionList, { TransactionFilter } from '../../Pages/TransactionList';
 
 const PersonVal = 0;
 const TransactionVal = 1;
