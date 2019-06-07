@@ -15,7 +15,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
+import FollowIcon from '@material-ui/icons/Add';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -48,6 +48,13 @@ const styles = theme => ({
 	alignItems: 'center',
 	paddingRight: theme.spacing.unit * 2,
 	paddingLeft: theme.spacing.unit,
+    },
+    actionDonate: {
+	width: '100%',
+	color: theme.palette.secondary.main,
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: theme.palette.secondary.main,
     },
     readMore: {
 	marginLeft: 'auto',
@@ -96,7 +103,7 @@ class Nonprofit extends Component {
 	      <Card raised className={classes.card}>
 		<CardMedia
 		    className={classes.media}
-  		    image={require(`../../Static/Images/egypt/pic1.jpg`)}
+    		    image={require(`../../Static/Images/birds/bird${(nonprofit.description.length) % 10}.jpg`)}
 		/>
 		<CardContent>
 		  <Typography variant="body2" className={classes.description}>
@@ -110,10 +117,13 @@ class Nonprofit extends Component {
 		    https://www.trevornoahfoundation.org
 		  </Typography>
 		</CardContent>
-		<CardActions className={classes.action} >
+		<CardActions className={classes.action}>
 		  <IconButton color="secondary" aria-label="Like">
-		    <LikeIcon />
+		    <FollowIcon />
 		  </IconButton>
+		  <Button className={classes.actionDonate}>
+		    Donate
+		  </Button>
 		  <IconButton color="secondary" onClick={() => this.toggleExpand()}>
 		    {
 			expanded ?
