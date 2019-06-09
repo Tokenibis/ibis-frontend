@@ -1,10 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+const styles = theme => ({
+    itemIcon: {
+	color: theme.palette.secondary.main,
+    },
+    itemText: {
+	color: theme.palette.secondary.main,
+	fontSize: '18px',
+    },
+});
 
 function SublistItem({ classes, label, icon, onClick }) {
     return (
@@ -12,16 +23,15 @@ function SublistItem({ classes, label, icon, onClick }) {
 	  <List component="div" disablePadding>
 	    <ListItem
 	      button
-	      className={classes.nested}
 	      onClick={onClick}
 	    >
-	      <ListItemIcon>
+	      <ListItemIcon className={classes.itemIcon}>
 		{icon}
 	      </ListItemIcon>
 	      <ListItemText
 		  disableTypography
 		  primary={
-		      <Typography type="body2" className={classes.link}>
+		      <Typography variant="body2" className={classes.itemText}>
 			{label}
 		      </Typography>
 		  }
@@ -39,4 +49,4 @@ SublistItem.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-export default SublistItem;
+export default withStyles(styles)(SublistItem);

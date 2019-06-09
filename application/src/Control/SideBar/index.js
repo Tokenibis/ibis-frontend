@@ -46,9 +46,6 @@ const styles = theme => ({
     nested: {
 	paddingLeft: theme.spacing.unit * 4,
     },
-    link: {
-	color: theme.palette.secondary.main,
-    },
 });
 
 class SideBar extends Component {
@@ -107,13 +104,13 @@ class SideBar extends Component {
 		<SublistItem
 		label="Nonprofits"
 		classes={classes}
-		icon={<NonprofitIcon className={classes.link} />}
+		icon={<NonprofitIcon />}
 		onClick={(e) => this.handleClick(<Give value={NonprofitVal} />, GiveVal)}
 		/>
 		<SublistItem
 		label="Donations"
 		classes={classes}
-		icon={<DonationIcon className={classes.link} />}
+		icon={<DonationIcon />}
 		onClick={(e) => this.handleClick(<Give value={DonationVal} />, GiveVal)}
 		/>
 	      </Sublist>
@@ -126,13 +123,13 @@ class SideBar extends Component {
 		<SublistItem
 		label="People"
 		classes={classes}
-		icon={<PersonIcon className={classes.link} />}
+		icon={<PersonIcon />}
 		onClick={(e) => this.handleClick(<Send value={PersonVal} />, SendVal)}
 		/>
 		<SublistItem
 		label="Transactions"
 		classes={classes}
-		icon={<TransactionIcon className={classes.link} />}
+		icon={<TransactionIcon />}
 		onClick={(e) => this.handleClick(<Send value={TransactionVal} />, SendVal)}
 		/>
 	      </Sublist>
@@ -145,32 +142,32 @@ class SideBar extends Component {
 		<SublistItem
 		label="News"
 		classes={classes}
-		icon={<NewsIcon className={classes.link} />}
+		icon={<NewsIcon />}
 		onClick={(e) => this.handleClick(<Connect value={NewsVal} />, ConnectVal)}
 		/>
 		<SublistItem
 		label="Events"
 		classes={classes}
-		icon={<EventIcon className={classes.link} />}
+		icon={<EventIcon />}
 		onClick={(e) => this.handleClick(<Connect value={EventVal} />, ConnectVal)}
 		/>
 	      </Sublist>
 	      <SublistItem
 		  label="Settings"
 		  classes={classes}
-		  icon={<SettingsIcon className={classes.link} />}
+		  icon={<SettingsIcon />}
 		  onClick={(e) => this.handleClick(<Settings />, BlankVal)}
 	      />
 	      <SublistItem
 		  label="Help"
 		  classes={classes}
-		  icon={<HelpIcon className={classes.link} />}
+		  icon={<HelpIcon />}
 		  onClick={(e) => this.handleClick(<Help />, BlankVal)}
 	      />
 	      <SublistItem
 		  label="Scanner"
 		  classes={classes}
-		  icon={<QRIcon className={classes.link} />}
+		  icon={<QRIcon />}
 		  onClick={(e) => this.handleClick(<QRScan />, BlankVal)}
 	      />
 	    </div>

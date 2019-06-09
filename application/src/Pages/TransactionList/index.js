@@ -58,6 +58,8 @@ class TransactionList extends Component {
     constructor({ handleWindow, count }) {
 	super();
 
+	this.dummyCount = 0;
+	this.dummySeen = [];
 	this.query = gql`
 	    query {
 		allTransactions {
@@ -97,7 +99,19 @@ class TransactionList extends Component {
     };
 
     filter = (node) => {
-	return node.target.nonprofit === null;
+	let result = node.target.nonprofit === null;
+	this.dummyCount += result ? 1 : 0;
+
+	if (this.dummySeen.includes(node.id)) {
+	    return true;
+	}
+
+	if (this.dummyCount <= (this.props.count ? this.props.count : DEFAULT_COUNT)) {
+	    this.dummySeen.push(node.id);
+	    return result;
+	} else {
+	    return false;
+	}
     }
     
     makeImage = (node) => {

@@ -5,14 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import NotificationIcon from '@material-ui/icons/NotificationsOutlined';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import ConnectIcon from '@material-ui/icons/DeviceHub';
 import NonprofitIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/AttachMoney';
-import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
+import PersonIcon from '@material-ui/icons/PeopleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/CalendarToday';
@@ -29,7 +28,7 @@ import Quote from './Quote'
 
 const styles = theme => ({
     list: {
-	width: '70%',
+	width: '90%',
 	maxWidth: 360,
     },
     balance: {
@@ -45,9 +44,6 @@ const styles = theme => ({
 	fontSize: 14,
 	marginBottom: -2,
     },
-    link: {
-	color: theme.palette.secondary.main,
-    },
     nested: {
 	paddingLeft: theme.spacing.unit * 4,
     },
@@ -60,7 +56,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     quote: {
-	paddingTop: theme.spacing.unit * 4,
+	paddingTop: theme.spacing.unit * 6,
 	width: '70%',
 	maxWidth: 360,
     }
@@ -99,7 +95,6 @@ class Home extends Component {
 		component="nav"
 		className={classes.list}
 	      >
-		<Divider />
 		<Sublist
 		    label="Give"
 		    value={expanded === 'Give'}
@@ -109,13 +104,13 @@ class Home extends Component {
 		  <SublistItem
 		      label="Nonprofits"
 		      classes={classes}
-		      icon={<NonprofitIcon className={classes.link} />}
+		      icon={<NonprofitIcon />}
 		      onClick={(e) => handlePage(<Give value={NonprofitVal} />, GiveVal)}
 		  />
 		  <SublistItem
 		      label="Donations"
 		      classes={classes}
-		      icon={<DonationIcon className={classes.link} />}
+		      icon={<DonationIcon />}
 		      onClick={(e) => handlePage(<Give value={DonationVal} />, GiveVal)}
 		  />
 		</Sublist>
@@ -128,13 +123,13 @@ class Home extends Component {
 		  <SublistItem
 		      label="People"
 		      classes={classes}
-		      icon={<PersonIcon className={classes.link} />}
+		      icon={<PersonIcon />}
 		      onClick={(e) => handlePage(<Send value={PersonVal} />, SendVal)}
 		  />
 		  <SublistItem
 		      label="Transactions"
 		      classes={classes}
-		      icon={<TransactionIcon className={classes.link} />}
+		      icon={<TransactionIcon />}
 		      onClick={(e) => handlePage(<Send value={TransactionVal} />, SendVal)}
 		  />
 		</Sublist>
@@ -147,13 +142,13 @@ class Home extends Component {
 		  <SublistItem
 		      label="News"
 		      classes={classes}
-		      icon={<NewsIcon className={classes.link} />}
+		      icon={<NewsIcon />}
 		      onClick={(e) => handlePage(<Connect value={NewsVal} />, ConnectVal)}
 		  />
 		  <SublistItem
 		      label="Events"
 		      classes={classes}
-		      icon={<EventIcon className={classes.link} />}
+		      icon={<EventIcon />}
 		      onClick={(e) => handlePage(<Connect value={EventVal} />, ConnectVal)}
 		  />
 		</Sublist>

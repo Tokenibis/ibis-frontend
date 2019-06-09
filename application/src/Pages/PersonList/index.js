@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
+import Followicon from '@material-ui/icons/Add';
 
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
@@ -34,9 +34,8 @@ const styles = theme => ({
 	paddingLeft: theme.spacing.unit,
     },
     body: {
-	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
-	paddingLeft: theme.spacing.unit * 6,
+	paddingLeft: theme.spacing.unit * 3,
     },
     info: {
 	fontWeight: 'bold',
@@ -84,7 +83,7 @@ class PersonList extends Component {
 	let { classes, handleWindow } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handleWindow(<Person />)}
+  		onClick={(e) => handleWindow(<Person id={node.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.firstName.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -131,9 +130,9 @@ class PersonList extends Component {
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
-		<LikeIcon />
+		<Followicon />
 	      </IconButton>
-	      <Button onClick={(e) => handleWindow(<Person />)}>
+	      <Button onClick={(e) => handleWindow(<Person id={node.id} />)}>
 		<Typography variant="body2" className={classes.info}>
 		  Profile
 		</Typography>
