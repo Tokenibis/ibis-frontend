@@ -1,12 +1,17 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 
-function QRScan() {
+function Temporary(props) {
     return (
-	<Grid container direction="column" justify="center" alignItems="center">
-	  <p> QR Code Scanner </p>
-	</Grid>
+	<img
+	    style={{
+		position: 'fixed',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)'
+	    }}
+	    src={require('../../Static/Images/construction.png')}
+	/>
     );
 };
 
-export default QRScan;
+export default Temporary;

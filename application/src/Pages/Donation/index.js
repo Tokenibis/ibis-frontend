@@ -7,17 +7,15 @@ import CommentList from '../CommentList';
 
 function Donation({ handleWindow }) {
     return (
-	<Grid container direction="column" justify="center" alignItems="center">
-	  <p> Donation </p>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<Nonprofit />)}>
-	    Nonprofit
-	  </div>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<CommentList />)}>
-	    Comment List
-	  </div>
-	</Grid>
+	<img
+	    style={{
+		position: 'fixed',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)'
+	    }}
+	    src={require('../../Static/Images/construction.png')}
+	/>
     );
 };
 

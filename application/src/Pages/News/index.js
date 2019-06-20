@@ -1,23 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
 
-import CommentList from '../CommentList';
-
-function News({ handleWindow }) {
+function Temporary(props) {
     return (
-	<Grid container direction="column" justify="center" alignItems="center">
-	  <p> News </p>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<CommentList />)}>
-	    Comment List
-	  </div>
-	</Grid>
+	<img
+	    style={{
+		position: 'fixed',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)'
+	    }}
+	    src={require('../../Static/Images/construction.png')}
+	/>
     );
 };
 
-News.propTypes = {
-    handleWindow: PropTypes.func.isRequired,
-};
-
-export default News;
+export default Temporary;

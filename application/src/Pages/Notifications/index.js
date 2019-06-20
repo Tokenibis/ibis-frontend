@@ -1,12 +1,17 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 
-function Notifications(props) {
+function Temporary(props) {
     return (
-	<Grid container direction="column" justify="center" alignItems="center">
-	  <p> Notifications </p>
-	</Grid>
+	<img
+	    style={{
+		position: 'fixed',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)'
+	    }}
+	    src={require('../../Static/Images/construction.png')}
+	/>
     );
 };
 
-export default Notifications;
+export default Temporary;

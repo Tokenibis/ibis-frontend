@@ -44,10 +44,12 @@ const styles = theme => ({
 
 class ListView extends Component {
 
-    constructor({ expanded, expandedAll }) {
-	super();
+    constructor(props) {
+	super(props);
+
+	let { expanded, expandedAll } = this.props;
 	this.state = {
-	    expanded: expanded ? expanded : -1,
+	    expanded: expanded !== undefined ? expanded : -1,
 	    expandedAll: expandedAll ? expandedAll : false,
 	}
     }
@@ -67,7 +69,6 @@ class ListView extends Component {
 	    makeLabel,
 	    makeMedia,
 	    makeBody,
-
 	    makeActions,
 	    filter
 	} = this.props;
@@ -81,7 +82,11 @@ class ListView extends Component {
 			(filter === undefined || filter(item.node) === true) &&
 			<div className={classes.item} key={i}>
 			  <CustomDivider />
-			  <ListItem button className={classes.image} onClick={(e) => {this.handleExpand(i)}}>
+			  <ListItem
+			      button
+			      className={classes.image}
+			      onClick={(e) => {this.handleExpand(i)}}
+			    >
 			    {
 				makeImage && 
 				<ListItemIcon>

@@ -1,32 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import Button from '@material-ui/core/Button';
-
-import DonationList from '../DonationList';
-import NewsList from '../NewsList';
-import EventList from '../EventList';
-
+import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import FollowIcon from '@material-ui/icons/Add';
 import LinearProgress from '@material-ui/core/LinearProgress';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
+import DonationList from '../DonationList';
+import NewsList from '../NewsList';
+import EventList from '../EventList';
+import AddButton from '../__Common__/AddButton';
 
 const styles = theme => ({
     root: {
 	width: '100%',
     },
-    description: {
+    descriptionText: {
 	color: theme.palette.tertiary.main,
+    },
+    descriptionToggle: {
+	color: theme.palette.secondary.main,
+	textAlign: 'right',
     },
     link: {
 	color: theme.palette.secondary.main,
@@ -37,7 +41,8 @@ const styles = theme => ({
     },
     card: {
 	width: '100%',
-	marginBottom: theme.spacing.unit,
+	backgroundColor: theme.palette.lightBackground.main,
+	marginBottom: theme.spacing.unit * 3,
     },
     media: {
 	height: 160,
@@ -45,32 +50,35 @@ const styles = theme => ({
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
-	alignItems: 'center',
-	paddingRight: theme.spacing.unit * 2,
-	paddingLeft: theme.spacing.unit,
+	width: '100%',
     },
     actionDonate: {
 	width: '100%',
 	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
 	borderStyle: 'solid',
-	borderWidth: '2px',
+	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
+	marginBottom: theme.spacing.unit * 3,
     },
-    readMore: {
-	marginLeft: 'auto',
-	marginRight: theme.spacing.unit * 2,
+    followers: {
+	textTransform: 'none',
 	color: theme.palette.secondary.main,
-	fontWeight: 'bold',
-	float: 'right',
-    },
-    preview: {
-	textAlign: 'center',
     },
     heading: {
-	fontWeight: 'bold',
+	fontSize: '18px',
+	color: theme.palette.tertiary.main,
+	paddingLeft: theme.spacing.unit,
+	width: '90%',
+	textAlign: 'left',
+    },
+    viewAll: {
 	color: theme.palette.secondary.main,
-    }
-})
+	width: '90%',
+	textAlign: 'right',
+	paddingBottom: theme.spacing.unit * 3,
+    },
+});
 
 class Nonprofit extends Component {
     
@@ -100,70 +108,83 @@ class Nonprofit extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      <Card raised className={classes.card}>
+	      <Card className={classes.card}>
 		<CardMedia
 		    className={classes.media}
     		    image={require(`../../Static/Images/birds/bird${(nonprofit.description.length) % 10}.jpg`)}
 		/>
 		<CardContent>
-		  <Typography variant="body2" className={classes.description}>
-  		    {
-			expanded ? 
-			nonprofit.description :
-			`${nonprofit.description.substring(0, 300)} ...`
-		    }
-		  </Typography>
+  		  {
+		      expanded ? (
+			  <Typography variant="body2" className={classes.descriptionText}>
+			    nonprofit.description
+			  </Typography>
+		      ):(
+			  <Typography variant="body2" className={classes.descriptionText}>
+			    {`${nonprofit.description.substring(0, 300)}...`} readmore
+			  </Typography>
+		      )
+		  }
 		  <Typography variant="body2" className={classes.link}>
 		    https://www.trevornoahfoundation.org
 		  </Typography>
 		</CardContent>
-		<CardActions className={classes.action}>
-		  <IconButton color="secondary" aria-label="Like">
-		    <FollowIcon />
-		  </IconButton>
-		  <Button className={classes.actionDonate}>
-		    Donate
-		  </Button>
-		  <IconButton color="secondary" onClick={() => this.toggleExpand()}>
-		    {
-			expanded ?
-			<ExpandLessIcon /> :
-			<ExpandMoreIcon />
-		    }
-		  </IconButton>
+		<CardActions>
+  		  <Grid container direction="column" justify="center" alignItems="center" >
+		    <div className={classes.action}>
+		      <div className={classes.actionLeft}>
+  			<IconButton color="secondary" aria-label="Like">
+  			  <AddButton label="Follow" />
+  			</IconButton>
+		      </div>
+		      <Button>
+			<Typography variant="body2" className={classes.followers}>
+			  {`Followers: ${nonprofit.user.followerCount}`}
+			</Typography>
+		      </Button>
+		    </div>
+		    <Button className={classes.actionDonate}>
+		      Donate
+		    </Button>
+		  </Grid>
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
-		<Button onClick={() => handleWindow(<DonationList />)}>
+  		<Grid container direction="column" justify="center" alignItems="center" >
 		  <Typography variant="button" className={classes.heading} >
-		    Donations
+		    Recent News
 		  </Typography>
-		</Button>
-		<DonationList
-		    variant="minimal"
-		    handleWindow={handleWindow}
-		    count={3}
-		/>
-		<Button onClick={() => handleWindow(<NewsList />)}>
+		  <NewsList
+		      variant="minimal"
+		      handleWindow={handleWindow}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all news
+		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
-		    News
+		    Upcoming Events
 		  </Typography>
-		</Button>
-		<NewsList
-		    variant="minimal"
-		    handleWindow={handleWindow}
-		    count={3}
-		/>
-		<Button onClick={() => handleWindow(<EventList />)}>
+		  <EventList
+		      variant="minimal"
+		      handleWindow={handleWindow}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all events
+		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
-		    Events
+		    Donation History
 		  </Typography>
-		</Button>
-		<EventList
-		    variant="minimal"
-		    handleWindow={handleWindow}
-		    count={3}
-		/>
+		  <DonationList
+		      variant="minimal"
+		      handleWindow={handleWindow}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all donations
+		  </Typography>
+		</Grid>
 	      </div>
 	    </div>
 	); 

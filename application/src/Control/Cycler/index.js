@@ -44,31 +44,35 @@ class Cycler extends Component {
 	let nextVal = mod(value - 1 + 1, Object.keys(cycleMap).length - 1) + 1;
 
 	return (
-	    title && (
-		<div>
-		  <IconButton
-		      color="inherit"
-		      className={classes.arrow}
-		      onClick={(e) => (
-			  handlePage(cycleMap[Object.keys(cycleMap)[prevVal]], prevVal)
-		      )}
-		  >
-		    <ArrowLeftIcon />
-		  </IconButton>
-		  <Typography color="inherit" variant="button">
-		    {title && title}
-		  </Typography>
-		  <IconButton
-		      color="inherit"
-		      className={classes.arrow}
-		      onClick={(e) => (
-			  handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal)
-		      )}
-		  >
-		    <ArrowRightIcon />
-		  </IconButton>
-		</div>
-	    )
+	    <div>
+	    {
+	      title && (
+	      <div>
+		<IconButton
+		    color="inherit"
+		    className={classes.arrow}
+		    onClick={(e) => (
+		  handlePage(cycleMap[Object.keys(cycleMap)[prevVal]], prevVal)
+		  )}
+		>
+		  <ArrowLeftIcon />
+		</IconButton>
+		<Typography color="inherit" variant="button">
+		  {title && title}
+		</Typography>
+		<IconButton
+		    color="inherit"
+		    className={classes.arrow}
+		    onClick={(e) => (
+		  handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal)
+		  )}
+		>
+		  <ArrowRightIcon />
+		</IconButton>
+	      </div>
+	      )
+	    }		  
+	    </div>
 	);
     }
 };
