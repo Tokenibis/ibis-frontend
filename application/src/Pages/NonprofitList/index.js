@@ -56,7 +56,7 @@ const DEFAULT_COUNT = 25;
 
 class NonprofitList extends Component {
 
-    constructor({ handleWindow, count }) {
+    constructor({ handlePage, count }) {
 	super();
 
 	this.query = gql`
@@ -89,10 +89,10 @@ class NonprofitList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handleWindow(<Nonprofit id={node.id} />)}
+  		onClick={(e) => handlePage(<Nonprofit id={node.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -123,7 +123,7 @@ class NonprofitList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -134,7 +134,7 @@ class NonprofitList extends Component {
 	      >
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </IconButton>
-	      <Button onClick={(e) => handleWindow(<Nonprofit id={node.id} />)}>
+	      <Button onClick={(e) => handlePage(<Nonprofit id={node.id} />)}>
 		<Typography variant="body2" className={classes.info}>
 		  More info
 		</Typography>

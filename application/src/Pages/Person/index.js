@@ -102,7 +102,7 @@ class Person extends Component {
     }
     
     createPage(person) {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	let { expanded } = this.state;
 
 	return (
@@ -134,34 +134,34 @@ class Person extends Component {
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
-		<Button onClick={() => handleWindow(<DonationList />)}>
+		<Button onClick={() => handlePage(<DonationList />)}>
 		  <Typography variant="button" className={classes.heading} >
 		    Donations
 		  </Typography>
 		</Button>
 		<DonationList
 		    variant="minimal"
-		    handleWindow={handleWindow}
+		    handlePage={handlePage}
 		    count={3}
 		/>
-		<Button onClick={() => handleWindow(<DonationList />)}>
+		<Button onClick={() => handlePage(<DonationList />)}>
 		  <Typography variant="button" className={classes.heading} >
 		    Transactions
 		  </Typography>
 		</Button>
 		<TransactionList
 		    variant="minimal"
-		    handleWindow={handleWindow}
+		    handlePage={handlePage}
 		    count={3}
 		/>
-		<Button onClick={() => handleWindow(<EventList />)}>
+		<Button onClick={() => handlePage(<EventList />)}>
 		  <Typography variant="button" className={classes.heading} >
 		    Events
 		  </Typography>
 		</Button>
 		<EventList
 		    variant="minimal"
-		    handleWindow={handleWindow}
+		    handlePage={handlePage}
 		    count={3}
 		/>
 	      </div>

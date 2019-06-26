@@ -10,13 +10,13 @@ class Content extends Component {
     constructor () {
 	super();
 	this.state = {
-	    page: <Home handlePage={this.handlePage}/>,
+	    page: <Home handleFrame={this.handleFrame}/>,
 	    cycle: BlankVal,
 	    hideHome: true,
 	};
     }
 
-    handlePage = (page, cycle, hideHome) => {
+    handleFrame = (page, cycle, hideHome) => {
         page && this.setState({ page, cycle, hideHome });
     }
 
@@ -27,7 +27,7 @@ class Content extends Component {
 	    <div>
 	      <MainBar
 		  cycle={cycle} 
-		  handlePage={this.handlePage}
+		  handleFrame={this.handleFrame}
 	          hideHome={hideHome}
 	      />
 	      <Window>

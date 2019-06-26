@@ -64,14 +64,14 @@ class SideBar extends Component {
     };
 
     handleClick = (page, switchVal) => {
-	let { handlePage } = this.props
+	let { handleFrame } = this.props
 
 	this.setState({ 
 	    drawer: false,
 	    expanded: null,
 	});
 
-	handlePage(page, switchVal);
+	handleFrame(page, switchVal);
     };
 
     handleExpand(expanded) {
@@ -193,7 +193,7 @@ class SideBar extends Component {
 };
 
 SideBar.propTypes = {
-    handlePage: PropTypes.func.isRequired,
+    handleFrame: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(SideBar);

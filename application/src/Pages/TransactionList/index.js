@@ -55,7 +55,7 @@ const DEFAULT_COUNT = 25;
 
 class TransactionList extends Component {
 
-    constructor({ handleWindow, count }) {
+    constructor({ handlePage, count }) {
 	super();
 
 	this.dummyCount = 0;
@@ -115,11 +115,11 @@ class TransactionList extends Component {
     }
     
     makeImage = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
 	    <IconButton
 	      className={classes.categoryIcon}
-	      onClick={(e) => handleWindow(<Transaction handleWindow={handleWindow}/>)}
+	      onClick={(e) => handlePage(<Transaction handlePage={handlePage}/>)}
 	    >
 	      {this.icons[(node.description.length) % this.icons.length]}
 	    </IconButton>
@@ -146,7 +146,7 @@ class TransactionList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -155,7 +155,7 @@ class TransactionList extends Component {
 	      <Typography variant="body2" className={classes.amount}>
 		{`$${node.amount}`}
 	      </Typography>
-	      <Button onClick={(e) => handleWindow(<Transaction />)}>
+	      <Button onClick={(e) => handlePage(<Transaction />)}>
 		<Typography variant="body2" className={classes.details}>
 		  Details
 		</Typography>

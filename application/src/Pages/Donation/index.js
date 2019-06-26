@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Nonprofit from '../Nonprofit';
 import CommentList from '../CommentList';
 
-function Donation({ handleWindow }) {
+function Donation({ handlePage }) {
     return (
 	<img
 	    style={{
@@ -20,7 +20,7 @@ function Donation({ handleWindow }) {
 };
 
 Donation.propTypes = {
-    handleWindow: PropTypes.func.isRequired,
+    handlePage: PropTypes.func.isRequired,
 };
 
 export default Donation;

@@ -103,7 +103,7 @@ class Nonprofit extends Component {
     }
     
     createPage(nonprofit) {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	let { expanded } = this.state;
 
 	return (
@@ -156,7 +156,7 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <NewsList
 		      variant="minimal"
-		      handleWindow={handleWindow}
+		      handlePage={handlePage}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >
@@ -167,7 +167,7 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <EventList
 		      variant="minimal"
-		      handleWindow={handleWindow}
+		      handlePage={handlePage}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >
@@ -178,7 +178,7 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <DonationList
 		      variant="minimal"
-		      handleWindow={handleWindow}
+		      handlePage={handlePage}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >

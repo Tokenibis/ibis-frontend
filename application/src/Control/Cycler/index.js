@@ -39,7 +39,7 @@ class Cycler extends Component {
 
     render() {
 	let { title } = this.state;
-	let { classes, handlePage, value } = this.props;
+	let { classes, handleFrame, value } = this.props;
 	let prevVal = mod(value - 1 - 1, Object.keys(cycleMap).length - 1) + 1;
 	let nextVal = mod(value - 1 + 1, Object.keys(cycleMap).length - 1) + 1;
 
@@ -52,7 +52,7 @@ class Cycler extends Component {
 		    color="inherit"
 		    className={classes.arrow}
 		    onClick={(e) => (
-		  handlePage(cycleMap[Object.keys(cycleMap)[prevVal]], prevVal)
+		  handleFrame(cycleMap[Object.keys(cycleMap)[prevVal]], prevVal)
 		  )}
 		>
 		  <ArrowLeftIcon />
@@ -64,7 +64,7 @@ class Cycler extends Component {
 		    color="inherit"
 		    className={classes.arrow}
 		    onClick={(e) => (
-		  handlePage(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal)
+		  handleFrame(cycleMap[Object.keys(cycleMap)[nextVal]], nextVal)
 		  )}
 		>
 		  <ArrowRightIcon />
@@ -79,7 +79,7 @@ class Cycler extends Component {
 
 Cycler.propTypes = {
     value: PropTypes.number.isRequired,
-    handlePage: PropTypes.func.isRequired,
+    handleFrame: PropTypes.func.isRequired,
 };
 
 export const BlankVal = Object.keys(cycleMap).indexOf('');

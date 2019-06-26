@@ -12,12 +12,12 @@ class Window extends Component {
 	this.setState({ page: props.children });
     };
 
-    handleWindow = (page) => {
+    handlePage = (page) => {
 	this.setState({ page });
     };
 
     render(props) {
-	return React.cloneElement(this.state.page, { handleWindow: this.handleWindow })
+	return React.cloneElement(this.state.page, { handlePage: this.handlePage })
     };
 };
 

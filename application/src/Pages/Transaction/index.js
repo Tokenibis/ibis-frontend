@@ -5,20 +5,20 @@ import Grid from '@material-ui/core/Grid';
 import Person from '../Person';
 import CommentList from '../CommentList';
 
-function Transaction({ handleWindow }) {
+function Transaction({ handlePage }) {
     return (
 	<Grid container direction="column" justify="center" alignItems="center">
 	  <p> Transaction </p>
 	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<Person />)}>
+	      onClick={(e) => handlePage(<Person />)}>
 	    Sender
 	  </div>
 	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<Person />)}>
+	      onClick={(e) => handlePage(<Person />)}>
 	    Receiver
 	  </div>
 	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handleWindow(<CommentList />)}>
+	      onClick={(e) => handlePage(<CommentList />)}>
 	    Comment List
 	  </div>
 	</Grid>
@@ -26,7 +26,7 @@ function Transaction({ handleWindow }) {
 };
 
 Transaction.propTypes = {
-    handleWindow: PropTypes.func.isRequired,
+    handlePage: PropTypes.func.isRequired,
 };
 
 export default Transaction;

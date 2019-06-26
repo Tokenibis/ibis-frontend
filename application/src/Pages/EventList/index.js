@@ -61,7 +61,7 @@ const DEFAULT_COUNT = 25;
 
 class EventList extends Component {
 
-    constructor({ handleWindow, count }) {
+    constructor({ handlePage, count }) {
 	super();
 
 	this.query = gql`
@@ -97,10 +97,10 @@ class EventList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handleWindow(<Nonprofit id={node.user.nonprofit.id} />)}
+  		onClick={(e) => handlePage(<Nonprofit id={node.user.nonprofit.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -142,7 +142,7 @@ class EventList extends Component {
     };
 
     makeActions = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <div>
@@ -156,7 +156,7 @@ class EventList extends Component {
   	      <Typography variant="body2" className={classes.categoryIcon}>
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
-	      <Button onClick={(e) => handleWindow(<Event id={node.id} />)}>
+	      <Button onClick={(e) => handlePage(<Event id={node.id} />)}>
 		<Typography variant="body2" className={classes.info}>
 		  Read more
 		</Typography>

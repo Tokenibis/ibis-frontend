@@ -74,19 +74,19 @@ class Home extends Component {
     };
 
     render() {
-	let { classes, handlePage } = this.props;
+	let { classes, handleFrame } = this.props;
 	let { expanded } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-  	      <Avatar onClick={(e) => handlePage(<Account />, BlankVal)}
+  	      <Avatar onClick={(e) => handleFrame(<Account />, BlankVal)}
   		      alt="Ibis"
   		      src={require('../../Static/Images/nonprofit.jpg')}
   		      className={classes.avatar} />
 	      <Typography variant="h6" className={classes.balance}>
   		Balance ${0}
 	      </Typography>
-	      <div onClick={(e) => handlePage(<Notifications />)} >
+	      <div onClick={(e) => handleFrame(<Notifications />)} >
 		<Typography variant="body2" className={classes.notifications}>
 		  Notifications ({<NotificationIcon className={classes.notificationIcon} />})
 		</Typography>
@@ -105,13 +105,13 @@ class Home extends Component {
 		      label="Nonprofits"
 		      classes={classes}
 		      icon={<NonprofitIcon />}
-		      onClick={(e) => handlePage(<Give value={NonprofitVal} />, GiveVal)}
+		      onClick={(e) => handleFrame(<Give value={NonprofitVal} />, GiveVal)}
 		  />
 		  <SublistItem
 		      label="Donations"
 		      classes={classes}
 		      icon={<DonationIcon />}
-		      onClick={(e) => handlePage(<Give value={DonationVal} />, GiveVal)}
+		      onClick={(e) => handleFrame(<Give value={DonationVal} />, GiveVal)}
 		  />
 		</Sublist>
 		<Sublist
@@ -124,13 +124,13 @@ class Home extends Component {
 		      label="People"
 		      classes={classes}
 		      icon={<PersonIcon />}
-		      onClick={(e) => handlePage(<Send value={PersonVal} />, SendVal)}
+		      onClick={(e) => handleFrame(<Send value={PersonVal} />, SendVal)}
 		  />
 		  <SublistItem
 		      label="Transactions"
 		      classes={classes}
 		      icon={<TransactionIcon />}
-		      onClick={(e) => handlePage(<Send value={TransactionVal} />, SendVal)}
+		      onClick={(e) => handleFrame(<Send value={TransactionVal} />, SendVal)}
 		  />
 		</Sublist>
 		<Sublist
@@ -143,13 +143,13 @@ class Home extends Component {
 		      label="News"
 		      classes={classes}
 		      icon={<NewsIcon />}
-		      onClick={(e) => handlePage(<Connect value={NewsVal} />, ConnectVal)}
+		      onClick={(e) => handleFrame(<Connect value={NewsVal} />, ConnectVal)}
 		  />
 		  <SublistItem
 		      label="Events"
 		      classes={classes}
 		      icon={<EventIcon />}
-		      onClick={(e) => handlePage(<Connect value={EventVal} />, ConnectVal)}
+		      onClick={(e) => handleFrame(<Connect value={EventVal} />, ConnectVal)}
 		  />
 		</Sublist>
 	      </List>
@@ -164,7 +164,7 @@ class Home extends Component {
 };
 
 Home.propTypes = {
-    handlePage: PropTypes.func.isRequired,
+    handleFrame: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
 };
 

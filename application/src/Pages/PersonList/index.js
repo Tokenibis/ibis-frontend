@@ -47,7 +47,7 @@ const DEFAULT_COUNT = 25;
 
 class PersonList extends Component {
 
-    constructor({ handleWindow, count }) {
+    constructor({ handlePage, count }) {
 	super();
 
 	this.query = gql`
@@ -80,10 +80,10 @@ class PersonList extends Component {
     }
 
     makeImage = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handleWindow(<Person id={node.id} />)}
+  		onClick={(e) => handlePage(<Person id={node.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.firstName.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -126,13 +126,13 @@ class PersonList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handleWindow } = this.props;
+	let { classes, handlePage } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
 		<Followicon />
 	      </IconButton>
-	      <Button onClick={(e) => handleWindow(<Person id={node.id} />)}>
+	      <Button onClick={(e) => handlePage(<Person id={node.id} />)}>
 		<Typography variant="body2" className={classes.info}>
 		  Profile
 		</Typography>
