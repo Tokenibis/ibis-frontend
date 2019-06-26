@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import Nonprofit from '../Nonprofit';
@@ -17,10 +16,6 @@ function Donation({ handlePage }) {
 	    src={require('../../Static/Images/construction.png')}
 	/>
     );
-};
-
-Donation.propTypes = {
-    handlePage: PropTypes.func.isRequired,
 };
 
 export default Donation;

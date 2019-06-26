@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import Person from '../Person';
@@ -23,10 +22,6 @@ function Transaction({ handlePage }) {
 	  </div>
 	</Grid>
     );
-};
-
-Transaction.propTypes = {
-    handlePage: PropTypes.func.isRequired,
 };
 
 export default Transaction;

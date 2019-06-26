@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 
 import Comment from '../Comment';
@@ -27,10 +26,6 @@ function CommentList({ handlePage }) {
 	  </div>
 	</Grid>
     );
-};
-
-CommentList.propTypes = {
-    handlePage: PropTypes.func.isRequired,
 };
 
 export default (CommentList);
