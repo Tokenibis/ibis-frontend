@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import Authenticator from './Control/Authenticator'
+import Authenticator from './Authenticator'
 import Content from './Control/Content'
 
 import { ApolloProvider } from 'react-apollo';
