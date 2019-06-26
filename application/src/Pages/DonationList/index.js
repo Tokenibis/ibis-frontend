@@ -109,7 +109,7 @@ class DonationList extends Component {
 	return (
 	    <IconButton
 	      className={classes.categoryIcon}
-	      onClick={(e) => handlePage(<Donation handlePage={handlePage}/>)}
+	      onClick={(e) => handlePage(<Donation />)}
 	    >
 	      {this.icons[(node.description.length) % this.icons.length]}
 	    </IconButton>

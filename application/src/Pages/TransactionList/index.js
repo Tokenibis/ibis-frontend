@@ -119,7 +119,7 @@ class TransactionList extends Component {
 	return (
 	    <IconButton
 	      className={classes.categoryIcon}
-	      onClick={(e) => handlePage(<Transaction handlePage={handlePage}/>)}
+	      onClick={(e) => handlePage(<Transaction />)}
 	    >
 	      {this.icons[(node.description.length) % this.icons.length]}
 	    </IconButton>
