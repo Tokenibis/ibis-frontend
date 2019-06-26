@@ -17,3 +17,7 @@ Install the latest version of nodejs: https://nodejs.org/en/download/
 `$ cd application`
 
 `$ npm start`
+
+## License
+
+This software is licensed under [GNU GPL v3.0](./LICENSE).
