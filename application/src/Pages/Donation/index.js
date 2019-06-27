@@ -1,8 +1,4 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-
-import Nonprofit from '../Nonprofit';
-import CommentList from '../CommentList';
 
 function Donation({ handlePage }) {
     return (
@@ -13,6 +9,7 @@ function Donation({ handlePage }) {
 		left: '50%',
 		transform: 'translate(-50%, -50%)'
 	    }}
+	    alt="Under Construction"
 	    src={require('../../Static/Images/construction.png')}
 	/>
     );

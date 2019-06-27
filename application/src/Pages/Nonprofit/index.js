@@ -5,7 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import Button from '@material-ui/core/Button';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -13,8 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
