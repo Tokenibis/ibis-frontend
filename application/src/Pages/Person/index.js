@@ -21,6 +21,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import AddButton from '../__Common__/AddButton';
 
 const styles = theme => ({
     root: {
@@ -38,6 +39,7 @@ const styles = theme => ({
     },
     card: {
 	width: '100%',
+	backgroundColor: theme.palette.lightBackground.main,
 	marginBottom: theme.spacing(1),
     },
     avatar: {
@@ -51,16 +53,20 @@ const styles = theme => ({
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
-	alignItems: 'center',
-	paddingRight: theme.spacing(2),
-	paddingLeft: theme.spacing(),
+	width: '100%',
     },
-    actionDonate: {
+    actionPay: {
 	width: '100%',
 	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
 	borderStyle: 'solid',
-	borderWidth: '2px',
+	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
+	marginBottom: theme.spacing(3),
+    },
+    followers: {
+	textTransform: 'none',
+	color: theme.palette.secondary.main,
     },
     readMore: {
 	marginLeft: 'auto',
@@ -116,20 +122,24 @@ class Person extends Component {
 		  </Grid>
 		<CardContent>
 		</CardContent>
-		<CardActions className={classes.action}>
-		  <IconButton color="secondary" aria-label="Like">
-		    <FollowIcon />
-		  </IconButton>
-		  <Button className={classes.actionDonate}>
-		    Pay
-		  </Button>
-		  <IconButton color="secondary" onClick={() => this.toggleExpand()}>
-		    {
-			expanded ?
-			<ExpandLessIcon /> :
-			<ExpandMoreIcon />
-		    }
-		  </IconButton>
+		<CardActions>
+  		  <Grid container direction="column" justify="center" alignItems="center" >
+		    <div className={classes.action}>
+		      <div className={classes.actionLeft}>
+  			<IconButton color="secondary" aria-label="Like">
+  			  <AddButton label="Follow" />
+  			</IconButton>
+		      </div>
+		      <Button>
+			<Typography variant="body2" className={classes.followers}>
+			  {`Followers: ${person.followerCount}`}
+			</Typography>
+		      </Button>
+		    </div>
+		    <Button className={classes.actionPay}>
+		      Pay
+		    </Button>
+		  </Grid>
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
