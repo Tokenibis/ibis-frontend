@@ -32,17 +32,17 @@ const styles = theme => ({
     },
     link: {
 	color: theme.palette.secondary.main,
-	paddingTop: theme.spacing.unit,
+	paddingTop: theme.spacing,
     },
     progress: {
-	marginTop: theme.spacing.unit,
+	marginTop: theme.spacing(1),
     },
     card: {
 	width: '100%',
-	marginBottom: theme.spacing.unit,
+	marginBottom: theme.spacing(1),
     },
     avatar: {
-	marginTop: theme.spacing.unit * 3,
+	marginTop: theme.spacing(3),
 	width: 100,
 	height: 100,
 	borderStyle: 'solid',
@@ -53,8 +53,8 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingRight: theme.spacing.unit * 2,
-	paddingLeft: theme.spacing.unit,
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(),
     },
     actionDonate: {
 	width: '100%',
@@ -65,7 +65,7 @@ const styles = theme => ({
     },
     readMore: {
 	marginLeft: 'auto',
-	marginRight: theme.spacing.unit * 2,
+	marginRight: theme.spacing(2),
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	float: 'right',

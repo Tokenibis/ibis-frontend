@@ -41,10 +41,10 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     sideBar: {
-	minWidth: theme.spacing.unit * 28,
+	minWidth: theme.spacing(28),
     },
     nested: {
-	paddingLeft: theme.spacing.unit * 4,
+	paddingLeft: theme.spacing(4),
     },
 });
 

@@ -7,7 +7,7 @@ const styles = theme => ({
     quote: {
 	textAlign: 'center',
 	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing.unit,
+	paddingBottom: theme.spacing(1),
     },
     author: {
 	textAlign: 'right',

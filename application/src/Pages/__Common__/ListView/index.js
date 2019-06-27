@@ -21,11 +21,11 @@ const styles = theme => ({
 	width: '100%',
     },
     media: {
-	paddingBottom: theme.spacing.unit,
+	paddingBottom: theme.spacing(1),
     },
     item: {
 	width: '90%',
-	paddingLeft: theme.spacing.unit,
+	paddingLeft: theme.spacing(1),
     },
     image: {
 	marginLeft: '0px',

@@ -30,8 +30,8 @@ const styles = theme => ({
 	justifyContent: 'center',
     },
     calendarText: {
-	paddingLeft: theme.spacing.unit * 5,
-	paddingRight: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing(5),
+	paddingRight: theme.spacing(2),
     }
 })
 

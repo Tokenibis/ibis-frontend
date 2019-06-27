@@ -30,12 +30,12 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingRight: theme.spacing.unit * 2,
-	paddingLeft: theme.spacing.unit,
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(1),
     },
     body: {
 	color: theme.palette.tertiary.main,
-	paddingLeft: theme.spacing.unit * 3,
+	paddingLeft: theme.spacing(3),
     },
     info: {
 	fontWeight: 'bold',

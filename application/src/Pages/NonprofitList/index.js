@@ -39,8 +39,8 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingRight: theme.spacing.unit * 2,
-	paddingLeft: theme.spacing.unit,
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(1),
     },
     categoryIcon: {
 	fontWeight: 'bold',

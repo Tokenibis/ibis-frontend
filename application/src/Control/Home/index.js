@@ -37,7 +37,7 @@ const styles = theme => ({
     notifications: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
-	paddingBottom: theme.spacing.unit * 4,
+	paddingBottom: theme.spacing(4),
     },
     notificationIcon: {
 	color: theme.palette.secondary.main,
@@ -45,10 +45,10 @@ const styles = theme => ({
 	marginBottom: -2,
     },
     nested: {
-	paddingLeft: theme.spacing.unit * 4,
+	paddingLeft: theme.spacing(4),
     },
     avatar: {
-	marginTop: - theme.spacing.unit * 3,
+	marginTop: - theme.spacing(3),
 	width: 100,
 	height: 100,
 	borderStyle: 'solid',
@@ -56,7 +56,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     quote: {
-	paddingTop: theme.spacing.unit * 6,
+	paddingTop: theme.spacing(6),
 	width: '70%',
 	maxWidth: 360,
     }

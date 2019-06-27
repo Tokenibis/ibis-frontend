@@ -31,8 +31,8 @@ const styles = theme => ({
 	alignItems: 'center',
     },
     filterButton: {
-	marginTop: theme.spacing.unit,
-	marginRight: theme.spacing.unit,
+	marginTop: theme.spacing(1),
+	marginRight: theme.spacing(1),
     },
 });
 

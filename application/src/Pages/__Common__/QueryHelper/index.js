@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = theme => ({
     progress: {
-	marginTop: theme.spacing.unit,
+	marginTop: theme.spacing(1),
     },
 })
 

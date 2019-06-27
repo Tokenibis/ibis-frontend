@@ -20,7 +20,7 @@ const styles = theme => ({
 	fontSize: '18px',
     },
     collapse: {
-	paddingLeft: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing(2),
     },
 });
 

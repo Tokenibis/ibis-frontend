@@ -34,15 +34,15 @@ const styles = theme => ({
     },
     link: {
 	color: theme.palette.secondary.main,
-	paddingTop: theme.spacing.unit,
+	paddingTop: theme.spacing(1),
     },
     progress: {
-	marginTop: theme.spacing.unit,
+	marginTop: theme.spacing(1),
     },
     card: {
 	width: '100%',
 	backgroundColor: theme.palette.lightBackground.main,
-	marginBottom: theme.spacing.unit * 3,
+	marginBottom: theme.spacing(3),
     },
     media: {
 	height: 160,
@@ -59,7 +59,7 @@ const styles = theme => ({
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
-	marginBottom: theme.spacing.unit * 3,
+	marginBottom: theme.spacing(3),
     },
     followers: {
 	textTransform: 'none',
@@ -68,7 +68,7 @@ const styles = theme => ({
     heading: {
 	fontSize: '18px',
 	color: theme.palette.tertiary.main,
-	paddingLeft: theme.spacing.unit,
+	paddingLeft: theme.spacing(1),
 	width: '90%',
 	textAlign: 'left',
     },
@@ -76,7 +76,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	width: '90%',
 	textAlign: 'right',
-	paddingBottom: theme.spacing.unit * 3,
+	paddingBottom: theme.spacing(3),
     },
 });
 

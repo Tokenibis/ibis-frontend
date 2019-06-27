@@ -39,7 +39,7 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingRight: theme.spacing.unit * 2,
+	paddingRight: theme.spacing(2),
     },
     amount: {
 	fontWeight: 'bold',

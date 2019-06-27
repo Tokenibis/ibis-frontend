@@ -15,14 +15,14 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
     },
     list: {
-	paddingLeft: theme.spacing.unit * 2,
-	paddingRight: theme.spacing.unit * 2,
+	paddingLeft: theme.spacing(2),
+	paddingRight: theme.spacing(2),
     },
     dialogPaper: {
-	margin: theme.spacing.unit * 2,
+	margin: theme.spacing(2),
     },
     searchItem: {
-	maxWidth: theme.spacing.unit * 20,
+	maxWidth: theme.spacing(20),
 	marginLeft: 0,
 	paddingLeft: 0,
     },
