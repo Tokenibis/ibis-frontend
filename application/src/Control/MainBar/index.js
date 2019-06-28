@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import IbisIcon from '../../__Common__/IbisIcon';
 import Cycler, { BlankVal } from '../Cycler';
 import Home from '../Home';
-import SideBar from '../SideBar';
+import SideMenu from '../SideMenu';
 
 const styles = {
     root: {
@@ -30,7 +30,7 @@ function MainBar({ classes, handleFrame, cycle, hideHome }) {
     return (
 	<AppBar color="primary" position="static">
 	  <Toolbar>
-	    <SideBar handleFrame={handleFrame}/>
+	    <SideMenu handleFrame={handleFrame}/>
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
 	      <Cycler value={cycle} handleFrame={handleFrame} />
 	    </Typography>

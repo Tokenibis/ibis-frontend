@@ -40,7 +40,7 @@ const styles = theme => ({
 	borderWidth: '2px',
 	borderColor: theme.palette.secondary.main,
     },
-    sideBar: {
+    sideMenu: {
 	minWidth: theme.spacing(28),
     },
     nested: {
@@ -48,7 +48,7 @@ const styles = theme => ({
     },
 });
 
-class SideBar extends Component {
+class SideMenu extends Component {
 
     state = {
 	drawer: false,
@@ -84,8 +84,8 @@ class SideBar extends Component {
 	let { classes } = this.props;
 	let { drawer, expanded } =this.state;
 
-	let sideBar = (
-	    <div className={classes.sideBar}>
+	let sideMenu = (
+	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
 		<Avatar
 		    onClick={(e) => this.handleClick(<Account />, BlankVal)}
@@ -185,15 +185,15 @@ class SideBar extends Component {
 		  onClose={(e) => this.toggleDrawer(false)}
 		  onOpen={(e) => this.toggleDrawer(true)}
               >
-		{sideBar}
+		{sideMenu}
               </SwipeableDrawer>
 	    </div>
 	);
     };
 };
 
-SideBar.propTypes = {
+SideMenu.propTypes = {
     handleFrame: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(SideBar);
+export default withStyles(styles)(SideMenu);
