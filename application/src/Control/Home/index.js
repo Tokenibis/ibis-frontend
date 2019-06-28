@@ -86,7 +86,7 @@ class Home extends Component {
 	      <Typography variant="h6" className={classes.balance}>
   		Balance ${0}
 	      </Typography>
-	      <div onClick={(e) => handleFrame(<Notifications />)} >
+	      <div onClick={(e) => handleFrame(<Notifications />, BlankVal)} >
 		<Typography variant="body2" className={classes.notifications}>
 		  Notifications ({<NotificationIcon className={classes.notificationIcon} />})
 		</Typography>
