@@ -8,7 +8,7 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 import Give, { NonprofitVal } from '../Give'
 import Send, { PersonVal } from '../Send'
-import Connect, { NewsVal } from '../Connect'
+import Explore, { NewsVal } from '../Explore'
 
 const styles = theme => ({
     arrow: {
@@ -19,7 +19,7 @@ const cycleMap = {
     '': null,
     'Give': <Give value={NonprofitVal} />,
     'Send': <Send value={PersonVal} />,
-    'Connect': <Connect value={NewsVal} />,
+    'Explore': <Explore value={NewsVal} />,
 };
 
 
@@ -85,6 +85,6 @@ Cycler.propTypes = {
 export const BlankVal = Object.keys(cycleMap).indexOf('');
 export const GiveVal = Object.keys(cycleMap).indexOf('Give');
 export const SendVal = Object.keys(cycleMap).indexOf('Send');
-export const ConnectVal = Object.keys(cycleMap).indexOf('Connect');
+export const ExploreVal = Object.keys(cycleMap).indexOf('Explore');
 
 export default withStyles(styles)(Cycler);

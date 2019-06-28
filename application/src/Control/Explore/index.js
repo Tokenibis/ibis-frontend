@@ -29,7 +29,7 @@ const options = [
     ],
 ]
 
-function Connect({ value, children }) {
+function Explore({ value, children }) {
     return (
 	<NavBar value={value} options={options}>
 	  {children}
@@ -37,9 +37,9 @@ function Connect({ value, children }) {
     )
 };
 
-Connect.propTypes = {
+Explore.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
 export { NewsVal, EventVal };
-export default Connect;
+export default Explore;

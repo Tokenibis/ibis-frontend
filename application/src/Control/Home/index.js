@@ -8,7 +8,7 @@ import List from '@material-ui/core/List';
 import NotificationIcon from '@material-ui/icons/NotificationsOutlined';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
-import ConnectIcon from '@material-ui/icons/DeviceHub';
+import ExploreIcon from '@material-ui/icons/MapOutlined';
 import NonprofitIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/AttachMoney';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
@@ -18,12 +18,12 @@ import EventIcon from '@material-ui/icons/CalendarToday';
 
 import Sublist from '../__Common__/Sublist'
 import SublistItem from '../__Common__/SublistItem'
-import { BlankVal, GiveVal, SendVal, ConnectVal } from '../Cycler';
+import { BlankVal, GiveVal, SendVal, ExploreVal } from '../Cycler';
 import Account from '../../Pages/Account';
 import Notifications from '../../Pages/Notifications';
 import Give, { NonprofitVal, DonationVal } from '../Give';
 import Send, { PersonVal, TransactionVal } from '../Send';
-import Connect, { NewsVal, EventVal } from '../Connect';
+import Explore, { NewsVal, EventVal } from '../Explore';
 import Quote from './Quote'
 
 const styles = theme => ({
@@ -134,22 +134,22 @@ class Home extends Component {
 		  />
 		</Sublist>
 		<Sublist
-		    label="Connect"
-		    value={expanded === 'Connect'}
-		    icon={<ConnectIcon />}
-		    onClick={(e) => {this.handleExpand('Connect')}}
+		    label="Explore"
+		    value={expanded === 'Explore'}
+		    icon={<ExploreIcon />}
+		    onClick={(e) => {this.handleExpand('Explore')}}
 		>
 		  <SublistItem
 		      label="News"
 		      classes={classes}
 		      icon={<NewsIcon />}
-		      onClick={(e) => handleFrame(<Connect value={NewsVal} />, ConnectVal)}
+		      onClick={(e) => handleFrame(<Explore value={NewsVal} />, ExploreVal)}
 		  />
 		  <SublistItem
 		      label="Events"
 		      classes={classes}
 		      icon={<EventIcon />}
-		      onClick={(e) => handleFrame(<Connect value={EventVal} />, ConnectVal)}
+		      onClick={(e) => handleFrame(<Explore value={EventVal} />, ExploreVal)}
 		  />
 		</Sublist>
 	      </List>
