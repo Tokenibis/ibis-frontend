@@ -1,3 +1,15 @@
+/*
+
+   Handle logic for the navigation (tab) bar. NavBar is invoked by the
+   Connect, Send, and Explore components, effecively acting as the
+   abstracted common functionality between the three of them. In
+   addition to rendering the navigation tabs, NavBar determines how
+   individual pages are rendered; understandin the NavBar component is
+   crucial to understanding how the tab-centric navigation of Ibis
+   works.
+
+*/
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

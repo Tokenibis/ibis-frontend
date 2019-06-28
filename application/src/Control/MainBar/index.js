@@ -1,3 +1,11 @@
+/*
+
+   Topmost bar of the application which contains the hamburger menu,
+   the home button, and the cyler. Invoked by the Content component,
+   which stores the state necessary to customize the bar.
+
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

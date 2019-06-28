@@ -1,3 +1,11 @@
+/*
+
+   SublistItem works closely with sublist to implement the custom
+   nested list look currently used by Home and SideMenu to display the
+   main navigation tree.
+
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

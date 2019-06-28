@@ -1,3 +1,9 @@
+/*
+
+   Render NavBar for the Send tabs
+
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 

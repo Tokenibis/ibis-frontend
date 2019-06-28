@@ -1,3 +1,10 @@
+/*
+
+   Implement the main menu that appears when the user selects the
+   MainBar hamburger icon.
+
+*/
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

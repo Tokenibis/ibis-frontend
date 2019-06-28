@@ -1,3 +1,12 @@
+/*
+
+   Handles the behavior of the Give<->Send<->Explore cycler in the
+   middle of MainBar. It is rendered by MainBar, using state from
+   Content, and has capability to switch NavBar tabs and render the
+   default page for each cyle.
+
+*/
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

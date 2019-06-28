@@ -1,3 +1,17 @@
+/*
+
+   Content is the main entry point for the App post-authentication. It
+   is a simple component that render the MainBar and whatever goes
+   underneath it, which may be a standalone page (Settings, Accounts,
+   etc), or a more complex structure, such as the NavBar and its
+   children.
+
+   func handleFrame: Similar to the ubiquitous handleWindow function,
+   except that it "breaks out of" any underlying Window and allows the
+   ability to declare the state of the MainBar.
+
+*/
+
 import React, { Component } from 'react';
 
 import { BlankVal } from '../Cycler'
