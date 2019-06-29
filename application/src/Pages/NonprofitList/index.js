@@ -147,7 +147,6 @@ class NonprofitList extends Component {
 	return (
 	    <ListView
 		scrollButton
-		filter={this.filter}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
@@ -161,7 +160,6 @@ class NonprofitList extends Component {
     makeListMinimal = (data) => {
 	return (
 	    <ListView
-		filter={this.filter}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
 		makeActions={this.makeActions}

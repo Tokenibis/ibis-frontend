@@ -52,7 +52,7 @@ class PersonList extends Component {
 
 	this.query = gql`
 	    query {
-  		allIbisUsers {
+  		allIbisUsers(isNonprofit: false, first: ${count ? count : DEFAULT_COUNT}) {
   		    edges {
   			node {
   			    id
@@ -62,9 +62,7 @@ class PersonList extends Component {
 			    balance
 			    followerCount
 			    followingCount
-			    user {
-				dateJoined
-			    }
+			    dateJoined
   			    nonprofit {
   				id
   			    }
@@ -75,10 +73,6 @@ class PersonList extends Component {
 	`;
     };
     
-    filter = (node) => {
-	return node.nonprofit === null;
-    }
-
     makeImage = (node) => {
 	let { classes, handlePage } = this.props;
 	return (
@@ -110,7 +104,7 @@ class PersonList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.body}>
-		{`Date joined: ${new Date(node.user.dateJoined).toLocaleDateString()}`}
+		{`Date joined: ${new Date(node.dateJoined).toLocaleDateString()}`}
   	      </Typography>
   	      <Typography variant="body2" className={classes.body}>
 		{`Number of followers: ${node.followerCount}`}
@@ -145,7 +139,6 @@ class PersonList extends Component {
 	return (
 	    <ListView
 		scrollButton
-		filter={this.filter}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
@@ -159,7 +152,6 @@ class PersonList extends Component {
     makeListMinimal = (data) => {
 	return (
 	    <ListView
-		filter={this.filter}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
 		makeActions={this.makeActions}

@@ -63,7 +63,7 @@ class DonationList extends Component {
 
 	this.query = gql`
 	    query {
-		allTransactions(first: ${count ? count : DEFAULT_COUNT}) {
+		allTransfers(isDonation: true, first: ${count ? count : DEFAULT_COUNT}) {
 		    edges {
 			node {
 			    id
@@ -79,7 +79,7 @@ class DonationList extends Component {
 				}
 			    }
 			    user {
-        			firstName
+				firstName
 				lastName
 			    }
 			}
@@ -100,10 +100,6 @@ class DonationList extends Component {
 	]
     };
 
-    filter = (node) => {
-	return node.target.nonprofit !== null;
-    }
-    
     makeImage = (node) => {
 	let { classes, handlePage } = this.props;
 	return (
@@ -158,7 +154,6 @@ class DonationList extends Component {
 	return (
 	    <ListView
 		scrollButton
-		filter={this.filter}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
@@ -172,7 +167,6 @@ class DonationList extends Component {
     makeListMinimal = (data) => {
 	return (
 	    <ListView
-		filter={this.filter}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
 		makeActions={this.makeActions}

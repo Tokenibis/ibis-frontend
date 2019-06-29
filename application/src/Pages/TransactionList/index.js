@@ -62,7 +62,7 @@ class TransactionList extends Component {
 	this.dummySeen = [];
 	this.query = gql`
 	    query {
-		allTransactions {
+		allTransfers(isDonation: false, first: ${count ? count : DEFAULT_COUNT}) {
 		    edges {
 			node {
 			    id
@@ -72,10 +72,6 @@ class TransactionList extends Component {
 			    target {
 				firstName
 				lastName
-				nonprofit {
-				    id
-				    title
-				}
 			    }
 			    user {
         			firstName
@@ -98,22 +94,6 @@ class TransactionList extends Component {
 	]
     };
 
-    filter = (node) => {
-	let result = node.target.nonprofit === null;
-	this.dummyCount += result ? 1 : 0;
-
-	if (this.dummySeen.includes(node.id)) {
-	    return true;
-	}
-
-	if (this.dummyCount <= (this.props.count ? this.props.count : DEFAULT_COUNT)) {
-	    this.dummySeen.push(node.id);
-	    return result;
-	} else {
-	    return false;
-	}
-    }
-    
     makeImage = (node) => {
 	let { classes, handlePage } = this.props;
 	return (
@@ -168,7 +148,6 @@ class TransactionList extends Component {
 	return (
 	    <ListView
 		scrollButton
-		filter={this.filter}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
@@ -182,7 +161,6 @@ class TransactionList extends Component {
     makeListMinimal = (data) => {
 	return (
 	    <ListView
-		filter={this.filter}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
 		makeActions={this.makeActions}
