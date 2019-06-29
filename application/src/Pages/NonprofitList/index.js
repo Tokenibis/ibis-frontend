@@ -147,7 +147,6 @@ class NonprofitList extends Component {
 	return (
 	    <ListView
 		scrollButton
-		filter={this.filter}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}

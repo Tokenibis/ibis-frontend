@@ -67,7 +67,7 @@ class NewsList extends Component {
 
 	this.query = gql`
 	    query {
-		allArticles(first: ${count ? count : DEFAULT_COUNT}) {
+		allNews(first: ${count ? count : DEFAULT_COUNT}) {
 		    edges {
 			node {
 			    id
