@@ -46,7 +46,7 @@ const modifiers = {
     ]
 };
 
-const options = ['All', 'My Nonprofits', 'Going'];
+const options = ['All', 'Featured', 'Popular', 'Following', 'Going'];
 
 class EventFilter extends Component {
 

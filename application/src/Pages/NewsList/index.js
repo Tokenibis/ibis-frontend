@@ -218,7 +218,7 @@ NewsList.propTypes = {
 };
 
 function NewsFilter(props) {
-    return <Filter options={['All', 'Featured', 'My Nonprofits']} {...props} />;
+    return <Filter options={['All', 'Featured', 'Popular', 'Following', 'Bookmarked', 'Classic']} {...props} />;
 }
 
 export { NewsFilter };

@@ -190,7 +190,7 @@ NonprofitList.propTypes = {
 };
 
 function NonprofitFilter(props) {
-    return <Filter options={['All', 'Featured', 'Popular', 'Favorites']} {...props} />;
+    return <Filter options={['Featured', 'Popular', 'New', 'Following']} {...props} />;
 }
 
 export { NonprofitFilter };
