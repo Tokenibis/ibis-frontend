@@ -56,38 +56,34 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY_INNER = `
+    edges {
+	node {
+	    id
+	    amount
+	    description
+	    created
+	    target {
+		firstName
+		lastName
+		nonprofit {
+		    id
+		    title
+		}
+	    }
+	    user {
+		firstName
+		lastName
+	    }
+	}
+    }
+`;
+
+
 class DonationList extends Component {
 
     constructor({ handlePage, count }) {
 	super();
-
-	this.query = gql`
-	    query {
-		allTransfers(isDonation: true, first: ${count ? count : DEFAULT_COUNT}) {
-		    edges {
-			node {
-			    id
-			    amount
-			    description
-			    created
-			    target {
-				firstName
-				lastName
-				nonprofit {
-				    id
-				    title
-				}
-			    }
-			    user {
-				firstName
-				lastName
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
 	this.icons = [
 	    <AnimalIcon />,
 	    <ArtIcon />,
@@ -150,45 +146,92 @@ class DonationList extends Component {
 	);
     };
 
-    makeListDefault = (data) => {
-	return (
-	    <ListView
-		scrollButton
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	);
-    };
-
-    makeListMinimal = (data) => {
-	return (
-	    <ListView
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	);
-    };
-
     render() {
-	let { variant } = this.props;
-	let makeList;
+	let { variant, filterValue, count } = this.props;
+	let makeList, queryCustom, parser;
 
+	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
+
 	    case 'minimal':
-		makeList = this.makeListMinimal;
+		// hide icons/pictures and scroll button; intended for small partial-page lists
+		makeList = (data) => (
+		    <ListView
+			makeLabel={this.makeLabel}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
+		    {...this.props}
+		    />
+		)
 		break;
+
 	    default:
-		makeList = this.makeListDefault;
+		// show everything; intended for full-page lists
+		makeList = (data) => (
+		    <ListView
+		    scrollButton
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
+		    {...this.props}
+		    />
+		)
 	};
 
-	return <QueryHelper query={this.query} makeList={makeList} {...this.props} />;
+	// set default values if needed
+	filterValue = filterValue ? filterValue : 'Me'
+	count = count ? count: DEFAULT_COUNT
+
+	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	switch (filterValue.split(':')[0]) {
+
+	    case 'Me':
+		// Order all by descending Ibis internal featured "score"
+		queryCustom = `
+		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc2") {
+			transferSet(isDonation: true, orderBy: "-created", first: ${count}) {
+			    ${QUERY_INNER}
+			}
+		    }
+		`;
+		parser = (data) => (data.ibisUser.transferSet)
+		break;
+
+	    case 'Following':
+		// Order all by descending number of followers
+		queryCustom = `
+                    allTransfers(isDonation: true, byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allTransfers)
+		break;
+
+	    case 'Public':
+		// Order all by date joined
+		queryCustom = `
+                    allTransfers(isDonation: true, orderBy: "-created", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allTransfers)
+		break;
+
+	    default:
+		console.error('Unsupported filter option')
+	}
+
+	// wrap the custom query in the "query{}" object to create final valid graphql query
+	let query = gql`
+	    query {
+		${queryCustom}
+	    }
+	`;
+
+	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
     };
 };
 

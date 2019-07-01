@@ -59,31 +59,26 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY_INNER = `
+    edges {
+  	node {
+  	    title
+  	    description
+  	    created
+	    user {
+		id
+		nonprofit {
+		    id
+		}
+	    }
+  	}
+    }
+`;
+
 class EventList extends Component {
 
     constructor({ handlePage, count }) {
 	super();
-
-	this.query = gql`
-	    query {
-		allEvents(first: ${count ? count : DEFAULT_COUNT}) {
-  		    edges {
-  			node {
-  			    title
-  			    description
-  			    created
-			    user {
-				id
-				nonprofit {
-				    id
-				}
-			    }
-  			}
-  		    }
-		}
-	    }
-	`;
-	
 	this.icons = [
 	    <AnimalIcon />,
 	    <ArtIcon />,
@@ -165,49 +160,102 @@ class EventList extends Component {
 	);
     };
 
-    makeListDefault = (data) => {
-	return (
-	    <ListView
-		scrollButton
-		expandedAll
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeMedia={this.makeMedia}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	)
-    };
-
-    makeListMinimal = (data) => {
-	return (
-	    <ListView
-		makeLabel={this.makeLabel}
-		makeMedia={this.makeMedia}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-		scrollButton={false}
-	    {...this.props}
-	    />
-	)
-    };
-    
     render() {
-	let { variant } = this.props;
-	let makeList;
+	let { variant, filterValue, count } = this.props;
+	let makeList, queryCustom, parser;
 
+	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
+
 	    case 'minimal':
-		makeList = this.makeListMinimal;
+		// hide icons/pictures and scroll button; intended for small partial-page lists
+		makeList = (data) => (
+		    <ListView
+			makeLabel={this.makeLabel}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
+		    {...this.props}
+		    />
+		)
 		break;
+
 	    default:
-		makeList = this.makeListDefault;
+		// show everything; intended for full-page lists
+		makeList = (data) => (
+		    <ListView
+		    scrollButton
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
+		    {...this.props}
+		    />
+		)
 	};
 
-	return <QueryHelper query={this.query} makeList={makeList} {...this.props} />;
+	// set default values if needed
+	filterValue = filterValue ? filterValue : 'All'
+	count = count ? count: DEFAULT_COUNT
+
+	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	switch (filterValue.split(':')[0]) {
+
+	    case 'All':
+		// Order all by descending Ibis internal featured "score"
+		queryCustom = `
+		    allEvents(orderBy: "-created", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allEvents)
+		break;
+
+	    case 'Featured':
+		// Order all by descending number of followers
+		queryCustom = `
+		    allEvents(orderBy: "-score", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allEvents)
+		break;
+
+	    case 'Following':
+		// Order all by date joined
+		queryCustom = `
+		    allEvents(byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allEvents)
+		break;
+
+	    case 'Going':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+			rsvpFor(orderBy: "-created", first: ${count}) {
+			    ${QUERY_INNER}
+			}
+		    }
+		`;
+		parser = (data) => (data.ibisUser.rsvpFor)
+		break;
+
+	    default:
+		console.error('Unsupported filter option')
+	}
+
+	// wrap the custom query in the "query{}" object to create final valid graphql query
+	let query = gql`
+	    query {
+		${queryCustom}
+	    }
+	`;
+
+	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
     };
 };
 

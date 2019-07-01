@@ -22,16 +22,24 @@ const makeTransactionFilter = (onClose) => {
     return <TransactionFilter open={true} onClose={onClose} />
 }
 
+const makePersonList = (filterValue) => {
+    return <PersonList filterValue={filterValue} />
+}
+
+const makeTransactionList = (filterValue) => {
+    return <TransactionList filterValue={filterValue} />
+}
+
 const options = [
     [
 	'People',
 	makePersonFilter,
-	<PersonList />,
+	makePersonList
     ],
     [
 	'Transactions',
 	makeTransactionFilter,
-	<TransactionList />,
+	makeTransactionList,
     ],
 ]
 

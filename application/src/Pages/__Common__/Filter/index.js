@@ -53,11 +53,11 @@ const styles = theme => ({
     },
 });
 
-function Filter({ classes, title, icon, options, custom, onClose, selectedValue, ...other}) {
+function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
     return (
 	<Dialog
 	    PaperProps={{className: classes.dialogPaper}}
-	    onClose={() => onClose(selectedValue)}
+	    onClose={() => onClose(null)}
 	    aria-labelledby="simple-dialog-title"
 	  {...other}
 	>

@@ -19,20 +19,27 @@ const makeNonprofitFilter = (onClose) => {
 }
 
 const makeDonationFilter = (onClose) => {
-    console.log('filter')
     return <DonationFilter open={true} onClose={onClose} />
+}
+
+const makeNonprofitList = (filterValue) => {
+    return <NonprofitList filterValue={filterValue} />
+}
+
+const makeDonationList = (filterValue) => {
+    return <DonationList filterValue={filterValue} />
 }
 
 const options = [
     [
 	'Nonprofits',
 	makeNonprofitFilter,
-	<NonprofitList />,
+	makeNonprofitList,
     ],
     [
 	'Donations',
 	makeDonationFilter,
-	<DonationList />,
+	makeDonationList,
     ],
 ]
 

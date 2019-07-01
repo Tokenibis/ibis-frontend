@@ -22,16 +22,24 @@ const makeEventFilter = (onClose) => {
     return <EventFilter open={true} onClose={onClose} />
 }
 
+const makeNewsList = (filterValue) => {
+    return <NewsList filterValue={filterValue} />
+}
+
+const makeEventList = (filterValue) => {
+    return <EventList filterValue={filterValue} />
+}
+
 const options = [
     [
 	'News',
 	makeNewsFilter,
-	<NewsList />,
+	makeNewsList,
     ],
     [
 	'Events',
 	makeEventFilter,
-	<EventList />,
+	makeEventList,
     ],
 ]
 

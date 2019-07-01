@@ -54,28 +54,24 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY_INNER = `
+    edges {
+  	node {
+	    id
+            username
+            nonprofit {
+                id
+		title
+  		description
+	    }
+  	}
+    }
+`;
+
 class NonprofitList extends Component {
 
-    constructor({ handlePage, count }) {
+    constructor() {
 	super();
-
-	this.query = gql`
-	    query {
-  		allNonprofits(first: ${count ? count : DEFAULT_COUNT}) {
-  		    edges {
-  			node {
-			    id
-  			    title
-  			    description
-			    user {
-				username
-			    }
-  			}
-  		    }
-  		}
-	    }
-	`;
-
 	this.icons = [
 	    <AnimalIcon />,
 	    <ArtIcon />,
@@ -92,9 +88,9 @@ class NonprofitList extends Component {
 	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.id} />)}
+  		onClick={(e) => handlePage(<Nonprofit id={node.nonprofit.id} />)}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		src={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
     		className={classes.avatar}
 	    />
 	)
@@ -105,10 +101,10 @@ class NonprofitList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.name}>
-  		{node.title}
+  		{node.nonprofit.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
-  		{`@${node.user.username}`}
+  		{`@${node.username}`}
   	      </Typography>
 	    </div>
 	);
@@ -117,7 +113,7 @@ class NonprofitList extends Component {
     makeBody = (node) => {
 	return (
   	    <Typography variant="body2">
-  	      {`${node.description.substring(0, 300)} ...`}
+  	      {`${node.nonprofit.description.substring(0, 300)} ...`}
   	    </Typography>
 	);
     }
@@ -132,7 +128,7 @@ class NonprofitList extends Component {
 	      <IconButton
 		  className={classes.categoryIcon}
 	      >
-		{this.icons[(node.description.length) % this.icons.length]}
+		{this.icons[(node.nonprofit.description.length) % this.icons.length]}
 	      </IconButton>
 	      <Button onClick={(e) => handlePage(<Nonprofit id={node.id} />)}>
 		<Typography variant="body2" className={classes.info}>
@@ -143,50 +139,108 @@ class NonprofitList extends Component {
 	);
     };
 
-    makeListDefault = (data) => {
-	return (
-	    <ListView
-		scrollButton
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	);
-    };
-
-    makeListMinimal = (data) => {
-	return (
-	    <ListView
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	);
-    };
-
     render() {
-	let { variant } = this.props;
-	let makeList;
+	let { variant, filterValue, count } = this.props;
+	let makeList, queryCustom, parser;
 
+	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
+
 	    case 'minimal':
-		makeList = this.makeListMinimal;
+		// hide icons/pictures and scroll button; intended for small partial-page lists
+		makeList = (data) => (
+		    <ListView
+			makeLabel={this.makeLabel}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
+		    {...this.props}
+		    />
+		)
 		break;
+
 	    default:
-		makeList = this.makeListDefault;
+		// show everything; intended for full-page lists
+		makeList = (data) => (
+		    <ListView
+		    scrollButton
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
+		    {...this.props}
+		    />
+		)
 	};
 
-	return <QueryHelper query={this.query} makeList={makeList} {...this.props} />;
+	// set default values if needed
+	filterValue = filterValue ? filterValue : 'Featured'
+	count = count ? count: DEFAULT_COUNT
+
+	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	switch (filterValue.split(':')[0]) {
+
+	    case 'Featured':
+		// Order all by descending Ibis internal featured "score"
+		queryCustom = `
+		    allIbisUsers(isNonprofit: true, orderBy: "-score", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allIbisUsers)
+		break;
+
+	    case 'Popular':
+		// Order all by descending number of followers
+		queryCustom = `
+		    allIbisUsers(isNonprofit: true, orderBy: "-follower_count", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allIbisUsers)
+		break;
+
+	    case 'New':
+		// Order all by date joined
+		queryCustom = `
+		    allIbisUsers(isNonprofit: true, orderBy: "-date_joined", first: ${count}) {
+			${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allIbisUsers)
+		break;
+
+	    case 'Following':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+			following(isNonprofit: true, orderBy: "first_name,last_name", first: ${count}) {
+			    ${QUERY_INNER}
+			}
+		    }
+		`;
+		parser = (data) => (data.ibisUser.following)
+		break;
+
+	    default:
+		console.error('Unsupported filter option')
+	}
+
+	// wrap the custom query in the "query{}" object to create final valid graphql query
+	let query = gql`
+	    query {
+		${queryCustom}
+	    }
+	`;
+
+	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
     };
 };
 
 NonprofitList.propTypes = {
     classes: PropTypes.object.isRequired,
+    filterValue: PropTypes.string.isRequired,
 };
 
 function NonprofitFilter(props) {

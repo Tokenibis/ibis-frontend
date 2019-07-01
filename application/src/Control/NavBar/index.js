@@ -55,7 +55,7 @@ class NavBar extends Component {
 	    tabValue: props.value,
 	    children: props.children,
 	    openedFilter: -1,
-	    filterValue: 0,
+	    filterValue: '',
 	};
     }
 
@@ -108,7 +108,7 @@ class NavBar extends Component {
 	      {
 		  children ?
 		  <TabContainer>{children}</TabContainer> :
-		  <TabContainer>{options[tabValue][2]}</TabContainer>
+		  <TabContainer>{options[tabValue][2](filterValue)}</TabContainer>
 	      }
 	    </div>
 	);

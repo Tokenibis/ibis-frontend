@@ -190,9 +190,6 @@ class Person extends Component {
 		    balance
 		    followerCount
 		    followingCount
-		    user {
-			dateJoined
-		    }
 		}
 	    }
 	`;
