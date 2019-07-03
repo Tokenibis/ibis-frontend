@@ -125,7 +125,7 @@ class PersonList extends Component {
     };
 
     render() {
-	let { variant, filterValue, count } = this.props;
+	let { context, variant, filterValue, count } = this.props;
 	let makeList, queryCustom, parser;
 
 	// variant does not affect the content, only the visually displayed information
@@ -179,7 +179,7 @@ class PersonList extends Component {
 	    case 'Following':
 		// Show only ones being followed by the given user_id, ordered alphabetically
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+		    ibisUser(id: "${context.userID}") {
 			following(isNonprofit: false, orderBy: "first_name,last_name", first: ${count}) {
 			    ${QUERY_INNER}
 			}
@@ -191,7 +191,7 @@ class PersonList extends Component {
 	    case 'Followers':
 		// Show only ones being followed by the given user_id, ordered alphabetically
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+		    ibisUser(id: "${context.userID}") {
 			follower(isNonprofit: false, orderBy: "first_name,last_name", first: ${count}) {
 			    ${QUERY_INNER}
 			}

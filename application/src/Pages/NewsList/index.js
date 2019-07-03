@@ -179,7 +179,7 @@ class NewsList extends Component {
     };
 
     render() {
-	let { variant, filterValue, count } = this.props;
+	let { context, variant, filterValue, count } = this.props;
 	let makeList, queryCustom, parser;
 
 	// variant does not affect the content, only the visually displayed information
@@ -243,7 +243,7 @@ class NewsList extends Component {
 	    case 'Following':
 		// Only results by nonprofits I am following
 		queryCustom = `
-		    allNews(byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
+		    allNews(byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
 		    }
 		`;
@@ -253,7 +253,7 @@ class NewsList extends Component {
 	    case 'Bookmarked':
 		// Only results I have bookmarked
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+		    ibisUser(id: "${context.userID}") {
 			bookmarkFor(orderBy: "-created", first: ${count}) {
 			    ${QUERY_INNER}
 			}

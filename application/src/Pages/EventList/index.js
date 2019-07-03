@@ -161,7 +161,7 @@ class EventList extends Component {
     };
 
     render() {
-	let { variant, filterValue, count } = this.props;
+	let { context, variant, filterValue, count } = this.props;
 	let makeList, queryCustom, parser;
 
 	// variant does not affect the content, only the visually displayed information
@@ -225,7 +225,7 @@ class EventList extends Component {
 	    case 'Following':
 		// Only results by nonprofits I am following
 		queryCustom = `
-		    allEvents(byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
+		    allEvents(byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
 		    }
 		`;
@@ -235,7 +235,7 @@ class EventList extends Component {
 	    case 'Going':
 		// Only results I have RSVP'd
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+		    ibisUser(id: "${context.userID}") {
 			rsvpFor(orderBy: "-created", first: ${count}) {
 			    ${QUERY_INNER}
 			}

@@ -17,6 +17,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { IbisConsumer } from '../../../Context';
+
 class Window extends Component {
 
     constructor(props) {
@@ -33,7 +35,16 @@ class Window extends Component {
     };
 
     render(props) {
-	return React.cloneElement(this.state.page, { handlePage: this.handlePage })
+	return (
+	    <IbisConsumer>
+	      {context => (
+		  React.cloneElement(this.state.page, {
+		      handlePage: this.handlePage,
+		      context: context,
+		  })
+	      )}
+	    </IbisConsumer> 
+	);
     };
 };
 

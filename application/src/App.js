@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+import { IbisProvider } from './Context'
 import Authenticator from './Authenticator'
 import Content from './Control/Content'
 
@@ -37,12 +38,17 @@ const theme = createMuiTheme({
     },
 });
 
+
 class App extends Component {
 
     constructor() {
         super();
 	// Temorarily allow authentication for developing
-        this.state = { isAuthenticated: true, token: ''};
+        this.state = {
+	    isAuthenticated: true,
+	    userID: 'SWJpc1VzZXJOb2RlOjc1',
+	    token: '',
+	};
     };
 
     componentWillMount() {
@@ -61,18 +67,21 @@ class App extends Component {
 
     render() {
 
+	let { isAuthenticated, userID } = this.state;
+
 	let authenticatorView = <Authenticator authenticate={this.authenticate} />;
 	let appView = <Content />;
 
-
-	let content = !!this.state.isAuthenticated ? appView : authenticatorView;
+	let content = !!isAuthenticated ? appView : authenticatorView;
 
 	return (
 	    <ApolloProvider client={client}>
 	      <MuiThemeProvider theme={theme}>
-		<div className="App">
-		  {content}
-		</div>
+		<IbisProvider value={{ userID }}>
+		  <div className="App">
+		    {content}
+		  </div>
+		</IbisProvider>
 	      </MuiThemeProvider> 
 	    </ApolloProvider>
 	);

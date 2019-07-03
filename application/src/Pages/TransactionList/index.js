@@ -119,7 +119,7 @@ class TransactionList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { context, classes, handlePage } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -138,7 +138,7 @@ class TransactionList extends Component {
     };
 
     render() {
-	let { variant, filterValue, count } = this.props;
+	let { context, variant, filterValue, count } = this.props;
 	let makeList, queryCustom, parser;
 
 	// variant does not affect the content, only the visually displayed information
@@ -182,7 +182,7 @@ class TransactionList extends Component {
 	    case 'Me':
 		// Only transfers by myself
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
+		    ibisUser(id: "${context.userID}") {
 			transferSet(isDonation: false, orderBy: "-created", first: ${count}) {
 			    ${QUERY_INNER}
 			}
@@ -194,7 +194,7 @@ class TransactionList extends Component {
 	    case 'Following':
 		// Only transfers by people I am following
 		queryCustom = `
-                    allTransfers(isDonation: false, byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
+                    allTransfers(isDonation: false, byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
 		    }
 		`;

@@ -30,8 +30,8 @@ import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/CalendarToday';
 
-import Sublist from '../__Common__/Sublist'
-import SublistItem from '../__Common__/SublistItem'
+import Sublist from '../__Common__/Sublist';
+import SublistItem from '../__Common__/SublistItem';
 import { BlankVal, GiveVal, SendVal, ExploreVal } from '../Cycler';
 import Account from '../../Pages/Account';
 import Notifications from '../../Pages/Notifications';
