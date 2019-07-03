@@ -56,30 +56,6 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY_INNER = `
-    edges {
-	node {
-	    id
-	    amount
-	    description
-	    created
-	    target {
-		firstName
-		lastName
-		nonprofit {
-		    id
-		    title
-		}
-	    }
-	    user {
-		firstName
-		lastName
-	    }
-	}
-    }
-`;
-
-
 class DonationList extends Component {
 
     constructor({ handlePage, count }) {

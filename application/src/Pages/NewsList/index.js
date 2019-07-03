@@ -145,22 +145,6 @@ class NewsList extends Component {
 	);
     };
 
-    makeListDefault = (data) => {
-	return (
-	    <ListView
-		scrollButton
-		expandedAll
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeMedia={this.makeMedia}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data[Object.keys(data)[0]]}
-	    {...this.props}
-	    />
-	)
-    };
-
     render() {
 	let { context, variant, filterValue, count } = this.props;
 	let makeList, args;
