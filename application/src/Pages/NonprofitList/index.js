@@ -54,20 +54,6 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY_INNER = `
-    edges {
-  	node {
-	    id
-            username
-            nonprofit {
-                id
-		title
-  		description
-	    }
-  	}
-    }
-`;
-
 class NonprofitList extends Component {
 
     constructor() {
@@ -141,7 +127,7 @@ class NonprofitList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let makeList, queryCustom, parser;
+	let makeList, args
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -153,7 +139,7 @@ class NonprofitList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data}
+			data={data.allIbisUsers}
 		    {...this.props}
 		    />
 		)
@@ -168,7 +154,7 @@ class NonprofitList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data}
+		    data={data.allIbisUsers}
 		    {...this.props}
 		    />
 		)
@@ -178,73 +164,46 @@ class NonprofitList extends Component {
 	filterValue = filterValue ? filterValue : 'Featured'
 	count = count ? count: DEFAULT_COUNT
 
-	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
-
 	    case 'Featured':
-		// Order all by descending Ibis internal featured "score"
-		queryCustom = `
-		    allIbisUsers(isNonprofit: true, orderBy: "-score", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allIbisUsers)
+		args = `(isNonprofit: true, orderBy: "-score", first: ${count})`;
 		break;
-
 	    case 'Popular':
-		// Order all by descending number of followers
-		queryCustom = `
-		    allIbisUsers(isNonprofit: true, orderBy: "-follower_count", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allIbisUsers)
+		args = `(isNonprofit: true, orderBy: "-follower_count", first: ${count})`;
 		break;
-
 	    case 'New':
-		// Order all by date joined
-		queryCustom = `
-		    allIbisUsers(isNonprofit: true, orderBy: "-date_joined", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allIbisUsers)
+		args = `(isNonprofit: true, orderBy: "-date_joined", first: ${count})`;
 		break;
-
 	    case 'Following':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    ibisUser(id: "${context.userID}") {
-			following(isNonprofit: true, orderBy: "first_name,last_name", first: ${count}) {
-			    ${QUERY_INNER}
-			}
-		    }
-		`;
-		parser = (data) => (data.ibisUser.following)
+		args = `(isNonprofit: true, followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
-
 	    case '_Search':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    allIbisUsers(isNonprofit: true, search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count}) {
-		        ${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allIbisUsers)
+		args = `(isNonprofit: true, search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
-
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	// wrap the custom query in the "query{}" object to create final valid graphql query
 	let query = gql`
 	    query {
-		${queryCustom}
+		allIbisUsers ${args} {
+		    edges {
+  			node {
+			    id
+			    username
+			    nonprofit {
+				id
+				title
+  				description
+			    }
+  			}
+		    }
+		}
 	    }
 	`;
 
-	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
+	return <QueryHelper query={query} makeList={makeList} {...this.props} />;
     };
 };
 

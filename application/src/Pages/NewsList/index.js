@@ -60,23 +60,6 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY_INNER = `
-    edges {
-	node {
-	    id
-	    title
-	    description
-	    created
-	    user {
-		id
-		nonprofit {
-		    id
-		}
-	    }
-	}
-    }
-`;
-
 class NewsList extends Component {
 
     constructor({ handlePage, count }) {
@@ -180,7 +163,7 @@ class NewsList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let makeList, queryCustom, parser;
+	let makeList, args;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -192,7 +175,7 @@ class NewsList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data}
+			data={data.allNews}
 		    {...this.props}
 		    />
 		)
@@ -207,7 +190,7 @@ class NewsList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data}
+		    data={data.allNews}
 		    {...this.props}
 		    />
 		)
@@ -217,83 +200,52 @@ class NewsList extends Component {
 	filterValue = filterValue ? filterValue : 'All'
 	count = count ? count: DEFAULT_COUNT
 
-	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
-
 	    case 'All':
-		// All results ordered by most recent
-		queryCustom = `
-		    allNews(orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allNews)
+		args = `(orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Featured':
-		// All results ordered by descending Ibis internal featured "score"
-		queryCustom = `
-		    allNews(orderBy: "-score", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allNews)
+		args = `(orderBy: "-score", first: ${count})`;
 		break;
-
 	    case 'Following':
-		// Only results by nonprofits I am following
-		queryCustom = `
-		    allNews(byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allNews)
+		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Bookmarked':
-		// Only results I have bookmarked
-		queryCustom = `
-		    ibisUser(id: "${context.userID}") {
-			bookmarkFor(orderBy: "-created", first: ${count}) {
-			    ${QUERY_INNER}
-			}
-		    }
-		`;
-		parser = (data) => (data.ibisUser.bookmarkFor)
+		args = `(bookmarkBy: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Classic':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    allNews(orderBy: "-like_count", first: ${count}) {
-	                ${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allNews)
+		args = `(orderBy: "-like_count", first: ${count})`;
 		break;
-
 	    case '_Search':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    allNews(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count}) {
-		        ${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allNews)
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
-
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	// wrap the custom query in the "query{}" object to create final valid graphql query
 	let query = gql`
 	    query {
-		${queryCustom}
+		allNews ${args} {
+		    edges {
+  			node {
+			    id
+			    title
+			    description
+			    created
+			    user {
+				id
+				nonprofit {
+				    id
+				}
+			    }
+			}
+		    }
+		}
 	    }
 	`;
 
-	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
+	return <QueryHelper query={query} makeList={makeList} {...this.props} />;
     };
 };
 

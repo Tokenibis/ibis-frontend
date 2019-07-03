@@ -148,7 +148,7 @@ class DonationList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let makeList, queryCustom, parser;
+	let makeList, args;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -160,7 +160,7 @@ class DonationList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data}
+			data={data.allTransfers}
 		    {...this.props}
 		    />
 		)
@@ -175,7 +175,7 @@ class DonationList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data}
+		    data={data.allTransfers}
 		    {...this.props}
 		    />
 		)
@@ -185,63 +185,52 @@ class DonationList extends Component {
 	filterValue = filterValue ? filterValue : 'Me'
 	count = count ? count: DEFAULT_COUNT
 
-	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
-
 	    case 'Me':
-		// Only transfers by myself
-		queryCustom = `
-		    ibisUser(id: "${context.userID}") {
-			transferSet(isDonation: true, orderBy: "-created", first: ${count}) {
-			    ${QUERY_INNER}
-			}
-		    }
-		`;
-		parser = (data) => (data.ibisUser.transferSet)
+		args = `(isDonation: true, byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Following':
-		// Only transfers by people I am following
-		queryCustom = `
-                    allTransfers(isDonation: true, byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allTransfers)
+		args = `(isDonation: true, byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Public':
-		// All transfers
-		queryCustom = `
-                    allTransfers(isDonation: true, orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allTransfers)
+		args = `(isDonation: true, orderBy: "-created", first: ${count})`;
 		break;
-
 	    case '_Search':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    allTransfers(isDonation: true, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count}) {
-		        ${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allTransfers)
+		args = `(isDonation: true, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
-
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	// wrap the custom query in the "query{}" object to create final valid graphql query
 	let query = gql`
 	    query {
-		${queryCustom}
+		allTransfers ${args} {
+		    edges {
+  			node {
+			    id
+			    amount
+			    description
+			    created
+			    target {
+				firstName
+				lastName
+				nonprofit {
+				    id
+				    title
+				}
+			    }
+			    user {
+				firstName
+				lastName
+			    }
+			}
+		    }
+		}
 	    }
 	`;
 
-	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
+	return <QueryHelper query={query} makeList={makeList} {...this.props} />;
     };
 };
 

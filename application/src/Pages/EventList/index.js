@@ -59,22 +59,6 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY_INNER = `
-    edges {
-  	node {
-  	    title
-  	    description
-  	    created
-	    user {
-		id
-		nonprofit {
-		    id
-		}
-	    }
-  	}
-    }
-`;
-
 class EventList extends Component {
 
     constructor({ handlePage, count }) {
@@ -162,7 +146,7 @@ class EventList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let makeList, queryCustom, parser;
+	let makeList, args;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -174,7 +158,7 @@ class EventList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data}
+			data={data.allEvents}
 		    {...this.props}
 		    />
 		)
@@ -189,7 +173,7 @@ class EventList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data}
+		    data={data.allEvents}
 		    {...this.props}
 		    />
 		)
@@ -199,73 +183,51 @@ class EventList extends Component {
 	filterValue = filterValue ? filterValue : 'All'
 	count = count ? count: DEFAULT_COUNT
 
-	// start with QUERY_INNER and wrap the custom ("modified") portion of the query
+	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
-
 	    case 'All':
-		// All results ordered by most recent
-		queryCustom = `
-		    allEvents(orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allEvents)
+		args = `(orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Featured':
-		// All results ordered by descending Ibis internal featured "score"
-		queryCustom = `
-		    allEvents(orderBy: "-score", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allEvents)
+		args = `(orderBy: "-score", first: ${count})`;
 		break;
-
 	    case 'Following':
-		// Only results by nonprofits I am following
-		queryCustom = `
-		    allEvents(byFollowing: "${context.userID}", orderBy: "-created", first: ${count}) {
-			${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allEvents)
+		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case 'Going':
-		// Only results I have RSVP'd
-		queryCustom = `
-		    ibisUser(id: "${context.userID}") {
-			rsvpFor(orderBy: "-created", first: ${count}) {
-			    ${QUERY_INNER}
-			}
-		    }
-		`;
-		parser = (data) => (data.ibisUser.rsvpFor)
+		args = `(rsvpBy: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
-
 	    case '_Search':
-		// Show only ones being followed by the given user_id, ordered alphabetically
-		queryCustom = `
-		    allEvents(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count}) {
-		        ${QUERY_INNER}
-		    }
-		`;
-		parser = (data) => (data.allEvents)
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
-
+	    case `_Going`:
+		args = `(rsvpBy: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	// wrap the custom query in the "query{}" object to create final valid graphql query
 	let query = gql`
 	    query {
-		${queryCustom}
+		allEvents ${args} {
+		    edges {
+  			node {
+  			    title
+  			    description
+  			    created
+			    user {
+				id
+				nonprofit {
+				    id
+				}
+			    }
+			}
+		    }
+		}
 	    }
 	`;
 
-	return <QueryHelper query={query} parser={parser} makeList={makeList} {...this.props} />;
+	return <QueryHelper query={query} makeList={makeList} {...this.props} />;
     };
 };
 

@@ -11,13 +11,13 @@ const styles = theme => ({
 })
 
 function QueryHelper(props) {
-    let { classes, query, parser, makeList} = props;
+    let { classes, query, makeList} = props;
     return (
 	<Query query={query}>
 	  {({ loading, error, data }) => {
 	      if (loading) return <LinearProgress className={classes.progress} />;
 	      if (error) return `Error! ${error.message}`;
-	      return makeList(parser(data))
+	      return makeList(data)
 	  }}
 	</Query>
     );
