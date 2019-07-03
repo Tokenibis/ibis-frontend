@@ -199,6 +199,9 @@ class DonationList extends Component {
 	    case '_Search':
 		args = `(isDonation: true, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
+	    case '_User':
+		args = `(isDonation: true, byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		break;
 	    default:
 		console.error('Unsupported filter option')
 	}

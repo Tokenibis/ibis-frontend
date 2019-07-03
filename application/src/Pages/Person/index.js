@@ -107,7 +107,7 @@ class Person extends Component {
     }
     
     createPage(person) {
-	let { classes, handlePage } = this.props;
+	let { classes, context, handlePage, id } = this.props;
 	let { expanded } = this.state;
 
 	return (
@@ -151,6 +151,8 @@ class Person extends Component {
 		<DonationList
 		    variant="minimal"
 		    handlePage={handlePage}
+		    context={context}
+		    filterValue={`_User:${id}`}
 		    count={3}
 		/>
 		<Button onClick={() => handlePage(<DonationList />)}>
@@ -161,6 +163,8 @@ class Person extends Component {
 		<TransactionList
 		    variant="minimal"
 		    handlePage={handlePage}
+		    context={context}
+		    filterValue={`_User:${id}`}
 		    count={3}
 		/>
 		<Button onClick={() => handlePage(<EventList />)}>
@@ -171,6 +175,8 @@ class Person extends Component {
 		<EventList
 		    variant="minimal"
 		    handlePage={handlePage}
+		    context={context}
+		    filterValue={`_Going:${id}`}
 		    count={3}
 		/>
 	      </div>

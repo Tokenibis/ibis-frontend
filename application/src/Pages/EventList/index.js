@@ -79,7 +79,7 @@ class EventList extends Component {
 	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.user.nonprofit.id} />)}
+  		onClick={(e) => handlePage(<Nonprofit id={node.user.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -200,6 +200,9 @@ class EventList extends Component {
 	    case '_Search':
 		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
+	    case '_Host':
+		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		break;
 	    case `_Going`:
 		args = `(rsvpBy: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
 		break;
@@ -217,9 +220,6 @@ class EventList extends Component {
   			    created
 			    user {
 				id
-				nonprofit {
-				    id
-				}
 			    }
 			}
 		    }

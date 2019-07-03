@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -99,8 +100,8 @@ class Nonprofit extends Component {
 	return data;
     }
     
-    createPage(nonprofit) {
-	let { classes, handlePage } = this.props;
+    createPage(node) {
+	let { classes, context, handlePage, id } = this.props;
 	let { expanded } = this.state;
 
 	return (
@@ -108,17 +109,17 @@ class Nonprofit extends Component {
 	      <Card className={classes.card}>
 		<CardMedia
 		    className={classes.media}
-    		    image={require(`../../Static/Images/birds/bird${(nonprofit.description.length) % 10}.jpg`)}
+    		    image={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
 		/>
 		<CardContent>
   		  {
 		      expanded ? (
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    nonprofit.description
+			    node.nonprofit.description
 			  </Typography>
 		      ):(
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    {`${nonprofit.description.substring(0, 300)}...`} readmore
+			    {`${node.nonprofit.description.substring(0, 300)}...`} readmore
 			  </Typography>
 		      )
 		  }
@@ -136,7 +137,7 @@ class Nonprofit extends Component {
 		      </div>
 		      <Button>
 			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${nonprofit.user.followerCount}`}
+			  {`Followers: ${node.nonprofit.followerCount}`}
 			</Typography>
 		      </Button>
 		    </div>
@@ -154,6 +155,8 @@ class Nonprofit extends Component {
 		  <NewsList
 		      variant="minimal"
 		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_Author:${id}`}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >
@@ -165,6 +168,8 @@ class Nonprofit extends Component {
 		  <EventList
 		      variant="minimal"
 		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_Host:${id}`}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >
@@ -176,6 +181,8 @@ class Nonprofit extends Component {
 		  <DonationList
 		      variant="minimal"
 		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
 		  <Typography variant="body2" className={classes.viewAll} >
@@ -192,11 +199,11 @@ class Nonprofit extends Component {
 
 	const query = gql`
 	    query {
-		nonprofit(id: "${id}") {
-		    description
-		    title
-		    user {
-			followerCount
+		ibisUser(id: "${id}") {
+		    followerCount
+		    nonprofit {
+			description
+			title
 		    }
 		}
 	    }
@@ -207,7 +214,7 @@ class Nonprofit extends Component {
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.nonprofit);
+		  return this.createPage(data.ibisUser);
 	      }}
 	    </Query>
 	);

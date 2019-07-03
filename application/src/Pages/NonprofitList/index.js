@@ -74,7 +74,7 @@ class NonprofitList extends Component {
 	let { classes, handlePage } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.nonprofit.id} />)}
+  		onClick={(e) => handlePage(<Nonprofit id={node.id} />)}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
     		className={classes.avatar}
