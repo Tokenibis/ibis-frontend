@@ -95,7 +95,7 @@ class EventList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
-  		{new Date(node.created).toDateString()}
+  		{new Date(node.date).toDateString()}
   	      </Typography>
 	    </div>
 	);
@@ -186,25 +186,28 @@ class EventList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(orderBy: "-created", first: ${count})`;
+		args = `(orderBy: "-date", first: ${count})`;
 		break;
 	    case 'Featured':
 		args = `(orderBy: "-score", first: ${count})`;
 		break;
 	    case 'Following':
-		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		args = `(byFollowing: "${context.userID}", orderBy: "-date", first: ${count})`;
 		break;
 	    case 'Going':
 		args = `(rsvpBy: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-date", first: ${count})`;
 		break;
 	    case '_Host':
-		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-date", first: ${count})`;
 		break;
 	    case `_Going`:
-		args = `(rsvpBy: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		args = `(rsvpBy: "${filterValue.split(':')[1]}", orderBy: "-date", first: ${count})`;
+		break;
+	    case `_Calendar`:
+		args = `(beginDate: "${filterValue.split(/:(.+)/)[1]}", orderBy: "-date", first: ${count})`;
 		break;
 	    default:
 		console.error('Unsupported filter option')
@@ -218,6 +221,7 @@ class EventList extends Component {
   			    title
   			    description
   			    created
+			    date
 			    user {
 				id
 			    }

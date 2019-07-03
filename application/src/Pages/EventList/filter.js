@@ -36,14 +36,11 @@ const styles = theme => ({
 })
 
 const birthdayStyle = `.DayPicker-Day--highlighted {
-  color: #b0bf24;
-}`;
+   color: #b0bf24;
+ }`;
 
 const modifiers = {
-    highlighted: [
-	new Date(2019, 5, 19),
-	new Date(2019, 5, 29),
-    ]
+    highlighted: [] // we can highlight dates using this if we want
 };
 
 const options = ['All', 'Featured', 'Following', 'Going'];
@@ -58,13 +55,17 @@ class EventFilter extends Component {
 	this.setState({ expanded: !this.state.expanded });
     };
 
-    handleDayClick(day) {
-	console.log(day)
-    };
-
     render() {
-	let { classes } = this.props;
+	let { classes, onClose } = this.props;
 	let { expanded } = this.state;
+
+	let handleDayClick = (date) => {
+	    let year = date.getFullYear().toString().padStart(4, '0');
+	    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+	    let day = date.getDate().toString().padStart(2, '0');
+	    onClose(`_Calendar:${year}-${month}-${day}T00:00`);
+	};
+
 	return (
 	    <Filter 
 	    options={options}
@@ -91,8 +92,8 @@ class EventFilter extends Component {
 		  <DayPicker
 		  className={classes.picker}
 		  modifiers={modifiers}
-		  month={new Date(2019, 4)}
-		  onDayClick={(day) => (this.handleDayClick(day))}
+		  month={new Date()}
+		  onDayClick={(day) => (handleDayClick(day))}
 		  />
 		</Collapse>
 		</div>
