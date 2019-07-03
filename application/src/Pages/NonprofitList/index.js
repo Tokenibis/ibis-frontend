@@ -223,6 +223,16 @@ class NonprofitList extends Component {
 		parser = (data) => (data.ibisUser.following)
 		break;
 
+	    case '_Search':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    allIbisUsers(isNonprofit: true, search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count}) {
+		        ${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allIbisUsers)
+		break;
+
 	    default:
 		console.error('Unsupported filter option')
 	}
@@ -249,3 +259,4 @@ function NonprofitFilter(props) {
 
 export { NonprofitFilter };
 export default withStyles(styles)(NonprofitList);
+

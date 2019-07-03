@@ -54,6 +54,13 @@ const styles = theme => ({
 });
 
 function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
+
+    let onSearch = (event) => {
+	event.stopPropagation();
+	event.preventDefault();
+	onClose(`_Search:${document.getElementById("search_input").value}`)
+    }
+
     return (
 	<Dialog
 	    PaperProps={{className: classes.dialogPaper}}
@@ -87,14 +94,19 @@ function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
 		<div className={classes.searchIcon}>
 		  <SearchIcon />
 		</div>
-		<InputBase
-		    placeholder="Search…"
-		    classes={{
-			root: classes.inputRoot,
-			input: classes.inputInput,
-		    }}
-		    inputProps={{ 'aria-label': 'Search' }}
-		/>
+		<form onSubmit={onSearch}>
+		  <InputBase
+		      id="search_input"
+		      name="search"
+		      type="text"
+		      placeholder="Search…"
+		      classes={{
+			  root: classes.inputRoot,
+			  input: classes.inputInput,
+		      }}
+		      inputProps={{ 'aria-label': 'Search' }}
+		  />
+		</form>
               </div>
 	    </ListItem>
 	  </List>

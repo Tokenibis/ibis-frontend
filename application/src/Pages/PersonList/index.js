@@ -200,6 +200,16 @@ class PersonList extends Component {
 		parser = (data) => (data.ibisUser.follower)
 		break;
 
+	    case '_Search':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    allIbisUsers(isNonprofit: false, search: "${filterValue.split(':')[1]}" orderBy: "firstname,lastname", first: ${count}) {
+		        ${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allIbisUsers)
+		break;
+
 	    default:
 		console.error('Unsupported filter option')
 	}

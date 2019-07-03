@@ -220,6 +220,16 @@ class DonationList extends Component {
 		parser = (data) => (data.allTransfers)
 		break;
 
+	    case '_Search':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    allTransfers(isDonation: true, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count}) {
+		        ${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allTransfers)
+		break;
+
 	    default:
 		console.error('Unsupported filter option')
 	}

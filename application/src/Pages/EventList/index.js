@@ -244,6 +244,16 @@ class EventList extends Component {
 		parser = (data) => (data.ibisUser.rsvpFor)
 		break;
 
+	    case '_Search':
+		// Show only ones being followed by the given user_id, ordered alphabetically
+		queryCustom = `
+		    allEvents(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count}) {
+		        ${QUERY_INNER}
+		    }
+		`;
+		parser = (data) => (data.allEvents)
+		break;
+
 	    default:
 		console.error('Unsupported filter option')
 	}
