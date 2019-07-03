@@ -203,7 +203,7 @@ class EventList extends Component {
 	switch (filterValue.split(':')[0]) {
 
 	    case 'All':
-		// Order all by descending Ibis internal featured "score"
+		// All results ordered by most recent
 		queryCustom = `
 		    allEvents(orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
@@ -213,7 +213,7 @@ class EventList extends Component {
 		break;
 
 	    case 'Featured':
-		// Order all by descending number of followers
+		// All results ordered by descending Ibis internal featured "score"
 		queryCustom = `
 		    allEvents(orderBy: "-score", first: ${count}) {
 			${QUERY_INNER}
@@ -223,7 +223,7 @@ class EventList extends Component {
 		break;
 
 	    case 'Following':
-		// Order all by date joined
+		// Only results by nonprofits I am following
 		queryCustom = `
 		    allEvents(byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
@@ -233,7 +233,7 @@ class EventList extends Component {
 		break;
 
 	    case 'Going':
-		// Show only ones being followed by the given user_id, ordered alphabetically
+		// Only results I have RSVP'd
 		queryCustom = `
 		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
 			rsvpFor(orderBy: "-created", first: ${count}) {

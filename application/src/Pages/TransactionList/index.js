@@ -180,9 +180,9 @@ class TransactionList extends Component {
 	switch (filterValue.split(':')[0]) {
 
 	    case 'Me':
-		// Order all by descending Ibis internal featured "score"
+		// Only transfers by myself
 		queryCustom = `
-		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc2") {
+		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
 			transferSet(isDonation: false, orderBy: "-created", first: ${count}) {
 			    ${QUERY_INNER}
 			}
@@ -192,9 +192,9 @@ class TransactionList extends Component {
 		break;
 
 	    case 'Following':
-		// Order all by descending number of followers
+		// Only transfers by people I am following
 		queryCustom = `
-                    allTransfers(isDonation: false, byFollowing: "SWJpc1VzZXJOb2RlOjc2", orderBy: "-created", first: ${count}) {
+                    allTransfers(isDonation: false, byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
 		    }
 		`;
@@ -202,7 +202,7 @@ class TransactionList extends Component {
 		break;
 
 	    case 'Public':
-		// Order all by date joined
+		// All transfers
 		queryCustom = `
                     allTransfers(isDonation: false, orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}

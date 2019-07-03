@@ -221,7 +221,7 @@ class NewsList extends Component {
 	switch (filterValue.split(':')[0]) {
 
 	    case 'All':
-		// Order all by descending Ibis internal featured "score"
+		// All results ordered by most recent
 		queryCustom = `
 		    allNews(orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
@@ -231,7 +231,7 @@ class NewsList extends Component {
 		break;
 
 	    case 'Featured':
-		// Order all by descending number of followers
+		// All results ordered by descending Ibis internal featured "score"
 		queryCustom = `
 		    allNews(orderBy: "-score", first: ${count}) {
 			${QUERY_INNER}
@@ -241,7 +241,7 @@ class NewsList extends Component {
 		break;
 
 	    case 'Following':
-		// Order all by date joined
+		// Only results by nonprofits I am following
 		queryCustom = `
 		    allNews(byFollowing: "SWJpc1VzZXJOb2RlOjc1", orderBy: "-created", first: ${count}) {
 			${QUERY_INNER}
@@ -251,7 +251,7 @@ class NewsList extends Component {
 		break;
 
 	    case 'Bookmarked':
-		// Show only ones being followed by the given user_id, ordered alphabetically
+		// Only results I have bookmarked
 		queryCustom = `
 		    ibisUser(id: "SWJpc1VzZXJOb2RlOjc1") {
 			bookmarkFor(orderBy: "-created", first: ${count}) {
