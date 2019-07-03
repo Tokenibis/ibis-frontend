@@ -15,6 +15,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -44,6 +47,9 @@ const styles = theme => ({
     list: {
 	width: '90%',
 	maxWidth: 360,
+    },
+    progress: {
+	marginTop: theme.spacing(1),
     },
     balance: {
 	color: theme.palette.primary.main,
@@ -88,8 +94,16 @@ class Home extends Component {
     };
 
     render() {
-	let { classes, handleFrame } = this.props;
+	let { context, classes, handleFrame } = this.props;
 	let { expanded } = this.state;
+
+	const query_balance = gql`
+	    query {
+		ibisUser(id: "${context.userID}") {
+		    balance
+		}
+	    }
+	`;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -98,7 +112,13 @@ class Home extends Component {
   		      src={require('../../Static/Images/nonprofit.jpg')}
   		      className={classes.avatar} />
 	      <Typography variant="h6" className={classes.balance}>
-  		Balance ${0}
+		<Query query={query_balance}>
+		  {({ loading, error, data }) => {
+		      if (loading) return <LinearProgress className={classes.progress} />;
+		      if (error) return `Error! ${error.message}`;
+		      return `Balance $${data.ibisUser.balance}`
+		  }}
+		</Query>
 	      </Typography>
 	      <div onClick={(e) => handleFrame(<Notifications />, BlankVal)} >
 		<Typography variant="body2" className={classes.notifications}>
