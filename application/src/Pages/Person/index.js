@@ -27,9 +27,6 @@ const styles = theme => ({
     root: {
 	width: '100%',
     },
-    description: {
-	color: theme.palette.tertiary.main,
-    },
     link: {
 	color: theme.palette.secondary.main,
 	paddingTop: theme.spacing,
@@ -40,7 +37,7 @@ const styles = theme => ({
     card: {
 	width: '100%',
 	backgroundColor: theme.palette.lightBackground.main,
-	marginBottom: theme.spacing(1),
+	marginBottom: theme.spacing(3),
     },
     avatar: {
 	marginTop: theme.spacing(3),
@@ -75,13 +72,19 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	float: 'right',
     },
-    preview: {
-	textAlign: 'center',
-    },
     heading: {
-	fontWeight: 'bold',
+	fontSize: '18px',
+	color: theme.palette.tertiary.main,
+	paddingLeft: theme.spacing(1),
+	width: '90%',
+	textAlign: 'left',
+    },
+    viewAll: {
 	color: theme.palette.secondary.main,
-    }
+	width: '90%',
+	textAlign: 'right',
+	paddingBottom: theme.spacing(3),
+    },
 })
 
 class Person extends Component {
@@ -143,42 +146,47 @@ class Person extends Component {
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
-		<Button onClick={() => handlePage(<DonationList />)}>
+  		<Grid container direction="column" justify="center" alignItems="center" >
 		  <Typography variant="button" className={classes.heading} >
-		    Donations
+		    Donation History
 		  </Typography>
-		</Button>
-		<DonationList
-		    variant="minimal"
-		    handlePage={handlePage}
-		    context={context}
-		    filterValue={`_User:${id}`}
-		    count={3}
-		/>
-		<Button onClick={() => handlePage(<DonationList />)}>
+		  <DonationList
+		      variant="minimal"
+		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_User:${id}`}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all donations
+		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
-		    Transactions
+		    Transaction History
 		  </Typography>
-		</Button>
-		<TransactionList
-		    variant="minimal"
-		    handlePage={handlePage}
-		    context={context}
-		    filterValue={`_User:${id}`}
-		    count={3}
-		/>
-		<Button onClick={() => handlePage(<EventList />)}>
+		  <TransactionList
+		      variant="minimal"
+		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_User:${id}`}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all transactions
+		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
-		    Events
+		    Events Going
 		  </Typography>
-		</Button>
-		<EventList
-		    variant="minimal"
-		    handlePage={handlePage}
-		    context={context}
-		    filterValue={`_Going:${id}`}
-		    count={3}
-		/>
+		  <EventList
+		      variant="minimal"
+		      handlePage={handlePage}
+		      context={context}
+		      filterValue={`_Going:${id}`}
+		      count={3}
+		  />
+		  <Typography variant="body2" className={classes.viewAll} >
+		    View all events
+		  </Typography>
+		</Grid>
 	      </div>
 	    </div>
 	); 
