@@ -82,7 +82,7 @@ class TabBar extends Component {
     };
 
     handleFilterClose(event, tabValue, filterValue) {
-	event.stopPropagation();
+	event && event.stopPropagation();
 	this.setState({
 	    filterValue,
 	    openedFilter: -1,
