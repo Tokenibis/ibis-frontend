@@ -80,10 +80,11 @@ class NavBar extends Component {
     };
 
     handleFilterClose(tabValue, filterValue) {
-	this.setState({ tabValue,
-			filterValue,
-			openedFilter: -1,
-			changeFlag: filterValue ? true : false
+	this.setState({
+	    filterValue,
+	    openedFilter: -1,
+	    tabValue: filterValue ? tabValue : this.state.tabValue,
+	    changeFlag: filterValue ? true : false
 	});
     };
 
