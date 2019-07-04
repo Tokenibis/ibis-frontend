@@ -11,7 +11,13 @@ import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const client = new ApolloClient({
-    link: new HttpLink({ uri: 'http://api.tokenibis.org:8000/graphql/' }),
+    link: new HttpLink({
+	uri: 'http://api.tokenibis.org/graphql/',
+	credentials: 'include',
+	headers: {
+	    'X-CSRFToken': document.cookie.match('(^|;) ?csrftoken=([^;]*)(;|$)')[2],
+	},
+    }),
     cache: new InMemoryCache(),
 });
 
