@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
@@ -53,7 +54,7 @@ const styles = theme => ({
     },
 });
 
-function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
+function Filter({ classes, options, custom, onClose, ...other}) {
 
     let onSearch = (event) => {
 	event.stopPropagation();
@@ -113,5 +114,11 @@ function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
 	</Dialog>
     );
 }
+
+Filter.propTypes = {
+    classes: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired,
+    onClose: PropTypes.func.isRequired,
+};
 
 export default withStyles(styles)(Filter);
