@@ -147,14 +147,14 @@ class NewsList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let makeList, args;
+	let make, args;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
 
 	    case 'minimal':
 		// hide icons/pictures and scroll button; intended for small partial-page lists
-		makeList = (data) => (
+		make = (data) => (
 		    <ListView
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
@@ -167,7 +167,7 @@ class NewsList extends Component {
 
 	    default:
 		// show everything; intended for full-page lists
-		makeList = (data) => (
+		make = (data) => (
 		    <ListView
 		    scrollButton
 		    expandedAll
@@ -232,7 +232,7 @@ class NewsList extends Component {
 	    }
 	`;
 
-	return <QueryHelper query={query} makeList={makeList} {...this.props} />;
+	return <QueryHelper query={query} make={make} {...this.props} />;
     };
 };
 

@@ -11,13 +11,13 @@ const styles = theme => ({
 })
 
 function QueryHelper(props) {
-    let { classes, query, makeList} = props;
+    let { classes, query, make} = props;
     return (
 	<Query query={query}>
 	  {({ loading, error, data }) => {
 	      if (loading) return <LinearProgress className={classes.progress} />;
 	      if (error) return `Error! ${error.message}`;
-	      return makeList(data)
+	      return make(data)
 	  }}
 	</Query>
     );
@@ -26,7 +26,7 @@ function QueryHelper(props) {
 QueryHelper.propTypes = {
     classes: PropTypes.object.isRequired,
     query: PropTypes.object.isRequired,
-    makeList: PropTypes.func.isRequired,
+    make: PropTypes.func.isRequired,
 };
 
 
