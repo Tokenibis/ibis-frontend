@@ -123,7 +123,7 @@ class Nonprofit extends Component {
 		      )
 		  }
 		  <Typography variant="body2" className={classes.link}>
-		    https://www.trevornoahfoundation.org
+		    {node.nonprofit.link}
 		  </Typography>
 		</CardContent>
 		<CardActions>
@@ -215,6 +215,7 @@ class Nonprofit extends Component {
 		    nonprofit {
 			description
 			title
+			link
 		    }
 		}
 	    }
