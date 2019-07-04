@@ -20,13 +20,20 @@ import Tab from '@material-ui/core/Tab';
 import FilterIcon from '../../__Common__/FilterIcon';
 import Window from '../__Common__/Window'
 
-function TabContainer({ children }) {
-    return (
-	<Window>
-	  {children}
-	</Window>
-    );
-}
+class TabContainer extends Component {
+    shouldComponentUpdate({ changeFlag }) {
+	return changeFlag;
+    }
+
+    render() {
+	let { children } = this.props;
+	return (
+	    <Window>
+	      {children}
+	    </Window>
+	);
+    };
+};
 
 TabContainer.propTypes = {
     children: PropTypes.node.isRequired,
@@ -56,6 +63,7 @@ class NavBar extends Component {
 	    children: props.children,
 	    openedFilter: -1,
 	    filterValue: '',
+	    changeFlag: true,
 	};
     }
 
@@ -64,20 +72,24 @@ class NavBar extends Component {
     };
 
     handleTabClick(tabValue) {
-	this.setState({ tabValue });
+	this.setState({ tabValue, changeFlag: true });
     }
 
     handleFilterOpen(openedFilter) {
-	this.setState({ openedFilter })
+	this.setState({ openedFilter, changeFlag: false })
     };
 
     handleFilterClose(tabValue, filterValue) {
-	this.setState({ tabValue, filterValue, openedFilter: -1 });
+	this.setState({ tabValue,
+			filterValue,
+			openedFilter: -1,
+			changeFlag: filterValue ? true : false
+	});
     };
 
     render() {
 	let { classes, options, children } = this.props;
-	let { tabValue, openedFilter, filterValue } = this.state;
+	let { tabValue, openedFilter, filterValue, changeFlag } = this.state;
 
 	return (
 	    <div className={classes.root}>
@@ -105,11 +117,13 @@ class NavBar extends Component {
 		  ))}
 		</Tabs>
 	      </AppBar>
-	      {
-		  children ?
-		  <TabContainer>{children}</TabContainer> :
-		  <TabContainer>{options[tabValue][2](filterValue)}</TabContainer>
-	      }
+	      <TabContainer changeFlag={changeFlag}>
+		{
+		    children ?
+		    children:
+		    options[tabValue][2](filterValue)
+		}
+	      </TabContainer> :
 	    </div>
 	);
     }
