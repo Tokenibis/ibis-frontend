@@ -157,7 +157,11 @@ class Person extends Component {
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<DonationList filterValue={`_User:${id}`} />)}
+		  >
 		    View all donations
 		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
@@ -170,7 +174,11 @@ class Person extends Component {
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<TransactionList filterValue={`_User:${id}`} />)}
+		  >
 		    View all transactions
 		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
@@ -183,7 +191,11 @@ class Person extends Component {
 		      filterValue={`_Going:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<EventList filterValue={`_Going:${id}`} />)}
+		  >
 		    View all events
 		  </Typography>
 		</Grid>

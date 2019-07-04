@@ -158,7 +158,11 @@ class Nonprofit extends Component {
 		      filterValue={`_Author:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<NewsList filterValue={`_Author:${id}`} />)}
+		  >
 		    View all news
 		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
@@ -171,7 +175,11 @@ class Nonprofit extends Component {
 		      filterValue={`_Host:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<EventList filterValue={`_Host:${id}`} />)}
+		  >
 		    View all events
 		  </Typography>
 		  <Typography variant="button" className={classes.heading} >
@@ -184,7 +192,11 @@ class Nonprofit extends Component {
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
-		  <Typography variant="body2" className={classes.viewAll} >
+		  <Typography
+		      variant="body2"
+		      className={classes.viewAll}
+		      onClick={(e) => handlePage(<DonationList filterValue={`_User:${id}`} />)}
+		  >
 		    View all donations
 		  </Typography>
 		</Grid>
