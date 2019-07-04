@@ -50,8 +50,9 @@ const styles = theme => ({
 	alignItems: 'center',
     },
     filterButton: {
-	marginTop: theme.spacing(1),
-	marginRight: theme.spacing(1),
+	margin: theme.spacing(-1, -1, -2, -2),
+	padding: theme.spacing(2),
+	zIndex: 100,
     },
 });
 
@@ -75,11 +76,13 @@ class NavBar extends Component {
 	this.setState({ tabValue, changeFlag: true });
     }
 
-    handleFilterOpen(openedFilter) {
+    handleFilterOpen(event, openedFilter) {
+	event.stopPropagation();
 	this.setState({ openedFilter, changeFlag: false })
     };
 
-    handleFilterClose(tabValue, filterValue) {
+    handleFilterClose(event, tabValue, filterValue) {
+	event.stopPropagation();
 	this.setState({
 	    filterValue,
 	    openedFilter: -1,
@@ -101,18 +104,21 @@ class NavBar extends Component {
 		    value={tabValue}
 		>
 		  {options.map((opt, i) => (
-		      <Tab key={i} label={
+		      <Tab
+			  key={i}
+			  onClick={(e) => this.handleTabClick(i)}
+			  label={
 			  <div className={classes.tabButtons}>
 			    <div
 				className={classes.filterButton}
-				onClick={() => this.handleFilterOpen(i)}
+				onClick={(e) => this.handleFilterOpen(e, i)}
 			      >
 			      <FilterIcon />
 			    </div>
-			    <div onClick={(e) => this.handleTabClick(i)}>
+			    <div>
 			      {opt[0]}
 			    </div>
-			    {openedFilter === i && options[i][1]((v) => this.handleFilterClose(i, v))}
+			    {openedFilter === i && options[i][1]((e, v) => this.handleFilterClose(e, i, v))}
 			  </div>
 		      }/>
 		  ))}

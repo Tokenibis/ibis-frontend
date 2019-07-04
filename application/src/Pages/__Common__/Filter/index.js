@@ -64,14 +64,14 @@ function Filter({ classes, title, icon, options, custom, onClose, ...other}) {
     return (
 	<Dialog
 	    PaperProps={{className: classes.dialogPaper}}
-	    onClose={() => onClose(null)}
+	    onClose={(e) => onClose(e, null)}
 	    aria-labelledby="simple-dialog-title"
 	  {...other}
 	>
 	  <List className={classes.list}>
             {options.map((opt, i) => (
 		<div key={i}>
-		  <ListItem button onClick={() => onClose(opt)} key={opt}>
+		  <ListItem button onClick={(e) => onClose(e, opt)} key={opt}>
 		    <ListItemText primary={
 			<Typography variant="button" className={classes.item}>
 			  {opt}
