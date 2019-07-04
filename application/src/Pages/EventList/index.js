@@ -169,8 +169,10 @@ class EventList extends Component {
 		makeList = (data) => (
 		    <ListView
 		    scrollButton
+		    expandedAll
 		    makeImage={this.makeImage}
 		    makeLabel={this.makeLabel}
+		    makeMedia={this.makeMedia}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
 		    data={data.allEvents}
