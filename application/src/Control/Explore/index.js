@@ -1,13 +1,13 @@
 /*
 
-   Render NavBar for the Explore tabs
+   Render TabBar for the Explore tabs
 
 */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import NavBar from '../NavBar';
+import TabBar from '../TabBar';
 import NewsList, { NewsFilter } from '../../Pages/NewsList';
 import EventList, { EventFilter } from '../../Pages/EventList';
 
@@ -45,9 +45,9 @@ const options = [
 
 function Explore({ value, children }) {
     return (
-	<NavBar value={value} options={options}>
+	<TabBar value={value} options={options}>
 	  {children}
-	</NavBar>
+	</TabBar>
     )
 };
 

@@ -1,10 +1,10 @@
 /*
 
-   Handle logic for the navigation (tab) bar. NavBar is invoked by the
+   Handle logic for the navigation (tab) bar. TabBar is invoked by the
    Connect, Send, and Explore components, effecively acting as the
    abstracted common functionality between the three of them. In
-   addition to rendering the navigation tabs, NavBar determines how
-   individual pages are rendered; understandin the NavBar component is
+   addition to rendering the navigation tabs, TabBar determines how
+   individual pages are rendered; understandin the TabBar component is
    crucial to understanding how the tab-centric navigation of Ibis
    works.
 
@@ -56,7 +56,7 @@ const styles = theme => ({
     },
 });
 
-class NavBar extends Component {
+class TabBar extends Component {
     constructor(props) {
 	super(props);
 	this.state = {
@@ -136,10 +136,10 @@ class NavBar extends Component {
     }
 };
 
-NavBar.propTypes = {
+TabBar.propTypes = {
     classes: PropTypes.object.isRequired,
     value: PropTypes.number.isRequired,
     options: PropTypes.array.isRequired,
 };
 
-export default withStyles(styles)(NavBar);
+export default withStyles(styles)(TabBar);

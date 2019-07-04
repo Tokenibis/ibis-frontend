@@ -2,7 +2,7 @@
 
    Handles the behavior of the Give<->Send<->Explore cycler in the
    middle of MainBar. It is rendered by MainBar, using state from
-   Content, and has capability to switch NavBar tabs and render the
+   Content, and has capability to switch TabBar tabs and render the
    default page for each cyle.
 
 */

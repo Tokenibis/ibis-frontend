@@ -1,13 +1,13 @@
 /*
 
-   Render NavBar for the Give tabs
+   Render TabBar for the Give tabs
 
 */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import NavBar from '../NavBar';
+import TabBar from '../TabBar';
 import NonprofitList, { NonprofitFilter } from '../../Pages/NonprofitList';
 import DonationList, { DonationFilter }from '../../Pages/DonationList';
 
@@ -45,9 +45,9 @@ const options = [
 
 function Give({ value, children }) {
     return (
-	<NavBar value={value} options={options}>
+	<TabBar value={value} options={options}>
 	  {children}
-	</NavBar>
+	</TabBar>
     )
 };
 

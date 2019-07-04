@@ -1,13 +1,13 @@
 /*
 
-   Render NavBar for the Send tabs
+   Render TabBar for the Send tabs
 
 */
 
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import NavBar from '../NavBar';
+import TabBar from '../TabBar';
 import PersonList, { PersonFilter } from '../../Pages/PersonList';
 import TransactionList, { TransactionFilter } from '../../Pages/TransactionList';
 
@@ -45,9 +45,9 @@ const options = [
 
 function Send({ value, children }) {
     return (
-	<NavBar value={value} options={options}>
+	<TabBar value={value} options={options}>
 	  {children}
-	</NavBar>
+	</TabBar>
     )
 };
 
