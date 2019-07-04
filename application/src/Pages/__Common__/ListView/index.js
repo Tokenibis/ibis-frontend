@@ -99,7 +99,6 @@ class ListView extends Component {
 		    data.edges.map((item, i) => ( 
 			(filter === undefined || filter(item.node) === true) &&
 			<div className={classes.item} key={i}>
-			  <CustomDivider />
 			  <ListItem
 			      button
 			      className={classes.image}
@@ -130,6 +129,7 @@ class ListView extends Component {
 			    </div>
 			    {makeActions(item.node)}
 			  </Collapse>
+			  <CustomDivider />
 			</div>
 		    ))
 		}
