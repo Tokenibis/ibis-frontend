@@ -4,7 +4,7 @@
    should be in the Pages folder, but there are a couple good reason
    this should be in control instead. Firstly, it is integral to
    navigation and therefore the struture of the app. Next, and more
-   importantly, it is the only "Page" that, like other Control
+   importantly, it is the only "Page" that, like other Navigation
    components, has access to the "handleFrame" function, which renders
    new pages in the full frame rather than in the current window,
    allowing it to modify the state of the main bar.

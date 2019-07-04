@@ -3,7 +3,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { IbisProvider } from './Context'
 import Authenticator from './Authenticator'
-import Content from './Control/Content'
+import Content from './Navigation/Content'
 
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
