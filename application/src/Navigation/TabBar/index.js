@@ -130,7 +130,7 @@ class TabBar extends Component {
 		    children:
 		    options[tabValue][2](filterValue)
 		}
-	      </TabContainer> :
+	      </TabContainer>
 	    </div>
 	);
     }
