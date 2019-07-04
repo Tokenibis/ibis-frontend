@@ -1,3 +1,29 @@
+/*
+
+   Filter is the standard type of component that gets displayed by the
+   filter buttons in Navigation/TabBar; it lives here in the Pages
+   directory to ensure there are no backwards dependencies between
+   Pages -> Navigation. It accepts the following inputs:
+
+   - options: a list of strings that simultaneously serves as the
+     displayed options for the filter but ALSO as outputs that the
+     filter returns upon close
+
+   - onClose: a function that gets called when the filter exits
+
+   - custom: The standard filter renders all of the given options as
+     well as a search bar. For anything else that should appear, the
+     custom option (basically) serves as a slot for "children" props
+     to get passed in
+
+   The filter shoes up as a dialog box with some options. When the
+   user makes a selection, it is passed into the onClose function as a
+   string in the following format:
+
+   <selection>:<comma-separated args>
+
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

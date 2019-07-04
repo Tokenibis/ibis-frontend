@@ -1,3 +1,16 @@
+/*
+
+   The QueryHelper class is a light wrapper for the standard Query
+   process. It mainly servers to factor out a little bit of code and
+   provides a standardized look for the loading screen. QueryHelper
+   requires the following two main inputs:
+
+   - query: a graphql query (formatted in gql) make:
+   - make: a render prop function which takes the returned data and
+     renders React Component
+
+*/
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';

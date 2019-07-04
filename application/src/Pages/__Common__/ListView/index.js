@@ -1,3 +1,21 @@
+/*
+
+   The ListView provides support and formatting for any Ibis entities
+   that need to be displayed as a list. Namely, it fits them into a
+   slightly configurable expandable list. It takes the following
+   inputs:
+
+   - data: This should be the output of a graphql query. ListView
+     expects the followin data structure:
+
+	<some graphql list> { edges { <list of nodes> } }
+
+   - make*: These are all simple Render Props functions that ListView
+     calls at various places in the strucutre render the specific type
+     of list. These are passed a single node in the graph.
+
+*/
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
