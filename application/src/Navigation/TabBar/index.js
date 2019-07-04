@@ -118,11 +118,14 @@ class TabBar extends Component {
 			    <div>
 			      {opt[0]}
 			    </div>
-			    {openedFilter === i && options[i][1]((e, v) => this.handleFilterClose(e, i, v))}
 			  </div>
-		      }/>
+			  }
+		      />
 		  ))}
 		</Tabs>
+		{options.map((opt, i) => (
+		    openedFilter === i && options[i][1]((e, v) => this.handleFilterClose(e, i, v))
+		))}
 	      </AppBar>
 	      <TabContainer changeFlag={changeFlag}>
 		{

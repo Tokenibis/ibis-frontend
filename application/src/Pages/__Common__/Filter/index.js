@@ -85,7 +85,7 @@ function Filter({ classes, options, custom, onClose, ...other}) {
     let onSearch = (event) => {
 	event.stopPropagation();
 	event.preventDefault();
-	onClose(`_Search:${document.getElementById("search_input").value}`)
+	onClose(event, `_Search:${document.getElementById("search_input").value}`)
     }
 
     return (
