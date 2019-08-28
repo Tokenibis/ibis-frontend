@@ -12,7 +12,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const client = new ApolloClient({
     link: new HttpLink({
-	uri: 'http://api.tokenibis.org:8000/graphql/',
+	uri: 'https://api.tokenibis.org/graphql/',
 	credentials: 'include',
     }),
     cache: new InMemoryCache(),
