@@ -33,14 +33,9 @@ import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/CalendarToday';
 
+import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
 import SublistItem from '../__Common__/SublistItem';
-import { BlankVal, GiveVal, SendVal, ExploreVal } from '../Cycler';
-import Account from '../../Pages/Account';
-import Notifications from '../../Pages/Notifications';
-import Give, { NonprofitVal, DonationVal } from '../Give';
-import Send, { PersonVal, TransactionVal } from '../Send';
-import Explore, { NewsVal, EventVal } from '../Explore';
 import Quote from './Quote'
 
 const styles = theme => ({
@@ -58,6 +53,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(4),
+	textDecoration: 'none',
     },
     notificationIcon: {
 	color: theme.palette.secondary.main,
@@ -94,7 +90,7 @@ class Home extends Component {
     };
 
     render() {
-	let { context, classes, handleFrame } = this.props;
+	let { context, classes } = this.props;
 	let { expanded } = this.state;
 
 	const query_balance = gql`
@@ -107,10 +103,13 @@ class Home extends Component {
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-  	      <Avatar onClick={(e) => handleFrame(<Account />, BlankVal)}
-  		      alt="Ibis"
-  		      src={require('../../Static/Images/nonprofit.jpg')}
-  		      className={classes.avatar} />
+  	      <Avatar
+		  component={Link}
+		  to="/_/Account"
+  		  alt="Ibis"
+  		  src={require('../../Static/Images/nonprofit.jpg')}
+  		  className={classes.avatar}
+	      />
 	      <Typography variant="h6" className={classes.balance}>
 		<Query query={query_balance}>
 		  {({ loading, error, data }) => {
@@ -120,11 +119,15 @@ class Home extends Component {
 		  }}
 		</Query>
 	      </Typography>
-	      <div onClick={(e) => handleFrame(<Notifications />, BlankVal)} >
-		<Typography variant="body2" className={classes.notifications}>
-		  Notifications ({<NotificationIcon className={classes.notificationIcon} />})
-		</Typography>
-	      </div>
+	      <Typography
+		  component={Link}
+		  to="/_/Notifications"
+  		  alt="Ibis"
+		  variant="body2"
+		  className={classes.notifications}
+	      >
+		Notifications ({<NotificationIcon className={classes.notificationIcon} />})
+	      </Typography>
 	      <List
 		component="nav"
 		className={classes.list}
@@ -135,18 +138,12 @@ class Home extends Component {
 		    icon={<GiveIcon />}
 		    onClick={(e) => {this.handleExpand('Give')}}
 		>
-		  <SublistItem
-		      label="Nonprofits"
-		      classes={classes}
-		      icon={<NonprofitIcon />}
-		      onClick={(e) => handleFrame(<Give value={NonprofitVal} />, GiveVal)}
-		  />
-		  <SublistItem
-		      label="Donations"
-		      classes={classes}
-		      icon={<DonationIcon />}
-		      onClick={(e) => handleFrame(<Give value={DonationVal} />, GiveVal)}
-		  />
+		  <Link to="/Nonprofit">
+		    <SublistItem label="Nonprofits" classes={classes} icon={<NonprofitIcon />} />
+		  </Link>
+		  <Link to="/Donation">
+		    <SublistItem label="Donations" classes={classes} icon={<DonationIcon />} />
+		  </Link>
 		</Sublist>
 		<Sublist
 		    label="Send"
@@ -154,18 +151,12 @@ class Home extends Component {
 		    icon={<SendIcon />}
 		    onClick={(e) => {this.handleExpand('Send')}}
 		>
-		  <SublistItem
-		      label="People"
-		      classes={classes}
-		      icon={<PersonIcon />}
-		      onClick={(e) => handleFrame(<Send value={PersonVal} />, SendVal)}
-		  />
-		  <SublistItem
-		      label="Transactions"
-		      classes={classes}
-		      icon={<TransactionIcon />}
-		      onClick={(e) => handleFrame(<Send value={TransactionVal} />, SendVal)}
-		  />
+		  <Link to="/Person">
+		    <SublistItem label="People" classes={classes} icon={<PersonIcon />} />
+		  </Link>
+		  <Link to="/Transaction">
+		    <SublistItem label="Transactions" classes={classes} icon={<TransactionIcon />} />
+		  </Link>
 		</Sublist>
 		<Sublist
 		    label="Explore"
@@ -173,18 +164,12 @@ class Home extends Component {
 		    icon={<ExploreIcon />}
 		    onClick={(e) => {this.handleExpand('Explore')}}
 		>
-		  <SublistItem
-		      label="News"
-		      classes={classes}
-		      icon={<NewsIcon />}
-		      onClick={(e) => handleFrame(<Explore value={NewsVal} />, ExploreVal)}
-		  />
-		  <SublistItem
-		      label="Events"
-		      classes={classes}
-		      icon={<EventIcon />}
-		      onClick={(e) => handleFrame(<Explore value={EventVal} />, ExploreVal)}
-		  />
+		  <Link to="/News">
+		    <SublistItem label="News" classes={classes} icon={<NewsIcon />} />
+		  </Link>
+		  <Link to="/Event">
+		    <SublistItem label="Events" classes={classes} icon={<EventIcon />} />
+		  </Link>
 		</Sublist>
 	      </List>
 	      {!(expanded) && 
@@ -198,7 +183,6 @@ class Home extends Component {
 };
 
 Home.propTypes = {
-    handleFrame: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
 };
 

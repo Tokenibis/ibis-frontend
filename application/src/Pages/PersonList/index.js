@@ -4,13 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Followicon from '@material-ui/icons/Add';
 
+import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import Person from '../Person';
 import Filter from '../__Common__/Filter';
 
 const styles = theme => ({
@@ -40,6 +39,7 @@ const styles = theme => ({
     info: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
+	textDecoration: 'none',
     }
 })
 
@@ -48,10 +48,12 @@ const DEFAULT_COUNT = 25;
 class PersonList extends Component {
 
     makeImage = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes  } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Person id={node.id} />)}
+		component={Link}
+		prefix={1}
+		to={`Person?id=${node.id}`}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.firstName.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -94,17 +96,21 @@ class PersonList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
 		<Followicon />
 	      </IconButton>
-	      <Button onClick={(e) => handlePage(<Person id={node.id} />)}>
-		<Typography variant="body2" className={classes.info}>
-		  Profile
-		</Typography>
-	      </Button>
+	      <Typography
+		  component={Link}
+		  prefix={1}
+		  to={`Person?id=${node.id}`}
+		  variant="body2"
+		  className={classes.info}
+	      >
+		Profile
+	      </Typography>
 	    </div>
 	);
     };

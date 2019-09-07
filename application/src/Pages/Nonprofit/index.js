@@ -13,6 +13,7 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+import Link from '../../__Common__/CustomLink';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
@@ -74,6 +75,7 @@ const styles = theme => ({
 	width: '90%',
 	textAlign: 'right',
 	paddingBottom: theme.spacing(3),
+	textDecoration: 'none',
     },
 });
 
@@ -100,7 +102,7 @@ class Nonprofit extends Component {
     }
     
     createPage(node) {
-	let { classes, context, handlePage, id } = this.props;
+	let { classes, context, id } = this.props;
 	let { expanded } = this.state;
 
 	return (
@@ -153,15 +155,16 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <NewsList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_Author:${id}`}
 		      count={3}
 		  />
 		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`NewsList?filterValue=_Author:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<NewsList filterValue={`_Author:${id}`} />)}
 		  >
 		    View all news
 		  </Typography>
@@ -170,15 +173,16 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <EventList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_Host:${id}`}
 		      count={3}
 		  />
 		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`EventList?filterValue=_Host:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<EventList filterValue={`_Host:${id}`} />)}
 		  >
 		    View all events
 		  </Typography>
@@ -187,18 +191,19 @@ class Nonprofit extends Component {
 		  </Typography>
 		  <DonationList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
-		  <Typography
-		      variant="body2"
-		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<DonationList filterValue={`_User:${id}`} />)}
-		  >
-		    View all donations
-		  </Typography>
+		    <Typography
+			component={Link}
+			prefix={1}
+			to={`DonationList?filterValue=_User:${id}`}
+			variant="body2"
+			className={classes.viewAll}
+		    >
+		      View all donations
+		    </Typography>
 		</Grid>
 	      </div>
 	    </div>

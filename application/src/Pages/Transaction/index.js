@@ -1,26 +1,17 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 
-import Person from '../Person';
-import CommentList from '../CommentList';
-
-function Transaction({ handlePage }) {
+function Transaction() {
     return (
-	<Grid container direction="column" justify="center" alignItems="center">
-	  <p> Transaction </p>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handlePage(<Person />)}>
-	    Sender
-	  </div>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handlePage(<Person />)}>
-	    Receiver
-	  </div>
-	  <div style={{ color: "#b0bf25" }}
-	      onClick={(e) => handlePage(<CommentList />)}>
-	    Comment List
-	  </div>
-	</Grid>
+	<img
+	    style={{
+		position: 'fixed',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)'
+	    }}
+	    alt="Under Construction"
+	    src={require('../../Static/Images/construction.png')}
+	/>
     );
 };
 

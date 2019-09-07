@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
+import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import Nonprofit from '../Nonprofit';
 import Filter from '../__Common__/Filter';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -49,6 +48,7 @@ const styles = theme => ({
     info: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
+	textDecoration: 'none',
     }
 });
 
@@ -71,10 +71,12 @@ class NonprofitList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes  } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.id} />)}
+		component={Link}
+		prefix={1}
+		to={`Nonprofit?id=${node.id}`}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -105,7 +107,7 @@ class NonprofitList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -116,11 +118,15 @@ class NonprofitList extends Component {
 	      >
 		{this.icons[(node.nonprofit.description.length) % this.icons.length]}
 	      </IconButton>
-	      <Button onClick={(e) => handlePage(<Nonprofit id={node.id} />)}>
-		<Typography variant="body2" className={classes.info}>
-		  More info
-		</Typography>
-	      </Button>
+	      <Typography
+		  component={Link}
+		  prefix={1}
+		  to={`Nonprofit?id=${node.id}`}
+		  variant="body2"
+		  className={classes.info}
+	      >
+		More info
+	      </Typography>
 	    </div>
 	);
     };

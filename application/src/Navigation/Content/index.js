@@ -1,55 +1,200 @@
 /*
 
    Content is the main entry point for the App post-authentication. It
-   is a simple component that render the MainBar and whatever goes
-   underneath it, which may be a standalone page (Settings, Accounts,
-   etc), or a more complex structure, such as the TabBar and its
-   children.
-
-   func handleFrame: Similar to the ubiquitous handleWindow function,
-   except that it "breaks out of" any underlying Window and allows the
-   ability to declare the state of the MainBar.
+   defines and handles the 2-level routing/layout structure of the
+   app. The level-1 options, which defines the implementation of the
+   navagational bars, is more or less fixed. At this level, Content
+   also defines the default display pages for unspecified level 1
+   routes.
+   
+   On level 2, Content dynamically loads the named module from
+   src/Pages if it exists.
 
 */
 
-import React, { Component } from 'react';
+import React from 'react';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
-import { BlankVal } from '../Cycler'
-import Window from '../__Common__/Window';
+import TabBar from '../TabBar';
+import { StandardVal, GiveVal, SendVal, ExploreVal } from '../Cycler'
 import MainBar from '../MainBar';
 import Home from '../Home';
+import { NonprofitFilter } from '../../Pages/NonprofitList';
+import { DonationFilter } from '../../Pages/DonationList';
+import { PersonFilter } from '../../Pages/PersonList';
+import { TransactionFilter } from '../../Pages/TransactionList';
+import { NewsFilter } from '../../Pages/NewsList';
+import { EventFilter } from '../../Pages/EventList';
 
-class Content extends Component {
+import { IbisConsumer } from '../../Context';
 
-    constructor () {
-	super();
-	this.state = {
-	    page: <Home handleFrame={this.handleFrame}/>,
-	    cycle: BlankVal,
-	    hideHome: true,
-	};
-    }
+const makeNonprofitFilter = (i, onClose) => {
+    return <NonprofitFilter key={i} open={true} onClose={onClose} />
+}
 
-    handleFrame = (page, cycle, hideHome) => {
-        page && this.setState({ page, cycle, hideHome });
-    }
+const makeDonationFilter = (i, onClose) => {
+    return <DonationFilter key={i} open={true} onClose={onClose} />
+}
 
-    render() {
-	const { page, cycle, hideHome } = this.state;
+const makePersonFilter = (i, onClose) => {
+    return <PersonFilter key={i} open={true} onClose={onClose} />
+}
 
-	return (
-	    <div>
-	      <MainBar
-		  cycle={cycle} 
-		  handleFrame={this.handleFrame}
-	          hideHome={hideHome}
-	      />
-	      <Window>
-		{page}
-	      </Window>
-	    </div>
-	);
-    }
+const makeTransactionFilter = (i, onClose) => {
+    return <TransactionFilter key={i} open={true} onClose={onClose} />
+}
+
+const makeNewsFilter = (i, onClose) => {
+    return <NewsFilter key={i} open={true} onClose={onClose} />
+}
+
+const makeEventFilter = (i, onClose) => {
+    return <EventFilter key={i} open={true} onClose={onClose} />
+}
+
+const giveOptions = [
+    [ 'Nonprofits', makeNonprofitFilter, 'Nonprofit', 'NonprofitList' ],
+    [ 'Donations', makeDonationFilter, 'Donation', 'DonationList' ],
+]
+
+const sendOptions = [
+    [ 'People', makePersonFilter, 'Person', 'PersonList' ],
+    [ 'Transaction', makeTransactionFilter, 'Transaction', 'TransactionList' ],
+]
+
+const exploreOptions = [
+    [ 'News', makeNewsFilter, 'News', 'NewsList' ],
+    [ 'Events', makeEventFilter, 'Event', 'EventList' ],
+]
+
+function HomeLoader()  {
+   return ( 
+       <div>
+	 <MainBar cycle={StandardVal} hideHome />
+	 <IbisConsumer>
+	   {context => (
+	       <Home context={context}/>
+	   )}
+	 </IbisConsumer> 
+       </div>
+   );
+};
+
+function ContentLoader({ match }) {
+
+    let nav;
+    let pageName = match.params.page;
+
+    switch (match.params.mode) {
+	case '_':
+	    nav = (
+		<div>
+		  <MainBar cycle={StandardVal} />
+		</div>
+	    );
+	    if (pageName === undefined) {
+		return <HomeLoader />
+	    }
+	    break;
+	case 'Nonprofit':
+	    nav = (
+		<div>
+		  <MainBar cycle={GiveVal} />
+		  <TabBar options={giveOptions} value={0} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'NonprofitList';
+	    break;
+	case 'Donation':
+	    nav = (
+		<div>
+		  <MainBar cycle={GiveVal} />
+		  <TabBar options={giveOptions} value={1} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'DonationList';
+	    break;
+	case 'Person':
+	    nav = (
+		<div>
+		  <MainBar cycle={SendVal} />
+		  <TabBar options={sendOptions} value={0} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'PersonList';
+	    break;
+	case 'Transaction':
+	    nav = (
+		<div>
+		  <MainBar cycle={SendVal} />
+		  <TabBar options={sendOptions} value={1} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'TransactionList';
+	    break;
+	case 'News':
+	    nav = (
+		<div>
+		  <MainBar cycle={ExploreVal} />
+		  <TabBar options={exploreOptions} value={0} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'NewsList';
+	    break;
+	case 'Event':
+	    nav = (
+		<div>
+		  <MainBar cycle={ExploreVal} />
+		  <TabBar options={exploreOptions} value={1} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'EventList';
+	    break;
+	default:
+	    return "Error, Page not Found";
+    };
+
+    let Page = require(`../../Pages/${pageName}`).default;
+
+    let urlParams;
+    (window.onpopstate = function () {
+	var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+	urlParams = {};
+	while ((match = search.exec(query)))
+	    urlParams[decode(match[1])] = decode(match[2]);
+    })();
+
+    let page = (
+	<IbisConsumer>
+	  {context => (
+
+	      <Page context={context} {...urlParams} />
+	  )}
+	</IbisConsumer> 
+    );
+
+    return (
+	<div>
+	  {nav}
+	  {page}
+	</div>
+    )
+}
+
+function Content() {
+    return (
+	<div>
+	<Router>
+	  <Route path="/" exact component={HomeLoader} />
+	  <Route path="/:mode/:page?" exact component={ContentLoader} />
+	</Router>
+	</div>
+    );
 };
 
 export default Content;

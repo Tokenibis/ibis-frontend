@@ -14,9 +14,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
+import Link from '../../__Common__/CustomLink';
 import IbisIcon from '../../__Common__/IbisIcon';
-import Cycler, { BlankVal } from '../Cycler';
-import Home from '../Home';
+import Cycler from '../Cycler';
 import SideMenu from '../SideMenu';
 
 const styles = {
@@ -44,15 +44,13 @@ function MainBar({ classes, handleFrame, cycle, hideHome }) {
 	    </Typography>
 	    {
 		(hideHome === undefined || hideHome === false) &&
-		<IconButton
-		    color="inherit"
-		    onClick={(e) => handleFrame(<Home handleFrame={handleFrame} />, BlankVal, true)}
-		>
-		  <IbisIcon />
-		</IconButton>
+		<Link to="/">
+		  <IconButton color="inherit">
+		    <IbisIcon />
+		  </IconButton>
+		</Link>
 	    }
           </Toolbar>
-
 	</AppBar>
     );
 };

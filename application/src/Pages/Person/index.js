@@ -6,22 +6,20 @@ import { Query } from "react-apollo";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-
-import DonationList from '../DonationList';
-import TransactionList from '../TransactionList';
-import EventList from '../EventList';
-
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-import FollowIcon from '@material-ui/icons/Add';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import AddButton from '../__Common__/AddButton';
+
+import Link from '../../__Common__/CustomLink';
+import DonationList from '../DonationList';
+import TransactionList from '../TransactionList';
+import EventList from '../EventList';
+
 
 const styles = theme => ({
     root: {
@@ -84,19 +82,12 @@ const styles = theme => ({
 	width: '90%',
 	textAlign: 'right',
 	paddingBottom: theme.spacing(3),
+	textDecoration: 'none',
     },
 })
 
 class Person extends Component {
     
-    state = {
-	expanded: false,
-    }
-    
-    toggleExpand() {
-	this.setState({ expanded: !this.state.expanded });
-    }
-
     processDonations(data) {
 	return data;
     }
@@ -110,8 +101,7 @@ class Person extends Component {
     }
     
     createPage(person) {
-	let { classes, context, handlePage, id } = this.props;
-	let { expanded } = this.state;
+	let { classes, context, id } = this.props;
 
 	return (
 	    <div className={classes.root}>
@@ -152,15 +142,16 @@ class Person extends Component {
 		  </Typography>
 		  <DonationList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
 		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`DonationList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<DonationList filterValue={`_User:${id}`} />)}
 		  >
 		    View all donations
 		  </Typography>
@@ -169,15 +160,16 @@ class Person extends Component {
 		  </Typography>
 		  <TransactionList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}
 		  />
 		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`TransactionList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<TransactionList filterValue={`_User:${id}`} />)}
 		  >
 		    View all transactions
 		  </Typography>
@@ -186,15 +178,16 @@ class Person extends Component {
 		  </Typography>
 		  <EventList
 		      variant="minimal"
-		      handlePage={handlePage}
 		      context={context}
 		      filterValue={`_Going:${id}`}
 		      count={3}
 		  />
 		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`EventList?filterValue=_Going:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
-		      onClick={(e) => handlePage(<EventList filterValue={`_Going:${id}`} />)}
 		  >
 		    View all events
 		  </Typography>

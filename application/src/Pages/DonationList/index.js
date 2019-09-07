@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
+import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import Donation from '../Donation';
 import Filter from '../__Common__/Filter';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -51,6 +50,7 @@ const styles = theme => ({
     details: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
+	textDecoration: 'none',
     }
 });
 
@@ -58,7 +58,7 @@ const DEFAULT_COUNT = 25;
 
 class DonationList extends Component {
 
-    constructor({ handlePage, count }) {
+    constructor({ count }) {
 	super();
 	this.icons = [
 	    <AnimalIcon />,
@@ -73,14 +73,15 @@ class DonationList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
-	    <IconButton
-	      className={classes.categoryIcon}
-	      onClick={(e) => handlePage(<Donation />)}
-	    >
-	      {this.icons[(node.description.length) % this.icons.length]}
-	    </IconButton>
+	    <Link prefix={1} to="Donation">
+	      <IconButton
+		  className={classes.categoryIcon}
+	      >
+		{this.icons[(node.description.length) % this.icons.length]}
+	      </IconButton>
+	    </Link>
 	);
     };
 
@@ -104,7 +105,7 @@ class DonationList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
@@ -113,11 +114,15 @@ class DonationList extends Component {
 	      <Typography variant="body2" className={classes.amount}>
 		{`$${node.amount}`}
 	      </Typography>
-	      <Button onClick={(e) => handlePage(<Donation />)}>
-		<Typography variant="body2" className={classes.details}>
-		  Details
-		</Typography>
-	      </Button>
+	      <Typography
+		  component={Link}
+		  prefix={1}
+		  to="Donation"
+		  variant="body2"
+		  className={classes.details}
+	      >
+		Details
+	      </Typography>
 	    </div>
 	);
     };

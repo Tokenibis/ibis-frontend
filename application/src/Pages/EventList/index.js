@@ -10,10 +10,9 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import RSVPIcon from '@material-ui/icons/Event';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import Event from '../Event';
-import Nonprofit from '../Nonprofit';
 import EventFilter from './filter';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -54,6 +53,7 @@ const styles = theme => ({
     },
     info: {
 	fontWeight: 'bold',
+	textDecoration: 'None',
     }
 });
 
@@ -61,7 +61,7 @@ const DEFAULT_COUNT = 25;
 
 class EventList extends Component {
 
-    constructor({ handlePage, count }) {
+    constructor({ count }) {
 	super();
 	this.icons = [
 	    <AnimalIcon />,
@@ -76,10 +76,12 @@ class EventList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.user.id} />)}
+		component={Link}
+		prefix={1}
+		to="Event"
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -121,7 +123,7 @@ class EventList extends Component {
     };
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <div>
@@ -135,11 +137,13 @@ class EventList extends Component {
   	      <Typography variant="body2" className={classes.categoryIcon}>
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
-	      <Button onClick={(e) => handlePage(<Event id={node.id} />)}>
-		<Typography variant="body2" className={classes.info}>
-		  Read more
-		</Typography>
-	      </Button>
+	      <Link prefix={1} to="Event">
+		<Button>
+		  <Typography variant="body2" className={classes.info} >
+		    Read more
+		  </Typography>
+		</Button>
+	      </Link>
 	    </div>
 	);
     };

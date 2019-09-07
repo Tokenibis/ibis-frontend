@@ -10,10 +10,9 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
 import CardMedia from '@material-ui/core/CardMedia';
 
+import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import News from '../News';
-import Nonprofit from '../Nonprofit';
 import Filter from '../__Common__/Filter';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
@@ -55,6 +54,7 @@ const styles = theme => ({
     info: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
+	textDecoration: 'None',
     }
 });
 
@@ -62,7 +62,7 @@ const DEFAULT_COUNT = 25;
 
 class NewsList extends Component {
 
-    constructor({ handlePage, count }) {
+    constructor({ count }) {
 	super();
 	this.icons = [
 	    <AnimalIcon />,
@@ -77,10 +77,12 @@ class NewsList extends Component {
     };
 
     makeImage = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
     	    <Avatar
-  		onClick={(e) => handlePage(<Nonprofit id={node.user.id} />)}
+		component={Link}
+		prefix={1}
+		to="News"
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -122,7 +124,7 @@ class NewsList extends Component {
     };
 
     makeActions = (node) => {
-	let { classes, handlePage } = this.props;
+	let { classes } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <div>
@@ -136,11 +138,13 @@ class NewsList extends Component {
   	      <Typography variant="body2" className={classes.categoryIcon}>
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
-	      <Button onClick={(e) => handlePage(<News id={node.id} />)}>
-		<Typography variant="body2" className={classes.info}>
-		  Read more
-		</Typography>
-	      </Button>
+	      <Link prefix={1} to="News">
+		<Button>
+		  <Typography variant="body2" className={classes.info} >
+		    Read more
+		  </Typography>
+		</Button>
+	      </Link>
 	    </div>
 	);
     };

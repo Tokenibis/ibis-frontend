@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Donation({ handlePage }) {
+function Donation() {
     return (
 	<img
 	    style={{

@@ -9,6 +9,7 @@ function Temporary(props) {
 		left: '50%',
 		transform: 'translate(-50%, -50%)'
 	    }}
+	    alt="construction"
 	    src={require('../../Static/Images/construction.png')}
 	/>
     );

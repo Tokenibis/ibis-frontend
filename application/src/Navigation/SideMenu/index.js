@@ -3,7 +3,7 @@
    Implement the main menu that appears when the user selects the
    MainBar hamburger icon.
 
-*/
+ */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -26,16 +26,9 @@ import EventIcon from '@material-ui/icons/CalendarToday';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 
+import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
 import SublistItem from '../__Common__/SublistItem';
-import { BlankVal, GiveVal, SendVal, ExploreVal } from '../Cycler';
-import Give, { NonprofitVal, DonationVal } from '../Give';
-import Send, { PersonVal, TransactionVal } from '../Send';
-import Explore, { NewsVal, EventVal } from '../Explore';
-import Account from '../../Pages/Account';
-import Settings from '../../Pages/Settings';
-import QRScan from '../../Pages/QRScan';
-import Help from '../../Pages/Help';
 import QRIcon from '../../__Common__/QRIcon';
 
 const styles = theme => ({
@@ -95,7 +88,8 @@ class SideMenu extends Component {
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
 		<Avatar
-		    onClick={(e) => this.handleClick(<Account />, BlankVal)}
+		    component={Link}
+		    to="/Account"
 		    alt="Ibis"
 		    src={require('../../Static/Images/nonprofit.jpg')}
 		    className={classes.avatar}
@@ -108,18 +102,24 @@ class SideMenu extends Component {
 		  icon={<GiveIcon />}
 		  onClick={(e) => {this.handleExpand('Give')}}
 	      >
-		<SublistItem
-		label="Nonprofits"
-		classes={classes}
-		icon={<NonprofitIcon />}
-		onClick={(e) => this.handleClick(<Give value={NonprofitVal} />, GiveVal)}
-		/>
-		<SublistItem
-		label="Donations"
-		classes={classes}
-		icon={<DonationIcon />}
-		onClick={(e) => this.handleClick(<Give value={DonationVal} />, GiveVal)}
-		/>
+		<Link to="/Nonprofit">
+		  <SublistItem
+		      component={Link}
+		      to="/Nonprofit"
+		      label="Nonprofits"
+		      classes={classes}
+		      icon={<NonprofitIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Donation">
+		  <SublistItem
+		      label="Donations"
+		      classes={classes}
+		      icon={<DonationIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
 	      </Sublist>
 	      <Sublist
 		  label="Send"
@@ -127,18 +127,22 @@ class SideMenu extends Component {
 		  icon={<SendIcon />}
 		  onClick={(e) => {this.handleExpand('Send')}}
 	      >
-		<SublistItem
-		label="People"
-		classes={classes}
-		icon={<PersonIcon />}
-		onClick={(e) => this.handleClick(<Send value={PersonVal} />, SendVal)}
-		/>
-		<SublistItem
-		label="Transactions"
-		classes={classes}
-		icon={<TransactionIcon />}
-		onClick={(e) => this.handleClick(<Send value={TransactionVal} />, SendVal)}
-		/>
+		<Link to="/Person">
+		  <SublistItem
+		      label="People"
+		      classes={classes}
+		      icon={<PersonIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Transaction">
+		  <SublistItem
+		      label="Transactions"
+		      classes={classes}
+		      icon={<TransactionIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
 	      </Sublist>
 	      <Sublist
 		  label="Explore"
@@ -146,37 +150,47 @@ class SideMenu extends Component {
 		  icon={<ExploreIcon />}
 		  onClick={(e) => {this.handleExpand('Explore')}}
 	      >
-		<SublistItem
-		label="News"
-		classes={classes}
-		icon={<NewsIcon />}
-		onClick={(e) => this.handleClick(<Explore value={NewsVal} />, ExploreVal)}
-		/>
-		<SublistItem
-		label="Events"
-		classes={classes}
-		icon={<EventIcon />}
-		onClick={(e) => this.handleClick(<Explore value={EventVal} />, ExploreVal)}
-		/>
+		<Link to="/News">
+		  <SublistItem
+		      label="News"
+		      classes={classes}
+		      icon={<NewsIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Event">
+		  <SublistItem
+		      label="Events"
+		      classes={classes}
+		      icon={<EventIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
 	      </Sublist>
-	      <SublistItem
-		  label="Settings"
-		  classes={classes}
-		  icon={<SettingsIcon />}
-		  onClick={(e) => this.handleClick(<Settings />, BlankVal)}
-	      />
-	      <SublistItem
-		  label="Help"
-		  classes={classes}
-		  icon={<HelpIcon />}
-		  onClick={(e) => this.handleClick(<Help />, BlankVal)}
-	      />
-	      <SublistItem
-		  label="Scanner"
-		  classes={classes}
-		  icon={<QRIcon />}
-		  onClick={(e) => this.handleClick(<QRScan />, BlankVal)}
-	      />
+	      <Link to="/_/Settings">
+		<SublistItem
+		    label="Settings"
+		    classes={classes}
+		    icon={<SettingsIcon />}
+		    onClick={(e) => this.toggleDrawer(false)}
+		/>
+	      </Link>
+	      <Link to="/_/Help">
+		<SublistItem
+		    label="Help"
+		    classes={classes}
+		    icon={<HelpIcon />}
+		    onClick={(e) => this.toggleDrawer(false)}
+		/>
+	      </Link>
+	      <Link to="/_/QRScan">
+		<SublistItem
+		    label="Scanner"
+		    classes={classes}
+		    icon={<QRIcon />}
+		    onClick={(e) => this.toggleDrawer(false)}
+		/>
+	      </Link>
 	    </div>
 	);
 
