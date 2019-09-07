@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
@@ -139,11 +138,9 @@ class NewsList extends Component {
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
 	      <Link prefix={1} to="News">
-		<Button>
-		  <Typography variant="body2" className={classes.info} >
-		    Read more
-		  </Typography>
-		</Button>
+		<Typography variant="body2" className={classes.info} >
+		  Read more
+		</Typography>
 	      </Link>
 	    </div>
 	);
