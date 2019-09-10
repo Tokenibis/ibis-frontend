@@ -157,7 +157,7 @@ function ContentLoader({ match, location }) {
     let Page = require(`../../Pages/${pageName}`).default;
 
     let urlParams = location.search.slice(1).split('&').reduce((obj, x) =>
-	Object.assign(obj, { [x.split('=')[0]]: x.split('=')[1] }), {});
+	Object.assign(obj, { [x.split('=')[0]]: x.split('=').slice(1).join('=') }), {});
 
     let page = (
 	<IbisConsumer>
