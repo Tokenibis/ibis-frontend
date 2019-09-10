@@ -14,7 +14,7 @@ function CustomLink(props) {
     let { children, classes, relative, to, prefix, ...other } = props;
 
     if (prefix) {
-	to = window.location.pathname.split('/').splice(0, prefix +1).join('/') + '/' + to;
+	to = '/' + window.location.hash.split('/').splice(1, prefix).join('/') + '/' + to;
     }
 
     return (

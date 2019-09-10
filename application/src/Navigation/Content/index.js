@@ -13,7 +13,7 @@
 */
 
 import React from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, HashRouter as Router } from 'react-router-dom';
 
 import TabBar from '../TabBar';
 import { StandardVal, GiveVal, SendVal, ExploreVal } from '../Cycler'
@@ -80,7 +80,7 @@ function HomeLoader()  {
    );
 };
 
-function ContentLoader({ match }) {
+function ContentLoader({ match, location }) {
 
     let nav;
     let pageName = match.params.page;
@@ -156,18 +156,8 @@ function ContentLoader({ match }) {
 
     let Page = require(`../../Pages/${pageName}`).default;
 
-    let urlParams;
-    (window.onpopstate = function () {
-	var match,
-            pl     = /\+/g,  // Regex for replacing addition symbol with a space
-            search = /([^&=]+)=?([^&]*)/g,
-            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
-            query  = window.location.search.substring(1);
-
-	urlParams = {};
-	while ((match = search.exec(query)))
-	    urlParams[decode(match[1])] = decode(match[2]);
-    })();
+    let urlParams = location.search.slice(1).split('&').reduce((obj, x) =>
+	Object.assign(obj, { [x.split('=')[0]]: x.split('=')[1] }), {});
 
     let page = (
 	<IbisConsumer>
