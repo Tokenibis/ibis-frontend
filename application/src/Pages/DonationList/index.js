@@ -29,7 +29,7 @@ const styles = theme => ({
 	paddingRight: theme.spacing(2),
     },
     toIcon: {
-	marginBottom: -8,
+	marginBottom: -7,
 	marginLeft: 4,
 	marginRight: 4,
     },
@@ -75,7 +75,7 @@ class DonationList extends Component {
     makeImage = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Link prefix={1} to="Donation">
+	    <Link prefix={1} to={`Donation?id=${node.id}`}>
 	      <IconButton
 		  className={classes.categoryIcon}
 	      >
@@ -117,7 +117,7 @@ class DonationList extends Component {
 	      <Typography
 		  component={Link}
 		  prefix={1}
-		  to="Donation"
+		  to={`Donation?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >
@@ -197,6 +197,7 @@ class DonationList extends Component {
 			    description
 			    created
 			    target {
+				id
 				firstName
 				lastName
 				nonprofit {
@@ -205,6 +206,7 @@ class DonationList extends Component {
 				}
 			    }
 			    user {
+				id
 				firstName
 				lastName
 			    }
