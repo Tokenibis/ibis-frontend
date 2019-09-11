@@ -127,7 +127,7 @@ class ListView extends Component {
 			    <div className={classes.body}>
 			      {makeBody(item.node)}
 			    </div>
-			    {makeActions(item.node)}
+			    {makeActions && makeActions(item.node)}
 			  </Collapse>
 			  <CustomDivider />
 			</div>

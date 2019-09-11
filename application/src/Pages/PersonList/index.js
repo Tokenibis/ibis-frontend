@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Followicon from '@material-ui/icons/Add';
+import FollowIcon from '@material-ui/icons/Add';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
@@ -100,7 +100,7 @@ class PersonList extends Component {
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
-		<Followicon />
+		<FollowIcon />
 	      </IconButton>
 	      <Typography
 		  component={Link}
