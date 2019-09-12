@@ -81,7 +81,7 @@ class NewsList extends Component {
     	    <Avatar
 		component={Link}
 		prefix={1}
-		to="News"
+		to={`News?id=${node.id}`}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -137,7 +137,7 @@ class NewsList extends Component {
   	      <Typography variant="body2" className={classes.categoryIcon}>
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
-	      <Link prefix={1} to="News">
+	      <Link prefix={1} to={`News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Read more
 		</Typography>

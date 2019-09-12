@@ -43,7 +43,6 @@ const styles = theme => ({
     },
     item: {
 	width: '90%',
-	paddingLeft: theme.spacing(1),
     },
     image: {
 	marginLeft: '0px',
