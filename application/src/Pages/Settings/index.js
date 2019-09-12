@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -10,7 +7,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Switch from '@material-ui/core/Switch';
-import HelpIcon from '@material-ui/icons/HelpOutlined';
 import PublicIcon from '@material-ui/icons/Public';
 import FollowingIcon from '@material-ui/icons/People';
 import MeIcon from '@material-ui/icons/PersonOutlined';
@@ -19,16 +15,8 @@ import FollowIcon from '@material-ui/icons/Add';
 import LikeIcon from '@material-ui/icons/Favorite';
 
 import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-
 import CustomDivider from '../../__Common__/CustomDivider';
 
-
-const emailLen = 12;
 
 const styles = theme => ({
     root: {
@@ -45,8 +33,6 @@ class Settings extends Component {
 
     state = {
 	settings: {
-	    email: 'thiennam.tnd@gmail.com',
-	    phone: '505-417-8523',
 	    transaction: 0,
 	    follow: 0,
 	    pushTransaction: true,
@@ -69,9 +55,6 @@ class Settings extends Component {
 	let { settings } = this.state;
 	let { classes } = this.props;
 	
-	let email = 'thiennam.tnd@gmail.com';
-	let phone = '505-417-8523';
-
 	return (
 	    <div>
 	      <List
@@ -87,7 +70,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('follow', 0)}
-			checked={settings.follow == 0}
+			checked={settings.follow === 0}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -100,7 +83,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('follow', 1)}
-			checked={settings.follow == 1}
+			checked={settings.follow === 1}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -113,7 +96,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('follow', 2)}
-			checked={settings.follow == 2}
+			checked={settings.follow === 2}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -132,7 +115,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('transaction', 0)}
-			checked={settings.transaction == 0}
+			checked={settings.transaction === 0}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -145,7 +128,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('transaction', 1)}
-			checked={settings.transaction == 1}
+			checked={settings.transaction === 1}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -158,7 +141,7 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Radio
 			onChange={this.handleInput('transaction', 2)}
-			checked={settings.transaction == 2}
+			checked={settings.transaction === 2}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>

@@ -3,26 +3,16 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
-import AddButton from '../__Common__/AddButton';
-
 import Link from '../../__Common__/CustomLink';
-import DonationList from '../DonationList';
-import TransactionList from '../TransactionList';
-import EventList from '../EventList';
 import CustomDivider from '../../__Common__/CustomDivider';
 
 import AnimalIcon from '@material-ui/icons/PetsOutlined';
