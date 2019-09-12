@@ -30,7 +30,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing(4),
     },
     categoryIcon: {
-	color: theme.palette.primary.main,
+	color: theme.palette.tertiary.main,
 	fontSize: 20,
 	marginBottom: -4,
     },
@@ -86,8 +86,6 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	paddingLeft: theme.spacing(2),
-	paddingRight: theme.spacing(2),
     },
 });
 
@@ -130,7 +128,7 @@ class Person extends Component {
 		    <Typography variant="body2" className={classes.header}>
 		      {`${transfer.user.firstName} ${transfer.user.lastName}`}
 		      {<ToIcon className={classes.toIcon} />}
-		      {transfer.target.nonprofit.title} ({this.icons[(transfer.description.length) % this.icons.length]})
+		      {transfer.target.nonprofit.title}
 		    </Typography>
 		  </div>
 		</Grid>
@@ -167,8 +165,9 @@ class Person extends Component {
 		    <IconButton className={classes.stats}>
 		      <LikeIcon className={classes.statIcon}/> ({transfer.likeCount})
 		    </IconButton>
+		    {this.icons[(transfer.description.length) % this.icons.length]}
 		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> ({transfer.likeCount})
+		      <CommentIcon className={classes.statIcon}/> (0)
 		    </IconButton>
 		  </div>
 		</Grid>

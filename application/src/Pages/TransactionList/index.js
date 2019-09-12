@@ -71,7 +71,7 @@ class TransactionList extends Component {
     makeImage = (node) => {
 	let { classes  } = this.props;
 	return (
-	    <Link prefix={1} to="Transaction">
+	    <Link prefix={1} to={`Transaction?id=${node.id}`}>
 	      <IconButton
 		  className={classes.categoryIcon}
 	      >
@@ -113,7 +113,7 @@ class TransactionList extends Component {
 	      <Typography
 		  component={Link}
 		  prefix={1}
-		  to="Transaction"
+		  to={`Transaction?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >
