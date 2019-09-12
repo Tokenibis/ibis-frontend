@@ -49,10 +49,16 @@ const styles = theme => ({
     balance: {
 	color: theme.palette.primary.main,
     },
+    name: {
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+	textDecoration: 'none',
+	paddingTop: theme.spacing(1),
+    },
     notifications: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
-	paddingBottom: theme.spacing(4),
+	paddingBottom: theme.spacing(2),
 	textDecoration: 'none',
     },
     notificationIcon: {
@@ -72,7 +78,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     quote: {
-	paddingTop: theme.spacing(6),
+	paddingTop: theme.spacing(3),
 	width: '70%',
 	maxWidth: 360,
     }
@@ -96,7 +102,11 @@ class Home extends Component {
 	const query_balance = gql`
 	    query {
 		ibisUser(id: "${context.userID}") {
+		    id
 		    balance
+		    firstName
+		    lastName
+		    username
 		}
 	    }
 	`;
@@ -110,15 +120,28 @@ class Home extends Component {
   		  src={require('../../Static/Images/nonprofit.jpg')}
   		  className={classes.avatar}
 	      />
-	      <Typography variant="h6" className={classes.balance}>
-		<Query query={query_balance}>
-		  {({ loading, error, data }) => {
-		      if (loading) return <LinearProgress className={classes.progress} />;
-		      if (error) return `Error! ${error.message}`;
-		      return `Balance $${data.ibisUser.balance}`
-		  }}
-		</Query>
-	      </Typography>
+	      <Query query={query_balance}>
+		{({ loading, error, data }) => {
+		    if (loading) return <LinearProgress className={classes.progress} />;
+		    if (error) return `Error! ${error.message}`;
+		    return (
+  			<Grid container direction="column" justify="center" alignItems="center" >
+			  <Typography
+			      component={Link}
+			      to="/_/Account"
+  			      alt="Ibis"
+			      variant="body2"
+			      className={classes.name}
+			    >
+			    {`${data.ibisUser.firstName} ${data.ibisUser.lastName}`}
+			  </Typography>
+			  <Typography variant="h6" className={classes.balance}>
+			    Balance ${data.ibisUser.balance}
+			  </Typography>
+			</Grid>
+		    );
+		}}
+	      </Query>
 	      <Typography
 		  component={Link}
 		  to="/_/Notifications"
