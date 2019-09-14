@@ -81,7 +81,7 @@ class EventList extends Component {
     	    <Avatar
 		component={Link}
 		prefix={1}
-		to="Event"
+		to={`Event?id=${node.id}`}
   		alt="Ibis"
     		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
@@ -137,7 +137,7 @@ class EventList extends Component {
   	      <Typography variant="body2" className={classes.categoryIcon}>
 		{this.icons[(node.description.length) % this.icons.length]}
 	      </Typography>
-	      <Link prefix={1} to="Event">
+	      <Link prefix={1} to={`Event?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Read more
 		</Typography>
@@ -222,6 +222,7 @@ class EventList extends Component {
 		allEvents ${args} {
 		    edges {
   			node {
+			    id
   			    title
   			    description
   			    created
