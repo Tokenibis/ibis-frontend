@@ -89,7 +89,7 @@ const styles = theme => ({
     },
 });
 
-class Person extends Component {
+class Donation extends Component {
 
     constructor({ classes }) {
 	super();
@@ -222,8 +222,8 @@ class Person extends Component {
     };
 };
 
-Person.propTypes = {
+Donation.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Person);
+export default withStyles(styles)(Donation);

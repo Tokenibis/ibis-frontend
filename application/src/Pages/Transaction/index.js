@@ -88,7 +88,7 @@ const styles = theme => ({
     },
 });
 
-class Person extends Component {
+class Transaction extends Component {
 
     constructor({ classes }) {
 	super();
@@ -219,8 +219,8 @@ class Person extends Component {
     };
 };
 
-Person.propTypes = {
+Transaction.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Person);
+export default withStyles(styles)(Transaction);
