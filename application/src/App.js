@@ -49,7 +49,7 @@ class App extends Component {
 	// Temorarily allow authentication for developing
         this.state = {
 	    isAuthenticated: true,
-	    userID: 'SWJpc1VzZXJOb2RlOjc1',
+	    userID: 'UGVyc29uTm9kZTo3NQ==',
 	    token: '',
 	};
     };

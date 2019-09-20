@@ -110,22 +110,22 @@ class Nonprofit extends Component {
 	      <Card className={classes.card}>
 		<CardMedia
 		    className={classes.media}
-    		    image={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
+    		    image={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
 		/>
 		<CardContent>
   		  {
 		      expanded ? (
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    node.nonprofit.description
+			    node.description
 			  </Typography>
 		      ):(
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    {`${node.nonprofit.description.substring(0, 300)}...`} readmore
+			    {`${node.description.substring(0, 300)}...`} readmore
 			  </Typography>
 		      )
 		  }
 		  <Typography variant="body2" className={classes.link}>
-		    {node.nonprofit.link}
+		    {node.link}
 		  </Typography>
 		</CardContent>
 		<CardActions>
@@ -138,7 +138,7 @@ class Nonprofit extends Component {
 		      </div>
 		      <Button>
 			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${node.nonprofit.followerCount}`}
+			  {`Followers: ${node.followerCount}`}
 			</Typography>
 		      </Button>
 		    </div>
@@ -215,13 +215,11 @@ class Nonprofit extends Component {
 
 	const query = gql`
 	    query {
-		ibisUser(id: "${id}") {
+		nonprofit(id: "${id}") {
 		    followerCount
-		    nonprofit {
-			description
-			title
-			link
-		    }
+		    description
+		    title
+		    link
 		}
 	    }
 	`;
@@ -231,7 +229,7 @@ class Nonprofit extends Component {
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.ibisUser);
+		  return this.createPage(data.nonprofit);
 	      }}
 	    </Query>
 	);

@@ -109,7 +109,7 @@ class Person extends Component {
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar 
   		  alt="Ibis"
-    		  src={require(`../../Static/Images/birds/bird${(person.firstName.length) % 10}.jpg`)}
+    		  src={require(`../../Static/Images/birds/bird${(person.name.length) % 10}.jpg`)}
   		  className={classes.avatar}
 		  />
 		  </Grid>
@@ -202,9 +202,8 @@ class Person extends Component {
 
 	const query = gql`
 	    query {
-		ibisUser(id: "${id}") {
-       		    firstName
-  		    lastName
+		person(id: "${id}") {
+		    name
 		    username
 		    balance
 		    followerCount
@@ -218,7 +217,7 @@ class Person extends Component {
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.ibisUser);
+		  return this.createPage(data.person);
 	      }}
 	    </Query>
 	);

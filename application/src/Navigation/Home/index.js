@@ -101,12 +101,11 @@ class Home extends Component {
 
 	const query_balance = gql`
 	    query {
-		ibisUser(id: "${context.userID}") {
+		person(id: "UGVyc29uTm9kZTo3NQ==") {
 		    id
-		    balance
-		    firstName
-		    lastName
 		    username
+		    name
+		    balance
 		}
 	    }
 	`;
@@ -133,10 +132,10 @@ class Home extends Component {
 			      variant="body2"
 			      className={classes.name}
 			    >
-			    {`${data.ibisUser.firstName} ${data.ibisUser.lastName}`}
+			    {`${data.person.name}`}
 			  </Typography>
 			  <Typography variant="h6" className={classes.balance}>
-			    Balance ${data.ibisUser.balance}
+			    Balance ${data.person.balance}
 			  </Typography>
 			</Grid>
 		    );

@@ -91,7 +91,7 @@ class DonationList extends Component {
 	    <Typography variant="body2" className={classes.label}>
 	      {`${node.user.firstName} ${node.user.lastName}`}
 	      {<ToIcon className={classes.toIcon} />}
-	      {node.target.nonprofit.title}
+	      {node.target.title}
 	    </Typography>
 	);
     }
@@ -141,7 +141,7 @@ class DonationList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allTransfers}
+			data={data.allDonations}
 		    {...this.props}
 		    />
 		)
@@ -156,7 +156,7 @@ class DonationList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allTransfers}
+		    data={data.allDonations}
 		    {...this.props}
 		    />
 		)
@@ -169,19 +169,19 @@ class DonationList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Me':
-		args = `(isDonation: true, byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
+		args = `(byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
 	    case 'Following':
-		args = `(isDonation: true, byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
 	    case 'Public':
-		args = `(isDonation: true, orderBy: "-created", first: ${count})`;
+		args = `(orderBy: "-created", first: ${count})`;
 		break;
 	    case '_Search':
-		args = `(isDonation: true, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
 	    case '_User':
-		args = `(isDonation: true, byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
 		break;
 	    default:
 		console.error('Unsupported filter option')
@@ -189,7 +189,7 @@ class DonationList extends Component {
 
 	let query = gql`
 	    query {
-		allTransfers ${args} {
+		allDonations ${args} {
 		    edges {
   			node {
 			    id
@@ -198,12 +198,7 @@ class DonationList extends Component {
 			    created
 			    target {
 				id
-				firstName
-				lastName
-				nonprofit {
-				    id
-				    title
-				}
+				title
 			    }
 			    user {
 				id

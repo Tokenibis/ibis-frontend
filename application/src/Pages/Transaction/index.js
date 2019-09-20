@@ -103,7 +103,7 @@ class Transaction extends Component {
 	]
     };
 
-    createPage(transfer) {
+    createPage(transaction) {
 	let { classes } = this.props;
 
 	return (
@@ -114,9 +114,9 @@ class Transaction extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Person?id=${transfer.user.id}`}
+			to={`Person?id=${transaction.user.id}`}
   			alt="Ibis"
-    			src={require(`../../Static/Images/birds/bird${(transfer.user.firstName.length) % 10}.jpg`)}
+    			src={require(`../../Static/Images/birds/bird${(transaction.user.name.length) % 10}.jpg`)}
     			className={classes.avatar}
 		    />
 		  </div>
@@ -124,9 +124,9 @@ class Transaction extends Component {
 		<Grid item xs={7}>
 		  <div>
 		    <Typography variant="body2" className={classes.header}>
-		      {`${transfer.user.firstName} ${transfer.user.lastName}`}
+		      {`${transaction.user.name}`}
 		      {<ToIcon className={classes.toIcon} />}
-		      {`${transfer.target.firstName} ${transfer.target.lastName}`}
+		      {`${transaction.target.name} ${transaction.target.lastName}`}
 		    </Typography>
 		  </div>
 		</Grid>
@@ -134,21 +134,21 @@ class Transaction extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.created}>
-  		    {new Date(transfer.created).toDateString()}
+  		    {new Date(transaction.created).toDateString()}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <div className={classes.gift}>
-		    {`$${transfer.amount} (~${Math.round(transfer.amount/7.5*10)/10} Burritos)`}
-		  </div>
+		  <Typography variant="body2" className={classes.gift}>
+		    {`$${transaction.amount} (~${Math.round(transaction.amount/7.5*10)/10} Burritos)`}
+		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.description}>
-  		    {transfer.description}
+  		    {transaction.description}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
@@ -163,9 +163,9 @@ class Transaction extends Component {
 		    <IconButton className={classes.stats}>
 		      <LikeIcon className={classes.statIcon}/> (0)
 		    </IconButton>
-		    {this.icons[(transfer.description.length) % this.icons.length]}
+		    {this.icons[(transaction.description.length) % this.icons.length]}
 		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> ({transfer.likeCount})
+		      <CommentIcon className={classes.statIcon}/> ({transaction.likeCount})
 		    </IconButton>
 		  </div>
 		</Grid>
@@ -185,7 +185,7 @@ class Transaction extends Component {
 
 	const query = gql`
 	    query {
-		transfer(id: "${id}") {
+		transaction(id: "${id}") {
 		    id
 		    description 
 		    amount
@@ -194,14 +194,12 @@ class Transaction extends Component {
 		    user {
 			id
 			username
-			firstName
-			lastName
+			name
 		    }
 		    target {
 			id
 			username
-			firstName
-			lastName
+			name
 		    }
 		}
 	    }
@@ -212,7 +210,7 @@ class Transaction extends Component {
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.transfer);
+		  return this.createPage(data.transaction);
 	      }}
 	    </Query>
 	);

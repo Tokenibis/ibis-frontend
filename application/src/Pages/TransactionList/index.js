@@ -85,9 +85,9 @@ class TransactionList extends Component {
 	let { classes } = this.props;
 	return (
 	    <Typography variant="body2" className={classes.label}>
-	      {`${node.user.firstName} ${node.user.lastName}`}
+	      {`${node.user.name}`}
 	      {<ToIcon className={classes.toIcon} />}
-	      {`${node.target.firstName} ${node.target.lastName}`}
+	      {`${node.target.name}`}
 	    </Typography>
 	);
     }
@@ -137,7 +137,7 @@ class TransactionList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allTransfers}
+			data={data.allTransactions}
 		    {...this.props}
 		    />
 		)
@@ -152,7 +152,7 @@ class TransactionList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allTransfers}
+		    data={data.allTransactions}
 		    {...this.props}
 		    />
 		)
@@ -165,19 +165,19 @@ class TransactionList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Me':
-		args = `(isDonation: false, byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
+		args = `(byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
 	    case 'Following':
-		args = `(isDonation: false, byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
 		break;
 	    case 'Public':
-		args = `(isDonation: false, orderBy: "-created", first: ${count})`;
+		args = `(orderBy: "-created", first: ${count})`;
 		break;
 	    case '_Search':
-		args = `(isDonation: false, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
 		break;
 	    case '_User':
-		args = `(isDonation: false, byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
 		break;
 	    default:
 		console.error('Unsupported filter option')
@@ -185,7 +185,7 @@ class TransactionList extends Component {
 
 	let query = gql`
 	    query {
-		allTransfers ${args} {
+		allTransactions ${args} {
 		    edges {
   			node {
 			    id
@@ -193,12 +193,10 @@ class TransactionList extends Component {
 			    description
 			    created
 			    target {
-				firstName
-				lastName
+				name
 			    }
 			    user {
-        			firstName
-				lastName
+				name
 			    }
 			}
 		    }

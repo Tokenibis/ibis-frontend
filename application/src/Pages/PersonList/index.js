@@ -55,7 +55,7 @@ class PersonList extends Component {
 		prefix={1}
 		to={`Person?id=${node.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.firstName.length) % 10}.jpg`)}
+    		src={require(`../../Static/Images/birds/bird${(node.name.length) % 10}.jpg`)}
     		className={classes.avatar}
 	    />
 	)
@@ -66,7 +66,7 @@ class PersonList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.name}>
-  		{`${node.firstName} ${node.lastName}`}
+  		{`${node.name}`}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
   		{`@${node.username}`}
@@ -129,7 +129,7 @@ class PersonList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allIbisUsers}
+			data={data.allPeople}
 		    {...this.props}
 		    />
 		)
@@ -144,7 +144,7 @@ class PersonList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allIbisUsers}
+		    data={data.allPeople}
 		    {...this.props}
 		    />
 		)
@@ -157,16 +157,16 @@ class PersonList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(isNonprofit: false, orderBy: "-score", first: ${count})`;
+		args = `(orderBy: "-score", first: ${count})`;
 		break;
 	    case 'Following':
-		args = `(isNonprofit: false, followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		args = `(followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
 	    case 'Followers':
-		args = `(isNonprofit: false, followerOf: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		args = `(followerOf: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
 	    case '_Search':
-		args = `(isNonprofit: false, search: "${filterValue.split(':')[1]}" orderBy: "firstname,lastname", first: ${count})`;
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "firstname,lastname", first: ${count})`;
 		break;
 	    default:
 		console.error('Unsupported filter option')
@@ -174,12 +174,11 @@ class PersonList extends Component {
 
 	let query = gql`
 	    query {
-		allIbisUsers ${args} {
+		allPeople ${args} {
 		    edges {
   			node {
   			    id
-       			    firstName
-  			    lastName
+			    name
 			    username
 			    balance
 			    followerCount

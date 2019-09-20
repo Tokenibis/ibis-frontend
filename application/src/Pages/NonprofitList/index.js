@@ -78,7 +78,7 @@ class NonprofitList extends Component {
 		prefix={1}
 		to={`Nonprofit?id=${node.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
+    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
     		className={classes.avatar}
 	    />
 	)
@@ -89,7 +89,7 @@ class NonprofitList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.name}>
-  		{node.nonprofit.title}
+  		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
   		{`@${node.username}`}
@@ -101,7 +101,7 @@ class NonprofitList extends Component {
     makeBody = (node) => {
 	return (
   	    <Typography variant="body2">
-  	      {`${node.nonprofit.description.substring(0, 300)} ...`}
+  	      {`${node.description.substring(0, 300)} ...`}
   	    </Typography>
 	);
     }
@@ -116,7 +116,7 @@ class NonprofitList extends Component {
 	      <IconButton
 		  className={classes.categoryIcon}
 	      >
-		{this.icons[(node.nonprofit.description.length) % this.icons.length]}
+		{this.icons[(node.description.length) % this.icons.length]}
 	      </IconButton>
 	      <Typography
 		  component={Link}
@@ -145,7 +145,7 @@ class NonprofitList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allIbisUsers}
+			data={data.allNonprofits}
 		    {...this.props}
 		    />
 		)
@@ -160,7 +160,7 @@ class NonprofitList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allIbisUsers}
+		    data={data.allNonprofits}
 		    {...this.props}
 		    />
 		)
@@ -173,19 +173,19 @@ class NonprofitList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Featured':
-		args = `(isNonprofit: true, orderBy: "-score", first: ${count})`;
+		args = `(orderBy: "-score", first: ${count})`;
 		break;
 	    case 'Popular':
-		args = `(isNonprofit: true, orderBy: "-follower_count", first: ${count})`;
+		args = `(orderBy: "-follower_count", first: ${count})`;
 		break;
 	    case 'New':
-		args = `(isNonprofit: true, orderBy: "-date_joined", first: ${count})`;
+		args = `(orderBy: "-date_joined", first: ${count})`;
 		break;
 	    case 'Following':
-		args = `(isNonprofit: true, followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		args = `(followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
 	    case '_Search':
-		args = `(isNonprofit: true, search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count})`;
+		args = `(search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count})`;
 		break;
 	    default:
 		console.error('Unsupported filter option')
@@ -193,16 +193,14 @@ class NonprofitList extends Component {
 
 	let query = gql`
 	    query {
-		allIbisUsers ${args} {
+		allNonprofits ${args} {
 		    edges {
   			node {
 			    id
 			    username
-			    nonprofit {
-				id
-				title
-  				description
-			    }
+			    id
+			    title
+  			    description
   			}
 		    }
 		}
