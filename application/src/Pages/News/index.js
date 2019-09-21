@@ -86,6 +86,7 @@ const QUERY = gql`
 	    created
 	    description
 	    content
+	    image
 	    user {
 		id
 		avatar
@@ -138,7 +139,7 @@ class News extends Component {
 		</ListItem>
   		<CardMedia
   		    className={classes.media}
-    		    image={require(`../../Static/Images/egypt/pic${news.description.length % 10}.jpg`)}
+    		    image={news.image}
   		    title={news.title}
   		/>
   		<Typography variant="body2" className={classes.body}>

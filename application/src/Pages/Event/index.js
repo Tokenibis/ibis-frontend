@@ -113,6 +113,7 @@ const QUERY = gql`
 	event(id: $id){
 	    id
 	    title
+	    image
 	    created
 	    description
 	    date
@@ -189,7 +190,7 @@ class Event extends Component {
 		  </ListItem>
   		  <CardMedia
   		      className={classes.media}
-    		      image={require(`../../Static/Images/egypt/pic${event.description.length % 10}.jpg`)}
+    		      image={event.image}
   		      title={event.title}
   		  />
   		  <Typography variant="body2" className={classes.body}>

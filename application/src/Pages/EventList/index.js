@@ -58,6 +58,7 @@ const QUERY = gql`
   		node {
 		    id
   		    title
+		    image
   		    description
   		    created
 		    date
@@ -112,7 +113,7 @@ class EventList extends Component {
 	return (
   	    <CardMedia
 		className={classes.media}
-    		image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
+    		image={node.image}
   		title={node.title}
   	    />
 	);
