@@ -28,7 +28,16 @@ import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
 import HealthIcon from '@material-ui/icons/HealingOutlined';
 import HumanIcon from '@material-ui/icons/GroupOutlined';
 
+import L from 'leaflet';
 import './leaflet.css';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+});
 
 const styles = theme => ({
     root: {
@@ -114,6 +123,10 @@ const QUERY = gql`
 	    title
 	    created
 	    description
+	    date
+	    address
+	    latitude
+	    longitude
 	    user {
 		id
 		nonprofit {
@@ -127,7 +140,6 @@ const QUERY = gql`
 
 const wRatio = 0.9;
 const hRatio = (9/16) * 0.9;
-const position = [35.106766, -106.629181]
 
 class Event extends Component {
 
@@ -210,7 +222,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-		    {'8:00 AM - 12:00 PM'}
+  		    {new Date(event.created).toGMTString()}
 		  </Typography>
 		</Grid>
 		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
@@ -220,32 +232,28 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-		    {'55555 Road Rd.'}
-		  </Typography>
-		</Grid>
-		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
-  		  <Typography variant="body2" className={classes.infoLine}>
-		    {''}
-		  </Typography>
-		</Grid>
-		<Grid className={classes.infoRight} item xs={8}>
-  		  <Typography variant="body2" className={classes.infoLine}>
-		    {'Albuquerque NM 88888'}
+		    {event.address.split('\n').map((item, key) => (
+			<span key={key}>{item}<br/></span>
+		    ))}
 		  </Typography>
 		</Grid>
 		<Grid className={classes.content} item xs={12}>
 		  <Map
 		      className={classes.map}
 		      style={{ height: `${height}px`, width: `${width}px` }}
-		      center={position}
+		      center={[event.latitude, event.longitude]}
 		      zoom={13}
 		      keyboard={false}
 		  >
 		    <TileLayer
 			url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 		    />
-		    <Marker position={position}>
-		      <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
+		    <Marker position={[event.latitude, event.longitude]}>
+		      <Popup>
+			{event.address.split('\n').map((item, key) => (
+			    <span key={key}>{item}<br/></span>
+			))}
+		      </Popup>
 		    </Marker>
 		  </Map>
 		  <CustomDivider/>
