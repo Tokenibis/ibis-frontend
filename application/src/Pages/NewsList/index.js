@@ -13,15 +13,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     avatar: {
@@ -72,6 +64,9 @@ const QUERY = gql`
 			id
 			nonprofit {
 			    id
+			    category {
+				id
+			    }
 			}
 		    }
 		}
@@ -83,20 +78,6 @@ const QUERY = gql`
 
 class NewsList extends Component {
 
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
-
     makeImage = (node) => {
 	let { classes } = this.props;
 	return (
@@ -105,7 +86,7 @@ class NewsList extends Component {
 		prefix={1}
 		to={`Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		src={require(`../../Static/Images/birds/bird${(node.title.length) % 10}.jpg`)}
     		className={classes.avatar}
 	    />
 	)
@@ -130,7 +111,7 @@ class NewsList extends Component {
 	return (
   	    <CardMedia
   		className={classes.media}
-    		image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
+    		image={require(`../../Static/Images/egypt/pic${node.title.length % 10}.jpg`)}
   		title={node.title}
   	    />
 	);
@@ -156,9 +137,10 @@ class NewsList extends Component {
   		  <BookmarkIcon />
   		</IconButton>
 	      </div>
-  	      <Typography variant="body2" className={classes.categoryIcon}>
-		{this.icons[(node.description.length) % this.icons.length]}
-	      </Typography>
+	      <NonprofitCategoryIcon
+		  id={node.user.nonprofit.category.id}
+		  className={classes.categoryIcon}
+	      />
 	      <Link prefix={1} to={`News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Read more

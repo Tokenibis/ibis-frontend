@@ -20,15 +20,6 @@ import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
-
 const styles = theme => ({
     content: {
 	width: '90%',
@@ -100,6 +91,9 @@ const QUERY = gql`
 		nonprofit {
 		    id
 		    title
+		    category {
+			id
+		    }
 		}
 	    }
 	}
@@ -108,22 +102,9 @@ const QUERY = gql`
 
 class News extends Component {
 
-    constructor({ classes }) {
-	super();
-	this.icons = [
-	    <AnimalIcon className={classes.categoryIcon} />,
-	    <ArtIcon className={classes.categoryIcon} />,
-	    <CivilIcon className={classes.categoryIcon} />,
-	    <DevelopmentIcon className={classes.categoryIcon} />,
-	    <EducationIcon className={classes.categoryIcon} />,
-	    <EnvironmentIcon className={classes.categoryIcon} />,
-	    <HealthIcon className={classes.categoryIcon} />,
-	    <HumanIcon className={classes.categoryIcon} />,
-	]
-    };
-
     createPage(news) {
 	let { classes } = this.props;
+
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -172,7 +153,10 @@ class News extends Component {
   		      <BookmarkIcon className={classes.statIcon}/>
   		    </IconButton>
 		  </div>
-		  {this.icons[(news.description.length) % this.icons.length]}
+		  <NonprofitCategoryIcon
+		      id={news.user.nonprofit.category.id}
+		      className={classes.categoryIcon}
+		  />
 		  <IconButton className={classes.stats}>
 		    <CommentIcon className={classes.statIcon}/> (0)
 		  </IconButton>

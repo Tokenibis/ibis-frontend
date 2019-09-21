@@ -18,15 +18,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 import L from 'leaflet';
 import './leaflet.css';
@@ -132,6 +124,9 @@ const QUERY = gql`
 		nonprofit {
 		    id
 		    title
+		    category {
+			id
+		    }
 		}
 	    }
 	}
@@ -146,20 +141,6 @@ class Event extends Component {
     state = {
 	width: Math.round(window.innerWidth * wRatio),
 	height: Math.round(window.innerWidth * hRatio),
-    };
-
-    constructor({ classes }) {
-	super();
-	this.icons = [
-	    <AnimalIcon className={classes.categoryIcon} />,
-	    <ArtIcon className={classes.categoryIcon} />,
-	    <CivilIcon className={classes.categoryIcon} />,
-	    <DevelopmentIcon className={classes.categoryIcon} />,
-	    <EducationIcon className={classes.categoryIcon} />,
-	    <EnvironmentIcon className={classes.categoryIcon} />,
-	    <HealthIcon className={classes.categoryIcon} />,
-	    <HumanIcon className={classes.categoryIcon} />,
-	]
     };
 
     resizeMap = () => {
@@ -266,7 +247,10 @@ class Event extends Component {
   			<BookmarkIcon className={classes.statIcon}/>
   		      </IconButton>
 		    </div>
-		    {this.icons[(event.description.length) % this.icons.length]}
+		    <NonprofitCategoryIcon
+			id={event.user.nonprofit.category.id}
+			className={classes.categoryIcon}
+		    />
 		    <IconButton className={classes.stats}>
 		      <CommentIcon className={classes.statIcon}/> (0)
 		    </IconButton>

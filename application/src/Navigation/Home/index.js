@@ -96,7 +96,7 @@ class Home extends Component {
     };
 
     render() {
-	let { context, classes } = this.props;
+	let { classes } = this.props;
 	let { expanded } = this.state;
 
 	const query_balance = gql`

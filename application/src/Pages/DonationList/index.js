@@ -11,22 +11,12 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     categoryIcon: {
 	color: theme.palette.secondary.main,
 	padding: 0,
-	alignItems: 'center',
-	paddingRight: theme.spacing(2),
     },
     toIcon: {
 	marginBottom: -7,
@@ -57,7 +47,7 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query DonationList($search: String, $byUser: String, $byFollowing: String, $orderBy: String, $first: Int){
+    query DonationList($search: String, $byUser: String, $byFollowing: String, $orderBy: String, $first: Int) {
 	allDonations(search: $search, byUser: $byUser, byFollowing: $byFollowing, orderBy: $orderBy, first: $first) {
 	    edges {
   		node {
@@ -69,6 +59,9 @@ const QUERY = gql`
 		    target {
 			id
 			title
+			category {
+			    id
+			}
 		    }
 		    user {
 			id
@@ -82,28 +75,16 @@ const QUERY = gql`
 
 class DonationList extends Component {
 
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
-
     makeImage = (node) => {
 	let { classes } = this.props;
+
 	return (
 	    <Link prefix={1} to={`Donation?id=${node.id}`}>
-	      <IconButton
-		  className={classes.categoryIcon}
-	      >
-		{this.icons[(node.description.length) % this.icons.length]}
+	      <IconButton>
+		<NonprofitCategoryIcon
+		    id={node.target.category.id}
+		    className={classes.categoryIcon}
+		/>
 	      </IconButton>
 	    </Link>
 	);
@@ -113,7 +94,7 @@ class DonationList extends Component {
 	let { classes } = this.props;
 	return (
 	    <Typography variant="body2" className={classes.label}>
-	      {`${node.user.firstName} ${node.user.lastName}`}
+	      {`${node.user.name}`}
 	      {<ToIcon className={classes.toIcon} />}
 	      {node.target.title}
 	    </Typography>

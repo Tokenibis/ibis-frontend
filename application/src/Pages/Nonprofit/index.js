@@ -223,7 +223,6 @@ class Nonprofit extends Component {
     
     render() {
 	let { classes, id } = this.props
-	console.log(id)
 
 	return (
 	    <Query query={QUERY} variables={{ id: id }}>

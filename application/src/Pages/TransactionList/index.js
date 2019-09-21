@@ -10,15 +10,8 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
 import Link from '../../__Common__/CustomLink';
-import GiftIcon from '@material-ui/icons/CakeOutlined';
-import MoodIcon from '@material-ui/icons/MoodOutlined';
-import TradeIcon from '@material-ui/icons/TransferWithinAStationOutlined';
-import KudosIcon from '@material-ui/icons/StarsOutlined';
-import GameIcon from '@material-ui/icons/VideogameAssetOutlined';
-import SchoolIcon from '@material-ui/icons/SchoolOutlined';
-import Commercial from '@material-ui/icons/ShoppingCartOutlined';
+import TransactionCategoryIcon from '../__Common__/TransactionCategoryIcon';
 
 const styles = theme => ({
     categoryIcon: {
@@ -63,6 +56,9 @@ const QUERY = gql`
 		    description
 		    created
 		    likeCount
+		    category {
+			id
+		    }
 		    target {
 			id
 			name
@@ -79,27 +75,15 @@ const QUERY = gql`
 
 class TransactionList extends Component {
 
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <GiftIcon />,
-	    <MoodIcon />,
-	    <TradeIcon />,
-	    <KudosIcon />,
-	    <GameIcon />,
-	    <SchoolIcon />,
-	    <Commercial />,
-	]
-    };
-
     makeImage = (node) => {
 	let { classes  } = this.props;
 	return (
 	    <Link prefix={1} to={`Transaction?id=${node.id}`}>
-	      <IconButton
-		  className={classes.categoryIcon}
-	      >
-		{this.icons[(node.description.length) % this.icons.length]}
+	      <IconButton>
+		<TransactionCategoryIcon
+		    id={node.category.id}
+		    className={classes.categoryIcon}
+		/>
 	      </IconButton>
 	    </Link>
 	);

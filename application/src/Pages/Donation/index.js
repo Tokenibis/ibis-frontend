@@ -14,15 +14,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     root: {
@@ -105,26 +97,15 @@ const QUERY = gql`
 	    target {
 		id
 		title
+		category {
+		    id
+		}
 	    }
 	}
     }
 `;
 
 class Donation extends Component {
-
-    constructor({ classes }) {
-	super();
-	this.icons = [
-	    <AnimalIcon className={classes.categoryIcon} />,
-	    <ArtIcon className={classes.categoryIcon} />,
-	    <CivilIcon className={classes.categoryIcon} />,
-	    <DevelopmentIcon className={classes.categoryIcon} />,
-	    <EducationIcon className={classes.categoryIcon} />,
-	    <EnvironmentIcon className={classes.categoryIcon} />,
-	    <HealthIcon className={classes.categoryIcon} />,
-	    <HumanIcon className={classes.categoryIcon} />,
-	]
-    };
 
     createPage(donation) {
 	let { classes } = this.props;
@@ -186,7 +167,10 @@ class Donation extends Component {
 		    <IconButton className={classes.stats}>
 		      <LikeIcon className={classes.statIcon}/> ({donation.likeCount})
 		    </IconButton>
-		    {this.icons[(donation.description.length) % this.icons.length]}
+		    <NonprofitCategoryIcon
+			id={donation.target.category.id}
+			className={classes.categoryIcon}
+		    />
 		    <IconButton className={classes.stats}>
 		      <CommentIcon className={classes.statIcon}/> (0)
 		    </IconButton>

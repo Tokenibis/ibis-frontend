@@ -14,14 +14,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
-
-import GiftIcon from '@material-ui/icons/CakeOutlined';
-import MoodIcon from '@material-ui/icons/MoodOutlined';
-import TradeIcon from '@material-ui/icons/TransferWithinAStationOutlined';
-import KudosIcon from '@material-ui/icons/StarsOutlined';
-import GameIcon from '@material-ui/icons/VideogameAssetOutlined';
-import SchoolIcon from '@material-ui/icons/SchoolOutlined';
-import Commercial from '@material-ui/icons/ShoppingCartOutlined';
+import TransactionCategoryIcon from '../__Common__/TransactionCategoryIcon';
 
 const styles = theme => ({
     root: {
@@ -96,6 +89,9 @@ const QUERY = gql`
 	    amount
 	    created
 	    likeCount
+	    category {
+		id
+	    }
 	    user {
 		id
 		username
@@ -111,19 +107,6 @@ const QUERY = gql`
 `;
 
 class Transaction extends Component {
-
-    constructor({ classes }) {
-	super();
-	this.icons = [
-	    <GiftIcon className={classes.categoryIcon}/>,
-	    <MoodIcon className={classes.categoryIcon}/>,
-	    <TradeIcon className={classes.categoryIcon}/>,
-	    <KudosIcon className={classes.categoryIcon}/>,
-	    <GameIcon className={classes.categoryIcon}/>,
-	    <SchoolIcon className={classes.categoryIcon}/>,
-	    <Commercial className={classes.categoryIcon}/>,
-	]
-    };
 
     createPage(transaction) {
 	let { classes } = this.props;
@@ -183,11 +166,14 @@ class Transaction extends Component {
 		<Grid item xs={7} className={classes.divider}>
 		  <div className={classes.action}>
 		    <IconButton className={classes.stats}>
-		      <LikeIcon className={classes.statIcon}/> (0)
+		      <LikeIcon className={classes.statIcon}/> ({transaction.likeCount})
 		    </IconButton>
-		    {this.icons[(transaction.description.length) % this.icons.length]}
+		    <TransactionCategoryIcon
+			id={transaction.category.id}
+			className={classes.categoryIcon}
+		    />
 		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> ({transaction.likeCount})
+		      <CommentIcon className={classes.statIcon}/> (0)
 		    </IconButton>
 		  </div>
 		</Grid>

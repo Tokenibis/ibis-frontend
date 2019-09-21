@@ -13,15 +13,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import EventFilter from './filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     avatar: {
@@ -73,6 +65,9 @@ const QUERY = gql`
 			id
 			nonprofit {
 			    id
+			    category {
+				id
+			    }
 			}
 		    }
 		}
@@ -82,20 +77,6 @@ const QUERY = gql`
 `;
 
 class EventList extends Component {
-
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
 
     makeImage = (node) => {
 	let { classes } = this.props;
@@ -157,7 +138,10 @@ class EventList extends Component {
   		</IconButton>
 	      </div>
   	      <Typography variant="body2" className={classes.categoryIcon}>
-		{this.icons[(node.description.length) % this.icons.length]}
+	      <NonprofitCategoryIcon
+		  id={node.user.nonprofit.category.id}
+		  className={classes.categoryIcon}
+	      />
 	      </Typography>
 	      <Link prefix={1} to={`Event?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >

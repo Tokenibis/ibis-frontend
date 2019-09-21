@@ -11,15 +11,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     avatar: {
@@ -62,6 +54,9 @@ const QUERY = gql`
 		    id
 		    title
   		    description
+		    category {
+			id
+		    }
   		}
 	    }
 	}
@@ -71,20 +66,6 @@ const QUERY = gql`
 const DEFAULT_COUNT = 25;
 
 class NonprofitList extends Component {
-
-    constructor() {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
 
     makeImage = (node) => {
 	let { classes  } = this.props;
@@ -129,10 +110,11 @@ class NonprofitList extends Component {
 	      <IconButton color="secondary" aria-label="Like">
 		<LikeIcon />
 	      </IconButton>
-	      <IconButton
-		  className={classes.categoryIcon}
-	      >
-		{this.icons[(node.description.length) % this.icons.length]}
+	      <IconButton>
+		<NonprofitCategoryIcon
+		    id={node.category.id}
+		    className={classes.categoryIcon}
+		/>
 	      </IconButton>
 	      <Typography
 		  component={Link}
