@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Followicon from '@material-ui/icons/Add';
+import FollowIcon from '@material-ui/icons/Add';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
@@ -45,6 +45,25 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY = gql`
+    query PersonList($search: String, $followedBy: String, $followerOf: String, $orderBy: String, $first: Int) {
+	allPeople(search: $search, followedBy: $followedBy, followerOf: $followerOf, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    name
+		    username
+		    avatar
+		    balance
+		    followerCount
+		    followingCount
+		    dateJoined
+  		}
+	    }
+	}
+    }
+`;
+
 class PersonList extends Component {
 
     makeImage = (node) => {
@@ -55,7 +74,7 @@ class PersonList extends Component {
 		prefix={1}
 		to={`Person?id=${node.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.firstName.length) % 10}.jpg`)}
+    		src={node.avatar}
     		className={classes.avatar}
 	    />
 	)
@@ -66,7 +85,7 @@ class PersonList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.name}>
-  		{`${node.firstName} ${node.lastName}`}
+  		{`${node.name}`}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
   		{`@${node.username}`}
@@ -100,7 +119,7 @@ class PersonList extends Component {
 	return (
 	    <div className={classes.action}>
 	      <IconButton color="secondary" aria-label="Like">
-		<Followicon />
+		<FollowIcon />
 	      </IconButton>
 	      <Typography
 		  component={Link}
@@ -117,7 +136,7 @@ class PersonList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -129,7 +148,7 @@ class PersonList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allIbisUsers}
+			data={data.allPeople}
 		    {...this.props}
 		    />
 		)
@@ -144,7 +163,7 @@ class PersonList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allIbisUsers}
+		    data={data.allPeople}
 		    {...this.props}
 		    />
 		)
@@ -157,41 +176,37 @@ class PersonList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(isNonprofit: false, orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(isNonprofit: false, followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case 'Followers':
-		args = `(isNonprofit: false, followerOf: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followerOf: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(isNonprofit: false, search: "${filterValue.split(':')[1]}" orderBy: "firstname,lastname", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "firstname,lastname",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allIbisUsers ${args} {
-		    edges {
-  			node {
-  			    id
-       			    firstName
-  			    lastName
-			    username
-			    balance
-			    followerCount
-			    followingCount
-			    dateJoined
-  			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

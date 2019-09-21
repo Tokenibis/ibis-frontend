@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import DayPicker from 'react-day-picker';
 import ListItem from '@material-ui/core/ListItem';
@@ -36,12 +38,8 @@ const styles = theme => ({
 })
 
 const birthdayStyle = `.DayPicker-Day--highlighted {
-   color: #b0bf24;
- }`;
-
-const modifiers = {
-    highlighted: [] // we can highlight dates using this if we want
-};
+  color: #3b3b3b;
+}`;
 
 const options = ['All', 'Featured', 'Following', 'Going'];
 
@@ -49,6 +47,7 @@ class EventFilter extends Component {
 
     state = {
 	expanded: false,
+	begin: new Date((new Date()).getFullYear(), (new Date()).getMonth(), 1),
     }
 
     handleExpand(expanded) {
@@ -57,7 +56,7 @@ class EventFilter extends Component {
 
     render() {
 	let { classes, onClose } = this.props;
-	let { expanded } = this.state;
+	let { expanded, begin } = this.state;
 
 	let handleDayClick = (date) => {
 	    let year = date.getFullYear().toString().padStart(4, '0');
@@ -65,6 +64,31 @@ class EventFilter extends Component {
 	    let day = date.getDate().toString().padStart(2, '0');
 	    onClose(null, `_Calendar:${year}-${month}-${day}T00:00`);
 	};
+
+	let handleMonthChange = (date) => {
+	    this.setState({ begin: date})
+	};
+
+	let beginY = begin.getFullYear().toString().padStart(4, '0');
+	let beginM = (begin.getMonth() + 1).toString().padStart(2, '0');
+
+	let end = new Date(begin.getFullYear(), begin.getMonth() + 1, 1);
+
+	let endY = end.getFullYear().toString().padStart(4, '0');
+	let endM = (end.getMonth() + 1).toString().padStart(2, '0');
+	
+	let query = gql`
+	    query {
+		allEvents(beginDate: "${beginY}-${beginM}-01T00:00", endDate: "${endY}-${endM}-01T00:00") {
+		    edges {
+			node {
+			    id
+			    date
+			}
+		    }
+		}
+	    }
+	`;
 
 	return (
 	    <Filter 
@@ -89,12 +113,28 @@ class EventFilter extends Component {
 		  }
 		</ListItem>
 		<Collapse in={expanded} timeout="auto" unmountOnExit>
-		  <DayPicker
-		  className={classes.picker}
-		  modifiers={modifiers}
-		  month={new Date()}
-		  onDayClick={(day) => (handleDayClick(day))}
-		  />
+		  <style>{birthdayStyle}</style>
+		  <Query query={query}>
+		  {({ loading, error, data }) => {
+		      let dates = [];
+		      if (Object.keys(data).length !== 0) {
+			  dates = data.allEvents.edges.map((item, i) => (new Date(item.node.date)))
+		      }
+		      let modifiers = {
+			  highlighted: dates,
+		      };
+
+		      return (
+			  <DayPicker
+			      className={classes.picker}
+			  modifiers={modifiers}
+			  month={new Date()}
+			  onDayClick={(day) => (handleDayClick(day))}
+			  onMonthChange={(day) => (handleMonthChange(day))}
+			  />
+		      );
+		  }}
+		  </Query>
 		</Collapse>
 		</div>
 	    )}

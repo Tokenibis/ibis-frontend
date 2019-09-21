@@ -13,15 +13,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     avatar: {
@@ -59,21 +51,33 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-class NewsList extends Component {
+const QUERY = gql`
+    query NewsList($search: String, $byUser: String, $byFollowing: String, $bookmarkBy: String, $orderBy: String, $first: Int){
+	allNews(search: $search, byUser: $byUser, byFollowing: $byFollowing, bookmarkBy: $bookmarkBy, orderBy: $orderBy, first: $first){
+	    edges {
+  		node {
+		    id
+		    title
+		    description
+		    created
+		    user {
+			id
+			avatar
+			nonprofit {
+			    id
+			    category {
+				id
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    }
+`;
 
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
+
+class NewsList extends Component {
 
     makeImage = (node) => {
 	let { classes } = this.props;
@@ -81,9 +85,9 @@ class NewsList extends Component {
     	    <Avatar
 		component={Link}
 		prefix={1}
-		to="News"
+		to={`Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		src={node.user.avatar}
     		className={classes.avatar}
 	    />
 	)
@@ -108,7 +112,7 @@ class NewsList extends Component {
 	return (
   	    <CardMedia
   		className={classes.media}
-    		image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
+    		image={require(`../../Static/Images/egypt/pic${node.title.length % 10}.jpg`)}
   		title={node.title}
   	    />
 	);
@@ -134,10 +138,11 @@ class NewsList extends Component {
   		  <BookmarkIcon />
   		</IconButton>
 	      </div>
-  	      <Typography variant="body2" className={classes.categoryIcon}>
-		{this.icons[(node.description.length) % this.icons.length]}
-	      </Typography>
-	      <Link prefix={1} to="News">
+	      <NonprofitCategoryIcon
+		  id={node.user.nonprofit.category.id}
+		  className={classes.categoryIcon}
+	      />
+	      <Link prefix={1} to={`News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Read more
 		</Typography>
@@ -148,7 +153,7 @@ class NewsList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -190,50 +195,57 @@ class NewsList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(orderBy: "-created", first: ${count})`;
+		variables = {
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Featured':
-		args = `(orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byFollowing: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Bookmarked':
-		args = `(bookmarkBy: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    bookmarkBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Classic':
-		args = `(orderBy: "-like_count", first: ${count})`;
+		variables = {
+		    orderBy: "-like_count",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_Author':
-		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 		
 	}
 
-	let query = gql`
-	    query {
-		allNews ${args} {
-		    edges {
-  			node {
-			    id
-			    title
-			    description
-			    created
-			    user {
-				id
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

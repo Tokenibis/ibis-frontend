@@ -49,10 +49,16 @@ const styles = theme => ({
     balance: {
 	color: theme.palette.primary.main,
     },
+    name: {
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+	textDecoration: 'none',
+	paddingTop: theme.spacing(1),
+    },
     notifications: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
-	paddingBottom: theme.spacing(4),
+	paddingBottom: theme.spacing(2),
 	textDecoration: 'none',
     },
     notificationIcon: {
@@ -72,7 +78,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
     },
     quote: {
-	paddingTop: theme.spacing(6),
+	paddingTop: theme.spacing(3),
 	width: '70%',
 	maxWidth: 360,
     }
@@ -90,12 +96,16 @@ class Home extends Component {
     };
 
     render() {
-	let { context, classes } = this.props;
+	let { classes } = this.props;
 	let { expanded } = this.state;
 
-	const query_balance = gql`
+	const query = gql`
 	    query {
-		ibisUser(id: "${context.userID}") {
+		person(id: "UGVyc29uTm9kZTo3NQ==") {
+		    id
+		    avatar
+		    username
+		    name
 		    balance
 		}
 	    }
@@ -103,22 +113,35 @@ class Home extends Component {
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-  	      <Avatar
-		  component={Link}
-		  to="/_/Account"
-  		  alt="Ibis"
-  		  src={require('../../Static/Images/nonprofit.jpg')}
-  		  className={classes.avatar}
-	      />
-	      <Typography variant="h6" className={classes.balance}>
-		<Query query={query_balance}>
-		  {({ loading, error, data }) => {
-		      if (loading) return <LinearProgress className={classes.progress} />;
-		      if (error) return `Error! ${error.message}`;
-		      return `Balance $${data.ibisUser.balance}`
-		  }}
-		</Query>
-	      </Typography>
+	      <Query query={query}>
+		{({ loading, error, data }) => {
+		    if (loading) return <LinearProgress className={classes.progress} />;
+		    if (error) return `Error! ${error.message}`;
+		    return (
+  			<Grid container direction="column" justify="center" alignItems="center" >
+  			<Avatar
+			    component={Link}
+			    to="/_/Account"
+  			    alt="Ibis"
+  			    src={data.person.avatar}
+  			    className={classes.avatar}
+			/>
+			  <Typography
+			      component={Link}
+			      to="/_/Account"
+  			      alt="Ibis"
+			      variant="body2"
+			      className={classes.name}
+			    >
+			    {`${data.person.name}`}
+			  </Typography>
+			  <Typography variant="h6" className={classes.balance}>
+			    Balance ${data.person.balance}
+			  </Typography>
+			</Grid>
+		    );
+		}}
+	      </Query>
 	      <Typography
 		  component={Link}
 		  to="/_/Notifications"

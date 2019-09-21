@@ -79,6 +79,18 @@ const styles = theme => ({
     },
 });
 
+const QUERY = gql`
+    query Nonprofit($id: ID!){
+	nonprofit(id: $id){
+	    followerCount
+	    description
+	    title
+	    link
+	    avatar
+	}
+    }
+`;
+
 class Nonprofit extends Component {
     
     state = {
@@ -110,22 +122,22 @@ class Nonprofit extends Component {
 	      <Card className={classes.card}>
 		<CardMedia
 		    className={classes.media}
-    		    image={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
+    		    image={node.avatar}
 		/>
 		<CardContent>
   		  {
 		      expanded ? (
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    node.nonprofit.description
+			    node.description
 			  </Typography>
 		      ):(
 			  <Typography variant="body2" className={classes.descriptionText}>
-			    {`${node.nonprofit.description.substring(0, 300)}...`} readmore
+			    {`${node.description.substring(0, 300)}...`} readmore
 			  </Typography>
 		      )
 		  }
 		  <Typography variant="body2" className={classes.link}>
-		    {node.nonprofit.link}
+		    {node.link}
 		  </Typography>
 		</CardContent>
 		<CardActions>
@@ -138,7 +150,7 @@ class Nonprofit extends Component {
 		      </div>
 		      <Button>
 			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${node.nonprofit.followerCount}`}
+			  {`Followers: ${node.followerCount}`}
 			</Typography>
 		      </Button>
 		    </div>
@@ -213,25 +225,12 @@ class Nonprofit extends Component {
     render() {
 	let { classes, id } = this.props
 
-	const query = gql`
-	    query {
-		ibisUser(id: "${id}") {
-		    followerCount
-		    nonprofit {
-			description
-			title
-			link
-		    }
-		}
-	    }
-	`;
-
 	return (
-	    <Query query={query}>
+	    <Query query={QUERY} variables={{ id: id }}>
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.ibisUser);
+		  return this.createPage(data.nonprofit);
 	      }}
 	    </Query>
 	);

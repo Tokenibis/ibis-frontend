@@ -10,15 +10,8 @@ import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
 import Link from '../../__Common__/CustomLink';
-import GiftIcon from '@material-ui/icons/CakeOutlined';
-import MoodIcon from '@material-ui/icons/MoodOutlined';
-import TradeIcon from '@material-ui/icons/TransferWithinAStationOutlined';
-import KudosIcon from '@material-ui/icons/StarsOutlined';
-import GameIcon from '@material-ui/icons/VideogameAssetOutlined';
-import SchoolIcon from '@material-ui/icons/SchoolOutlined';
-import Commercial from '@material-ui/icons/ShoppingCartOutlined';
+import TransactionCategoryIcon from '../__Common__/TransactionCategoryIcon';
 
 const styles = theme => ({
     categoryIcon: {
@@ -53,29 +46,44 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-class TransactionList extends Component {
+const QUERY = gql`
+    query TransactionList($search: String, $byUser: String, $byFollowing: String, $orderBy: String, $first: Int){
+	allTransactions(search: $search, byUser: $byUser, byFollowing: $byFollowing, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    amount
+		    description
+		    created
+		    likeCount
+		    category {
+			id
+		    }
+		    target {
+			id
+			name
+		    }
+		    user {
+			id
+			name
+		    }
+		}
+	    }
+	}
+    }
+`;
 
-    constructor({ count }) {
-	super();
-	this.icons = [
-	    <GiftIcon />,
-	    <MoodIcon />,
-	    <TradeIcon />,
-	    <KudosIcon />,
-	    <GameIcon />,
-	    <SchoolIcon />,
-	    <Commercial />,
-	]
-    };
+class TransactionList extends Component {
 
     makeImage = (node) => {
 	let { classes  } = this.props;
 	return (
-	    <Link prefix={1} to="Transaction">
-	      <IconButton
-		  className={classes.categoryIcon}
-	      >
-		{this.icons[(node.description.length) % this.icons.length]}
+	    <Link prefix={1} to={`Transaction?id=${node.id}`}>
+	      <IconButton>
+		<TransactionCategoryIcon
+		    id={node.category.id}
+		    className={classes.categoryIcon}
+		/>
 	      </IconButton>
 	    </Link>
 	);
@@ -85,9 +93,9 @@ class TransactionList extends Component {
 	let { classes } = this.props;
 	return (
 	    <Typography variant="body2" className={classes.label}>
-	      {`${node.user.firstName} ${node.user.lastName}`}
+	      {`${node.user.name}`}
 	      {<ToIcon className={classes.toIcon} />}
-	      {`${node.target.firstName} ${node.target.lastName}`}
+	      {`${node.target.name}`}
 	    </Typography>
 	);
     }
@@ -113,7 +121,7 @@ class TransactionList extends Component {
 	      <Typography
 		  component={Link}
 		  prefix={1}
-		  to="Transaction"
+		  to={`Transaction?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >
@@ -125,7 +133,7 @@ class TransactionList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -137,7 +145,7 @@ class TransactionList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allTransfers}
+			data={data.allTransactions}
 		    {...this.props}
 		    />
 		)
@@ -152,7 +160,7 @@ class TransactionList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allTransfers}
+		    data={data.allTransactions}
 		    {...this.props}
 		    />
 		)
@@ -165,48 +173,44 @@ class TransactionList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Me':
-		args = `(isDonation: false, byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(isDonation: false, byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byFollowing: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Public':
-		args = `(isDonation: false, orderBy: "-created", first: ${count})`;
+		variables = {
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(isDonation: false, search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_User':
-		args = `(isDonation: false, byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allTransfers ${args} {
-		    edges {
-  			node {
-			    id
-			    amount
-			    description
-			    created
-			    target {
-				firstName
-				lastName
-			    }
-			    user {
-        			firstName
-				lastName
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 
 };

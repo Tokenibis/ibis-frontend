@@ -23,10 +23,9 @@ const styles = theme => ({
     },
 })
 
-function QueryHelper(props) {
-    let { classes, query, make} = props;
+function QueryHelper({ classes, query, make, variables }) {
     return (
-	<Query query={query}>
+	<Query query={query} variables={variables}>
 	  {({ loading, error, data }) => {
 	      if (loading) return <LinearProgress className={classes.progress} />;
 	      if (error) return `Error! ${error.message}`;

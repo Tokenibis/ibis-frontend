@@ -38,12 +38,11 @@ const styles = theme => ({
     root: {
 	width: '100%',
     },
-    media: {
+    mediaWrapper: {
 	paddingBottom: theme.spacing(1),
     },
     item: {
 	width: '90%',
-	paddingLeft: theme.spacing(1),
     },
     image: {
 	marginLeft: '0px',
@@ -119,7 +118,7 @@ class ListView extends Component {
 			  <Collapse in={expandedAll || expanded === i} timeout="auto" unmountOnExit>
 			    {
 				makeMedia && (
-				    <div className={classes.media}>
+				    <div className={classes.mediaWrapper}>
 				      {makeMedia(item.node)}
 				    </div>
 				)
@@ -127,7 +126,7 @@ class ListView extends Component {
 			    <div className={classes.body}>
 			      {makeBody(item.node)}
 			    </div>
-			    {makeActions(item.node)}
+			    {makeActions && makeActions(item.node)}
 			  </Collapse>
 			  <CustomDivider />
 			</div>

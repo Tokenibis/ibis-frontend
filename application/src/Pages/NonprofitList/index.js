@@ -11,15 +11,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-
-import AnimalIcon from '@material-ui/icons/PetsOutlined';
-import ArtIcon from '@material-ui/icons/PaletteOutlined';
-import CivilIcon from '@material-ui/icons/RecordVoiceOverOutlined';
-import DevelopmentIcon from '@material-ui/icons/LocationCityOutlined';
-import EducationIcon from '@material-ui/icons/LocalLibraryOutlined';
-import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
-import HealthIcon from '@material-ui/icons/HealingOutlined';
-import HumanIcon from '@material-ui/icons/GroupOutlined';
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 
 const styles = theme => ({
     avatar: {
@@ -52,23 +44,29 @@ const styles = theme => ({
     }
 });
 
+const QUERY = gql`
+    query NonprofitList($search: String, $followedBy: String, $orderBy: String, $first: Int) {
+	allNonprofits(search: $search, followedBy: $followedBy, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    username
+		    id
+		    title
+		    avatar
+  		    description
+		    category {
+			id
+		    }
+  		}
+	    }
+	}
+    }
+`;
+
 const DEFAULT_COUNT = 25;
 
 class NonprofitList extends Component {
-
-    constructor() {
-	super();
-	this.icons = [
-	    <AnimalIcon />,
-	    <ArtIcon />,
-	    <CivilIcon />,
-	    <DevelopmentIcon />,
-	    <EducationIcon />,
-	    <EnvironmentIcon />,
-	    <HealthIcon />,
-	    <HumanIcon />,
-	]
-    };
 
     makeImage = (node) => {
 	let { classes  } = this.props;
@@ -78,7 +76,7 @@ class NonprofitList extends Component {
 		prefix={1}
 		to={`Nonprofit?id=${node.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.nonprofit.description.length) % 10}.jpg`)}
+    		src={node.avatar}
     		className={classes.avatar}
 	    />
 	)
@@ -89,7 +87,7 @@ class NonprofitList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.name}>
-  		{node.nonprofit.title}
+  		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
   		{`@${node.username}`}
@@ -101,7 +99,7 @@ class NonprofitList extends Component {
     makeBody = (node) => {
 	return (
   	    <Typography variant="body2">
-  	      {`${node.nonprofit.description.substring(0, 300)} ...`}
+  	      {`${node.description.substring(0, 300)} ...`}
   	    </Typography>
 	);
     }
@@ -113,10 +111,11 @@ class NonprofitList extends Component {
 	      <IconButton color="secondary" aria-label="Like">
 		<LikeIcon />
 	      </IconButton>
-	      <IconButton
-		  className={classes.categoryIcon}
-	      >
-		{this.icons[(node.nonprofit.description.length) % this.icons.length]}
+	      <IconButton>
+		<NonprofitCategoryIcon
+		    id={node.category.id}
+		    className={classes.categoryIcon}
+		/>
 	      </IconButton>
 	      <Typography
 		  component={Link}
@@ -133,7 +132,7 @@ class NonprofitList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args
+	let make, variables
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -145,7 +144,7 @@ class NonprofitList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allIbisUsers}
+			data={data.allNonprofits}
 		    {...this.props}
 		    />
 		)
@@ -160,7 +159,7 @@ class NonprofitList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allIbisUsers}
+		    data={data.allNonprofits}
 		    {...this.props}
 		    />
 		)
@@ -173,43 +172,42 @@ class NonprofitList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Featured':
-		args = `(isNonprofit: true, orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Popular':
-		args = `(isNonprofit: true, orderBy: "-follower_count", first: ${count})`;
+		variables = {
+		    orderBy: "-follower_count",
+		    first: count,
+		}
 		break;
 	    case 'New':
-		args = `(isNonprofit: true, orderBy: "-date_joined", first: ${count})`;
+		variables = {
+		    orderBy: "-date_joined",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(isNonprofit: true, followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(isNonprofit: true, search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allIbisUsers ${args} {
-		    edges {
-  			node {
-			    id
-			    username
-			    nonprofit {
-				id
-				title
-  				description
-			    }
-  			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

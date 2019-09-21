@@ -168,7 +168,8 @@
 /* Default modifiers */
 
 .DayPicker-Day--today {
-    color: #3b3b3b;
+    color: #fffff;
+    background-color: #dddddd;
   font-weight: 700;
 }
 

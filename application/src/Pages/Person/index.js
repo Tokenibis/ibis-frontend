@@ -86,6 +86,19 @@ const styles = theme => ({
     },
 })
 
+const QUERY = gql`
+    query Person($id: ID!){
+	person(id: $id) {
+	    name
+	    username
+	    avatar
+	    balance
+	    followerCount
+	    followingCount
+	}
+    }
+`;
+
 class Person extends Component {
     
     processDonations(data) {
@@ -109,7 +122,7 @@ class Person extends Component {
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar 
   		  alt="Ibis"
-    		  src={require(`../../Static/Images/birds/bird${(person.firstName.length) % 10}.jpg`)}
+    		  src={person.avatar}
   		  className={classes.avatar}
 		  />
 		  </Grid>
@@ -200,25 +213,12 @@ class Person extends Component {
     render() {
 	let { classes, id } = this.props
 
-	const query = gql`
-	    query {
-		ibisUser(id: "${id}") {
-       		    firstName
-  		    lastName
-		    username
-		    balance
-		    followerCount
-		    followingCount
-		}
-	    }
-	`;
-
 	return (
-	    <Query query={query}>
+	    <Query query={QUERY} variables={{ id }}>
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.ibisUser);
+		  return this.createPage(data.person);
 	      }}
 	    </Query>
 	);
