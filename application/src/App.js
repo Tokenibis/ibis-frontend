@@ -10,9 +10,11 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
+const config = require('./config.json');
+
 const client = new ApolloClient({
     link: new HttpLink({
-	uri: 'https://api.tokenibis.org/graphql/',
+	uri: config.api.url,
 	credentials: 'include',
     }),
     cache: new InMemoryCache(),
