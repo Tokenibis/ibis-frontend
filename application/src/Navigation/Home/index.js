@@ -99,10 +99,11 @@ class Home extends Component {
 	let { classes } = this.props;
 	let { expanded } = this.state;
 
-	const query_balance = gql`
+	const query = gql`
 	    query {
 		person(id: "UGVyc29uTm9kZTo3NQ==") {
 		    id
+		    avatar
 		    username
 		    name
 		    balance
@@ -112,19 +113,19 @@ class Home extends Component {
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-  	      <Avatar
-		  component={Link}
-		  to="/_/Account"
-  		  alt="Ibis"
-  		  src={require('../../Static/Images/nonprofit.jpg')}
-  		  className={classes.avatar}
-	      />
-	      <Query query={query_balance}>
+	      <Query query={query}>
 		{({ loading, error, data }) => {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;
 		    return (
   			<Grid container direction="column" justify="center" alignItems="center" >
+  			<Avatar
+			    component={Link}
+			    to="/_/Account"
+  			    alt="Ibis"
+  			    src={data.person.avatar}
+  			    className={classes.avatar}
+			/>
 			  <Typography
 			      component={Link}
 			      to="/_/Account"

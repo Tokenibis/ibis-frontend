@@ -53,6 +53,7 @@ const QUERY = gql`
 		    id
 		    name
 		    username
+		    avatar
 		    balance
 		    followerCount
 		    followingCount
@@ -73,7 +74,7 @@ class PersonList extends Component {
 		prefix={1}
 		to={`Person?id=${node.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.name.length) % 10}.jpg`)}
+    		src={node.avatar}
     		className={classes.avatar}
 	    />
 	)

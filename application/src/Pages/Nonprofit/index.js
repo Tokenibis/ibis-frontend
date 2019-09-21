@@ -86,6 +86,7 @@ const QUERY = gql`
 	    description
 	    title
 	    link
+	    avatar
 	}
     }
 `;
@@ -121,7 +122,7 @@ class Nonprofit extends Component {
 	      <Card className={classes.card}>
 		<CardMedia
 		    className={classes.media}
-    		    image={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		    image={node.avatar}
 		/>
 		<CardContent>
   		  {

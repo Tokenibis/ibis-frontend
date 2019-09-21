@@ -62,6 +62,7 @@ const QUERY = gql`
 		    created
 		    user {
 			id
+			avatar
 			nonprofit {
 			    id
 			    category {
@@ -86,7 +87,7 @@ class NewsList extends Component {
 		prefix={1}
 		to={`Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.title.length) % 10}.jpg`)}
+    		src={node.user.avatar}
     		className={classes.avatar}
 	    />
 	)

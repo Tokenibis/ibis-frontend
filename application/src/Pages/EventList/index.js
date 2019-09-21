@@ -63,6 +63,7 @@ const QUERY = gql`
 		    date
 		    user {
 			id
+			avatar
 			nonprofit {
 			    id
 			    category {
@@ -86,7 +87,7 @@ class EventList extends Component {
 		prefix={1}
 		to={`Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		src={node.user.avatar}
     		className={classes.avatar}
 	    />
 	)

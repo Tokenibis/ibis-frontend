@@ -88,6 +88,7 @@ const QUERY = gql`
 	    content
 	    user {
 		id
+		avatar
 		nonprofit {
 		    id
 		    title
@@ -118,7 +119,7 @@ class News extends Component {
 			prefix={1}
 			to={`Nonprofit?id=${news.user.nonprofit.id}`}
   			alt="Ibis"
-    			src={require(`../../Static/Images/birds/bird${(news.description.length) % 10}.jpg`)}
+    			src={news.user.avatar}
     			className={classes.avatar}
 		    />
 		  </ListItemIcon>

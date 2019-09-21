@@ -96,6 +96,10 @@ const QUERY = gql`
 		id
 		username
 		name
+		avatar
+		person {
+		    id
+		}
 	    }
 	    target {
 		id
@@ -119,9 +123,9 @@ class Transaction extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Person?id=${transaction.user.id}`}
+			to={`Person?id=${transaction.user.person.id}`}
   			alt="Ibis"
-    			src={require(`../../Static/Images/birds/bird${(transaction.user.name.length) % 10}.jpg`)}
+    			src={transaction.user.avatar}
     			className={classes.avatar}
 		    />
 		  </div>

@@ -8,6 +8,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Query } from "react-apollo";
+import gql from "graphql-tag";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -84,16 +87,36 @@ class SideMenu extends Component {
 	let { classes } = this.props;
 	let { drawer, expanded } =this.state;
 
+	const query = gql`
+	    query {
+		person(id: "UGVyc29uTm9kZTo3NQ==") {
+		    id
+		    avatar
+		    username
+		    name
+		    balance
+		}
+	    }
+	`;
+
 	let sideMenu = (
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
-		<Avatar
-		    component={Link}
-		    to="/Account"
-		    alt="Ibis"
-		    src={require('../../Static/Images/nonprofit.jpg')}
-		    className={classes.avatar}
-		/>
+		<Query query={query}>
+		  {({ loading, error, data }) => {
+		  if (loading) return <LinearProgress className={classes.progress} />;
+		      if (error) return `Error! ${error.message}`;
+		      return (
+  			  <Avatar
+			      component={Link}
+			      to="/_/Account"
+  			      alt="Ibis"
+  			      src={data.person.avatar}
+  			      className={classes.avatar}
+			  />
+		      );
+		  }} 
+		</Query>
 	      </Grid>
 	      <Divider />
 	      <Sublist

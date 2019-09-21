@@ -91,6 +91,7 @@ const QUERY = gql`
 	person(id: $id) {
 	    name
 	    username
+	    avatar
 	    balance
 	    followerCount
 	    followingCount
@@ -121,7 +122,7 @@ class Person extends Component {
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar 
   		  alt="Ibis"
-    		  src={require(`../../Static/Images/birds/bird${(person.name.length) % 10}.jpg`)}
+    		  src={person.avatar}
   		  className={classes.avatar}
 		  />
 		  </Grid>

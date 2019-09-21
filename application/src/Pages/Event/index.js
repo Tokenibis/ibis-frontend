@@ -121,6 +121,7 @@ const QUERY = gql`
 	    longitude
 	    user {
 		id
+		avatar
 		nonprofit {
 		    id
 		    title
@@ -169,7 +170,7 @@ class Event extends Component {
 		      prefix={1}
 		      to={`Nonprofit?id=${event.user.nonprofit.id}`}
   		      alt="Ibis"
-    		      src={require(`../../Static/Images/birds/bird${(event.description.length) % 10}.jpg`)}
+    		      src={event.user.avatar}
     		      className={classes.avatar}
 		      />
 		    </ListItemIcon>
