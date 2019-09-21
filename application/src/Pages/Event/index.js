@@ -107,6 +107,24 @@ const styles = theme => ({
     },
 });
 
+const QUERY = gql`
+    query Event($id: ID!){
+	event(id: $id){
+	    id
+	    title
+	    created
+	    description
+	    user {
+		id
+		nonprofit {
+		    id
+		    title
+		}
+	    }
+	}
+    }
+`;
+
 const wRatio = 0.9;
 const hRatio = (9/16) * 0.9;
 const position = [35.106766, -106.629181]
@@ -256,26 +274,8 @@ class Event extends Component {
     render() {
 	let { classes, id } = this.props
 
-	const query = gql`
-	    query {
-		event(id: "${id}") {
-		    id
-		    title
-		    created
-		    description
-		    user {
-			id
-			nonprofit {
-			    id
-			    title
-			}
-		    }
-		}
-	    }
-	`;
-
 	return (
-	    <Query query={query}>
+	    <Query query={QUERY} variables={{ id }}>
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

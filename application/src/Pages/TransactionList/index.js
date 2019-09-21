@@ -53,6 +53,30 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY = gql`
+    query TransactionList($search: String, $byUser: String, $byFollowing: String, $orderBy: String, $first: Int){
+	allTransactions(search: $search, byUser: $byUser, byFollowing: $byFollowing, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    amount
+		    description
+		    created
+		    likeCount
+		    target {
+			id
+			name
+		    }
+		    user {
+			id
+			name
+		    }
+		}
+	    }
+	}
+    }
+`;
+
 class TransactionList extends Component {
 
     constructor({ count }) {
@@ -125,7 +149,7 @@ class TransactionList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -165,46 +189,44 @@ class TransactionList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Me':
-		args = `(byUser: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byFollowing: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Public':
-		args = `(orderBy: "-created", first: ${count})`;
+		variables = {
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_User':
-		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allTransactions ${args} {
-		    edges {
-  			node {
-			    id
-			    amount
-			    description
-			    created
-			    target {
-				name
-			    }
-			    user {
-				name
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 
 };

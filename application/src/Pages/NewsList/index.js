@@ -59,6 +59,25 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY = gql`
+    query NewsList($search: String, $byUser: String, $byFollowing: String, $bookmarkBy: String, $orderBy: String, $first: Int){
+	allNews(search: $search, byUser: $byUser, byFollowing: $byFollowing, bookmarkBy: $bookmarkBy, orderBy: $orderBy, first: $first){
+	    edges {
+  		node {
+		    id
+		    title
+		    description
+		    created
+		    user {
+			id
+		    }
+		}
+	    }
+	}
+    }
+`;
+
+
 class NewsList extends Component {
 
     constructor({ count }) {
@@ -148,7 +167,7 @@ class NewsList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -190,50 +209,57 @@ class NewsList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(orderBy: "-created", first: ${count})`;
+		variables = {
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Featured':
-		args = `(orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(byFollowing: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byFollowing: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Bookmarked':
-		args = `(bookmarkBy: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    bookmarkBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case 'Classic':
-		args = `(orderBy: "-like_count", first: ${count})`;
+		variables = {
+		    orderBy: "-like_count",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-created", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_Author':
-		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    byUser: filterValue.split(':')[1],
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 		
 	}
 
-	let query = gql`
-	    query {
-		allNews ${args} {
-		    edges {
-  			node {
-			    id
-			    title
-			    description
-			    created
-			    user {
-				id
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

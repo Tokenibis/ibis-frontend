@@ -88,6 +88,28 @@ const styles = theme => ({
     },
 });
 
+const QUERY = gql`
+    query Transaction($id: ID!){
+	transaction(id: $id){
+	    id
+	    description 
+	    amount
+	    created
+	    likeCount
+	    user {
+		id
+		username
+		name
+	    }
+	    target {
+		id
+		username
+		name
+	    }
+	}
+    }
+`;
+
 class Transaction extends Component {
 
     constructor({ classes }) {
@@ -183,30 +205,8 @@ class Transaction extends Component {
     render() {
 	let { classes, id } = this.props
 
-	const query = gql`
-	    query {
-		transaction(id: "${id}") {
-		    id
-		    description 
-		    amount
-		    created
-		    likeCount
-		    user {
-			id
-			username
-			name
-		    }
-		    target {
-			id
-			username
-			name
-		    }
-		}
-	    }
-	`;
-
 	return (
-	    <Query query={query}>
+	    <Query query={QUERY} variables={{ id }}>
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

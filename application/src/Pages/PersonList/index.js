@@ -45,6 +45,24 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY = gql`
+    query PersonList($search: String, $followedBy: String, $followerOf: String, $orderBy: String, $first: Int) {
+	allPeople(search: $search, followedBy: $followedBy, followerOf: $followerOf, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    name
+		    username
+		    balance
+		    followerCount
+		    followingCount
+		    dateJoined
+  		}
+	    }
+	}
+    }
+`;
+
 class PersonList extends Component {
 
     makeImage = (node) => {
@@ -117,7 +135,7 @@ class PersonList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -157,40 +175,37 @@ class PersonList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case 'Followers':
-		args = `(followerOf: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followerOf: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "firstname,lastname", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "firstname,lastname",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allPeople ${args} {
-		    edges {
-  			node {
-  			    id
-			    name
-			    username
-			    balance
-			    followerCount
-			    followingCount
-			    dateJoined
-  			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

@@ -52,6 +52,22 @@ const styles = theme => ({
     }
 });
 
+const QUERY = gql`
+    query NonprofitList($search: String, $followedBy: String, $orderBy: String, $first: Int) {
+	allNonprofits(search: $search, followedBy: $followedBy, orderBy: $orderBy, first: $first) {
+	    edges {
+  		node {
+		    id
+		    username
+		    id
+		    title
+  		    description
+  		}
+	    }
+	}
+    }
+`;
+
 const DEFAULT_COUNT = 25;
 
 class NonprofitList extends Component {
@@ -133,7 +149,7 @@ class NonprofitList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args
+	let make, variables
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -173,41 +189,42 @@ class NonprofitList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'Featured':
-		args = `(orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Popular':
-		args = `(orderBy: "-follower_count", first: ${count})`;
+		variables = {
+		    orderBy: "-follower_count",
+		    first: count,
+		}
 		break;
 	    case 'New':
-		args = `(orderBy: "-date_joined", first: ${count})`;
+		variables = {
+		    orderBy: "-date_joined",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(followedBy: "${context.userID}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "first_name,last_name", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allNonprofits ${args} {
-		    edges {
-  			node {
-			    id
-			    username
-			    id
-			    title
-  			    description
-  			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 

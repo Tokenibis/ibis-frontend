@@ -79,6 +79,17 @@ const styles = theme => ({
     },
 });
 
+const QUERY = gql`
+    query Nonprofit($id: ID!){
+	nonprofit(id: $id){
+	    followerCount
+	    description
+	    title
+	    link
+	}
+    }
+`;
+
 class Nonprofit extends Component {
     
     state = {
@@ -212,20 +223,10 @@ class Nonprofit extends Component {
     
     render() {
 	let { classes, id } = this.props
-
-	const query = gql`
-	    query {
-		nonprofit(id: "${id}") {
-		    followerCount
-		    description
-		    title
-		    link
-		}
-	    }
-	`;
+	console.log(id)
 
 	return (
-	    <Query query={query}>
+	    <Query query={QUERY} variables={{ id: id }}>
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

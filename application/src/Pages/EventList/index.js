@@ -59,6 +59,25 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const QUERY = gql`
+    query EventList($search: String, $byUser: String, $byFollowing: String, $rsvpBy: String, $beginDate: String, $orderBy: String, $first: Int){
+	allEvents(search: $search, byUser: $byUser, byFollowing: $byFollowing, rsvpBy: $rsvpBy, beginDate: $beginDate, orderBy: $orderBy, first: $first){
+	    edges {
+  		node {
+		    id
+  		    title
+  		    description
+  		    created
+		    date
+		    user {
+			id
+		    }
+		}
+	    }
+	}
+    }
+`;
+
 class EventList extends Component {
 
     constructor({ count }) {
@@ -79,12 +98,12 @@ class EventList extends Component {
 	let { classes } = this.props;
 	return (
     	    <Avatar
-		component={Link}
-		prefix={1}
-		to={`Event?id=${node.id}`}
-  		alt="Ibis"
-    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
-    		className={classes.avatar}
+	    component={Link}
+	    prefix={1}
+	    to={`Event?id=${node.id}`}
+  	    alt="Ibis"
+    	    src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    	    className={classes.avatar}
 	    />
 	)
     };
@@ -107,9 +126,9 @@ class EventList extends Component {
 	let { classes } = this.props;
 	return (
   	    <CardMedia
-  		className={classes.media}
-    		image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
-  		title={node.title}
+  	    className={classes.media}
+    	    image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
+  	    title={node.title}
   	    />
 	);
     };
@@ -148,7 +167,7 @@ class EventList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, args;
+	let make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
@@ -157,10 +176,10 @@ class EventList extends Component {
 		// hide icons/pictures and scroll button; intended for small partial-page lists
 		make = (data) => (
 		    <ListView
-			makeLabel={this.makeLabel}
-			makeBody={this.makeBody}
-			makeActions={this.makeActions}
-			data={data.allEvents}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data.allEvents}
 		    {...this.props}
 		    />
 		)
@@ -170,14 +189,14 @@ class EventList extends Component {
 		// show everything; intended for full-page lists
 		make = (data) => (
 		    <ListView
-		    scrollButton
-		    expandedAll
-		    makeImage={this.makeImage}
-		    makeLabel={this.makeLabel}
-		    makeMedia={this.makeMedia}
-		    makeBody={this.makeBody}
-		    makeActions={this.makeActions}
-		    data={data.allEvents}
+			scrollButton
+			expandedAll
+			makeImage={this.makeImage}
+			makeLabel={this.makeLabel}
+			makeMedia={this.makeMedia}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data.allEvents}
 		    {...this.props}
 		    />
 		)
@@ -190,53 +209,64 @@ class EventList extends Component {
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
-		args = `(orderBy: "-date", first: ${count})`;
+		variables = {
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    case 'Featured':
-		args = `(orderBy: "-score", first: ${count})`;
+		variables = {
+		    orderBy: "-score",
+		    first: count,
+		}
 		break;
 	    case 'Following':
-		args = `(byFollowing: "${context.userID}", orderBy: "-date", first: ${count})`;
+		variables = {
+		    byFollowing: context.userID,
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    case 'Going':
-		args = `(rsvpBy: "${context.userID}", orderBy: "-created", first: ${count})`;
+		variables = {
+		    rsvpBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
 		break;
 	    case '_Search':
-		args = `(search: "${filterValue.split(':')[1]}" orderBy: "-date", first: ${count})`;
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    case '_Host':
-		args = `(byUser: "${filterValue.split(':')[1]}", orderBy: "-date", first: ${count})`;
+		variables = {
+		    byUser: filterValue.split(':')[1],
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    case `_Going`:
-		args = `(rsvpBy: "${filterValue.split(':')[1]}", orderBy: "-date", first: ${count})`;
+		variables = {
+		    rsvpBy: filterValue.split(':')[1],
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    case `_Calendar`:
-		args = `(beginDate: "${filterValue.split(/:(.+)/)[1]}", orderBy: "-date", first: ${count})`;
+		variables = {
+		    beginDate: filterValue.split(/:(.+)/)[1],
+		    orderBy: "-date",
+		    first: count,
+		}
 		break;
 	    default:
 		console.error('Unsupported filter option')
 	}
 
-	let query = gql`
-	    query {
-		allEvents ${args} {
-		    edges {
-  			node {
-			    id
-  			    title
-  			    description
-  			    created
-			    date
-			    user {
-				id
-			    }
-			}
-		    }
-		}
-	    }
-	`;
-
-	return <QueryHelper query={query} make={make} {...this.props} />;
+	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
     };
 };
 
