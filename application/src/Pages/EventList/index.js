@@ -71,6 +71,9 @@ const QUERY = gql`
 		    date
 		    user {
 			id
+			nonprofit {
+			    id
+			}
 		    }
 		}
 	    }
@@ -98,12 +101,12 @@ class EventList extends Component {
 	let { classes } = this.props;
 	return (
     	    <Avatar
-	    component={Link}
-	    prefix={1}
-	    to={`Event?id=${node.id}`}
-  	    alt="Ibis"
-    	    src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
-    	    className={classes.avatar}
+		component={Link}
+		prefix={1}
+		to={`Nonprofit?id=${node.user.nonprofit.id}`}
+  		alt="Ibis"
+    		src={require(`../../Static/Images/birds/bird${(node.description.length) % 10}.jpg`)}
+    		className={classes.avatar}
 	    />
 	)
     };
@@ -126,9 +129,9 @@ class EventList extends Component {
 	let { classes } = this.props;
 	return (
   	    <CardMedia
-  	    className={classes.media}
-    	    image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
-  	    title={node.title}
+		className={classes.media}
+    		image={require(`../../Static/Images/egypt/pic${node.description.length % 10}.jpg`)}
+  		title={node.title}
   	    />
 	);
     };

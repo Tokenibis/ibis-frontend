@@ -38,7 +38,7 @@ const styles = theme => ({
     root: {
 	width: '100%',
     },
-    media: {
+    mediaWrapper: {
 	paddingBottom: theme.spacing(1),
     },
     item: {
@@ -118,7 +118,7 @@ class ListView extends Component {
 			  <Collapse in={expandedAll || expanded === i} timeout="auto" unmountOnExit>
 			    {
 				makeMedia && (
-				    <div className={classes.media}>
+				    <div className={classes.mediaWrapper}>
 				      {makeMedia(item.node)}
 				    </div>
 				)

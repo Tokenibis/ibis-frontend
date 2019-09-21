@@ -174,7 +174,7 @@ class Event extends Component {
     		      <Avatar
 		      component={Link}
 		      prefix={1}
-		      to={`Nonprofit?id=${event.user.id}`}
+		      to={`Nonprofit?id=${event.user.nonprofit.id}`}
   		      alt="Ibis"
     		      src={require(`../../Static/Images/birds/bird${(event.description.length) % 10}.jpg`)}
     		      className={classes.avatar}

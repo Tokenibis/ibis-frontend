@@ -133,7 +133,7 @@ class News extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Nonprofit?id=${news.user.id}`}
+			to={`Nonprofit?id=${news.user.nonprofit.id}`}
   			alt="Ibis"
     			src={require(`../../Static/Images/birds/bird${(news.description.length) % 10}.jpg`)}
     			className={classes.avatar}
