@@ -14,7 +14,9 @@ import IconButton from '@material-ui/core/IconButton';
 import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
+import ReactMarkdown from 'react-markdown';
 
+import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 
@@ -158,7 +160,7 @@ class News extends Component {
   		    title={news.title}
   		/>
   		<Typography variant="body2" className={classes.body}>
-		  {news.content}
+		  <ReactMarkdown source={news.content} />
 		</Typography>
 		<CustomDivider/>
 		<div className={classes.action}>
