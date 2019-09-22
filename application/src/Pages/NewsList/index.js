@@ -49,8 +49,8 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query NewsList($search: String, $byUser: String, $byFollowing: String, $bookmarkBy: String, $orderBy: String, $first: Int){
-	allNews(search: $search, byUser: $byUser, byFollowing: $byFollowing, bookmarkBy: $bookmarkBy, orderBy: $orderBy, first: $first){
+    query NewsList($search: String $byUser: String $byFollowing: String $bookmarkBy: String $orderBy: String $first: Int $after: String) {
+	allNews(search: $search byUser: $byUser byFollowing: $byFollowing bookmarkBy: $bookmarkBy orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -69,6 +69,10 @@ const QUERY = gql`
 			}
 		    }
 		}
+		cursor
+	    }
+	    pageInfo {
+		hasNextPage
 	    }
 	}
     }
@@ -167,7 +171,7 @@ class NewsList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allNews}
+			data={data}
 		    {...this.props}
 		    />
 		)
@@ -184,7 +188,7 @@ class NewsList extends Component {
 		    makeMedia={this.makeMedia}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allNews}
+		    data={data}
 		    {...this.props}
 		    />
 		)

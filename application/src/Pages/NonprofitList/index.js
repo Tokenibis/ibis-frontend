@@ -45,8 +45,8 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query NonprofitList($search: String, $followedBy: String, $orderBy: String, $first: Int) {
-	allNonprofits(search: $search, followedBy: $followedBy, orderBy: $orderBy, first: $first) {
+    query NonprofitList($search: String $followedBy: String $orderBy: String $first: Int $after: String) {
+	allNonprofits(search: $search followedBy: $followedBy orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -59,6 +59,10 @@ const QUERY = gql`
 			id
 		    }
   		}
+		cursor
+	    }
+	    pageInfo {
+		hasNextPage
 	    }
 	}
     }
@@ -144,7 +148,7 @@ class NonprofitList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allNonprofits}
+			data={data}
 		    {...this.props}
 		    />
 		)
@@ -154,12 +158,13 @@ class NonprofitList extends Component {
 		// show everything; intended for full-page lists
 		make = (data) => (
 		    <ListView
-		    scrollButton
-		    makeImage={this.makeImage}
-		    makeLabel={this.makeLabel}
-		    makeBody={this.makeBody}
-		    makeActions={this.makeActions}
-		    data={data.allNonprofits}
+			scrollButton
+		        infiniteScroll={this.infiniteScroll}
+			makeImage={this.makeImage}
+			makeLabel={this.makeLabel}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
 		    {...this.props}
 		    />
 		)

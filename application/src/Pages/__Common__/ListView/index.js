@@ -95,7 +95,7 @@ class ListView extends Component {
 	    <div className={classes.root}>
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		{
-		    data.edges.map((item, i) => ( 
+		    data.map((item, i) => ( 
 			(filter === undefined || filter(item.node) === true) &&
 			<div className={classes.item} key={i}>
 			  <ListItem

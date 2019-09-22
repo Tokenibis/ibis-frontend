@@ -49,8 +49,8 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query EventList($search: String, $byUser: String, $byFollowing: String, $rsvpBy: String, $beginDate: String, $orderBy: String, $first: Int){
-	allEvents(search: $search, byUser: $byUser, byFollowing: $byFollowing, rsvpBy: $rsvpBy, beginDate: $beginDate, orderBy: $orderBy, first: $first){
+    query EventList($search: String $byUser: String $byFollowing: String $rsvpBy: String $beginDate: String $orderBy: String $first: Int $after: String) {
+	allEvents(search: $search byUser: $byUser byFollowing: $byFollowing rsvpBy: $rsvpBy beginDate: $beginDate orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -70,6 +70,10 @@ const QUERY = gql`
 			}
 		    }
 		}
+		cursor
+	    }
+	    pageInfo {
+		hasNextPage
 	    }
 	}
     }
@@ -169,7 +173,7 @@ class EventList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allEvents}
+		    data={data}
 		    {...this.props}
 		    />
 		)
@@ -186,7 +190,7 @@ class EventList extends Component {
 			makeMedia={this.makeMedia}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allEvents}
+			data={data}
 		    {...this.props}
 		    />
 		)

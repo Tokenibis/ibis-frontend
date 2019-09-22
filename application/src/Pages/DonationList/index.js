@@ -47,8 +47,8 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query DonationList($search: String, $byUser: String, $byFollowing: String, $orderBy: String, $first: Int) {
-	allDonations(search: $search, byUser: $byUser, byFollowing: $byFollowing, orderBy: $orderBy, first: $first) {
+    query DonationList($search: String $byUser: String $byFollowing: String $orderBy: String $first: Int $after: String) {
+	allDonations(search: $search byUser: $byUser byFollowing: $byFollowing orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -68,6 +68,10 @@ const QUERY = gql`
 			name
 		    }
 		}
+		cursor
+	    }
+	    pageInfo {
+		hasNextPage
 	    }
 	}
     }
@@ -146,7 +150,7 @@ class DonationList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allDonations}
+			data={data}
 		    {...this.props}
 		    />
 		)
@@ -161,7 +165,7 @@ class DonationList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allDonations}
+		    data={data}
 		    {...this.props}
 		    />
 		)

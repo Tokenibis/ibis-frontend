@@ -46,8 +46,8 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query PersonList($search: String, $followedBy: String, $followerOf: String, $orderBy: String, $first: Int) {
-	allPeople(search: $search, followedBy: $followedBy, followerOf: $followerOf, orderBy: $orderBy, first: $first) {
+    query PersonList($search: String $followedBy: String $followerOf: String $orderBy: String $first: Int $after: String) {
+	allPeople(search: $search followedBy: $followedBy followerOf: $followerOf orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -59,6 +59,10 @@ const QUERY = gql`
 		    followingCount
 		    dateJoined
   		}
+		cursor
+	    }
+	    pageInfo {
+		hasNextPage
 	    }
 	}
     }
@@ -148,7 +152,7 @@ class PersonList extends Component {
 			makeLabel={this.makeLabel}
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
-			data={data.allPeople}
+			data={data}
 		    {...this.props}
 		    />
 		)
@@ -163,7 +167,7 @@ class PersonList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
-		    data={data.allPeople}
+		    data={data}
 		    {...this.props}
 		    />
 		)
