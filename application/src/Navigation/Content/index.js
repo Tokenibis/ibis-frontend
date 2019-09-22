@@ -73,7 +73,9 @@ function HomeLoader()  {
 	 <MainBar cycle={StandardVal} hideHome />
 	 <IbisConsumer>
 	   {context => (
-	       <Home context={context}/>
+	       <div style={{ margin: '0 auto', maxWidth: context.maxWindowWidth }}>
+		  <Home context={context}/>
+	       </div>
 	   )}
 	 </IbisConsumer> 
        </div>
@@ -160,12 +162,13 @@ function ContentLoader({ match, location }) {
 	Object.assign(obj, { [x.split('=')[0]]: x.split('=').slice(1).join('=') }), {});
 
     let page = (
-	<IbisConsumer>
-	  {context => (
-
-	      <Page context={context} {...urlParams} />
-	  )}
-	</IbisConsumer> 
+	  <IbisConsumer>
+	    {context => (
+		<div style={{ margin: '0 auto', maxWidth: context.maxWindowWidth }}>
+		  <Page context={context} {...urlParams} />
+		</div>
+	    )}
+	  </IbisConsumer> 
     );
 
     return (
@@ -179,10 +182,10 @@ function ContentLoader({ match, location }) {
 function Content() {
     return (
 	<div>
-	<Router>
-	  <Route path="/" exact component={HomeLoader} />
-	  <Route path="/:mode/:page?" exact component={ContentLoader} />
-	</Router>
+	  <Router>
+	    <Route path="/" exact component={HomeLoader} />
+	    <Route path="/:mode/:page?" exact component={ContentLoader} />
+	  </Router>
 	</div>
     );
 };

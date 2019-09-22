@@ -84,6 +84,18 @@ const styles = theme => ({
     }
 });
 
+const QUERY = gql`
+    query($id: ID!) {
+	person(id: $id) {
+	    id
+	    avatar
+	    username
+	    name
+	    balance
+	}
+    }
+`;
+
 class Home extends Component {
     state = {
 	expanded: null,
@@ -96,24 +108,12 @@ class Home extends Component {
     };
 
     render() {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	let { expanded } = this.state;
-
-	const query = gql`
-	    query {
-		person(id: "UGVyc29uTm9kZTo3NQ==") {
-		    id
-		    avatar
-		    username
-		    name
-		    balance
-		}
-	    }
-	`;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Query query={query}>
+	      <Query query={QUERY} variables={{ id: context.userID }}>
 		{({ loading, error, data }) => {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;

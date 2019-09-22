@@ -140,15 +140,19 @@ const hRatio = (9/16) * 0.9;
 
 class Event extends Component {
 
-    state = {
-	width: Math.round(window.innerWidth * wRatio),
-	height: Math.round(window.innerWidth * hRatio),
-    };
+    constructor ({ context }) {
+	super();
+	this.state = {
+	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * wRatio),
+	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * hRatio),
+	};
+    }
 
     resizeMap = () => {
+	let { context } = this.props;
 	this.setState({
-	    width: Math.round(window.innerWidth * wRatio),
-	    height: Math.round(window.innerWidth * hRatio)
+	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * wRatio),
+	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * hRatio)
 	});
     };
     

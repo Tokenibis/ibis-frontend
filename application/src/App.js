@@ -82,7 +82,7 @@ class App extends Component {
 	return (
 	    <ApolloProvider client={client}>
 	      <MuiThemeProvider theme={theme}>
-		<IbisProvider value={{ userID }}>
+		<IbisProvider value={{ userID, maxWindowWidth: 600 }}>
 		  <div className="App">
 		    {content}
 		  </div>
