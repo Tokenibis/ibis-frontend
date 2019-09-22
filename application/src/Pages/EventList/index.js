@@ -28,9 +28,6 @@ const styles = theme => ({
     username: {
 	color: theme.palette.tertiary.main,
     },
-    media: {
-	height: 160,
-    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -109,10 +106,14 @@ class EventList extends Component {
     };
 
     makeMedia = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
+
+	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    * context.displayRatio);
+
 	return (
   	    <CardMedia
-		className={classes.media}
+	        style={{ height: imageHeight }}
     		image={node.image}
   		title={node.title}
   	    />

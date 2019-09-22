@@ -41,10 +41,6 @@ const styles = theme => ({
     username: {
 	color: theme.palette.tertiary.main,
     },
-    media: {
-	height: 160,
-	paddingBottom: theme.spacing(1),
-    },
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
@@ -105,8 +101,10 @@ const QUERY = gql`
 class News extends Component {
 
     createPage(news) {
-	let { classes } = this.props;
-
+	let { classes, context } = this.props;
+	
+	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    * context.displayRatio);
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -138,7 +136,7 @@ class News extends Component {
 		  />
 		</ListItem>
   		<CardMedia
-  		    className={classes.media}
+		    style={{ height: imageHeight }}
     		    image={news.image}
   		    title={news.title}
   		/>

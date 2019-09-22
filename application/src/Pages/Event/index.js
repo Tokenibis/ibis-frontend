@@ -68,10 +68,6 @@ const styles = theme => ({
     username: {
 	color: theme.palette.tertiary.main,
     },
-    media: {
-	height: 160,
-	paddingBottom: theme.spacing(1),
-    },
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
@@ -135,30 +131,34 @@ const QUERY = gql`
     }
 `;
 
-const wRatio = 0.9;
-const hRatio = (9/16) * 0.9;
-
 class Event extends Component {
 
     constructor ({ context }) {
 	super();
 	this.state = {
-	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * wRatio),
-	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * hRatio),
+	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+		* context.displayRation),
+	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+		* context.displayRatio),
 	};
     }
 
     resizeMap = () => {
 	let { context } = this.props;
 	this.setState({
-	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * wRatio),
-	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth) * hRatio)
+	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+		* context.displayRation),
+	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+		* context.displayRatio),
 	});
     };
     
     createPage(event) {
 	let { width, height } = this.state;
-	let { classes } = this.props;
+	let { classes, context } = this.props;
+
+	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    * context.displayRatio);
 
 	window.addEventListener('resize', this.resizeMap);
 
@@ -193,7 +193,7 @@ class Event extends Component {
 		    />
 		  </ListItem>
   		  <CardMedia
-  		      className={classes.media}
+		      style={{ height: imageHeight }}
     		      image={event.image}
   		      title={event.title}
   		  />

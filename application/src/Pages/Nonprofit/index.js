@@ -42,9 +42,6 @@ const styles = theme => ({
 	backgroundColor: theme.palette.lightBackground.main,
 	marginBottom: theme.spacing(3),
     },
-    media: {
-	height: 160,
-    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -117,11 +114,14 @@ class Nonprofit extends Component {
 	let { classes, context, id } = this.props;
 	let { expanded } = this.state;
 
+	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    * context.displayRatio);
+
 	return (
 	    <div className={classes.root}>
 	      <Card className={classes.card}>
 		<CardMedia
-		    className={classes.media}
+	            style={{ height: imageHeight }}
     		    image={node.avatar}
 		/>
 		<CardContent>
