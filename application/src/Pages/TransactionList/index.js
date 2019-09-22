@@ -137,13 +137,14 @@ class TransactionList extends Component {
 
     render() {
 	let { context, variant, filterValue, count } = this.props;
-	let make, variables;
+	let infiniteScroll, make, variables;
 
 	// variant does not affect the content, only the visually displayed information
 	switch (variant) {
 
 	    case 'minimal':
 		// hide icons/pictures and scroll button; intended for small partial-page lists
+		infiniteScroll = false;
 		make = (data) => (
 		    <ListView
 			makeLabel={this.makeLabel}
@@ -157,6 +158,7 @@ class TransactionList extends Component {
 
 	    default:
 		// show everything; intended for full-page lists
+		infiniteScroll = true;
 		make = (data) => (
 		    <ListView
 		    scrollButton
@@ -214,7 +216,15 @@ class TransactionList extends Component {
 		console.error('Unsupported filter option')
 	}
 
-	return <QueryHelper query={QUERY} variables={variables} make={make} {...this.props} />;
+	return (
+	    <QueryHelper
+		query={QUERY}
+		variables={variables}
+		make={make}
+		infiniteScroll={infiniteScroll}
+	    {...this.props}
+	    />
+	);
     };
 
 };

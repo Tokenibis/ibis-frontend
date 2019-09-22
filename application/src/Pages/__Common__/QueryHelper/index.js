@@ -64,36 +64,48 @@ class QueryHelper extends Component {
     }
 
     render() {
-	let { variables, classes, query, make, counter } = this.props;
+	let { variables, classes, query, make, infiniteScroll } = this.props;
 	let { dataOld } = this.state;
 
-	return (
-	    <div>
-	      {dataOld && make(dataOld)}
-	      <Query query={query} variables={variables} partialRefetch={true}>
-		{({ loading, error, data }) => {
-		    if (loading) return <LinearProgress className={classes.progress} />;
-		    if (error) return `Error! ${error.message}`;
+	if (infiniteScroll) {
+	    return (
+		<div>
+		  {dataOld && make(dataOld)}
+		  <Query query={query} variables={variables} partialRefetch={true}>
+		    {({ loading, error, data }) => {
+			if (loading) return <LinearProgress className={classes.progress} />;
+			if (error) return `Error! ${error.message}`;
 
-		    let dataCurrent = dataOld.concat(data[Object.keys(data)[0]].edges)
+			let dataCurrent = dataOld.concat(data[Object.keys(data)[0]].edges)
 
-		    return (
-			  <InfiniteScroll
-			      pageStart={0}
-			      className={classes.infiniteScroll}
-			      loadMore={() => this.paginate(dataCurrent)}
-			      hasMore={data[Object.keys(data)[0]].pageInfo.hasNextPage}
-			      loader={
-				  <Typography type="body2" className={classes.loader}>
-				    Loading...
-				  </Typography>
-			      }
-			  />
-		    )
-		}}
-	      </Query>
-	    </div>
-	);
+			return (
+			    <InfiniteScroll
+				pageStart={0}
+				className={classes.infiniteScroll}
+				loadMore={() => this.paginate(dataCurrent)}
+				hasMore={data[Object.keys(data)[0]].pageInfo.hasNextPage}
+				loader={
+				    <Typography type="body2" className={classes.loader}>
+				      Loading more results...
+				    </Typography>
+				}
+			    />
+			)
+		    }}
+		  </Query>
+		</div>
+	    );
+	} else {
+	    return (
+		<Query query={query} variables={variables}>
+		  {({ loading, error, data }) => {
+		      if (loading) return <LinearProgress className={classes.progress} />;
+		      if (error) return `Error! ${error.message}`;
+		      return make(data[Object.keys(data)[0]].edges)
+		  }}
+		</Query>
+	    );
+	}
     }
 };
 
