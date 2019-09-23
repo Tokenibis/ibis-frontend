@@ -16,6 +16,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
@@ -42,6 +43,12 @@ const styles = theme => ({
 	borderStyle: 'solid',
 	borderWidth: '2px',
 	borderColor: theme.palette.secondary.main,
+    },
+    balance: {
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+	paddingBottom: theme.spacing(2),
+	textDecoration: 'none',
     },
     sideMenu: {
 	minWidth: theme.spacing(28),
@@ -104,16 +111,29 @@ class SideMenu extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center">
 		<Query query={query}>
 		  {({ loading, error, data }) => {
-		  if (loading) return <LinearProgress className={classes.progress} />;
+		      if (loading) return <LinearProgress className={classes.progress} />;
 		      if (error) return `Error! ${error.message}`;
 		      return (
-  			  <Avatar
-			      component={Link}
-			      to="/_/Account"
-  			      alt="Ibis"
-  			      src={data.person.avatar}
-  			      className={classes.avatar}
-			  />
+  			  <Grid container direction="column" justify="center" alignItems="center" >
+  			    <Avatar
+				component={Link}
+				to="/_/Account"
+  				alt="Ibis"
+  				src={data.person.avatar}
+  				className={classes.avatar}
+				onClick={(e) => this.toggleDrawer(false)}
+			    />
+			    <Typography
+				component={Link}
+				to="/_/Bank"
+  				alt="Ibis"
+				variant="body2"
+				className={classes.balance}
+				onClick={(e) => this.toggleDrawer(false)}
+			      >
+			      Balance ${data.person.balance}
+			    </Typography>
+			  </Grid>
 		      );
 		  }} 
 		</Query>
