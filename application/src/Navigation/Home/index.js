@@ -22,7 +22,6 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import NotificationIcon from '@material-ui/icons/NotificationsOutlined';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import ExploreIcon from '@material-ui/icons/MapOutlined';
@@ -46,16 +45,16 @@ const styles = theme => ({
     progress: {
 	marginTop: theme.spacing(1),
     },
-    balance: {
-	color: theme.palette.primary.main,
-    },
-    name: {
+    username: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	textDecoration: 'none',
 	paddingTop: theme.spacing(1),
     },
-    notifications: {
+    name: {
+	color: theme.palette.primary.main,
+    },
+    balance: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
@@ -119,38 +118,38 @@ class Home extends Component {
 		    if (error) return `Error! ${error.message}`;
 		    return (
   			<Grid container direction="column" justify="center" alignItems="center" >
-  			<Avatar
-			    component={Link}
-			    to="/_/Account"
-  			    alt="Ibis"
-  			    src={data.person.avatar}
-  			    className={classes.avatar}
-			/>
+  			  <Avatar
+			      component={Link}
+			      to="/_/Account"
+  			      alt="Ibis"
+  			      src={data.person.avatar}
+  			      className={classes.avatar}
+			  />
 			  <Typography
 			      component={Link}
 			      to="/_/Account"
   			      alt="Ibis"
 			      variant="body2"
-			      className={classes.name}
+			      className={classes.username}
 			    >
+			    {`@${data.person.username}`}
+			  </Typography>
+			  <Typography variant="h6" className={classes.name}>
 			    {`${data.person.name}`}
 			  </Typography>
-			  <Typography variant="h6" className={classes.balance}>
+			  <Typography
+			      component={Link}
+			      to="/_/Bank"
+  			      alt="Ibis"
+			      variant="body2"
+			      className={classes.balance}
+			    >
 			    Balance ${data.person.balance}
 			  </Typography>
 			</Grid>
 		    );
 		}}
 	      </Query>
-	      <Typography
-		  component={Link}
-		  to="/_/Notifications"
-  		  alt="Ibis"
-		  variant="body2"
-		  className={classes.notifications}
-	      >
-		Notifications ({<NotificationIcon className={classes.notificationIcon} />})
-	      </Typography>
 	      <List
 		component="nav"
 		className={classes.list}

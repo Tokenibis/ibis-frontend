@@ -13,10 +13,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import NotificationIcon from '@material-ui/icons/Notifications';
 
 import Link from '../../__Common__/CustomLink';
 import IbisIcon from '../../__Common__/IbisIcon';
-import Cycler from '../Cycler';
+import Cycler from '../Cycler'
 import SideMenu from '../SideMenu';
 
 const styles = {
@@ -43,12 +44,19 @@ function MainBar({ classes, handleFrame, cycle, hideHome }) {
 	      <Cycler value={cycle} handleFrame={handleFrame} />
 	    </Typography>
 	    {
-		(hideHome === undefined || hideHome === false) &&
-		<Link to="/">
-		  <IconButton color="inherit">
-		    <IbisIcon />
-		  </IconButton>
-		</Link>
+		hideHome ? (
+		    <Link to="/_/Notifications">
+		      <IconButton color="inherit">
+			<NotificationIcon />
+		      </IconButton>
+		    </Link>
+		):(
+		    <Link to="/">
+		      <IconButton color="inherit">
+			<IbisIcon />
+		      </IconButton>
+		    </Link>
+		)
 	    }
           </Toolbar>
 	</AppBar>
