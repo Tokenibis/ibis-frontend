@@ -50,30 +50,28 @@ class App extends Component {
         super();
 	// Temorarily allow authentication for developing
         this.state = {
-	    isAuthenticated: true,
-	    userID: 'UGVyc29uTm9kZTo3NQ==',
-	    token: '',
+	    userID: '',
 	};
     };
 
     /* flag app the user as authenticated and set the token */
-    authenticate = (token) => {
-	this.setState({ isAuthenticated: true, token })
+    authenticate = (userID) => {
+	this.setState({ userID })
     };
 
     /* flag app the user as unauthenticated and clear the token */
     logout = () => {
-	this.setState({isAuthenticated: false, token: ''})
+	this.setState({ userID: '' })
     };
 
     render() {
 
-	let { isAuthenticated, userID } = this.state;
+	let { userID } = this.state;
 
 	let authenticatorView = <Authenticator authenticate={this.authenticate} />;
 	let appView = <Content />;
 
-	let content = !!isAuthenticated ? appView : authenticatorView;
+	let content = userID !== '' ? appView : authenticatorView;
 
 	return (
 	    <ApolloProvider client={client}>

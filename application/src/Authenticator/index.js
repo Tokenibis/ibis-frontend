@@ -58,18 +58,30 @@ class Authenticator extends Component {
 		withCredentials: true
 	    }).then(response => {
 		if ('data' in response && 'key' in response.data) {
-		    this.props.authenticate(response.data.key);
+		    return axios('https://api.tokenibis.org/ibis/login/', {
+			method: 'post',
+			withCredentials: true
+		    });
+		} else {
+		    console.error('Did not receive data or key in social auth response');
+		    console.error(response);
+		}
+	    }).then(response => {
+		if ('user_id' in response.data) {
+		    this.props.authenticate(response.data.user_id);
+		} else {
+		    console.error('Did not receive ibis user id in login response');
+		    console.error(response);
 		}
 	    }).catch(error => {
-		console.log(error);
-		console.log(error.response);
+		console.error(error);
+		console.error(error.response);
 	    })
 	} 
 
 	return (
 	    <div>
 	      <FacebookLoginButton onClick={this.facebookLogin}/>
-	      <GoogleLoginButton onClick={this.googleLogin}/>
 	    </div>
 	);
     }
