@@ -73,9 +73,7 @@ function HomeLoader()  {
 	 <MainBar cycle={StandardVal} hideHome />
 	 <IbisConsumer>
 	   {context => (
-	       <div style={{ margin: '0 auto', maxWidth: context.maxWindowWidth }}>
-		  <Home context={context}/>
-	       </div>
+	       <Home context={context}/>
 	   )}
 	 </IbisConsumer> 
        </div>

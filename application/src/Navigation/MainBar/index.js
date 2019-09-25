@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NotificationIcon from '@material-ui/icons/Notifications';
 
+import { IbisConsumer } from '../../Context';
 import Link from '../../__Common__/CustomLink';
 import IbisIcon from '../../__Common__/IbisIcon';
 import Cycler from '../Cycler'
@@ -34,12 +35,16 @@ const styles = {
     },
 };
 
-function MainBar({ classes, handleFrame, cycle, hideHome }) {
+function MainBar({ classes, context, handleFrame, cycle, hideHome }) {
 
     return (
 	<AppBar color="primary" position="static">
 	  <Toolbar>
-	    <SideMenu handleFrame={handleFrame}/>
+	    <IbisConsumer>
+	      {context => (
+		  <SideMenu context={context}/>
+	      )}
+	    </IbisConsumer> 
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
 	      <Cycler value={cycle} handleFrame={handleFrame} />
 	    </Typography>

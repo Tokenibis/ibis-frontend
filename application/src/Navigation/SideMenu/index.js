@@ -67,6 +67,18 @@ const styles = theme => ({
     },
 });
 
+const query = gql`
+    query {
+	person(id: $id) {
+	    id
+	    avatar
+	    username
+	    name
+	    balance
+	}
+    }
+`;
+
 class SideMenu extends Component {
 
     state = {
@@ -100,25 +112,13 @@ class SideMenu extends Component {
     };
 
     render() {
-	let { classes } = this.props;
-	let { drawer, expanded } =this.state;
-
-	const query = gql`
-	    query {
-		person(id: "UGVyc29uTm9kZTo3NQ==") {
-		    id
-		    avatar
-		    username
-		    name
-		    balance
-		}
-	    }
-	`;
+	let { classes, context } = this.props;
+	let { drawer, expanded } = this.state;
 
 	let sideMenu = (
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
-		<Query query={query}>
+		<Query query={query} variables={{ id: context.userID }}>
 		  {({ loading, error, data }) => {
 		      if (loading) return <LinearProgress className={classes.progress} />;
 		      if (error) return `Error! ${error.message}`;
