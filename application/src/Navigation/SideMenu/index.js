@@ -44,6 +44,15 @@ const styles = theme => ({
 	borderWidth: '2px',
 	borderColor: theme.palette.secondary.main,
     },
+    username: {
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+	textDecoration: 'none',
+	paddingTop: theme.spacing(1),
+    },
+    name: {
+	color: theme.palette.primary.main,
+    },
     balance: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
@@ -123,6 +132,19 @@ class SideMenu extends Component {
   				className={classes.avatar}
 				onClick={(e) => this.toggleDrawer(false)}
 			    />
+			    <Typography
+				component={Link}
+				to="/_/Account"
+  				alt="Ibis"
+				variant="body2"
+				className={classes.username}
+				onClick={(e) => this.toggleDrawer(false)}
+			      >
+			      {`@${data.person.username}`}
+			    </Typography>
+			    <Typography variant="h6" className={classes.name}>
+			      {`${data.person.name}`}
+			    </Typography>
 			    <Typography
 				component={Link}
 				to="/_/Bank"
