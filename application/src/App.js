@@ -58,7 +58,7 @@ class App extends Component {
 
     /* flag app the user as authenticated and set the token */
     authenticate = (token) => {
-	this.setState({isAuthenticated: true, token: token})
+	this.setState({ isAuthenticated: true, token })
     };
 
     /* flag app the user as unauthenticated and clear the token */

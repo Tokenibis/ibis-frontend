@@ -15,7 +15,7 @@ class Authenticator extends Component {
 
     /* retrieve the google oauth request url and redirect */
     googleLogin = () => {
-	axios('http://localhost:8000/auth/social/google/auth-server/', {
+	axios('https://api.tokenibis.org/auth/social/google/auth-server/', {
 	    method: 'post',
 	    withCredentials: true
 	}).then(response => {
@@ -28,7 +28,15 @@ class Authenticator extends Component {
 
     /* retrieve the facebook oauth request url and redirect */
     facebookLogin = () => {
-	alert('implement me!');
+	axios('https://api.tokenibis.org/auth/social/facebook/auth-server/', {
+	    method: 'post',
+	    withCredentials: true
+	}).then(response => {
+	    window.location.href = response.data.url;
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	})
     }
 
     render() {
@@ -41,7 +49,7 @@ class Authenticator extends Component {
 
 	// attempt to authenticate with django
 	if (code != null && state != null) {
-	    axios('http://localhost:8000/auth/social/google/login/', {
+	    axios('https://api.tokenibis.org/auth/social/facebook/login/', {
 		method: 'post',
 		data: {
 		    code: code,
@@ -60,8 +68,8 @@ class Authenticator extends Component {
 
 	return (
 	    <div>
-	      <GoogleLoginButton onClick={this.googleLogin}/>
 	      <FacebookLoginButton onClick={this.facebookLogin}/>
+	      <GoogleLoginButton onClick={this.googleLogin}/>
 	    </div>
 	);
     }
