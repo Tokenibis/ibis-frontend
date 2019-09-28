@@ -129,6 +129,9 @@ class NewsList extends Component {
 	
 	return (
   	    <CardMedia
+		component={Link}
+		prefix={1}
+		to={`News?id=${node.id}`}
 	        style={{ height: imageHeight }}
     		image={node.image}
   		title={node.title}

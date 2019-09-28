@@ -129,6 +129,9 @@ class EventList extends Component {
 
 	return (
   	    <CardMedia
+		component={Link}
+		prefix={1}
+		to={`Event?id=${node.id}`}
 	        style={{ height: imageHeight }}
     		image={node.image}
   		title={node.title}
