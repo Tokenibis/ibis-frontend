@@ -11,8 +11,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ReactMarkdown from 'react-markdown';
 
