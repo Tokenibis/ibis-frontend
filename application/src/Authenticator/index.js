@@ -14,20 +14,12 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
-import LinearProgress from '@material-ui/core/LinearProgress';
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-
-const styles = theme => ({
-    progress: {
-	marginTop: theme.spacing(1),
-    },
-})
 
 class Authenticator extends Component {
 
@@ -66,10 +58,8 @@ class Authenticator extends Component {
 
     render() {
 
-	let { classes, authenticate } = this.props;
+	let { authenticate } = this.props;
 	let { checkedAuth } = this.state;
-
-	let content = <LinearProgress className={classes.progress} />;
 
 	// this block triggers while we are checking authentication status
 	if (!checkedAuth) {
@@ -87,7 +77,7 @@ class Authenticator extends Component {
 		console.log(error);
 		this.setState({ checkedAuth: true });
 	    })
-	    return <LinearProgress className={classes.progress} />;
+	    return null;
 	}
 
 	// if we've gotten this far, that means that we need to login
@@ -139,8 +129,7 @@ class Authenticator extends Component {
 };
 
 Authenticator.propTypes = {
-    classes: PropTypes.object.isRequired,
     authenticate: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Authenticator);
+export default Authenticator;
