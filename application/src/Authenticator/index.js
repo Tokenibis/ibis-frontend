@@ -1,17 +1,42 @@
-/* Implement logic for authentication with the django API backend. The
+/*
+
+   Implement logic for authentication with the django API backend. The
    authenticator component expects a "authenticate" prop from its
    parent in order to pass back the authentication token, which should
-   be subsequently used for all further interactions with the API.  */
+   be subsequently used for all further interactions with the API.
+   
+   The component returns a loading splash screen while it is trying to
+   decide whether the user has authentication. Depending on the
+   results, it either provides App.js the userID to proceed to the
+   content or it displays the login screen.
+
+*/
 
 import React, { Component } from 'react';
-import axios from "axios";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
+import LinearProgress from '@material-ui/core/LinearProgress';
+import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
+const styles = theme => ({
+    progress: {
+	marginTop: theme.spacing(1),
+    },
+})
+
 class Authenticator extends Component {
+
+    constructor() {
+	super()
+	this.state = {
+	    checkedAuth: false,
+	};
+    };
 
     /* retrieve the google oauth request url and redirect */
     googleLogin = () => {
@@ -41,14 +66,40 @@ class Authenticator extends Component {
 
     render() {
 
-	// extract oauth parameters from url if available
+	let { classes, authenticate } = this.props;
+	let { checkedAuth } = this.state;
+
+	let content = <LinearProgress className={classes.progress} />;
+
+	// this block triggers while we are checking authentication status
+	if (!checkedAuth) {
+	    // see if user is already authenticated
+	    axios('https://api.tokenibis.org/ibis/identify/', {
+		withCredentials: true
+	    }).then(response => {
+		if (response.data.user_id !== '') {
+		    authenticate(response.data.user_id);
+		} else {
+		    this.setState({ checkedAuth: true });
+		}
+	    }).catch(error => {
+		this.setState({ userID: '' });
+		console.log(error);
+		this.setState({ checkedAuth: true });
+	    })
+	    return <LinearProgress className={classes.progress} />;
+	}
+
+	// if we've gotten this far, that means that we need to login
+
+	// attempt to extract oauth code and state
 	let url = new URL(window.location.href);
 	let code = url.searchParams.get('code');
 	let state = url.searchParams.get('state');
 	window.history.replaceState({}, document.title, "/");
 
 	// attempt to authenticate with django
-	if (code != null && state != null) {
+	if (/* TODO: make sure url path == '/' */code != null && state != null) {
 	    axios('https://api.tokenibis.org/auth/social/facebook/login/', {
 		method: 'post',
 		data: {
@@ -68,7 +119,7 @@ class Authenticator extends Component {
 		}
 	    }).then(response => {
 		if ('user_id' in response.data) {
-		    this.props.authenticate(response.data.user_id);
+		    authenticate(response.data.user_id);
 		} else {
 		    console.error('Did not receive ibis user id in login response');
 		    console.error(response);
@@ -84,7 +135,12 @@ class Authenticator extends Component {
 	      <FacebookLoginButton onClick={this.facebookLogin}/>
 	    </div>
 	);
-    }
-}
+    };
+};
 
-export default Authenticator;
+Authenticator.propTypes = {
+    classes: PropTypes.object.isRequired,
+    authenticate: PropTypes.func.isRequired,
+};
+
+export default withStyles(styles)(Authenticator);

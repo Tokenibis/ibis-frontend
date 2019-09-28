@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-import { IbisProvider } from './Context'
-import Authenticator from './Authenticator'
-import Content from './Navigation/Content'
-
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { IbisProvider } from './Context'
+import Authenticator from './Authenticator'
+import Content from './Navigation/Content'
 
 const config = require('./config.json');
 
@@ -48,7 +47,6 @@ class App extends Component {
 
     constructor() {
         super();
-	// Temorarily allow authentication for developing
         this.state = {
 	    userID: '',
 	};
@@ -65,13 +63,15 @@ class App extends Component {
     };
 
     render() {
-
 	let { userID } = this.state;
 
-	let authenticatorView = <Authenticator authenticate={this.authenticate} />;
-	let appView = <Content />;
+	let content;
 
-	let content = userID !== '' ? appView : authenticatorView;
+	if (userID === '') {
+	    content = <Authenticator authenticate={this.authenticate} />;
+	} else {
+	    content = <Content />;
+	}
 
 	return (
 	    <ApolloProvider client={client}>
