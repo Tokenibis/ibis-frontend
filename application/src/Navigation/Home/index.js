@@ -30,7 +30,7 @@ import DonationIcon from '@material-ui/icons/AttachMoney';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
-import EventIcon from '@material-ui/icons/CalendarToday';
+import EventIcon from '@material-ui/icons/Event';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';

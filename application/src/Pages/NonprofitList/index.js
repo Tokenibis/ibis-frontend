@@ -5,13 +5,13 @@ import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
+import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -45,7 +45,7 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query NonprofitList($search: String $followedBy: String $orderBy: String $first: Int $after: String) {
+    query NonprofitList($self: String $search: String $followedBy: String $orderBy: String $first: Int $after: String) {
 	allNonprofits(search: $search followedBy: $followedBy orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
@@ -57,6 +57,13 @@ const QUERY = gql`
   		    description
 		    category {
 			id
+		    }
+		    isFollowing: follower(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
 		    }
   		}
 		cursor
@@ -109,12 +116,15 @@ class NonprofitList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <IconButton color="secondary" aria-label="Like">
-		<LikeIcon />
-	      </IconButton>
+	      <SimpleEdgeMutation
+		  variant={FollowVal}
+		  user={context.userID}
+		  target={node.id}
+		  initial={node.isFollowing.edges.length === 1}
+	      />
 	      <IconButton>
 		<NonprofitCategoryIcon
 		    id={node.category.id}
@@ -213,6 +223,8 @@ class NonprofitList extends Component {
 	    default:
 		console.error('Unsupported filter option')
 	}
+
+	variables.self = context.userID
 
 	return (
 	    <QueryHelper

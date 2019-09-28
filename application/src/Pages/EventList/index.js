@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
-import RSVPIcon from '@material-ui/icons/Event';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import Link from '../../__Common__/CustomLink';
@@ -14,6 +11,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import EventFilter from './filter';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
+import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -49,7 +47,7 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query EventList($search: String $byUser: String $byFollowing: String $rsvpBy: String $beginDate: String $orderBy: String $first: Int $after: String) {
+    query EventList($self: String $search: String $byUser: String $byFollowing: String $rsvpBy: String $beginDate: String $orderBy: String $first: Int $after: String) {
 	allEvents(search: $search byUser: $byUser byFollowing: $byFollowing rsvpBy: $rsvpBy beginDate: $beginDate orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
@@ -65,6 +63,20 @@ const QUERY = gql`
 			nonprofit {
 			    id
 			    category {
+				id
+			    }
+			}
+		    }
+		    hasLiked: like(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
+		    }
+		    hasRsvp: rsvp(id: $self) {
+			edges {
+			    node {
 				id
 			    }
 			}
@@ -110,7 +122,7 @@ class EventList extends Component {
     };
 
     makeMedia = (node) => {
-	let { classes, context } = this.props;
+	let { context } = this.props;
 
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
@@ -133,16 +145,22 @@ class EventList extends Component {
     };
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <div>
-  		<IconButton color="secondary" aria-label="Like">
-  		  <LikeIcon />
-  		</IconButton>
-  		<IconButton color="secondary" aria-label="RSVP">
-  		  <RSVPIcon />
-  		</IconButton>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
+		    variant={RsvpVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasRsvp.edges.length === 1}
+		/>
 	      </div>
   	      <Typography variant="body2" className={classes.categoryIcon}>
 	      <NonprofitCategoryIcon
@@ -261,6 +279,8 @@ class EventList extends Component {
 	    default:
 		console.error('Unsupported filter option')
 	}
+
+	variables.self = context.userID
 
 	return (
 	    <QueryHelper

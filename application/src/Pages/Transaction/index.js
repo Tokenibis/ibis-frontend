@@ -9,12 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import TransactionCategoryIcon from '../__Common__/TransactionCategoryIcon';
+import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     root: {
@@ -82,7 +82,7 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query Transaction($id: ID!){
+    query Transaction($id: ID! $self: String){
 	transaction(id: $id){
 	    id
 	    description 
@@ -106,14 +106,21 @@ const QUERY = gql`
 		username
 		name
 	    }
+	    hasLiked: like(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	}
     }
 `;
 
 class Transaction extends Component {
 
-    createPage(transaction) {
-	let { classes } = this.props;
+    createPage(node) {
+	let { classes, context } = this.props;
 
 	return (
 	    <div className={classes.root}>
@@ -123,9 +130,9 @@ class Transaction extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Person?id=${transaction.user.person.id}`}
+			to={`Person?id=${node.user.person.id}`}
   			alt="Ibis"
-    			src={transaction.user.avatar}
+    			src={node.user.avatar}
     			className={classes.avatar}
 		    />
 		  </div>
@@ -133,9 +140,9 @@ class Transaction extends Component {
 		<Grid item xs={7}>
 		  <div>
 		    <Typography variant="body2" className={classes.header}>
-		      {`${transaction.user.name}`}
+		      {`${node.user.name}`}
 		      {<ToIcon className={classes.toIcon} />}
-		      {`${transaction.target.name} ${transaction.target.lastName}`}
+		      {`${node.target.name} ${node.target.lastName}`}
 		    </Typography>
 		  </div>
 		</Grid>
@@ -143,21 +150,21 @@ class Transaction extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.created}>
-  		    {new Date(transaction.created).toDateString()}
+  		    {new Date(node.created).toDateString()}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.gift}>
-		    {`$${transaction.amount} (~${Math.round(transaction.amount/7.5*10)/10} Burritos)`}
+		    {`$${node.amount} (~${Math.round(node.amount/7.5*10)/10} Burritos)`}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.description}>
-  		    {transaction.description}
+  		    {node.description}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>
@@ -169,11 +176,14 @@ class Transaction extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7} className={classes.divider}>
 		  <div className={classes.action}>
-		    <IconButton className={classes.stats}>
-		      <LikeIcon className={classes.statIcon}/> ({transaction.likeCount})
-		    </IconButton>
+		    <SimpleEdgeMutation
+			variant={LikeVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.hasLiked.edges.length === 1}
+		    />
 		    <TransactionCategoryIcon
-			id={transaction.category.id}
+			id={node.category.id}
 			className={classes.categoryIcon}
 		    />
 		    <IconButton className={classes.stats}>
@@ -193,10 +203,14 @@ class Transaction extends Component {
     }
 
     render() {
-	let { classes, id } = this.props
+	let { classes, context, id } = this.props
 
 	return (
-	    <Query query={QUERY} variables={{ id }}>
+	    <Query
+		fetchPolicy="network-only"
+		query={QUERY} 
+		variables={{ id, self: context.userID }}
+	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

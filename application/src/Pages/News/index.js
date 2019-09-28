@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     content: {
@@ -75,7 +76,7 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query News($id: ID!){
+    query News($id: ID! $self: String){
 	news(id: $id){
 	    id
 	    title
@@ -94,13 +95,27 @@ const QUERY = gql`
 		    }
 		}
 	    }
+	    hasLiked: like(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
+	    hasBookmarked: bookmark(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	}
     }
 `;
 
 class News extends Component {
 
-    createPage(news) {
+    createPage(node) {
 	let { classes, context } = this.props;
 	
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
@@ -116,9 +131,9 @@ class News extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Nonprofit?id=${news.user.nonprofit.id}`}
+			to={`Nonprofit?id=${node.user.nonprofit.id}`}
   			alt="Ibis"
-    			src={news.user.avatar}
+    			src={node.user.avatar}
     			className={classes.avatar}
 		    />
 		  </ListItemIcon>
@@ -126,10 +141,10 @@ class News extends Component {
 		  primary={
 		      <div>
   			<Typography variant="body2" className={classes.name}>
-  			  {news.title}
+  			  {node.title}
   			</Typography>
   			<Typography variant="body2" className={classes.username}>
-  			  {new Date(news.created).toDateString()}
+  			  {new Date(node.created).toDateString()}
   			</Typography>
 		      </div>
 		  }
@@ -137,24 +152,30 @@ class News extends Component {
 		</ListItem>
   		<CardMedia
 		    style={{ height: imageHeight }}
-    		    image={news.image}
-  		    title={news.title}
+    		    image={node.image}
+  		    title={node.title}
   		/>
   		<Typography variant="body2" className={classes.body}>
-		  <ReactMarkdown source={news.content} />
+		  <ReactMarkdown source={node.content} />
 		</Typography>
 		<CustomDivider/>
 		<div className={classes.action}>
 		  <div>
-		    <IconButton className={classes.stats}>
-		      <LikeIcon className={classes.statIcon}/> (0)
-		    </IconButton>
-  		    <IconButton>
-  		      <BookmarkIcon className={classes.statIcon}/>
-  		    </IconButton>
+		    <SimpleEdgeMutation
+			variant={LikeVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.hasLiked.edges.length === 1}
+		    />
+		    <SimpleEdgeMutation
+			variant={BookmarkVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.hasBookmarked.edges.length === 1}
+		    />
 		  </div>
 		  <NonprofitCategoryIcon
-		      id={news.user.nonprofit.category.id}
+		      id={node.user.nonprofit.category.id}
 		      className={classes.categoryIcon}
 		  />
 		  <IconButton className={classes.stats}>
@@ -169,10 +190,14 @@ class News extends Component {
     }
 
     render() {
-	let { classes, id } = this.props
+	let { classes, context, id } = this.props
 
 	return (
-	    <Query query={QUERY} variables={{ id }}>
+	    <Query
+		fetchPolicy="network-only"
+		query={QUERY}
+		variables={{ id, self: context.userID }}
+	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

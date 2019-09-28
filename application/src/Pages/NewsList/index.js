@@ -4,9 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkIcon from '@material-ui/icons/BookmarkBorder';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import Link from '../../__Common__/CustomLink';
@@ -14,6 +11,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -49,7 +47,7 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query NewsList($search: String $byUser: String $byFollowing: String $bookmarkBy: String $orderBy: String $first: Int $after: String) {
+    query NewsList($self: String $search: String $byUser: String $byFollowing: String $bookmarkBy: String $orderBy: String $first: Int $after: String) {
 	allNews(search: $search byUser: $byUser byFollowing: $byFollowing bookmarkBy: $bookmarkBy orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
@@ -64,6 +62,20 @@ const QUERY = gql`
 			nonprofit {
 			    id
 			    category {
+				id
+			    }
+			}
+		    }
+		    hasLiked: like(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
+		    }
+		    hasBookmarked: bookmark(id: $self) {
+			edges {
+			    node {
 				id
 			    }
 			}
@@ -110,7 +122,7 @@ class NewsList extends Component {
     };
 
     makeMedia = (node) => {
-	let { classes, context } = this.props;
+	let { context } = this.props;
 
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
@@ -133,16 +145,22 @@ class NewsList extends Component {
     };
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
 	      <div>
-  		<IconButton color="secondary" aria-label="Like">
-  		  <LikeIcon />
-  		</IconButton>
-  		<IconButton color="secondary" aria-label="Bookmark">
-  		  <BookmarkIcon />
-  		</IconButton>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		/>
 	      </div>
 	      <NonprofitCategoryIcon
 		  id={node.user.nonprofit.category.id}
@@ -252,6 +270,8 @@ class NewsList extends Component {
 		console.error('Unsupported filter option')
 		
 	}
+
+	variables.self = context.userID
 
 	return (
 	    <QueryHelper

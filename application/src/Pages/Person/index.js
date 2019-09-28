@@ -13,12 +13,11 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import AddButton from '../__Common__/AddButton';
-
 import Link from '../../__Common__/CustomLink';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
+import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 
 
 const styles = theme => ({
@@ -87,14 +86,22 @@ const styles = theme => ({
 })
 
 const QUERY = gql`
-    query Person($id: ID!){
+    query Person($id: ID! $self: String){
 	person(id: $id) {
+	    id
 	    name
 	    username
 	    avatar
 	    balance
 	    followerCount
 	    followingCount
+	    isFollowing: follower(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	}
     }
 `;
@@ -113,7 +120,7 @@ class Person extends Component {
 	return data;
     }
     
-    createPage(person) {
+    createPage(node) {
 	let { classes, context, id } = this.props;
 
 	return (
@@ -122,7 +129,7 @@ class Person extends Component {
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar 
   		  alt="Ibis"
-    		  src={person.avatar}
+    		  src={node.avatar}
   		  className={classes.avatar}
 		  />
 		  </Grid>
@@ -132,13 +139,16 @@ class Person extends Component {
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
 		      <div className={classes.actionLeft}>
-  			<IconButton color="secondary" aria-label="Like">
-  			  <AddButton label="Follow" />
-  			</IconButton>
+			<SimpleEdgeMutation
+			    variant={FollowVal}
+			    user={context.userID}
+			    target={node.id}
+			    initial={node.isFollowing.edges.length === 1}
+			/>
 		      </div>
 		      <Button>
 			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${person.followerCount}`}
+			  {`Followers: ${node.followerCount}`}
 			</Typography>
 		      </Button>
 		    </div>
@@ -211,10 +221,14 @@ class Person extends Component {
     }
     
     render() {
-	let { classes, id } = this.props
+	let { classes, context, id } = this.props
 
 	return (
-	    <Query query={QUERY} variables={{ id }}>
+	    <Query
+		fetchPolicy="network-only"
+		query={QUERY}
+		variables={{ id, self: context.userID }}
+	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

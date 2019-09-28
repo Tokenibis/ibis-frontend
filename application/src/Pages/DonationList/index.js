@@ -5,13 +5,13 @@ import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import LikeIcon from '@material-ui/icons/FavoriteBorder';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
+import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     categoryIcon: {
@@ -47,7 +47,7 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query DonationList($search: String $byUser: String $byFollowing: String $orderBy: String $first: Int $after: String) {
+    query DonationList($self: String $search: String $byUser: String $byFollowing: String $orderBy: String $first: Int $after: String) {
 	allDonations(search: $search byUser: $byUser byFollowing: $byFollowing orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
@@ -66,6 +66,13 @@ const QUERY = gql`
 		    user {
 			id
 			name
+		    }
+		    hasLiked: like(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
 		    }
 		}
 		cursor
@@ -114,12 +121,15 @@ class DonationList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <IconButton color="secondary" aria-label="Like">
-		<LikeIcon />
-	      </IconButton>
+	      <SimpleEdgeMutation
+		  variant={LikeVal}
+		  user={context.userID}
+		  target={node.id}
+		  initial={node.hasLiked.edges.length === 1}
+	      />
 	      <Typography variant="body2" className={classes.amount}>
 		{`$${node.amount}`}
 	      </Typography>
@@ -216,6 +226,8 @@ class DonationList extends Component {
 	    default:
 		console.error('Unsupported filter option')
 	}
+
+	variables.self = context.userID
 
 	return (
 	    <QueryHelper

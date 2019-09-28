@@ -4,13 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import FollowIcon from '@material-ui/icons/Add';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
+import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -46,7 +45,7 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query PersonList($search: String $followedBy: String $followerOf: String $orderBy: String $first: Int $after: String) {
+    query PersonList($self: String $search: String $followedBy: String $followerOf: String $orderBy: String $first: Int $after: String) {
 	allPeople(search: $search followedBy: $followedBy followerOf: $followerOf orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
@@ -58,6 +57,13 @@ const QUERY = gql`
 		    followerCount
 		    followingCount
 		    dateJoined
+		    isFollowing: follower(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
+		    }
   		}
 		cursor
 	    }
@@ -119,12 +125,15 @@ class PersonList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <IconButton color="secondary" aria-label="Like">
-		<FollowIcon />
-	      </IconButton>
+	      <SimpleEdgeMutation
+		  variant={FollowVal}
+		  user={context.userID}
+		  target={node.id}
+		  initial={node.isFollowing.edges.length === 1}
+	      />
 	      <Typography
 		  component={Link}
 		  prefix={1}
@@ -211,6 +220,8 @@ class PersonList extends Component {
 	    default:
 		console.error('Unsupported filter option')
 	}
+
+	variables.self = context.userID
 
 	return (
 	    <QueryHelper

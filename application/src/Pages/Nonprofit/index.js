@@ -17,7 +17,7 @@ import Link from '../../__Common__/CustomLink';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
-import AddButton from '../__Common__/AddButton';
+import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     root: {
@@ -77,13 +77,21 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query Nonprofit($id: ID!){
+    query Nonprofit($id: ID! $self: String){
 	nonprofit(id: $id){
+	    id
 	    followerCount
 	    description
 	    title
 	    link
 	    avatar
+	    isFollowing: follower(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	}
     }
 `;
@@ -144,9 +152,12 @@ class Nonprofit extends Component {
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
 		      <div className={classes.actionLeft}>
-  			<IconButton color="secondary" aria-label="Like">
-  			  <AddButton label="Follow" />
-  			</IconButton>
+			<SimpleEdgeMutation
+			    variant={FollowVal}
+			    user={context.userID}
+			    target={node.id}
+			    initial={node.isFollowing.edges.length === 1}
+			/>
 		      </div>
 		      <Button>
 			<Typography variant="body2" className={classes.followers}>
@@ -223,10 +234,14 @@ class Nonprofit extends Component {
     }
     
     render() {
-	let { classes, id } = this.props
+	let { classes, context, id } = this.props
 
 	return (
-	    <Query query={QUERY} variables={{ id: id }}>
+	    <Query
+		fetchPolicy="network-only"
+		query={QUERY}
+		variables={{ id, self: context.userID }}
+	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

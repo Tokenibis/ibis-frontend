@@ -26,7 +26,7 @@ import DonationIcon from '@material-ui/icons/AttachMoney';
 import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
-import EventIcon from '@material-ui/icons/CalendarToday';
+import EventIcon from '@material-ui/icons/Event';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 

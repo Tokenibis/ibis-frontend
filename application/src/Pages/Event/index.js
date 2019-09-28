@@ -19,6 +19,7 @@ import CommentIcon from '@material-ui/icons/CommentOutlined';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
+import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 
 import L from 'leaflet';
 import './leaflet.css';
@@ -105,7 +106,7 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query Event($id: ID!){
+    query Event($id: ID! $self: String){
 	event(id: $id){
 	    id
 	    title
@@ -123,6 +124,20 @@ const QUERY = gql`
 		    id
 		    title
 		    category {
+			id
+		    }
+		}
+	    }
+	    hasLiked: like(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
+	    hasRsvp: rsvp(id: $self) {
+		edges {
+		    node {
 			id
 		    }
 		}
@@ -153,7 +168,7 @@ class Event extends Component {
 	});
     };
     
-    createPage(event) {
+    createPage(node) {
 	let { width, height } = this.state;
 	let { classes, context } = this.props;
 
@@ -173,9 +188,9 @@ class Event extends Component {
     		      <Avatar
 		      component={Link}
 		      prefix={1}
-		      to={`Nonprofit?id=${event.user.nonprofit.id}`}
+		      to={`Nonprofit?id=${node.user.nonprofit.id}`}
   		      alt="Ibis"
-    		      src={event.user.avatar}
+    		      src={node.user.avatar}
     		      className={classes.avatar}
 		      />
 		    </ListItemIcon>
@@ -183,10 +198,10 @@ class Event extends Component {
 			primary={
 			    <div>
   			      <Typography variant="body2" className={classes.name}>
-  				{event.title}
+  				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.username}>
-  				{new Date(event.created).toDateString()}
+  				{new Date(node.created).toDateString()}
   			      </Typography>
 			    </div>
 			}
@@ -194,11 +209,11 @@ class Event extends Component {
 		  </ListItem>
   		  <CardMedia
 		      style={{ height: imageHeight }}
-    		      image={event.image}
-  		      title={event.title}
+    		      image={node.image}
+  		      title={node.title}
   		  />
   		  <Typography variant="body2" className={classes.body}>
-		    {event.description}
+		    {node.description}
 		  </Typography>
 		  <CustomDivider/>
 		</Grid>
@@ -209,7 +224,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-  		    {new Date(event.created).toGMTString()}
+  		    {new Date(node.created).toGMTString()}
 		  </Typography>
 		</Grid>
 		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
@@ -219,7 +234,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-		    {event.address.split('\n').map((item, key) => (
+		    {node.address.split('\n').map((item, key) => (
 			<span key={key}>{item}<br/></span>
 		    ))}
 		  </Typography>
@@ -228,16 +243,16 @@ class Event extends Component {
 		  <Map
 		      className={classes.map}
 		      style={{ height: `${height}px`, width: `${width}px` }}
-		      center={[event.latitude, event.longitude]}
+		      center={[node.latitude, node.longitude]}
 		      zoom={13}
 		      keyboard={false}
 		  >
 		    <TileLayer
 			url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 		    />
-		    <Marker position={[event.latitude, event.longitude]}>
+		    <Marker position={[node.latitude, node.longitude]}>
 		      <Popup>
-			{event.address.split('\n').map((item, key) => (
+			{node.address.split('\n').map((item, key) => (
 			    <span key={key}>{item}<br/></span>
 			))}
 		      </Popup>
@@ -246,15 +261,21 @@ class Event extends Component {
 		  <CustomDivider/>
 		  <div className={classes.action}>
 		    <div>
-		      <IconButton className={classes.stats}>
-			<LikeIcon className={classes.statIcon}/> (0)
-		      </IconButton>
-  		      <IconButton>
-  			<BookmarkIcon className={classes.statIcon}/>
-  		      </IconButton>
+		      <SimpleEdgeMutation
+			  variant={LikeVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasLiked.edges.length === 1}
+		      />
+		      <SimpleEdgeMutation
+			  variant={RsvpVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasRsvp.edges.length === 1}
+		      />
 		    </div>
 		    <NonprofitCategoryIcon
-			id={event.user.nonprofit.category.id}
+			id={node.user.nonprofit.category.id}
 			className={classes.categoryIcon}
 		    />
 		    <IconButton className={classes.stats}>
@@ -270,10 +291,14 @@ class Event extends Component {
     }
 
     render() {
-	let { classes, id } = this.props
+	let { classes, context, id } = this.props
 
 	return (
-	    <Query query={QUERY} variables={{ id }}>
+	    <Query
+		fetchPolicy="network-only"
+		query={QUERY}
+		variables={{ id, self: context.userID }}
+	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;

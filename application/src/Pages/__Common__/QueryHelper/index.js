@@ -71,7 +71,12 @@ class QueryHelper extends Component {
 	    return (
 		<div>
 		  {dataOld && make(dataOld)}
-		  <Query query={query} variables={variables} partialRefetch={true}>
+		  <Query
+		      fetchPolicy="network-only"
+		      query={query}
+		      variables={variables}
+		      partialRefetch={true}
+		  >
 		    {({ loading, error, data }) => {
 			if (loading) return <LinearProgress className={classes.progress} />;
 			if (error) return `Error! ${error.message}`;
@@ -97,7 +102,7 @@ class QueryHelper extends Component {
 	    );
 	} else {
 	    return (
-		<Query query={query} variables={variables}>
+		<Query fetchPolicy="network-only" query={query} variables={variables}>
 		  {({ loading, error, data }) => {
 		      if (loading) return <LinearProgress className={classes.progress} />;
 		      if (error) return `Error! ${error.message}`;
