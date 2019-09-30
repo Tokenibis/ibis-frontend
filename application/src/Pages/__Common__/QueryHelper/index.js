@@ -33,6 +33,12 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	textAlign: 'center',
     },
+    empty: {
+	margin: '0 auto',
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+	textAlign: 'center',
+    },
 
 })
 
@@ -72,7 +78,7 @@ class QueryHelper extends Component {
 		<div>
 		  {dataOld && make(dataOld)}
 		  <Query
-		      fetchPolicy="network-only"
+		      fetchPolicy="no-cache"
 		      query={query}
 		      variables={variables}
 		      partialRefetch={true}
@@ -84,17 +90,25 @@ class QueryHelper extends Component {
 			let dataCurrent = dataOld.concat(data[Object.keys(data)[0]].edges)
 
 			return (
-			    <InfiniteScroll
-				pageStart={0}
-				className={classes.infiniteScroll}
-				loadMore={() => this.paginate(dataCurrent)}
-				hasMore={(dataCurrent.length > dataOld.length) || data[Object.keys(data)[0]].pageInfo.hasNextPage}
-				loader={
-				    <Typography type="body2" className={classes.loader}>
-				      Loading more results...
-				    </Typography>
-				}
-			    />
+			    <div>
+			      <InfiniteScroll
+				  pageStart={0}
+				  className={classes.infiniteScroll}
+				  loadMore={() => this.paginate(dataCurrent)}
+				  hasMore={(dataCurrent.length > dataOld.length) || data[Object.keys(data)[0]].pageInfo.hasNextPage}
+				  loader={
+				      <Typography type="body2" className={classes.loader}>
+					Loading more results...
+				      </Typography>
+				  }
+			      />
+			      {
+				  (dataCurrent.length === 0) &&
+				  <Typography type="body2" className={classes.empty}>
+				    Nothing to see here
+				  </Typography>
+			      }
+			    </div>
 			)
 		    }}
 		  </Query>
@@ -102,11 +116,19 @@ class QueryHelper extends Component {
 	    );
 	} else {
 	    return (
-		<Query fetchPolicy="network-only" query={query} variables={variables}>
+		<Query fetchPolicy="no-cache" query={query} variables={variables}>
 		  {({ loading, error, data }) => {
 		      if (loading) return <LinearProgress className={classes.progress} />;
 		      if (error) return `Error! ${error.message}`;
-		      return make(data[Object.keys(data)[0]].edges)
+		      if (data[Object.keys(data)[0]].edges.length > 0) {
+			  return make(data[Object.keys(data)[0]].edges)
+		      } else {
+			  return (
+			      <Typography type="body2" className={classes.empty}>
+				Nothing to see here
+			      </Typography>
+			  );
+		      }
 		  }}
 		</Query>
 	    );

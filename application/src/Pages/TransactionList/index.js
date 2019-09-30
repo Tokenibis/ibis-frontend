@@ -106,7 +106,7 @@ class TransactionList extends Component {
 	    <Typography variant="body2" className={classes.label}>
 	      {`${node.user.name}`}
 	      {<ToIcon className={classes.toIcon} />}
-	      {`${node.target.name}`}
+	      {node.target.name}
 	    </Typography>
 	);
     }

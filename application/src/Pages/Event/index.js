@@ -293,7 +293,7 @@ class Event extends Component {
 
 	return (
 	    <Query
-		fetchPolicy="network-only"
+		fetchPolicy="no-cache"
 		query={QUERY}
 		variables={{ id, self: context.userID }}
 	    >
