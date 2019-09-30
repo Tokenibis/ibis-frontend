@@ -156,7 +156,8 @@ class Donation extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.gift}>
-		    {`$${node.amount} (~${Math.round(node.amount/7.5*10)/10} Burritos)`}
+		    {`$${(node.amount/100).toFixed(2)}`}
+		    {` (~${Math.round(node.amount/750*10)/10} Burritos)`}
 		  </Typography>
 		</Grid>
 		<Grid item xs={1}></Grid>

@@ -118,7 +118,7 @@ class PersonList extends Component {
 		{`Number following: ${node.followingCount}`}
   	      </Typography>
   	      <Typography variant="body2" className={classes.body}>
-		{`Current Balance: $${node.balance}`}
+		{`Current Balance: $${(node.balance/100).toFixed(2)}`}
   	      </Typography>
 	    </div>
 	);

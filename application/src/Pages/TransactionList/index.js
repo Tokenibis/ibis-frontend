@@ -130,7 +130,7 @@ class TransactionList extends Component {
 		  initial={node.hasLiked.edges.length === 1}
 	      />
 	      <Typography variant="body2" className={classes.amount}>
-		{`$${node.amount}`}
+		{`$${(node.amount/100).toFixed(2)}`}
 	      </Typography>
 	      <Typography
 		  component={Link}

@@ -144,7 +144,7 @@ class Home extends Component {
 			      variant="body2"
 			      className={classes.balance}
 			    >
-			    Balance ${data.person.balance}
+			    Balance ${(data.person.balance/100).toFixed(2)}
 			  </Typography>
 			</Grid>
 		    );

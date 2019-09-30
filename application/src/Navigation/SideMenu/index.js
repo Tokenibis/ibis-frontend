@@ -153,7 +153,7 @@ class SideMenu extends Component {
 				className={classes.balance}
 				onClick={(e) => this.toggleDrawer(false)}
 			      >
-			      Balance ${data.person.balance}
+			      Balance ${(data.person.balance/100).toFixed(2)}
 			    </Typography>
 			  </Grid>
 		      );
