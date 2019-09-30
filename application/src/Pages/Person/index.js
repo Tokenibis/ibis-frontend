@@ -39,9 +39,6 @@ const styles = theme => ({
 	marginTop: theme.spacing(3),
 	width: 100,
 	height: 100,
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: theme.palette.secondary.main,
     },
     action: {
 	display: 'flex',
@@ -127,9 +124,9 @@ class Person extends Component {
 	      <Card raised className={classes.card}>
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar 
-  		  alt="Ibis"
-    		  src={node.avatar}
-  		  className={classes.avatar}
+  		      alt="Ibis"
+    		      src={node.avatar}
+  		      className={classes.avatar}
 		  />
 		  </Grid>
 		<CardContent>
