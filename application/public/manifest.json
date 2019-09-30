@@ -8,7 +8,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "./images/medium.png",
+      "src": "./images/medium_circular.png",
       "sizes": "192x192",
       "type": "image/png"
     },
