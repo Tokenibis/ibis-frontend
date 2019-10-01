@@ -13,7 +13,7 @@ const config = require('./config.json');
 
 const client = new ApolloClient({
     link: new HttpLink({
-	uri: config.api.url,
+	uri: "https://api.tokenibis.org/graphql/",
 	credentials: 'include',
     }),
     cache: new InMemoryCache(),
@@ -48,7 +48,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-	    userID: '',
+	    userID: 'UGVyc29uTm9kZToxNzU=',
 	};
     };
 

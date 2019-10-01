@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
@@ -19,16 +18,7 @@ import CustomDivider from '../../__Common__/CustomDivider';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 
-import L from 'leaflet';
-import './leaflet.css';
-
-delete L.Icon.Default.prototype._getIconUrl;
-
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-});
+const config = require('../../config.json');
 
 const styles = theme => ({
     root: {
@@ -148,10 +138,10 @@ class Event extends Component {
 
     constructor ({ context }) {
 	super();
+	// use Math.ceil + 0.89 because 0.9 seems to overflow a bit most of the time
 	this.state = {
-	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
-		* context.displayRation),
-	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth) * 0.89),
+	    height: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)
 		* context.displayRatio),
 	};
     }
@@ -159,9 +149,8 @@ class Event extends Component {
     resizeMap = () => {
 	let { context } = this.props;
 	this.setState({
-	    width: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
-		* context.displayRation),
-	    height: Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth) * 0.89),
+	    height: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)
 		* context.displayRatio),
 	});
     };
@@ -169,11 +158,15 @@ class Event extends Component {
     createPage(node) {
 	let { width, height } = this.state;
 	let { classes, context } = this.props;
+	console.log(width)
+	console.log(height)
 
-	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
+	let imageHeight = Math.floor(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
 
 	window.addEventListener('resize', this.resizeMap);
+
+	const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 	return (
 	    <div className={classes.root}>
@@ -213,11 +206,10 @@ class Event extends Component {
   		  <Typography variant="body2" className={classes.body}>
 		    {node.description}
 		  </Typography>
-		  <CustomDivider/>
 		</Grid>
 		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
-		    {'Who:'}
+		    {'When:'}
 		  </Typography>
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
@@ -238,24 +230,18 @@ class Event extends Component {
 		  </Typography>
 		</Grid>
 		<Grid className={classes.content} item xs={12}>
-		  <Map
-		      className={classes.map}
-		      style={{ height: `${height}px`, width: `${width}px` }}
-		      center={[node.latitude, node.longitude]}
-		      zoom={13}
-		      keyboard={false}
+		  <div style={{ height: 20 }}/>
+		  <iframe
+		      style={{
+			  width: width,
+			  height: height, 
+			  padding: 0,
+			  margin: 0,
+		      }}
+		      src={`https://www.google.com/maps/embed/v1/search?q=${node.latitude}%2C%20${node.longitude}&key=${config.maps.google.key}&zoom=11`}
+		      allowfullscreen
 		  >
-		    <TileLayer
-			url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-		    />
-		    <Marker position={[node.latitude, node.longitude]}>
-		      <Popup>
-			{node.address.split('\n').map((item, key) => (
-			    <span key={key}>{item}<br/></span>
-			))}
-		      </Popup>
-		    </Marker>
-		  </Map>
+		  </iframe>
 		  <CustomDivider/>
 		  <div className={classes.action}>
 		    <div>
