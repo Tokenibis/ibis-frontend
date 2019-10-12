@@ -48,7 +48,7 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-	    userID: 'UGVyc29uTm9kZToxNzU=',
+	    userID: '',
 	};
     };
 

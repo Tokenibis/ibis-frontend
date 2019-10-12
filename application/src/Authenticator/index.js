@@ -14,34 +14,60 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
+import { IbisConsumer } from '../Context';
+import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
+
+import IbisIcon from '../__Common__/IbisIcon';
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
+const styles = theme => ({
+    icon: {
+	color: 'white',
+	height: 60,
+	width: 60,
+	paddingBottom: theme.spacing(1),
+    },
+    welcome: {
+	fontSize: 32,
+	color: 'white',
+	paddingBottom: theme.spacing(1),
+    },
+    facebook: {
+	width: '80%',
+    },
+    google: {
+	width: '80%',
+    },
+});
+
 class Authenticator extends Component {
 
-    constructor() {
+    constructor({ context }) {
 	super()
 	this.state = {
 	    checkedAuth: false,
+	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
 	};
+    };
+
+    resizeImage = () => {
+	let { context } = this.props;
+	this.setState({
+	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
+	});
     };
 
     /* retrieve the google oauth request url and redirect */
     googleLogin = () => {
-	axios('https://api.tokenibis.org/auth/social/google/auth-server/', {
-	    method: 'post',
-	    withCredentials: true
-	}).then(response => {
-	    window.location.href = response.data.url;
-	}).catch(error => {
-	    console.log(error);
-	    console.log(error.response);
-	})
+	alert('Sorry, we haven\'t gotten around to implementing this yet. Please try Facebook instead')
     }
 
     /* retrieve the facebook oauth request url and redirect */
@@ -59,8 +85,10 @@ class Authenticator extends Component {
 
     render() {
 
-	let { authenticate } = this.props;
-	let { checkedAuth } = this.state;
+	let { authenticate, classes } = this.props;
+	let { checkedAuth, height, width } = this.state;
+
+	window.addEventListener('resize', this.resizeImage);
 
 	// this block triggers while we are checking authentication status
 	if (!checkedAuth) {
@@ -122,9 +150,41 @@ class Authenticator extends Component {
 	} 
 
 	return (
-	    <div>
-	      <FacebookLoginButton onClick={this.facebookLogin}/>
-	    </div>
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <img
+		  style={{
+		      width: width,
+		      margin: '0 auto',
+		      filter: "brightness(60%)",
+		      position: 'fixed',
+		      top: '50%',
+		      left: '50%',
+		      transform: 'translate(-50%, -50%)',
+		  }}
+		  alt="construction"
+		  src={require('../Static/Images/splash.jpg')}
+	      />
+	      <div
+		  style={{
+		      width: width,
+		      margin: '0 auto',
+		      position: 'fixed',
+		      top: `${Math.min(60, Math.round(window.innerWidth/window.innerHeight*100))}%`,
+		      left: '50%',
+		      transform: 'translate(-50%, -50%)',
+		  }}
+		  className={classes.content}
+	      >
+  		<Grid container direction="column" justify="center" alignItems="center" >
+		  <IbisIcon className={classes.icon}/>
+		  <Typography variant="body2" className={classes.welcome}>
+		    Welcome to ibis
+		  </Typography>
+		  <FacebookLoginButton className={classes.facebook} onClick={this.facebookLogin}/>
+		  <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
+		</Grid>
+	      </div>
+	    </Grid>
 	);
     };
 };
@@ -133,4 +193,16 @@ Authenticator.propTypes = {
     authenticate: PropTypes.func.isRequired,
 };
 
-export default Authenticator;
+function AuthenticatorWrapper(props) {
+    return (
+	<IbisConsumer>
+	  {context => (
+	      <Authenticator context={context} {...props}/>
+	  )}
+	</IbisConsumer> 
+    );
+}
+
+
+export default withStyles(styles)(AuthenticatorWrapper);
+

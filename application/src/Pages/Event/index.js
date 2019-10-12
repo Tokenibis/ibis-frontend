@@ -158,8 +158,6 @@ class Event extends Component {
     createPage(node) {
 	let { width, height } = this.state;
 	let { classes, context } = this.props;
-	console.log(width)
-	console.log(height)
 
 	let imageHeight = Math.floor(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
