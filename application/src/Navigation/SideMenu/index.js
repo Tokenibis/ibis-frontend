@@ -118,7 +118,7 @@ class SideMenu extends Component {
 	let sideMenu = (
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
-		<Query query={query} variables={{ id: context.userID }}>
+		<Query fetchPolicy="no-cache" query={query} variables={{ id: context.userID }}>
 		  {({ loading, error, data }) => {
 		      if (loading) return <LinearProgress className={classes.progress} />;
 		      if (error) return `Error! ${error.message}`;

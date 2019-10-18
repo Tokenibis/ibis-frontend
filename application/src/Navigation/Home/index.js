@@ -112,7 +112,7 @@ class Home extends Component {
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Query query={QUERY} variables={{ id: context.userID }}>
+	      <Query fetchPolicy="no-cache" query={QUERY} variables={{ id: context.userID }}>
 		{({ loading, error, data }) => {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;
