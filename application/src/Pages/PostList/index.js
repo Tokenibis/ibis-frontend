@@ -12,6 +12,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import Link from '../../__Common__/CustomLink';
+import SimpleEdgeMutation, { BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import VoteMutation, { NeutralVal, UpvoteVal, DownvoteVal } from '../__Common__/VoteMutation';
 
 const styles = theme => ({
@@ -60,8 +61,8 @@ const styles = theme => ({
 const DEFAULT_COUNT = 25;
 
 const QUERY = gql`
-    query PostList($self: String $search: String $byUser: String $byFollowing: String $orderBy: String $first: Int $after: String) {
-	allPosts(search: $search byUser: $byUser byFollowing: $byFollowing orderBy: $orderBy first: $first after: $after) {
+    query PostList($self: String $search: String $byUser: String $byFollowing: String $bookmarkBy: String $orderBy: String $first: Int $after: String) {
+	allPosts(search: $search byUser: $byUser byFollowing: $byFollowing bookmarkBy: $bookmarkBy orderBy: $orderBy first: $first after: $after) {
 	    edges {
   		node {
 		    id
@@ -75,6 +76,13 @@ const QUERY = gql`
 			avatar
 			person {
 			    id
+			}
+		    }
+		    hasBookmarked: bookmark(id: $self) {
+			edges {
+			    node {
+				id
+			    }
 			}
 		    }
 		    hasUpvoted: upvote(byUser: $self) {
@@ -156,6 +164,12 @@ class PostList extends Component {
 
 	return (
 	    <div className={classes.action}>
+	      <SimpleEdgeMutation
+		  variant={BookmarkVal}
+		  user={context.userID}
+		  target={node.id}
+		  initial={node.hasBookmarked.edges.length === 1}
+	      />
 	      <VoteMutation
 		  user={context.userID}
 		  target={node.id}
@@ -239,6 +253,19 @@ class PostList extends Component {
 		    first: count,
 		}
 		break;
+	    case 'Bookmarked':
+		variables = {
+		    bookmarkBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
+		break;
+	    case 'Classic':
+		variables = {
+		    orderBy: "-like_count",
+		    first: count,
+		}
+		break;
 	    case '_Search':
 		variables = {
 		    search: filterValue.split(':')[1],
@@ -277,7 +304,7 @@ PostList.propTypes = {
 };
 
 function PostFilter(props) {
-    return <Filter options={['Me', 'Following', 'All']} {...props} />;
+    return <Filter options={['Me', 'Following', 'All', 'Bookmarked', 'Classic',]} {...props} />;
 }
 
 export { PostFilter };

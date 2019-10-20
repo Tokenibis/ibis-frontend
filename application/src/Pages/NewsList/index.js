@@ -243,6 +243,7 @@ class NewsList extends Component {
 		    first: count,
 		}
 		break;
+
 	    case 'Bookmarked':
 		variables = {
 		    bookmarkBy: context.userID,

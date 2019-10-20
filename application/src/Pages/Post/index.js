@@ -17,7 +17,7 @@ import ReactMarkdown from 'react-markdown';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
+import SimpleEdgeMutation, { BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import VoteMutation, { NeutralVal, UpvoteVal, DownvoteVal } from '../__Common__/VoteMutation';
 
 const styles = theme => ({
@@ -92,6 +92,13 @@ const QUERY = gql`
 		}
 	    }
 	    voteDifference
+	    hasBookmarked: bookmark(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	    hasUpvoted: upvote(byUser: $self) {
 		edges {
 		    node {
@@ -161,6 +168,12 @@ class Post extends Component {
 		</Typography>
 		<CustomDivider/>
 		<div className={classes.action}>
+		  <SimpleEdgeMutation
+		      variant={BookmarkVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.hasBookmarked.edges.length === 1}
+		  />
 		  <VoteMutation
 		      user={context.userID}
 		      target={node.id}
