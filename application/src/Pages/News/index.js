@@ -80,7 +80,7 @@ const QUERY = gql`
 	    title
 	    created
 	    description
-	    content
+	    body
 	    image
 	    user {
 		id
@@ -154,7 +154,7 @@ class News extends Component {
   		    title={node.title}
   		/>
   		<Typography variant="body2" className={classes.body}>
-		  <ReactMarkdown source={node.content} />
+		  <ReactMarkdown source={node.body} />
 		</Typography>
 		<CustomDivider/>
 		<div className={classes.action}>
