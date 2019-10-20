@@ -14,7 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
-import FilterIcon from '../../__Common__/FilterIcon';
+import FilterIcon from '@material-ui/icons/FilterList';
 
 const styles = theme => ({
     root: {

@@ -27,6 +27,7 @@ import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
+import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import HelpIcon from '@material-ui/icons/HelpOutline';
 
@@ -228,6 +229,14 @@ class SideMenu extends Component {
 		      label="Events"
 		      classes={classes}
 		      icon={<EventIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Post">
+		  <SublistItem
+		      label="Posts"
+		      classes={classes}
+		      icon={<PostIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>

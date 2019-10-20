@@ -52,6 +52,11 @@ const makeEventFilter = (i, onClose) => {
     return <EventFilter key={i} open={true} onClose={onClose} />
 }
 
+/*
+   Each "option" corresponds to a cycle; the items are laid out in the following schema:
+   [ display name, filter component, level-1 route, level-2 route ]
+*/
+
 const giveOptions = [
     [ 'Nonprofits', makeNonprofitFilter, 'Nonprofit', 'NonprofitList' ],
     [ 'Donations', makeDonationFilter, 'Donation', 'DonationList' ],
@@ -65,6 +70,7 @@ const sendOptions = [
 const exploreOptions = [
     [ 'News', makeNewsFilter, 'News', 'NewsList' ],
     [ 'Events', makeEventFilter, 'Event', 'EventList' ],
+    [ 'Posts', makeEventFilter, 'Post', 'PostList' ],
 ]
 
 function HomeLoader()  {
@@ -149,6 +155,15 @@ function ContentLoader({ match, location }) {
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'EventList';
+	    break;
+	case 'Post':
+	    nav = (
+		<div>
+		  <MainBar cycle={ExploreVal} />
+		  <TabBar options={exploreOptions} value={2} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'PostList';
 	    break;
 	default:
 	    return "Error, Page not Found";

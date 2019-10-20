@@ -162,7 +162,10 @@ class SimpleEdgeMutation extends Component {
     
 SimpleEdgeMutation.propTypes = {
     classes: PropTypes.object.isRequired,
-    make: PropTypes.func.isRequired,
+    initial: PropTypes.boolean.isRequired,
+    variant: PropTypes.string.isRequired,
+    user: PropTypes.string.isRequired,
+    target: PropTypes.string.isRequired,
 };
 
 export const FollowVal = 'follow';
