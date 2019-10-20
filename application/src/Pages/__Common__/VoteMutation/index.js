@@ -23,7 +23,7 @@ import DownvoteFilledIcon from '@material-ui/icons/Forward';
 
 const NeutralVal = 0;
 const UpvoteVal = 1;
-const DownvoteVal = 2;
+const DownvoteVal = -1;
 
 const styles = theme => ({
     action: {
@@ -46,9 +46,7 @@ const styles = theme => ({
 const createMutation = gql`
     mutation Vote($user: ID! $target: ID! $isUpvote: Boolean!) {
 	createVote(user: $user target: $target isUpvote: $isUpvote) {
-	    vote {
-		id
-	    }
+	    state
 	}
     }
 `;
@@ -56,7 +54,7 @@ const createMutation = gql`
 const deleteMutation = gql`
     mutation Unvote($user: ID! $target: ID!) {
 	deleteVote(user: $user target: $target) {
-	    status
+	    state
 	}
     }
 `;
@@ -69,9 +67,9 @@ class VoteMutation extends Component {
 	this.state = { initial, diff };
     }
 
-    updateInitial(mutation, user, initial, diff) {
+    updateInitial(mutation, user, diff) {
 	mutation().then(response => {
-	    this.setState({ initial, diff })
+	    this.setState({ initial: response.data[Object.keys(response.data)[0]].state, diff })
 	})
     }
 
@@ -84,8 +82,7 @@ class VoteMutation extends Component {
 		<div className={classes.action}>
 		  <Mutation mutation={deleteMutation} variables={{ user, target }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, NeutralVal, diff-1)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff-1)}>
 			  <UpvoteFilledIcon className={classes.upvote} color="secondary" />
 			</IconButton>
 		    )}
@@ -95,8 +92,7 @@ class VoteMutation extends Component {
 		  </Typography>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: false }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, DownvoteVal, diff-2)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff-2)}>
 			  <DownvoteOutlinedIcon className={classes.downvote} color="secondary" />
 			</IconButton>
 		    )}
@@ -108,8 +104,7 @@ class VoteMutation extends Component {
 		<div className={classes.action}>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: true }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, UpvoteVal, diff+2)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff+2)}>
 			  <UpvoteOutlinedIcon className={classes.upvote} color="secondary" />
 			</IconButton>
 		    )}
@@ -119,8 +114,7 @@ class VoteMutation extends Component {
 		  </Typography>
 		  <Mutation mutation={deleteMutation} variables={{ user, target }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, NeutralVal, diff+1)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff+1)}>
 			  <DownvoteFilledIcon className={classes.downvote} color="secondary" />
 			</IconButton>
 		    )}
@@ -132,8 +126,7 @@ class VoteMutation extends Component {
 		<div className={classes.action}>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: true }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, UpvoteVal, diff+1)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff+1)}>
 			  <UpvoteOutlinedIcon className={classes.upvote} color="secondary" />
 			</IconButton>
 		    )}
@@ -143,8 +136,7 @@ class VoteMutation extends Component {
 		  </Typography>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: false }}>
 		    {mutation => (
-			<IconButton
-			    onClick={() => this.updateInitial(mutation, user, DownvoteVal, diff-1)}>
+			<IconButton onClick={() => this.updateInitial(mutation, user, diff-1)}>
 			  <DownvoteOutlinedIcon className={classes.downvote} color="secondary" />
 			</IconButton>
 		    )}

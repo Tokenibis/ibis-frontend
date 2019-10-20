@@ -30,20 +30,16 @@ const styles = theme => ({})
 const VARIANTS = {
     follow: {
 	createMutation: gql`
-	    mutation Follow ($user: ID! $target: ID!) {
+	    mutation Follow($user: ID! $target: ID!) {
 		createFollow(user: $user target: $target) {
-		    ibisUser {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unfollow ($user: ID! $target: ID!) {
+	    mutation Unfollow($user: ID! $target: ID!) {
 		deleteFollow(user: $user target: $target) {
-		    ibisUser {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
@@ -52,20 +48,16 @@ const VARIANTS = {
     },
     like: {
 	createMutation: gql`
-	    mutation Like ($user: ID! $target: ID!) {
+	    mutation Like($user: ID! $target: ID!) {
 		createLike(user: $user target: $target) {
-		    entry {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unlike ($user: ID! $target: ID!) {
+	    mutation Unlike($user: ID! $target: ID!) {
 		deleteLike(user: $user target: $target) {
-		    entry {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
@@ -74,20 +66,16 @@ const VARIANTS = {
     },
     bookmark: {
 	createMutation: gql`
-	    mutation Bookmark ($user: ID! $target: ID!) {
+	    mutation Bookmark($user: ID! $target: ID!) {
 		createBookmark(user: $user target: $target) {
-		    news {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unbookmark ($user: ID! $target: ID!) {
+	    mutation Unbookmark($user: ID! $target: ID!) {
 		deleteBookmark(user: $user target: $target) {
-		    news {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
@@ -98,18 +86,14 @@ const VARIANTS = {
 	createMutation: gql`
 	    mutation Rsvp ($user: ID! $target: ID!) {
 		createRsvp(user: $user target: $target) {
-		    event {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
 	    mutation Unrsvp ($user: ID! $target: ID!) {
 		deleteRsvp(user: $user target: $target) {
-		    event {
-			id
-		    }
+		    state
 		}
 	    }
 	`,
@@ -126,9 +110,10 @@ class SimpleEdgeMutation extends Component {
 	this.state = { initial };
     }
 
-    updateInitial(mutation, user, initial) {
+    updateInitial(mutation, user) {
 	mutation().then(response => {
-	    this.setState({ initial })
+	    console.log(response);
+	    this.setState({ initial: response.data[Object.keys(response.data)[0]].state });
 	})
     }
 
@@ -140,7 +125,7 @@ class SimpleEdgeMutation extends Component {
 	    return (
 		<Mutation mutation={VARIANTS[variant].deleteMutation} variables={{ user, target }}>
 		  {mutation => (
-		      <IconButton onClick={() => this.updateInitial(mutation, user, false)}>
+		      <IconButton onClick={() => this.updateInitial(mutation, user)}>
 			{VARIANTS[variant].trueIcon}
 		      </IconButton>
 		  )}
@@ -150,7 +135,7 @@ class SimpleEdgeMutation extends Component {
 	    return (
 		<Mutation mutation={VARIANTS[variant].createMutation} variables={{ user, target }}>
 		  {mutation => (
-		      <IconButton onClick={() => this.updateInitial(mutation, user, true)}>
+		      <IconButton onClick={() => this.updateInitial(mutation, user)}>
 			{VARIANTS[variant].falseIcon}
 		      </IconButton>
 		  )}
