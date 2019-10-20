@@ -54,7 +54,7 @@ const VARIANTS = {
 	createMutation: gql`
 	    mutation Like ($user: ID! $target: ID!) {
 		createLike(user: $user target: $target) {
-		    post {
+		    entry {
 			id
 		    }
 		}
@@ -63,7 +63,7 @@ const VARIANTS = {
 	deleteMutation: gql`
 	    mutation Unlike ($user: ID! $target: ID!) {
 		deleteLike(user: $user target: $target) {
-		    post {
+		    entry {
 			id
 		    }
 		}
