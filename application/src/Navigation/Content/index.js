@@ -25,6 +25,7 @@ import { PersonFilter } from '../../Pages/PersonList';
 import { TransactionFilter } from '../../Pages/TransactionList';
 import { NewsFilter } from '../../Pages/NewsList';
 import { EventFilter } from '../../Pages/EventList';
+import { PostFilter } from '../../Pages/PostList';
 
 import { IbisConsumer } from '../../Context';
 
@@ -52,6 +53,10 @@ const makeEventFilter = (i, onClose) => {
     return <EventFilter key={i} open={true} onClose={onClose} />
 }
 
+const makePostFilter = (i, onClose) => {
+    return <PostFilter key={i} open={true} onClose={onClose} />
+}
+
 /*
    Each "option" corresponds to a cycle; the items are laid out in the following schema:
    [ display name, filter component, level-1 route, level-2 route ]
@@ -70,7 +75,7 @@ const sendOptions = [
 const exploreOptions = [
     [ 'News', makeNewsFilter, 'News', 'NewsList' ],
     [ 'Events', makeEventFilter, 'Event', 'EventList' ],
-    [ 'Posts', makeEventFilter, 'Post', 'PostList' ],
+    [ 'Posts', makePostFilter, 'Post', 'PostList' ],
 ]
 
 function HomeLoader()  {
