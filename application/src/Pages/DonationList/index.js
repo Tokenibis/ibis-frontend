@@ -203,7 +203,7 @@ class DonationList extends Component {
 		    first: count,
 		}
 		break;
-	    case 'Public':
+	    case 'All':
 		variables = {
 		    orderBy: "-created",
 		    first: count,
@@ -246,7 +246,7 @@ DonationList.propTypes = {
 };
 
 function DonationFilter(props) {
-    return <Filter options={['Me', 'Following', 'Public']} {...props} />;
+    return <Filter options={['Me', 'Following', 'All']} {...props} />;
 }
 
 export { DonationFilter };

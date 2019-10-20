@@ -202,7 +202,7 @@ class TransactionList extends Component {
 		    first: count,
 		}
 		break;
-	    case 'Public':
+	    case 'All':
 		variables = {
 		    orderBy: "-created",
 		    first: count,
@@ -246,7 +246,7 @@ TransactionList.propTypes = {
 };
 
 function TransactionFilter(props) {
-    return <Filter options={['Me', 'Following', 'Public']} {...props} />;
+    return <Filter options={['Me', 'Following', 'All']} {...props} />;
 }
 
 export { TransactionFilter };
