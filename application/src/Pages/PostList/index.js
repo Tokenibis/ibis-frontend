@@ -125,7 +125,7 @@ class PostList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{new Date(node.created).toDateString()}
+  		{node.user.name} - {new Date(node.created).toDateString()}
   	      </Typography>
 	    </div>
 	);

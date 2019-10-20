@@ -19,11 +19,11 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    name: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     action: {
@@ -58,6 +58,7 @@ const QUERY = gql`
 		    created
 		    user {
 			id
+			name
 			avatar
 			nonprofit {
 			    id
@@ -111,11 +112,11 @@ class NewsList extends Component {
 	let { classes } = this.props;
 	return (
 	    <div>
-  	      <Typography variant="body2" className={classes.name}>
+  	      <Typography variant="body2" className={classes.title}>
   		{node.title}
   	      </Typography>
-  	      <Typography variant="body2" className={classes.username}>
-  		{new Date(node.created).toDateString()}
+  	      <Typography variant="body2" className={classes.subtitle}>
+  		{node.user.name} - {new Date(node.created).toDateString()}
   	      </Typography>
 	    </div>
 	);

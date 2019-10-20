@@ -59,6 +59,7 @@ const QUERY = gql`
 		    date
 		    user {
 			id
+			name
 			avatar
 			nonprofit {
 			    id
@@ -115,7 +116,7 @@ class EventList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
-  		{new Date(node.date).toDateString()}
+  		{node.user.name} - {new Date(node.created).toDateString()}
   	      </Typography>
 	    </div>
 	);

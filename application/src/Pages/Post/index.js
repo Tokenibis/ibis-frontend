@@ -84,6 +84,7 @@ const QUERY = gql`
 	    body
 	    user {
 		id
+		name
 		avatar
 		person {
 		    id
@@ -149,7 +150,7 @@ class Post extends Component {
   			  {node.title}
   			</Typography>
   			<Typography variant="body2" className={classes.username}>
-  			  {new Date(node.created).toDateString()}
+  			  {node.user.name} - {new Date(node.created).toDateString()}
   			</Typography>
 		      </div>
 		  }

@@ -107,6 +107,7 @@ const QUERY = gql`
 	    longitude
 	    user {
 		id
+		name
 		avatar
 		nonprofit {
 		    id
@@ -190,7 +191,7 @@ class Event extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.username}>
-  				{new Date(node.created).toDateString()}
+  				{node.user.name} - {new Date(node.created).toDateString()}
   			      </Typography>
 			    </div>
 			}
@@ -212,7 +213,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-  		    {new Date(node.created).toGMTString()}
+  		    {node.user.name} - {new Date(node.created).toDateString()}
 		  </Typography>
 		</Grid>
 		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
