@@ -147,7 +147,7 @@ class SimpleEdgeMutation extends Component {
     
 SimpleEdgeMutation.propTypes = {
     classes: PropTypes.object.isRequired,
-    initial: PropTypes.boolean.isRequired,
+    initial: PropTypes.bool.isRequired,
     variant: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
     target: PropTypes.string.isRequired,

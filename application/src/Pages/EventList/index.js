@@ -116,7 +116,7 @@ class EventList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.username}>
-  		{node.user.name} - {new Date(node.created).toDateString()}
+  		{node.user.name} - {new Date(node.date).toDateString()}
   	      </Typography>
 	    </div>
 	);
