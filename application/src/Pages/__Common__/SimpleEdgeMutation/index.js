@@ -112,7 +112,6 @@ class SimpleEdgeMutation extends Component {
 
     updateInitial(mutation, user) {
 	mutation().then(response => {
-	    console.log(response);
 	    this.setState({ initial: response.data[Object.keys(response.data)[0]].state });
 	})
     }
