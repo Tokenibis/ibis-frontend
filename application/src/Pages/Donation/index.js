@@ -15,11 +15,12 @@ import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
+import CommentTree from '../CommentTree';
 
 const styles = theme => ({
-    root: {
-	flexGrow: 1,
+    content: {
 	paddingTop: theme.spacing(4),
+	width: '90%',
     },
     categoryIcon: {
 	color: theme.palette.tertiary.main,
@@ -119,11 +120,11 @@ const QUERY = gql`
 class Donation extends Component {
 
     createPage(node) {
-	let { classes, context } = this.props;
+	let { classes, context, id } = this.props;
 
 	return (
-	    <div className={classes.root}>
-	      <Grid container>
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <Grid container className={classes.content}>
 		<Grid item xs={3}>
 		  <div className={classes.avatarContainer}>
     		    <Avatar
@@ -145,14 +146,14 @@ class Donation extends Component {
 		    </Typography>
 		  </div>
 		</Grid>
-
+		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.created}>
   		    {new Date(node.created).toDateString()}
 		  </Typography>
 		</Grid>
-		<Grid item xs={1}></Grid>
+		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.gift}>
@@ -160,21 +161,18 @@ class Donation extends Component {
 		    {` (~${Math.round(node.amount/750*10)/10} Burritos)`}
 		  </Typography>
 		</Grid>
-		<Grid item xs={1}></Grid>
+		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.description}>
   		    {node.description}
 		  </Typography>
 		</Grid>
-		<Grid item xs={1}></Grid>
-		<Grid item xs={3}></Grid>
-		<Grid item xs={7} className={classes.divider}>
+		<Grid item xs={2}></Grid>
+		<Grid item xs={12} className={classes.divider}>
 		  <CustomDivider />
 		</Grid>
-		<Grid item xs={1}></Grid>
-		<Grid item xs={3}></Grid>
-		<Grid item xs={7} className={classes.divider}>
+		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
 		    <SimpleEdgeMutation
 			variant={LikeVal}
@@ -191,14 +189,14 @@ class Donation extends Component {
 		    </IconButton>
 		  </div>
 		</Grid>
-		<Grid item xs={1}></Grid>
-		<Grid item xs={3}></Grid>
-		<Grid item xs={7} className={classes.divider}>
+		<Grid item xs={12} className={classes.divider}>
 		  <CustomDivider />
 		</Grid>
-		<Grid item xs={1}></Grid>
+		<Grid item xs={12}>
+		  <CommentTree parent={id} context={context}/>
+		</Grid>
 	      </Grid>
-	    </div>
+	   </Grid>
 	);
     }
 
@@ -211,17 +209,18 @@ class Donation extends Component {
 		query={QUERY} 
 		variables={{ id, self: context.userID }}
 	    >
-	      {({ loading, error, data }) => {
-		  if (loading) return <LinearProgress className={classes.progress} />;
-		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.donation);
-	      }}
+	    {({ loading, error, data }) => {
+		if (loading) return <LinearProgress className={classes.progress} />;
+		if (error) return `Error! ${error.message}`;
+		return this.createPage(data.donation);
+	    }}
 	    </Query>
 	);
     };
 };
 
 Donation.propTypes = {
+    classes: PropTypes.object.isRequired,
     id: PropTypes.string.isRequired,
 };
 
