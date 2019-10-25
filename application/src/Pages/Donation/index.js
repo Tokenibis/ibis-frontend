@@ -15,7 +15,7 @@ import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
-import CommentTree from '../CommentTree';
+import CommentTree from '../__Common__/CommentTree';
 
 const styles = theme => ({
     content: {

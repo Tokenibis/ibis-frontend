@@ -17,9 +17,10 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 
-import Link from '../../__Common__/CustomLink';
-import CustomDivider from '../../__Common__/CustomDivider';
-import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
+import Link from '../../../__Common__/CustomLink';
+import CustomDivider from '../../../__Common__/CustomDivider';
+import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+
 
 const MAX_DEPTH = 3;
 

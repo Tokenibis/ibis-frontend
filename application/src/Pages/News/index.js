@@ -18,6 +18,7 @@ import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
+import CommentTree from '../__Common__/CommentTree';
 
 const styles = theme => ({
     content: {
@@ -115,75 +116,80 @@ const QUERY = gql`
 class News extends Component {
 
     createPage(node) {
-	let { classes, context } = this.props;
+	let { classes, context, id } = this.props;
 	
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Grid className={classes.content} item xs={12}>
-		<ListItem
-		    className={classes.image}
-		>
-		  <ListItemIcon>
-    		    <Avatar
-			component={Link}
-			prefix={1}
-			to={`Nonprofit?id=${node.user.nonprofit.id}`}
-  			alt="Ibis"
-    			src={node.user.avatar}
-    			className={classes.avatar}
+	      <Grid container className={classes.content}>
+		<Grid item xs={12}>
+		  <ListItem
+		      className={classes.image}
+		  >
+		    <ListItemIcon>
+    		      <Avatar
+		      component={Link}
+		      prefix={1}
+		      to={`Nonprofit?id=${node.user.nonprofit.id}`}
+  		      alt="Ibis"
+    		      src={node.user.avatar}
+    		      className={classes.avatar}
+		      />
+		    </ListItemIcon>
+		    <ListItemText
+			primary={
+			    <div>
+  			      <Typography variant="body2" className={classes.name}>
+  				{node.title}
+  			      </Typography>
+  			      <Typography variant="body2" className={classes.username}>
+  				{node.user.name} - {new Date(node.created).toDateString()}
+  			      </Typography>
+			    </div>
+			}
 		    />
-		  </ListItemIcon>
-		  <ListItemText
-		  primary={
-		      <div>
-  			<Typography variant="body2" className={classes.name}>
-  			  {node.title}
-  			</Typography>
-  			<Typography variant="body2" className={classes.username}>
-  			  {node.user.name} - {new Date(node.created).toDateString()}
-  			</Typography>
-		      </div>
-		  }
-		  />
-		</ListItem>
-  		<CardMedia
-		    style={{ height: imageHeight }}
-    		    image={node.image}
-  		    title={node.title}
-  		/>
-  		<Typography variant="body2" className={classes.body}>
-		  <ReactMarkdown source={node.body} />
-		</Typography>
-		<CustomDivider/>
-		<div className={classes.action}>
-		  <div>
-		    <SimpleEdgeMutation
-			variant={LikeVal}
-			user={context.userID}
-			target={node.id}
-			initial={node.hasLiked.edges.length === 1}
+		  </ListItem>
+  		  <CardMedia
+		      style={{ height: imageHeight }}
+    		      image={node.image}
+  		      title={node.title}
+  		  />
+  		  <Typography variant="body2" className={classes.body}>
+		    <ReactMarkdown source={node.body} />
+		  </Typography>
+		  <CustomDivider/>
+		  <div className={classes.action}>
+		    <div>
+		      <SimpleEdgeMutation
+		      variant={LikeVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.hasLiked.edges.length === 1}
+		      />
+		      <SimpleEdgeMutation
+		      variant={BookmarkVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.hasBookmarked.edges.length === 1}
+		      />
+		    </div>
+		    <NonprofitCategoryIcon
+			id={node.user.nonprofit.category.id}
+			className={classes.categoryIcon}
 		    />
-		    <SimpleEdgeMutation
-			variant={BookmarkVal}
-			user={context.userID}
-			target={node.id}
-			initial={node.hasBookmarked.edges.length === 1}
-		    />
+		    <IconButton className={classes.stats}>
+		      <CommentIcon className={classes.statIcon}/> (0)
+		    </IconButton>
 		  </div>
-		  <NonprofitCategoryIcon
-		      id={node.user.nonprofit.category.id}
-		      className={classes.categoryIcon}
-		  />
-		  <IconButton className={classes.stats}>
-		    <CommentIcon className={classes.statIcon}/> (0)
-		  </IconButton>
-		</div>
-		<CustomDivider/>
+		  <CustomDivider/>
+		</Grid>
+		<Grid item xs={12}>
+		  <CommentTree parent={id} context={context}/>
+		</Grid>
+		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </Grid>
-	      <Grid item xs={12}><div className={classes.bottom} /></Grid>
 	    </Grid>
 	);
     }

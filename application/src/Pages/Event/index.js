@@ -17,13 +17,12 @@ import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
+import CommentTree from '../__Common__/CommentTree';
 
 const config = require('../../config.json');
 
 const styles = theme => ({
-    root: {
-	marginRight: 'auto',
-	marginLeft: 'auto',
+    content: {
 	width: '90%',
     },
     avatar: {
@@ -158,7 +157,7 @@ class Event extends Component {
     
     createPage(node) {
 	let { width, height } = this.state;
-	let { classes, context } = this.props;
+	let { classes, context, id } = this.props;
 
 	let imageHeight = Math.floor(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
@@ -168,8 +167,8 @@ class Event extends Component {
 	const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 	return (
-	    <div className={classes.root}>
-  	      <Grid container justify="center" alignItems="center" >
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <Grid container className={classes.content}>
 		<Grid item xs={12}>
 		  <ListItem
 		      className={classes.image}
@@ -267,9 +266,12 @@ class Event extends Component {
 		  </div>
 		  <CustomDivider/>
 		</Grid>
+		<Grid item xs={12}>
+		  <CommentTree parent={id} context={context}/>
+		</Grid>
 		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </Grid>
-	    </div>
+	    </Grid>
 	);
     }
 

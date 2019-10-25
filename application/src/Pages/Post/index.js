@@ -19,6 +19,7 @@ import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
 import SimpleEdgeMutation, { BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import VoteMutation, { NeutralVal, UpvoteVal, DownvoteVal } from '../__Common__/VoteMutation';
+import CommentTree from '../__Common__/CommentTree';
 
 const styles = theme => ({
     content: {
@@ -120,7 +121,7 @@ const QUERY = gql`
 class Post extends Component {
 
     createPage(node) {
-	let { classes, context } = this.props;
+	let { classes, context, id } = this.props;
 	
 	let initial_vote;
 	
@@ -185,6 +186,9 @@ class Post extends Component {
 		  </IconButton>
 		</div>
 		<CustomDivider/>
+	      </Grid>
+	      <Grid item xs={12}>
+		<CommentTree parent={id} context={context}/>
 	      </Grid>
 	      <Grid item xs={12}><div className={classes.bottom} /></Grid>
 	    </Grid>
