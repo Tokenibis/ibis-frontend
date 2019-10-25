@@ -17,8 +17,7 @@ import ReactMarkdown from 'react-markdown';
 import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
 import CustomDivider from '../../__Common__/CustomDivider';
-import SimpleEdgeMutation, { BookmarkVal } from '../__Common__/SimpleEdgeMutation';
-import VoteMutation, { NeutralVal, UpvoteVal, DownvoteVal } from '../__Common__/VoteMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
 const styles = theme => ({
@@ -57,6 +56,9 @@ const styles = theme => ({
 	alignItems: 'center',
 	width: '100%',
     },
+    likeBookmark: {
+	display: 'flex',
+    },
     stats: {
 	color: theme.palette.secondary.main,
 	fontSize: 14,
@@ -92,22 +94,14 @@ const QUERY = gql`
 		    name
 		}
 	    }
-	    voteDifference
+	    hasLiked: like(id: $self) {
+		edges {
+		    node {
+			id
+		    }
+		}
+	    }
 	    hasBookmarked: bookmark(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	    hasUpvoted: upvote(byUser: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	    hasDownvoted: downvote(byUser: $self) {
 		edges {
 		    node {
 			id
@@ -122,75 +116,67 @@ class Post extends Component {
 
     createPage(node) {
 	let { classes, context, id } = this.props;
-	
-	let initial_vote;
-	
-	if (node.hasUpvoted.edges.length === 0 && node.hasDownvoted.edges.length === 0) {
-	    initial_vote = NeutralVal;
-	} else if (node.hasUpvoted.edges.length !== 0) {
-	    initial_vote = UpvoteVal;
-	} else if (node.hasDownvoted.edges.length !== 0) {
-	    initial_vote = DownvoteVal;
-	} else {
-	    console.error('Something is wrong; we should not have simultaneously up/downvotes');
-	}
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid className={classes.content} item xs={12}>
-		<ListItem
-		    className={classes.image}
-		>
-		  <ListItemIcon>
-    		    <Avatar
-			component={Link}
-			prefix={1}
-			to={`Person?id=${node.user.person.id}`}
-  			alt="Ibis"
-    			src={node.user.avatar}
-    			className={classes.avatar}
+		<Grid item xs={12}>
+		  <ListItem
+		      className={classes.image}
+		  >
+		    <ListItemIcon>
+    		      <Avatar
+		      component={Link}
+		      prefix={1}
+		      to={`Person?id=${node.user.person.id}`}
+  		      alt="Ibis"
+    		      src={node.user.avatar}
+    		      className={classes.avatar}
+		      />
+		    </ListItemIcon>
+		    <ListItemText
+			primary={
+			    <div>
+  			      <Typography variant="body2" className={classes.name}>
+  				{node.title}
+  			      </Typography>
+  			      <Typography variant="body2" className={classes.username}>
+  				{node.user.name} - {new Date(node.created).toDateString()}
+  			      </Typography>
+			    </div>
+			}
 		    />
-		  </ListItemIcon>
-		  <ListItemText
-		  primary={
-		      <div>
-  			<Typography variant="body2" className={classes.name}>
-  			  {node.title}
-  			</Typography>
-  			<Typography variant="body2" className={classes.username}>
-  			  {node.user.name} - {new Date(node.created).toDateString()}
-  			</Typography>
-		      </div>
-		  }
-		  />
-		</ListItem>
-  		<Typography variant="body2" className={classes.body}>
-		  <ReactMarkdown source={node.body} />
-		</Typography>
-		<CustomDivider/>
-		<div className={classes.action}>
-		  <SimpleEdgeMutation
+		  </ListItem>
+  		  <Typography variant="body2" className={classes.body}>
+		    <ReactMarkdown source={node.body} />
+		  </Typography>
+		  <CustomDivider/>
+		  <div className={classes.action}>
+		    <div className={classes.likeBookmark}>
+		      <SimpleEdgeMutation
+		      variant={LikeVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.hasBookmarked.edges.length === 1}
+		      />
+		      <SimpleEdgeMutation
 		      variant={BookmarkVal}
 		      user={context.userID}
 		      target={node.id}
 		      initial={node.hasBookmarked.edges.length === 1}
-		  />
-		  <VoteMutation
-		      user={context.userID}
-		      target={node.id}
-		      initial={initial_vote}
-		      diff={node.voteDifference}
-		  />
-		  <IconButton className={classes.stats}>
-		    <CommentIcon className={classes.statIcon}/> (0)
-		  </IconButton>
-		</div>
-		<CustomDivider/>
+		      />
+		    </div>
+		    <IconButton className={classes.stats}>
+		      <CommentIcon className={classes.statIcon}/> (0)
+		    </IconButton>
+		  </div>
+		  <CustomDivider/>
+		</Grid>
+		<Grid item xs={12}>
+		  <CommentTree parent={id} context={context}/>
+		</Grid>
+		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </Grid>
-	      <Grid item xs={12}>
-		<CommentTree parent={id} context={context}/>
-	      </Grid>
-	      <Grid item xs={12}><div className={classes.bottom} /></Grid>
 	    </Grid>
 	);
     }
@@ -200,9 +186,9 @@ class Post extends Component {
 
 	return (
 	    <Query
-		fetchPolicy="no-cache"
-		query={QUERY}
-		variables={{ id, self: context.userID }}
+	      fetchPolicy="no-cache"
+	      query={QUERY}
+	      variables={{ id, self: context.userID }}
 	    >
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;

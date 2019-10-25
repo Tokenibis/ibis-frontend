@@ -12,8 +12,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import Link from '../../__Common__/CustomLink';
-import SimpleEdgeMutation, { BookmarkVal } from '../__Common__/SimpleEdgeMutation';
-import VoteMutation, { NeutralVal, UpvoteVal, DownvoteVal } from '../__Common__/VoteMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -41,7 +40,7 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    voteBookmark: {
+    likeBookmark: {
 	display: 'flex',
     },
     action: {
@@ -54,7 +53,7 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
     },
-    details: {
+    info: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
@@ -72,7 +71,6 @@ const QUERY = gql`
 		    title
 		    created
 		    description
-		    voteDifference
 		    user {
 			id
 			name
@@ -81,21 +79,14 @@ const QUERY = gql`
 			    id
 			}
 		    }
+		    hasLiked: like(id: $self) {
+			edges {
+			    node {
+				id
+			    }
+			}
+		    }
 		    hasBookmarked: bookmark(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		    hasUpvoted: upvote(byUser: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		    hasDownvoted: downvote(byUser: $self) {
 			edges {
 			    node {
 				id
@@ -153,32 +144,20 @@ class PostList extends Component {
     makeActions = (node) => {
 	let { classes, context } = this.props;
 	
-	let initial_vote;
-	
-	if (node.hasUpvoted.edges.length === 0 && node.hasDownvoted.edges.length === 0) {
-	    initial_vote = NeutralVal;
-	} else if (node.hasUpvoted.edges.length !== 0) {
-	    initial_vote = UpvoteVal;
-	} else if (node.hasDownvoted.edges.length !== 0) {
-	    initial_vote = DownvoteVal;
-	} else {
-	    console.error('Something is wrong; we should not have simultaneously up/downvotes');
-	}
-
 	return (
 	    <div className={classes.action}>
-	      <div className={classes.voteBookmark}>
+	      <div className={classes.likeBookmark}>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		/>
 		<SimpleEdgeMutation
 		    variant={BookmarkVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
-		/>
-		<VoteMutation
-		    user={context.userID}
-		    target={node.id}
-		    initial={initial_vote}
-		    diff={node.voteDifference}
 		/>
 	      </div>
 	      <Typography
@@ -186,9 +165,9 @@ class PostList extends Component {
 		  prefix={1}
 		  to={`Post?id=${node.id}`}
 		  variant="body2"
-		  className={classes.details}
+		  className={classes.info}
 	      >
-		Details
+		Read more
 	      </Typography>
 	    </div>
 	);
