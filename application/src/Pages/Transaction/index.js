@@ -195,7 +195,7 @@ class Transaction extends Component {
 		  <CustomDivider />
 		</Grid>
 		<Grid item xs={12}>
-		  <CommentTree parent={id} context={context}/>
+		  <CommentTree parent={id} context={context} showReplyRoot={true} />
 		</Grid>
 	      </Grid>
 	    </Grid>
