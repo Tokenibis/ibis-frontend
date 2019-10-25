@@ -102,7 +102,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
     },
     spacer: {
-	height: theme.spacing(5),
+	height: theme.spacing(3),
     },
 })
 
@@ -235,6 +235,9 @@ class CommentTree extends Component {
 		  </Grid>
 		  <Grid item xs={12}>
 		    {this.renderCommentTree(node.id, 0)}
+		  </Grid>
+		  <Grid item xs={12}>
+		    <div className={classes.spacer}/>
 		  </Grid>
 		  <Grid item xs={12}>
 		    <CustomDivider/>
