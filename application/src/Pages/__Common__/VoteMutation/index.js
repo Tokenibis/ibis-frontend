@@ -33,13 +33,23 @@ const styles = theme => ({
     },
     upvote: {
 	transform: 'rotate(-90deg)',
+	paddingLeft: 0,
+	paddingRight: 0,
+	marginLeft: 0,
+	marginRight: 0,
     },
     downvote: {
 	transform: 'rotate(90deg)',
+	paddingLeft: 0,
+	paddingRight: 0,
+	marginLeft: 0,
+	marginRight: 0,
     },
     diff: {
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
+	marginRight: -theme.spacing(1),
+	marginLeft: -theme.spacing(1),
     },
 })
 
@@ -88,7 +98,7 @@ class VoteMutation extends Component {
 		    )}
 		  </Mutation>
 		  <Typography variant="body2" className={classes.diff}>
-		    {diff > 0 && '+'} {diff < 0 && '-'} {Math.abs(diff)}
+		    {diff}
 		  </Typography>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: false }}>
 		    {mutation => (
@@ -110,7 +120,7 @@ class VoteMutation extends Component {
 		    )}
 		  </Mutation>
 		  <Typography variant="body2" className={classes.diff}>
-		    {diff > 0 && '+'} {diff < 0 && '-'} {Math.abs(diff)}
+		    {diff}
 		  </Typography>
 		  <Mutation mutation={deleteMutation} variables={{ user, target }}>
 		    {mutation => (
@@ -132,7 +142,7 @@ class VoteMutation extends Component {
 		    )}
 		  </Mutation>
 		  <Typography variant="body2" className={classes.diff}>
-		    {diff > 0 && '+'} {diff < 0 && '-'} {Math.abs(diff)}
+		    {diff}
 		  </Typography>
 		  <Mutation mutation={createMutation} variables={{ user, target, isUpvote: false }}>
 		    {mutation => (

@@ -41,6 +41,9 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
+    voteBookmark: {
+	display: 'flex',
+    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -164,18 +167,20 @@ class PostList extends Component {
 
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={BookmarkVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.hasBookmarked.edges.length === 1}
-	      />
-	      <VoteMutation
-		  user={context.userID}
-		  target={node.id}
-		  initial={initial_vote}
-		  diff={node.voteDifference}
-	      />
+	      <div className={classes.voteBookmark}>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		/>
+		<VoteMutation
+		    user={context.userID}
+		    target={node.id}
+		    initial={initial_vote}
+		    diff={node.voteDifference}
+		/>
+	      </div>
 	      <Typography
 		  component={Link}
 		  prefix={1}
