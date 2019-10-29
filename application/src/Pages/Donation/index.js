@@ -89,7 +89,7 @@ const styles = theme => ({
 
 const QUERY = gql`
     query Donation($id: ID! $self: String){
-	donation(id: $id){
+	donation(id: $id) {
 	    id
 	    description 
 	    amount
