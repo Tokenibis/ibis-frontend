@@ -83,6 +83,19 @@ class Authenticator extends Component {
 	})
     }
 
+    /* retrieve the google oauth request url and redirect */
+    googleLogin = () => {
+	axios('https://api.tokenibis.org/auth/social/google/auth-server/', {
+	    method: 'post',
+	    withCredentials: true
+	}).then(response => {
+	    window.location.href = response.data.url;
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	})
+    }
+
     render() {
 
 	let { authenticate, classes } = this.props;

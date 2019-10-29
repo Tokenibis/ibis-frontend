@@ -450,7 +450,7 @@ class CommentTree extends Component {
     };
 	    
     render() {
-	let { classes, context, parent, depth } = this.props;
+	let { classes, context, parent, depth, showReplyRoot } = this.props;
 
 	// depth will typically be undefined when calling CommentTree externally
 	if (!depth) {

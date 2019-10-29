@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
+import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
@@ -23,9 +24,12 @@ const styles = theme => ({
 	marginLeft: 4,
 	marginRight: 4,
     },
-    label: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
+    },
+    subtitle: {
+	color: theme.palette.tertiary.main,
     },
     action: {
 	display: 'flex',
@@ -41,7 +45,17 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
-    }
+    },
+    commentCount: {
+	color: theme.palette.tertiary.main,
+	fontSize: 14,
+    },
+    commentCountIcon: {
+	fontSize: 20,
+	marginBottom: -7,
+	paddingRight: theme.spacing(0.5),
+	color: theme.palette.tertiary.main,
+    },
 });
 
 const DEFAULT_COUNT = 25;
@@ -74,6 +88,10 @@ const QUERY = gql`
 			    }
 			}
 		    }
+		    entryPtr {
+			id
+			commentCountRecursive
+		    }
 		}
 		cursor
 	    }
@@ -104,11 +122,16 @@ class DonationList extends Component {
     makeLabel = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Typography variant="body2" className={classes.label}>
-	      {`${node.user.name}`}
-	      {<ToIcon className={classes.toIcon} />}
-	      {node.target.title}
-	    </Typography>
+	    <div>
+	      <Typography variant="body2" className={classes.title}>
+		{`${node.user.name}`}
+		{<ToIcon className={classes.toIcon} />}
+		{node.target.title}
+	      </Typography>
+	      <Typography variant="body2" className={classes.subtitle}>
+		{`$${(node.amount/100).toFixed(2)}`}
+	      </Typography>
+	    </div>
 	);
     }
 
@@ -130,9 +153,10 @@ class DonationList extends Component {
 		  target={node.id}
 		  initial={node.hasLiked.edges.length === 1}
 	      />
-	      <Typography variant="body2" className={classes.amount}>
-		{`$${(node.amount/100).toFixed(2)}`}
-	      </Typography>
+	      <IconButton className={classes.commentCount}>
+		<CommentIcon className={classes.commentCountIcon}/> 
+		({node.entryPtr.commentCountRecursive})
+	      </IconButton>
 	      <Typography
 		  component={Link}
 		  prefix={1}

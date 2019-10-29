@@ -65,20 +65,25 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(2),
     },
-    stats: {
-	color: theme.palette.secondary.main,
+    commentCount: {
+	color: theme.palette.tertiary.main,
 	fontSize: 14,
     },
-    statIcon: {
+    commentCountIcon: {
 	fontSize: 20,
 	marginBottom: -7,
 	paddingRight: theme.spacing(0.5),
-	color: theme.palette.secondary.main,
+	color: theme.palette.tertiary.main,
     },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
+    },
+    reply: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+	paddingRight: theme.spacing(1),
     },
 });
 
@@ -114,14 +119,27 @@ const QUERY = gql`
 		    }
 		}
 	    }
+	    entryPtr {
+		id
+		commentCountRecursive
+	    }
 	}
     }
 `;
 
 class Transaction extends Component {
 
+    state = {
+	showReply: false,
+    }
+
+    toggleReply() {
+	this.setState({ showReply: !this.state.showReply });
+    }
+
     createPage(node) {
 	let { classes, context, id } = this.props;
+	let { showReply } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -182,20 +200,33 @@ class Transaction extends Component {
 			target={node.id}
 			initial={node.hasLiked.edges.length === 1}
 		    />
-		    <TransactionCategoryIcon
-			id={node.category.id}
-			className={classes.categoryIcon}
-		    />
-		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> (0)
+		    <IconButton className={classes.commentCount}>
+		      <CommentIcon className={classes.commentCountIcon}/> 
+		      ({node.entryPtr.commentCountRecursive})
 		    </IconButton>
+		    <Typography
+			variant="body2"
+			className={classes.reply}
+			onClick={() => this.toggleReply()}
+		    >
+		      {
+			  showReply ?
+			  'Discard' :
+			  'Reply'
+		      }
+		    </Typography>
 		  </div>
 		</Grid>
 		<Grid item xs={12} className={classes.divider}>
 		  <CustomDivider />
 		</Grid>
 		<Grid item xs={12}>
-		  <CommentTree parent={id} context={context} showReplyRoot={true} />
+		  <CommentTree
+		      parent={id}
+		      context={context}
+		      showReplyRoot={showReply}
+		      toggleReplyRoot={() => this.toggleReply()}
+		  />
 		</Grid>
 	      </Grid>
 	    </Grid>
