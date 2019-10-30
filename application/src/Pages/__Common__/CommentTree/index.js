@@ -11,10 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import TextField from '@material-ui/core/TextField';
 
 import Link from '../../../__Common__/CustomLink';
@@ -33,6 +30,10 @@ const styles = theme => ({
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
+    },
+    listItem: {
+	paddingLeft: 0,
+	margin: 0,
     },
     verticalDivider: {
 	borderLeft: '2px solid',
@@ -96,6 +97,23 @@ const styles = theme => ({
     },
     spacer: {
 	height: theme.spacing(3),
+    },
+    textField: {
+	'& .MuiOutlinedInput-root': {
+	    'color': theme.palette.tertiary.main,
+	    '& inputMultiline': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '& fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '&:hover fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '&.Mui-focused fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	},
     },
 })
 
@@ -181,7 +199,12 @@ class CommentTree extends Component {
 	this.setState({ seeMore: !this.state.seeMore })
     };
 
-    toggleReplyChild(id) {
+    onSubmitSelf() {
+	let { parent } = this.props;
+	document.getElementById(`reply_form_${parent}`).value = '';
+    };
+
+    onSubmitChild(id) {
 	let { showReplyChild } = this.state;
 
 	if (showReplyChild.has(id)) {
@@ -194,7 +217,7 @@ class CommentTree extends Component {
 
     renderReplyForm(depth, refetch) {
 
-	let { classes, context, parent, showReplyRoot, toggleReplyRoot, replyFocused } = this.props
+	let { classes, context, parent, onSubmitRoot, replyFocused } = this.props
 
 	let submit = (mutation) => {
 	    let description = document.getElementById(`reply_form_${parent}`).value
@@ -205,7 +228,8 @@ class CommentTree extends Component {
 		    description,
 		    self: context.userID,
 		}}).then(response => {
-		    toggleReplyRoot && toggleReplyRoot();
+		    onSubmitRoot && onSubmitRoot();
+		    this.onSubmitSelf();
 		    refetch();
 		})
 	    }
@@ -270,7 +294,7 @@ class CommentTree extends Component {
 	      <Grid item xs={12 - depth}>
 		<ListItem
 		    button
-		    className={classes.image}
+		    className={classes.listItem}
 		>
 		  <ListItemIcon>
     		    <Avatar
@@ -292,7 +316,7 @@ class CommentTree extends Component {
 			      {node.user.name}
 			    </Typography>
   			    <Typography variant="body2" className={classes.subtitle}>
-  			      {`@${node.user.username}`}
+  			      {new Date(node.created).toDateString()}
   			    </Typography>
 			  </div>
 		      } 
@@ -317,13 +341,10 @@ class CommentTree extends Component {
 		      target={node.id}
 		      initial={node.hasLiked.edges.length === 1}
 		  />
-  		  <Typography variant="body2" className={classes.date}>
-  		    {new Date(node.created).toDateString()}
-  		  </Typography>
 		  <Typography
 		      variant="body2"
 		      className={classes.replyButton}
-		      onClick={(e) => {this.toggleReplyChild(node.id)}}
+		      onClick={(e) => {this.onSubmitChild(node.id)}}
 		  >
 		    {
 			showReplyChild.has(node.id) ?
@@ -338,7 +359,7 @@ class CommentTree extends Component {
     };
 
     renderCommentTree(depth, data) {
-	let { classes, context, parent } = this.props;
+	let { classes, context } = this.props;
 	let { showReplyChild } = this.state;
 
 	return (
@@ -349,7 +370,7 @@ class CommentTree extends Component {
 		      depth={depth + 1}
 		      parent={item.node.id}
 		      showReplyRoot={showReplyChild.has(item.node.id)}
-		      toggleReplyRoot={() => this.toggleReplyChild(item.node.id)}
+		      onSubmitRoot={() => this.onSubmitChild(item.node.id)}
 		      replyFocused={true}
 		      context={context}
 		      classes={classes}
@@ -360,7 +381,7 @@ class CommentTree extends Component {
     };
 
     renderSeeMore(depth, data) {
-	let { classes, context, parent } = this.props;
+	let { classes } = this.props;
 	let { seeMore } = this.state;
 
 	let seeMoreButton = (

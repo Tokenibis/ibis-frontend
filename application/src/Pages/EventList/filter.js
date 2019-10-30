@@ -37,9 +37,15 @@ const styles = theme => ({
     }
 })
 
-const birthdayStyle = `.DayPicker-Day--highlighted {
-  color: #3b3b3b;
-}`;
+const eventStyle = `
+.DayPicker-Day--events {
+  background-color: #ffcfcf;
+}
+.DayPicker-Day--past {
+  color: #d0d0d0;
+}
+`;
+
 
 const options = ['All', 'Featured', 'Following', 'Going'];
 
@@ -47,7 +53,7 @@ class EventFilter extends Component {
 
     state = {
 	expanded: false,
-	begin: new Date((new Date()).getFullYear(), (new Date()).getMonth(), 1),
+	begin: new Date(),
     }
 
     handleExpand(expanded) {
@@ -61,16 +67,17 @@ class EventFilter extends Component {
 	let handleDayClick = (date) => {
 	    let year = date.getFullYear().toString().padStart(4, '0');
 	    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-	    let day = date.getDate().toString().padStart(2, '0');
+	    let day = (date.getDate() + 1).toString().padStart(2, '0');
 	    onClose(null, `_Calendar:${year}-${month}-${day}T00:00`);
 	};
 
 	let handleMonthChange = (date) => {
-	    this.setState({ begin: date})
+	    this.setState({ begin: new Date(Math.max(date, new Date())) })
 	};
 
 	let beginY = begin.getFullYear().toString().padStart(4, '0');
 	let beginM = (begin.getMonth() + 1).toString().padStart(2, '0');
+	let beginD = (begin.getDate() + 1).toString().padStart(2, '0');
 
 	let end = new Date(begin.getFullYear(), begin.getMonth() + 1, 1);
 
@@ -79,7 +86,7 @@ class EventFilter extends Component {
 	
 	let query = gql`
 	    query {
-		allEvents(beginDate: "${beginY}-${beginM}-01T00:00", endDate: "${endY}-${endM}-01T00:00") {
+		allEvents(beginDate: "${beginY}-${beginM}-${beginD}T00:00", endDate: "${endY}-${endM}-01T00:00") {
 		    edges {
 			node {
 			    id
@@ -113,7 +120,7 @@ class EventFilter extends Component {
 		  }
 		</ListItem>
 		<Collapse in={expanded} timeout="auto" unmountOnExit>
-		  <style>{birthdayStyle}</style>
+		  <style>{eventStyle}</style>
 		  <Query query={query}>
 		  {({ loading, error, data }) => {
 		      let dates = [];
@@ -121,7 +128,10 @@ class EventFilter extends Component {
 			  dates = data.allEvents.edges.map((item, i) => (new Date(item.node.date)))
 		      }
 		      let modifiers = {
-			  highlighted: dates,
+			  events: dates,
+			  past: {
+			      before: new Date(),
+			  },
 		      };
 
 		      return (

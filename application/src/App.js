@@ -9,8 +9,6 @@ import { IbisProvider } from './Context'
 import Authenticator from './Authenticator'
 import Content from './Navigation/Content'
 
-const config = require('./config.json');
-
 const client = new ApolloClient({
     link: new HttpLink({
 	uri: "https://api.tokenibis.org/graphql/",
@@ -31,7 +29,7 @@ const theme = createMuiTheme({
 	    main: '#84ab3f',
 	},
 	tertiary: {
-	    main: '#9b9b9b',
+	    main: '#808080',
 	},
 	light: {
 	    main: '#f2f2f2',

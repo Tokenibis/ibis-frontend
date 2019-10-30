@@ -10,13 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
 import ReactMarkdown from 'react-markdown';
 
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import Link from '../../__Common__/CustomLink';
-import CustomDivider from '../../__Common__/CustomDivider';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -28,6 +24,9 @@ const styles = theme => ({
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
+    },
+    progress: {
+	margin: theme.spacing(-0.5),
     },
     categoryIcon: {
 	color: theme.palette.tertiary.main,
@@ -159,7 +158,6 @@ class News extends Component {
   		  <Typography variant="body2" className={classes.body}>
 		    <ReactMarkdown source={node.body} />
 		  </Typography>
-		  <CustomDivider/>
 		  <div className={classes.action}>
 		    <div>
 		      <SimpleEdgeMutation
@@ -175,15 +173,7 @@ class News extends Component {
 		      initial={node.hasBookmarked.edges.length === 1}
 		      />
 		    </div>
-		    <NonprofitCategoryIcon
-			id={node.user.nonprofit.category.id}
-			className={classes.categoryIcon}
-		    />
-		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> (0)
-		    </IconButton>
 		  </div>
-		  <CustomDivider/>
 		</Grid>
 		<Grid item xs={12}>
 		  <CommentTree parent={id} context={context} showReplyRoot={true} />

@@ -10,7 +10,6 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
@@ -166,13 +165,9 @@ class NewsList extends Component {
 		    initial={node.hasBookmarked.edges.length === 1}
 		/>
 	      </div>
-	      <NonprofitCategoryIcon
-		  id={node.user.nonprofit.category.id}
-		  className={classes.categoryIcon}
-	      />
 	      <Link prefix={1} to={`News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
-		  Read more
+		  Go to page
 		</Typography>
 	      </Link>
 	    </div>
@@ -205,14 +200,14 @@ class NewsList extends Component {
 		infiniteScroll = true;
 		make = (data) => (
 		    <ListView
-		    scrollButton
-		    expandedAll
-		    makeImage={this.makeImage}
-		    makeLabel={this.makeLabel}
-		    makeMedia={this.makeMedia}
-		    makeBody={this.makeBody}
-		    makeActions={this.makeActions}
-		    data={data}
+			expandedAll
+			scrollButton
+			makeImage={this.makeImage}
+			makeLabel={this.makeLabel}
+			makeMedia={this.makeMedia}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
 		    {...this.props}
 		    />
 		)

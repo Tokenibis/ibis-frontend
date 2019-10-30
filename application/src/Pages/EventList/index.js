@@ -10,8 +10,7 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import EventFilter from './filter';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
-import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
@@ -160,21 +159,21 @@ class EventList extends Component {
 		    initial={node.hasLiked.edges.length === 1}
 		/>
 		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
 		    variant={RsvpVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasRsvp.edges.length === 1}
 		/>
 	      </div>
-  	      <Typography variant="body2" className={classes.categoryIcon}>
-	      <NonprofitCategoryIcon
-		  id={node.user.nonprofit.category.id}
-		  className={classes.categoryIcon}
-	      />
-	      </Typography>
 	      <Link prefix={1} to={`Event?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
-		  Details
+		  Go to page
 		</Typography>
 	      </Link>
 	    </div>
@@ -207,8 +206,8 @@ class EventList extends Component {
 		infiniteScroll = true;
 		make = (data) => (
 		    <ListView
-			scrollButton
 			expandedAll
+			scrollButton
 			makeImage={this.makeImage}
 			makeLabel={this.makeLabel}
 			makeMedia={this.makeMedia}

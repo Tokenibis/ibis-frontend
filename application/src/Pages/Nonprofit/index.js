@@ -34,7 +34,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing(1),
     },
     progress: {
-	marginTop: theme.spacing(1),
+	marginTop: theme.spacing(-0.5),
     },
     card: {
 	width: '100%',
@@ -126,7 +126,7 @@ class Nonprofit extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      <Card className={classes.card}>
+	      <Card raised className={classes.card}>
 		<CardMedia
 	            style={{ height: imageHeight }}
     		    image={node.avatar}

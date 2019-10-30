@@ -3,21 +3,20 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
+import Avatar from '@material-ui/core/Avatar';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
-    categoryIcon: {
-	color: theme.palette.secondary.main,
-	padding: 0,
+    avatar: {
+ 	borderStyle: 'solid',
+  	borderWidth: '2px',
+  	borderColor: theme.palette.secondary.main,
     },
     toIcon: {
 	marginBottom: -7,
@@ -80,6 +79,10 @@ const QUERY = gql`
 		    user {
 			id
 			name
+			avatar
+			person {
+			    id
+			}
 		    }
 		    hasLiked: like(id: $self) {
 			edges {
@@ -108,14 +111,14 @@ class DonationList extends Component {
 	let { classes } = this.props;
 
 	return (
-	    <Link prefix={1} to={`Donation?id=${node.id}`}>
-	      <IconButton>
-		<NonprofitCategoryIcon
-		    id={node.target.category.id}
-		    className={classes.categoryIcon}
-		/>
-	      </IconButton>
-	    </Link>
+    	    <Avatar
+		component={Link}
+		prefix={1}
+		to={`Person?id=${node.user.person.id}`}
+  		alt="Ibis"
+    		src={node.user.avatar}
+    		className={classes.avatar}
+	    />
 	);
     };
 
@@ -153,10 +156,6 @@ class DonationList extends Component {
 		  target={node.id}
 		  initial={node.hasLiked.edges.length === 1}
 	      />
-	      <IconButton className={classes.commentCount}>
-		<CommentIcon className={classes.commentCountIcon}/> 
-		({node.entryPtr.commentCountRecursive})
-	      </IconButton>
 	      <Typography
 		  component={Link}
 		  prefix={1}
@@ -164,7 +163,7 @@ class DonationList extends Component {
 		  variant="body2"
 		  className={classes.details}
 	      >
-		Details
+		Go to page
 	      </Typography>
 	    </div>
 	);

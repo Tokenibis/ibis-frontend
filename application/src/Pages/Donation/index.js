@@ -6,14 +6,10 @@ import { Query } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
-import CustomDivider from '../../__Common__/CustomDivider';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -26,6 +22,9 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	fontSize: 20,
 	marginBottom: -4,
+    },
+    progress: {
+	margin: theme.spacing(-0.5),
     },
     avatarContainer: {
 	width: '100%',
@@ -128,17 +127,12 @@ const QUERY = gql`
 
 class Donation extends Component {
 
-    state = {
-	showReply: false,
-    }
-
-    toggleReply() {
-	this.setState({ showReply: !this.state.showReply });
+    onSubmit() {
+	console.log('submitted')
     }
 
     createPage(node) {
 	let { classes, context, id } = this.props;
-	let { showReply } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -188,9 +182,6 @@ class Donation extends Component {
 		</Grid>
 		<Grid item xs={2}></Grid>
 		<Grid item xs={12} className={classes.divider}>
-		  <CustomDivider />
-		</Grid>
-		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
 		    <SimpleEdgeMutation
 			variant={LikeVal}
@@ -198,32 +189,14 @@ class Donation extends Component {
 			target={node.id}
 			initial={node.hasLiked.edges.length === 1}
 		    />
-		    <IconButton className={classes.commentCount}>
-		      <CommentIcon className={classes.commentCountIcon}/> 
-		      ({node.entryPtr.commentCountRecursive})
-		    </IconButton>
-		    <Typography
-			variant="body2"
-			className={classes.reply}
-			onClick={() => this.toggleReply()}
-		    >
-		      {
-			  showReply ?
-			  'Discard' :
-			  'Reply'
-		      }
-		    </Typography>
 		  </div>
-		</Grid>
-		<Grid item xs={12} className={classes.divider}>
-		  <CustomDivider />
 		</Grid>
 		<Grid item xs={12}>
 		  <CommentTree
+		      showReplyRoot
 		      parent={id}
 		      context={context}
-		      showReplyRoot={showReply}
-		      toggleReplyRoot={() => this.toggleReply()}
+		      onSubmitParent={() => this.onSubmit()}
 		  />
 		</Grid>
 	      </Grid>

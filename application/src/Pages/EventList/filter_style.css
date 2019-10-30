@@ -168,9 +168,7 @@
 /* Default modifiers */
 
 .DayPicker-Day--today {
-    color: #fffff;
-    background-color: #dddddd;
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .DayPicker-Day--outside {
@@ -196,8 +194,6 @@
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   position: relative;
-  background-color: #b0bf24;
-  color: #ffffff;
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
@@ -206,9 +202,6 @@
 
 .DayPicker:not(.DayPicker--interactionDisabled)
   .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-  background-color: #b0bf24;
-  color: #ffffff;
-  
 }
 
 /* DayPickerInput */

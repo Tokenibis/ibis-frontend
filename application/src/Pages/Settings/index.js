@@ -23,6 +23,11 @@ const styles = theme => ({
 	width: '100%',
 	paddingTop: theme.spacing(3),
 	backgroundColor: theme.palette.background.paper,
+	fontWeight: 'bold',
+    },
+    subheader: {
+	fontWeight: 'bold',
+	color: theme.palette.primary.main,
     },
     text: {
 	color: theme.palette.primary.main,
@@ -58,7 +63,11 @@ class Settings extends Component {
 	return (
 	    <div>
 	      <List
-		  subheader={<ListSubheader color="primary">Following Privacy</ListSubheader>}
+		  subheader={
+		      <ListSubheader disableSticky className={classes.subheader}>
+			Following Privacy
+		      </ListSubheader>
+		  }
 		  className={classes.root}
 	      >
 		<CustomDivider />
@@ -103,7 +112,11 @@ class Settings extends Component {
 		<CustomDivider />
 	      </List>
 	      <List
-		  subheader={<ListSubheader color="primary">Transaction Privacy</ListSubheader>}
+		  subheader={
+		      <ListSubheader disableSticky className={classes.subheader}>
+			Transaction Privacy
+		      </ListSubheader>
+		  }
 		  className={classes.root}
 	      >
 		<CustomDivider />
@@ -148,7 +161,11 @@ class Settings extends Component {
 		<CustomDivider />
 	      </List>
 	      <List
-		  subheader={<ListSubheader color="primary">Push Notifications</ListSubheader>}
+		  subheader={
+		      <ListSubheader disableSticky className={classes.subheader}>
+			Push Notifications
+		      </ListSubheader>
+		  }
 		  className={classes.root}
 	      >
 		<CustomDivider />
@@ -196,7 +213,11 @@ class Settings extends Component {
 		<CustomDivider />
 	      </List>
 	      <List
-		  subheader={<ListSubheader color="primary">Email Notifications</ListSubheader>}
+		  subheader={
+		      <ListSubheader disableSticky className={classes.subheader}>
+			Email Notifications
+		      </ListSubheader>
+		  }
 		  className={classes.root}
 	      >
 		<CustomDivider />

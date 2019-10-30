@@ -28,7 +28,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing,
     },
     progress: {
-	marginTop: theme.spacing(1),
+	marginTop: theme.spacing(-0.5),
     },
     card: {
 	width: '100%',

@@ -21,7 +21,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 const styles = theme => ({
     progress: {
-	marginTop: theme.spacing(1),
+	margin: theme.spacing(-0.5),
     },
     infiniteScroll:  {
 	height: '80px',
@@ -118,7 +118,9 @@ class QueryHelper extends Component {
 	    return (
 		<Query fetchPolicy="no-cache" query={query} variables={variables}>
 		  {({ loading, error, data }) => {
-		      if (loading) return <LinearProgress className={classes.progress} />;
+		      if (loading) return (
+			  <LinearProgress  className={classes.progress} />
+		      )
 		      if (error) return `Error! ${error.message}`;
 		      if (data[Object.keys(data)[0]].edges.length > 0) {
 			  return make(data[Object.keys(data)[0]].edges)

@@ -10,7 +10,6 @@ import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
@@ -126,10 +125,6 @@ class NonprofitList extends Component {
 		  initial={node.isFollowing.edges.length === 1}
 	      />
 	      <IconButton>
-		<NonprofitCategoryIcon
-		    id={node.category.id}
-		    className={classes.categoryIcon}
-		/>
 	      </IconButton>
 	      <Typography
 		  component={Link}
@@ -138,7 +133,7 @@ class NonprofitList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		More info
+		Go to page
 	      </Typography>
 	    </div>
 	);

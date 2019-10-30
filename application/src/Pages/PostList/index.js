@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import Avatar from '@material-ui/core/Avatar';
 
 import QueryHelper from "../__Common__/QueryHelper";
@@ -167,7 +165,7 @@ class PostList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Read more
+		Go to page
 	      </Typography>
 	    </div>
 	);
@@ -199,13 +197,13 @@ class PostList extends Component {
 		infiniteScroll = true;
 		make = (data) => (
 		    <ListView
-		    scrollButton
-		    expandedAll
-		    makeImage={this.makeImage}
-		    makeLabel={this.makeLabel}
-		    makeBody={this.makeBody}
-		    makeActions={this.makeActions}
-		    data={data}
+			scrollButton
+			expandedAll
+			makeImage={this.makeImage}
+			makeLabel={this.makeLabel}
+			makeBody={this.makeBody}
+			makeActions={this.makeActions}
+			data={data}
 		    {...this.props}
 		    />
 		)

@@ -20,7 +20,6 @@ import Grid from '@material-ui/core/Grid';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
 import { IbisConsumer } from '../Context';
-import IconButton from '@material-ui/core/IconButton';
 import axios from "axios";
 
 import IbisIcon from '../__Common__/IbisIcon';
@@ -99,7 +98,7 @@ class Authenticator extends Component {
     render() {
 
 	let { authenticate, classes } = this.props;
-	let { checkedAuth, height, width } = this.state;
+	let { checkedAuth, width } = this.state;
 
 	window.addEventListener('resize', this.resizeImage);
 

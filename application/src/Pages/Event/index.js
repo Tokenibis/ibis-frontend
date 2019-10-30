@@ -10,13 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/CommentOutlined';
 
 import Link from '../../__Common__/CustomLink';
-import CustomDivider from '../../__Common__/CustomDivider';
-import NonprofitCategoryIcon from '../__Common__/NonprofitCategoryIcon';
-import SimpleEdgeMutation, { LikeVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
 const config = require('../../config.json');
@@ -29,6 +25,9 @@ const styles = theme => ({
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
+    },
+    progress: {
+	margin: theme.spacing(-0.5),
     },
     categoryIcon: {
 	color: theme.palette.tertiary.main,
@@ -164,8 +163,6 @@ class Event extends Component {
 
 	window.addEventListener('resize', this.resizeMap);
 
-	const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid container className={classes.content}>
@@ -230,6 +227,7 @@ class Event extends Component {
 		<Grid className={classes.content} item xs={12}>
 		  <div style={{ height: 20 }}/>
 		  <iframe
+		      title="google_map"
 		      style={{
 			  width: width,
 			  height: height, 
@@ -240,11 +238,16 @@ class Event extends Component {
 		      allowfullscreen
 		  >
 		  </iframe>
-		  <CustomDivider/>
 		  <div className={classes.action}>
 		    <div>
 		      <SimpleEdgeMutation
 			  variant={LikeVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasLiked.edges.length === 1}
+		      />
+		      <SimpleEdgeMutation
+			  variant={BookmarkVal}
 			  user={context.userID}
 			  target={node.id}
 			  initial={node.hasLiked.edges.length === 1}
@@ -256,15 +259,7 @@ class Event extends Component {
 			  initial={node.hasRsvp.edges.length === 1}
 		      />
 		    </div>
-		    <NonprofitCategoryIcon
-			id={node.user.nonprofit.category.id}
-			className={classes.categoryIcon}
-		    />
-		    <IconButton className={classes.stats}>
-		      <CommentIcon className={classes.statIcon}/> (0)
-		    </IconButton>
 		  </div>
-		  <CustomDivider/>
 		</Grid>
 		<Grid item xs={12}>
 		  <CommentTree parent={id} context={context} showReplyRoot={true} />
