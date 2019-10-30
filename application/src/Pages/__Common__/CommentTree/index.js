@@ -231,7 +231,10 @@ class CommentTree extends Component {
 		    onSubmitRoot && onSubmitRoot();
 		    this.onSubmitSelf();
 		    refetch();
-		})
+		}).catch(error => {
+		    console.log(error);
+		    console.log(error.response);
+		});
 	    }
 	};
 
