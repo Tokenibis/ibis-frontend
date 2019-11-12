@@ -265,6 +265,11 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
+	      <SublistItem
+		  label="Logout"
+		  classes={classes}
+		  onClick={(e) => context.logout()}
+	      />
 	    </div>
 	);
 

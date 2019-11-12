@@ -66,10 +66,6 @@ class Authenticator extends Component {
 	});
     };
 
-    /* retrieve the google oauth request url and redirect */
-    googleLogin = () => {
-	alert('Sorry, we haven\'t gotten around to implementing this yet. Please try Facebook instead')
-    }
 
     /* retrieve the facebook oauth request url and redirect */
     facebookLogin = () => {
@@ -138,16 +134,17 @@ class Authenticator extends Component {
 	    );
 	};
 
-	// attempt to extract oauth code and state
 	let url = new URL(window.location.href);
-	let code = url.searchParams.get('code');
-	let state = url.searchParams.get('state');
+	let path = url.pathname.split('/').slice(1)
 
-	// app has been redirected by oauth rpocess
-	if (code != null && state != null) {
+	// app has been redirected by oauth process
+	if (path[1] === 'redirect') {
+	    let code = url.searchParams.get('code');
+	    let state = url.searchParams.get('state');
+
 	    window.history.replaceState({}, document.title, "/");
 
-	    axios('https://api.tokenibis.org/auth/social/facebook/login/', {
+	    axios(`https://api.tokenibis.org/auth/social/${path[1]}/login/`, {
 		method: 'post',
 		data: {
 		    code: code,

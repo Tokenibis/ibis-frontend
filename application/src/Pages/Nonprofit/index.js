@@ -164,7 +164,12 @@ class Nonprofit extends Component {
 			</Typography>
 		      </Button>
 		    </div>
-		    <Button className={classes.actionDonate}>
+		    <Button
+			component={Link}
+			prefix={1}
+			to={`DonationCreate?target=${id}`}
+			className={classes.actionDonate}
+		    >
 		      Donate
 		    </Button>
 		  </Grid>
