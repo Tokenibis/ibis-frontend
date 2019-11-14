@@ -19,6 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from "axios";
 
 import { IbisProvider } from '../Context'
@@ -46,6 +47,11 @@ const styles = theme => ({
     },
     google: {
 	width: '80%',
+    },
+    progressWrapper: {
+	paddingTop: theme.spacing(10),
+	display: 'flex',
+	justifyContent: 'center'
     },
 });
 
@@ -107,42 +113,14 @@ class Authenticator extends Component {
     };
 
     componentDidMount() {
-	axios('https://api.tokenibis.org/ibis/identify/', {
-	    withCredentials: true
-	}).then(response => {
-	    this.setState({ userID: response.data.user_id});
-	}).catch(error => {
-	    console.log(error);
-	    this.setState({ userID: '' });
-	})
-    };
-
-    render() {
-
-	let { classes, children } = this.props;
-	let { userID, width } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
 
-	// app has successfully authenticated
-	if (userID) {
-	    return (
-		<IbisProvider value={{
-		    userID,
-		    logout: this.logout,
-		}}>
-		  {children}
-		</IbisProvider>
-	    );
-	};
-
-	// app has been redirected by oauth process
 	if (path[0] === 'redirect') {
 	    window.history.replaceState({}, document.title, "/");
 	    let code = url.searchParams.get('code');
 	    let state = url.searchParams.get('state');
-
 
 	    axios(`https://api.tokenibis.org/auth/social/${path[1]}/login/`, {
 		method: 'post',
@@ -172,10 +150,38 @@ class Authenticator extends Component {
 		console.error(error);
 		console.error(error.response);
 	    })
-	} 
+	} else {
+	    axios('https://api.tokenibis.org/ibis/identify/', {
+		withCredentials: true
+	    }).then(response => {
+		this.setState({ userID: response.data.user_id});
+	    }).catch(error => {
+		console.log(error);
+		this.setState({ userID: '' });
+	    })
+	}
+    };
 
-	// app identified with api which did not return an active user
-	if (userID === '') {
+    render() {
+
+	let { classes, children } = this.props;
+	let { userID, width } = this.state;
+
+	let url = new URL(window.location.href);
+	let path = url.pathname.split('/').slice(1)
+
+	if (userID) {
+	    // app has successfully authenticated
+	    return (
+		<IbisProvider value={{
+		    userID,
+		    logout: this.logout,
+		}}>
+		  {children}
+		</IbisProvider>
+	    );
+	} else if (userID === '' && path[0] !== 'redirect') {
+	    // app has identified that no user is logged in and not redirecting
 	    window.addEventListener('resize', this.resizeImage);
 	    return (
   		<Grid container direction="column" justify="center" alignItems="center" >
@@ -214,12 +220,13 @@ class Authenticator extends Component {
 		  </div>
 		</Grid>
 	    );
-	}
-
-	// app is between API calls
-	if (userID === null) {
-	    // see if user is already authenticated
-	    return null;
+	} else {
+	    // app is between api calls
+	    return (
+		<div className={classes.progressWrapper}>
+		  <CircularProgress />
+		</div>
+	    );
 	}
     };
 };
