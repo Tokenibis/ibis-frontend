@@ -122,6 +122,9 @@ class Authenticator extends Component {
 	let { classes, children } = this.props;
 	let { userID, width } = this.state;
 
+	let url = new URL(window.location.href);
+	let path = url.pathname.split('/').slice(1)
+
 	// app has successfully authenticated
 	if (userID) {
 	    return (
@@ -134,15 +137,12 @@ class Authenticator extends Component {
 	    );
 	};
 
-	let url = new URL(window.location.href);
-	let path = url.pathname.split('/').slice(1)
-
 	// app has been redirected by oauth process
-	if (path[1] === 'redirect') {
+	if (path[0] === 'redirect') {
+	    window.history.replaceState({}, document.title, "/");
 	    let code = url.searchParams.get('code');
 	    let state = url.searchParams.get('state');
 
-	    window.history.replaceState({}, document.title, "/");
 
 	    axios(`https://api.tokenibis.org/auth/social/${path[1]}/login/`, {
 		method: 'post',
