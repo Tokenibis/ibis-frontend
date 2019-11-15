@@ -1,18 +1,11 @@
 import React from 'react';
 
-function Temporary(props) {
+import TransferCreate, { TransactionVal } from '../__Common__/TransferCreate';
+
+function TransactionCreate(props) {
     return (
-	<img
-	    style={{
-		position: 'fixed',
-		top: '50%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)'
-	    }}
-	    alt="construction"
-	    src={require('../../Static/Images/construction.png')}
-	/>
+	<TransferCreate variant={TransactionVal} {...props} />
     );
 };
 
-export default Temporary;
+export default TransactionCreate;

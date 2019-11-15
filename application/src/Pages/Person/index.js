@@ -148,7 +148,12 @@ class Person extends Component {
 			</Typography>
 		      </Button>
 		    </div>
-		    <Button className={classes.actionPay}>
+		    <Button
+			component={Link}
+			prefix={1}
+			to={`TransactionCreate?target=${id}`}
+			className={classes.actionPay}
+		    >
 		      Pay
 		    </Button>
 		  </Grid>
