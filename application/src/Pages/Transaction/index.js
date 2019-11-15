@@ -18,11 +18,6 @@ const styles = theme => ({
 	paddingTop: theme.spacing(4),
 	width: '90%',
     },
-    categoryIcon: {
-	color: theme.palette.tertiary.main,
-	fontSize: 20,
-	marginBottom: -4,
-    },
     progress: {
 	margin: theme.spacing(-0.5),
     },
@@ -94,9 +89,6 @@ const QUERY = gql`
 	    amount
 	    created
 	    likeCount
-	    category {
-		id
-	    }
 	    user {
 		id
 		username

@@ -69,9 +69,6 @@ const QUERY = gql`
 		    description
 		    created
 		    likeCount
-		    category {
-			id
-		    }
 		    target {
 			id
 			name
