@@ -164,7 +164,7 @@ class Authenticator extends Component {
 
     render() {
 
-	let { classes, children } = this.props;
+	let { classes, children, context } = this.props;
 	let { userID, width } = this.state;
 
 	let url = new URL(window.location.href);
@@ -176,6 +176,7 @@ class Authenticator extends Component {
 		<IbisProvider value={{
 		    userID,
 		    logout: this.logout,
+		    ...context,
 		}}>
 		  {children}
 		</IbisProvider>
