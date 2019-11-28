@@ -57,6 +57,11 @@ const styles = theme => ({
 	bottom: '50px',
 	right: '30px',
     },
+    preambleWrapper: {
+	paddingTop: theme.spacing(2),
+	width: '100%',
+	textAlign: 'center',
+    },
 })
 
 class ListView extends Component {
@@ -82,6 +87,7 @@ class ListView extends Component {
 	    classes,
 	    scrollButton,
 	    data,
+	    makePreamble,
 	    makeImage,
 	    makeLabel,
 	    makeMedia,
@@ -94,6 +100,13 @@ class ListView extends Component {
 	return (
 	    <div className={classes.root}>
   	      <Grid container direction="column" justify="center" alignItems="center" >
+		{
+		    data.length > 0 && makePreamble && (
+			<div className={classes.preambleWrapper}>
+			  {makePreamble()}
+			</div>
+		    )
+		}
 		{
 		    data.map((item, i) => ( 
 			(filter === undefined || filter(item.node) === true) &&
