@@ -1,14 +1,31 @@
 /*
 
    Implement logic for authentication with the django API backend. The
-   authenticator component expects a "authenticate" prop from its
-   parent in order to pass back the authentication token, which should
-   be subsequently used for all further interactions with the API.
-   
-   The component returns a loading splash screen while it is trying to
-   decide whether the user has authentication. Depending on the
-   results, it either provides App.js the userID to proceed to the
-   content or it displays the login screen.
+   authenticator component sits between App.js and Content.js, acting
+   as a sort of gate-keeper to ensure authentication is properly
+   performed before displaying anything else.
+
+   The logic is a little bit messy because it needs to handle social
+   authentication. Roughly speaking, the intended workflow is as
+   follows for a brand new login:
+
+   1. Query the https://api.tokenibis.org/ibis/identify to determine
+   the current user. If recognized (based on cached authentication),
+   then proceed to the content. Otherwise, initiate the login
+   splashcreen.
+
+   2. Once the user clicks a social login option, intiate the Oauth
+   process with the social login site.
+
+   3. If everything goes well, the social login site redirects back to
+   the app with a 'redirect' element in the url path. If so, take the
+   Oauth artifacts and post them to the ibis api social login endpoint
+   to complete Oauth.
+
+   4. If that goes well, then post to the ibis api login endpoint to
+   actually login (or create a user, if this is the first time).
+
+   5. Proceed to the content.
 
 */
 
