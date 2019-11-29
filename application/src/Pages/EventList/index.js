@@ -11,6 +11,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import EventFilter from './filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
+import Truncated from '../__Common__/Truncated';
 
 const styles = theme => ({
     avatar: {
@@ -142,7 +143,7 @@ class EventList extends Component {
     makeBody = (node) => {
 	return (
   	    <Typography variant="body2">
-  	      {node.description}
+  	      <Truncated text={node.description}/>
   	    </Typography>
 	);
     };

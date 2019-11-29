@@ -11,6 +11,7 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
+import Truncated from '../__Common__/Truncated';
 
 const styles = theme => ({
     avatar: {
@@ -141,7 +142,7 @@ class DonationList extends Component {
     makeBody = (node) => {
 	return (
 	    <Typography variant="body2">
-	      {node.description}
+  	      <Truncated text={node.description}/>
 	    </Typography>
 	);
     }

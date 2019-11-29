@@ -44,7 +44,7 @@ const styles = theme => ({
 	marginLeft: '0px',
 	paddingLeft: '0px',
     },
-    body: {
+    description: {
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(2),
 	paddingTop: theme.spacing(2),
@@ -80,7 +80,6 @@ const QUERY = gql`
 	    title
 	    created
 	    description
-	    body
 	    image
 	    user {
 		id
@@ -155,8 +154,8 @@ class News extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-  		  <Typography variant="body2" className={classes.body}>
-		    <ReactMarkdown source={node.body} />
+  		  <Typography variant="body2" className={classes.description}>
+		    <ReactMarkdown source={node.description} />
 		  </Typography>
 		  <div className={classes.action}>
 		    <div>

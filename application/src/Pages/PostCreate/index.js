@@ -89,8 +89,8 @@ const styles = theme => ({
 const MAX_DESC = 320;
 
 const MUTATION = gql`
-    mutation CreatePost($user: ID! $title: String! $description: String! $body: String!) {
-	createPost(user: $user title: $title description: $description body: $body) {
+    mutation CreatePost($user: ID! $title: String! $description: String!) {
+	createPost(user: $user title: $title description: $description) {
 	    post {
 		id
 	    }
@@ -114,20 +114,12 @@ class PostCreate extends Component {
 	let { context, target, history, variant } = this.props;
 
 	let title = document.getElementById(`post_title`).value;
-	let body = document.getElementById(`post_body`).value;
-	let description;
-
-	if (body.length <= MAX_DESC) {
-	    description = body;
-	} else {
-	    description = body.slice(0, MAX_DESC - 4).split(' ').slice(0, -1).join(' ') + ' ...';
-	}
+	let description = document.getElementById(`post_description`).value;
 
 	mutation({ variables: {
 	    user: context.userID,
 	    title,
 	    description,
-	    body,
 	}}).then(response => {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
@@ -145,7 +137,7 @@ class PostCreate extends Component {
 
     handleChange() {
 	let enablePost = document.getElementById('post_title').value.length && 
-			 document.getElementById('post_body').value.length > 0;
+			 document.getElementById('post_description').value.length > 0;
 	this.setState({ enablePost });
     }
 
@@ -202,7 +194,7 @@ class PostCreate extends Component {
 		  </Grid>
 		  <Grid item xs={12}>
 		    <TextField
-			id="post_body"
+			id="post_description"
 			required
 			defaultValue=""
  			className={classes.textField}
