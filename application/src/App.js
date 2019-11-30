@@ -13,6 +13,9 @@ const client = new ApolloClient({
     link: new HttpLink({
 	uri: "https://api.tokenibis.org/graphql/",
 	credentials: 'include',
+	headers: {
+	    'pwa-standalone': window.matchMedia('(display-mode: standalone)').matches,
+	},
     }),
     cache: new InMemoryCache(),
 });
