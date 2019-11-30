@@ -182,6 +182,7 @@ class PostCreate extends Component {
 		  <Grid item xs={12}>
 		    <TextField
 			id="post_title"
+			autoFocus
 			required
 			defaultValue=""
  			className={classes.textField}
