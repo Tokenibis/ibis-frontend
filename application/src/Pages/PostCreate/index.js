@@ -89,7 +89,7 @@ const styles = theme => ({
 const MAX_DESC = 320;
 
 const MUTATION = gql`
-    mutation CreatePost($user: ID! $title: String! $description: String!) {
+    mutation PostCreate($user: ID! $title: String! $description: String!) {
 	createPost(user: $user title: $title description: $description) {
 	    post {
 		id

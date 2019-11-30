@@ -153,7 +153,7 @@ const QUERY = gql`
 `;
 
 const CREATE_MUTATION = gql`
-    mutation Comment($user: ID! $parent: ID! $description: String! $self: String!) {
+    mutation CommentCreate($user: ID! $parent: ID! $description: String! $self: String!) {
 	createComment(user: $user parent: $parent description: $description) {
 	    comment {
 		id

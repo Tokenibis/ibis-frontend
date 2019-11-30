@@ -85,7 +85,7 @@ const styles = theme => ({
 });
 
 const QUERY = gql`
-    query($id: ID!) {
+    query Home($id: ID!) {
 	person(id: $id) {
 	    id
 	    avatar

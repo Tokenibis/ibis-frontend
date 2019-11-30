@@ -54,7 +54,7 @@ const styles = theme => ({
 })
 
 const createMutation = gql`
-    mutation Vote($user: ID! $target: ID! $isUpvote: Boolean!) {
+    mutation VoteCreate($user: ID! $target: ID! $isUpvote: Boolean!) {
 	createVote(user: $user target: $target isUpvote: $isUpvote) {
 	    state
 	}
@@ -62,7 +62,7 @@ const createMutation = gql`
 `;
 
 const deleteMutation = gql`
-    mutation Unvote($user: ID! $target: ID!) {
+    mutation VoteDelete($user: ID! $target: ID!) {
 	deleteVote(user: $user target: $target) {
 	    state
 	}

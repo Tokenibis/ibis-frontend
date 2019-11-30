@@ -30,14 +30,14 @@ const styles = theme => ({})
 const VARIANTS = {
     follow: {
 	createMutation: gql`
-	    mutation Follow($user: ID! $target: ID!) {
+	    mutation FollowCreate($user: ID! $target: ID!) {
 		createFollow(user: $user target: $target) {
 		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unfollow($user: ID! $target: ID!) {
+	    mutation FollowDelete($user: ID! $target: ID!) {
 		deleteFollow(user: $user target: $target) {
 		    state
 		}
@@ -48,14 +48,14 @@ const VARIANTS = {
     },
     like: {
 	createMutation: gql`
-	    mutation Like($user: ID! $target: ID!) {
+	    mutation LikeCreate($user: ID! $target: ID!) {
 		createLike(user: $user target: $target) {
 		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unlike($user: ID! $target: ID!) {
+	    mutation LikeDelete($user: ID! $target: ID!) {
 		deleteLike(user: $user target: $target) {
 		    state
 		}
@@ -66,14 +66,14 @@ const VARIANTS = {
     },
     bookmark: {
 	createMutation: gql`
-	    mutation Bookmark($user: ID! $target: ID!) {
+	    mutation BookmarkCreate($user: ID! $target: ID!) {
 		createBookmark(user: $user target: $target) {
 		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unbookmark($user: ID! $target: ID!) {
+	    mutation BookmarkDelete($user: ID! $target: ID!) {
 		deleteBookmark(user: $user target: $target) {
 		    state
 		}
@@ -84,14 +84,14 @@ const VARIANTS = {
     },
     rsvp: {
 	createMutation: gql`
-	    mutation Rsvp ($user: ID! $target: ID!) {
+	    mutation RsvpCreate ($user: ID! $target: ID!) {
 		createRsvp(user: $user target: $target) {
 		    state
 		}
 	    }
 	`,
 	deleteMutation: gql`
-	    mutation Unrsvp ($user: ID! $target: ID!) {
+	    mutation RsvpDelete($user: ID! $target: ID!) {
 		deleteRsvp(user: $user target: $target) {
 		    state
 		}

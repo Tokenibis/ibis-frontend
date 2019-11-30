@@ -69,7 +69,7 @@ const styles = theme => ({
 });
 
 const query = gql`
-    query($id: ID!) {
+    query SideMenu ($id: ID!) {
 	person(id: $id) {
 	    id
 	    avatar

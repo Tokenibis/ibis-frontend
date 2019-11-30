@@ -105,7 +105,7 @@ const VARIANTS = {
 	    }
 	`,
 	mutation: gql`
-	    mutation CreateDonation($user: ID! $target: ID! $amount: Int! $description: String!) {
+	    mutation DonationCreate($user: ID! $target: ID! $amount: Int! $description: String!) {
 		createDonation(user: $user target: $target amount: $amount description: $description) {
 		    donation {
 			id
@@ -129,7 +129,7 @@ const VARIANTS = {
 	    }
 	`,
 	mutation: gql`
-	    mutation CreateTransaction($user: ID! $target: ID! $amount: Int! $description: String!) {
+	    mutation TransactionCreate($user: ID! $target: ID! $amount: Int! $description: String!) {
 		createTransaction(user: $user target: $target amount: $amount description: $description) {
 		    transaction {
 			id

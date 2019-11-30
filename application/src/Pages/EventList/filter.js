@@ -85,7 +85,7 @@ class EventFilter extends Component {
 	let endM = (end.getMonth() + 1).toString().padStart(2, '0');
 	
 	let query = gql`
-	    query {
+	    query EventListFilter {
 		allEvents(beginDate: "${beginY}-${beginM}-${beginD}T00:00", endDate: "${endY}-${endM}-01T00:00") {
 		    edges {
 			node {
