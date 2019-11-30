@@ -40,6 +40,7 @@ const styles = theme => ({
 const SETTINGS = {
     notifyEmailFollow: 'Boolean',
     notifyEmailTransaction: 'Boolean',
+    notifyEmailComment: 'Boolean',
     notifyEmailLike: 'Boolean',
     visibilityFollow: 'String',
     visibilityDonation: 'String',
@@ -127,6 +128,25 @@ class Settings extends Component {
 			    refetch,
 			    'notifyEmailTransaction',
 			    !data.person.notifyEmailTransaction,
+			))}
+		    />
+		  </ListItemSecondaryAction>
+		</ListItem>
+		<CustomDivider />
+		<ListItem>
+		  <ListItemIcon>
+		    <TransactionIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Comments" />
+		  <ListItemSecondaryAction>
+		    <Switch
+			edge="end"
+			checked={data.person.notifyEmailComment}
+			onChange={() => (this.updateSetting(
+			    mutation,
+			    refetch,
+			    'notifyEmailComment',
+			    !data.person.notifyEmailComment,
 			))}
 		    />
 		  </ListItemSecondaryAction>
