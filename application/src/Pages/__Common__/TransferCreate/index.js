@@ -190,18 +190,19 @@ class TransferCreate extends Component {
     handleChangeAmount() {
 	let value = document.getElementById('transfer_amount').value;
 
-	// handle numbers that are out of range
-	if (!isNaN(value)) {
-	    if (Number(value) <= 0) {
-		value = '0';
-	    } else if (Number(value) > MAX_AMOUNT) {
-		value = MAX_AMOUNT;
-	    }
+	// handle negatives 
+	if (!isNaN(value) && Number(value) <= 0) {
+	    value = '0';
 	}
-	    
-	// reformat anything else that isn't a positive integer
+
+	// reformat anything that isn't a positive integer
 	if (!/^\d+$/.test(value)) {
 	    value = (value.replace(/[^\d]/g, '')/100);
+	}
+
+	// handle numbers that are out of range
+	if (!isNaN(value) && Number(value) > MAX_AMOUNT) {
+	    value = MAX_AMOUNT;
 	}
 
 	let enableDonate = Number(value) > 0 &&
