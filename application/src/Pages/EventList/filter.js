@@ -67,7 +67,7 @@ class EventFilter extends Component {
 	let handleDayClick = (date) => {
 	    let year = date.getFullYear().toString().padStart(4, '0');
 	    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-	    let day = (date.getDate() + 1).toString().padStart(2, '0');
+	    let day = (date.getDate()).toString().padStart(2, '0');
 	    onClose(null, `_Calendar:${year}-${month}-${day}T00:00`);
 	};
 
@@ -77,7 +77,7 @@ class EventFilter extends Component {
 
 	let beginY = begin.getFullYear().toString().padStart(4, '0');
 	let beginM = (begin.getMonth() + 1).toString().padStart(2, '0');
-	let beginD = (begin.getDate() + 1).toString().padStart(2, '0');
+	let beginD = (begin.getDate()).toString().padStart(2, '0');
 
 	let end = new Date(begin.getFullYear(), begin.getMonth() + 1, 1);
 
