@@ -153,7 +153,7 @@ class Post extends Component {
 		      variant={LikeVal}
 		      user={context.userID}
 		      target={node.id}
-		      initial={node.hasBookmarked.edges.length === 1}
+		      initial={node.hasLiked.edges.length === 1}
 		      />
 		      <SimpleEdgeMutation
 		      variant={BookmarkVal}
