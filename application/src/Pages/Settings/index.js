@@ -37,30 +37,38 @@ const styles = theme => ({
     },
 });
 
-const SETTINGS = {
-    notifyEmailFollow: 'Boolean',
-    notifyEmailTransaction: 'Boolean',
-    notifyEmailComment: 'Boolean',
-    notifyEmailLike: 'Boolean',
-    visibilityFollow: 'String',
-    visibilityDonation: 'String',
-    visibilityTransaction: 'String',
-}
-
 const QUERY = gql`
     query Settings($id: ID!) {
 	person(id: $id) {
-	    ${Object.keys(SETTINGS).join('\n')}
+	    visibilityFollow
+	    visibilityDonation
+	    visibilityTransaction
+	    notifier {
+		id
+		emailFollow
+		emailTransaction
+		emailComment
+		emailLike
+	    }
 	}
     }
 `;
 
-const MUTATION = gql`
-    mutation UpdateSettings($id: ID! ${Object.keys(SETTINGS).map(k => '$' + k + ': ' + SETTINGS[k]).join(' ')}) {
-	updatePerson(id: $id ${Object.keys(SETTINGS).map(k => k + ': $' + k).join(' ')}) {
+const PERSON_MUTATION = gql`
+    mutation PersonSettingsUpdate($id: ID! $visibilityFollow: String $visibilityDonation: String $visibilityTransaction: String) {
+	updatePerson(id: $id visibilityFollow: $visibilityFollow visibilityDonation: $visibilityDonation visibilityTransaction: $visibilityTransaction) {
 	    person {
 		id
-		notifyEmailFollow
+	    }
+	}
+    }
+`;
+
+const NOTIFIER_MUTATION = gql`
+    mutation NotifierSettingsUpdate($id: ID! $emailFollow: Boolean $emailTransaction: Boolean $emailComment: Boolean $emailLike: Boolean) {
+	updateNotifier(id: $id emailFollow: $emailFollow emailTransaction: $emailTransaction emailComment: $emailComment emailLike: $emailLike) {
+	    notifier {
+		id
 	    }
 	}
     }
@@ -80,7 +88,7 @@ class Settings extends Component {
 	});
     }
 
-    inner(data, refetch, mutation) {
+    inner(data, refetch, person_mutation, notifier_mutation) {
 
 	let { classes, context } = this.props;
 
@@ -103,12 +111,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.person.notifyEmailFollow}
+			checked={data.person.notifier.emailFollow}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    notifier_mutation,
 			    refetch,
-			    'notifyEmailFollow',
-			    !data.person.notifyEmailFollow,
+			    'emailFollow',
+			    !data.person.notifier.emailFollow,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -122,12 +130,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.person.notifyEmailTransaction}
+			checked={data.person.notifier.emailTransaction}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    notifier_mutation,
 			    refetch,
-			    'notifyEmailTransaction',
-			    !data.person.notifyEmailTransaction,
+			    'emailTransaction',
+			    !data.person.notifier.emailTransaction,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -141,12 +149,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.person.notifyEmailComment}
+			checked={data.person.notifier.emailComment}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    notifier_mutation,
 			    refetch,
-			    'notifyEmailComment',
-			    !data.person.notifyEmailComment,
+			    'emailComment',
+			    !data.person.notifier.emailComment,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -160,12 +168,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.person.notifyEmailLike}
+			checked={data.person.notifier.emailLike}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    notifier_mutation,
 			    refetch,
-			    'notifyEmailLike',
-			    !data.person.notifyEmailLike,
+			    'emailLike',
+			    !data.person.notifier.emailLike,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -190,7 +198,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityFollow === 'PC'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityFollow',
 			    'PC',
@@ -208,7 +216,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityFollow === 'FL'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityFollow',
 			    'FL',
@@ -226,7 +234,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityFollow === 'PR'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityFollow',
 			    'PR',
@@ -254,7 +262,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityDonation === 'PC'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'PC',
@@ -272,7 +280,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityDonation === 'FL'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'FL',
@@ -290,7 +298,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityDonation === 'PR'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'PR',
@@ -318,7 +326,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityTransaction === 'PC'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'PC',
@@ -336,7 +344,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityTransaction === 'FL'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'FL',
@@ -354,7 +362,7 @@ class Settings extends Component {
 		    <Radio
 			checked={data.person.visibilityTransaction === 'PR'}
 			onChange={() => (this.updateSetting(
-			    mutation,
+			    person_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'PR',
@@ -382,9 +390,13 @@ class Settings extends Component {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return (
-		      <Mutation mutation={MUTATION} variables={{ id: context.userID}}>
-			{mutation => (
-			   this.inner(data, refetch, mutation)
+		      <Mutation mutation={PERSON_MUTATION} variables={{ id: context.userID}}>
+			{person_mutation => (
+			    <Mutation mutation={NOTIFIER_MUTATION} variables={{ id: data.person.notifier.id}}>
+			      {notifier_mutation => (
+				  this.inner(data, refetch, person_mutation, notifier_mutation)
+			      )}
+			    </Mutation>
 			)}
 		      </Mutation>
 		  );
