@@ -50,7 +50,7 @@ function MainBar({ classes, context, handleFrame, cycle, hideHome }) {
 	    </Typography>
 	    {
 		hideHome ? (
-		    <Link to="/_/Notifications">
+		    <Link to="/_/NotificationList">
 		      <IconButton color="inherit">
 			<NotificationIcon />
 		      </IconButton>
