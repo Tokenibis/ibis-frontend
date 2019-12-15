@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import axios from "axios";
 
 const styles = theme => ({
     quote: {
@@ -16,17 +17,42 @@ const styles = theme => ({
     }
 });
 
-function Quote({ classes }) {
-    return (
-	<div>
-	<Typography variant="body2" className={classes.quote}>
-	  "What birds can have their bills more peculiarly formed than the ibis, the spoonbill, and the heron?"
-	</Typography>
-	<Typography variant="body2" className={classes.author}>
-	  -- Alfred Russel Wallace
-	</Typography>
-	</div>										    
-    )
+class Quote extends Component {
+
+    state = {
+	quote: '',
+	author: '',
+    }
+
+    componentDidMount() {
+	let quote, author;
+
+	axios('https://api.tokenibis.org/ibis/quote/', {
+	    withCredentials: true,
+	}).then(response => {
+	    this.setState({ quote: response.data.quote, author: response.data.author });
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	})
+
+    };
+
+    render() {
+	let { classes } = this.props;
+	let { quote, author } = this.state;
+
+	return (
+	    <div>
+	      <Typography variant="body2" className={classes.quote}>
+		{quote}
+	      </Typography>
+	      <Typography variant="body2" className={classes.author}>
+		{author && `-- ${author}`}
+	      </Typography>
+	    </div>										    
+	);
+    }
 };
 
 Quote.propTypes = {
