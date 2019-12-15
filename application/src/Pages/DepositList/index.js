@@ -3,15 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Typography from '@material-ui/core/Typography';
-import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import Avatar from '@material-ui/core/Avatar';
 
-import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
-import Filter from '../__Common__/Filter';
-import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
 
 const styles = theme => ({
     title: {
