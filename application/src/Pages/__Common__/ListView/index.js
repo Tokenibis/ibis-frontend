@@ -123,7 +123,7 @@ class ListView extends Component {
 				</ListItemIcon>
 			    }
 			    <ListItemText primary={makeLabel(item.node)} />
-			    {!expandedAll && (
+			    {!expandedAll && (makeBody || makeActions) && (
 				expanded === i ?
 				<ExpandLess color="secondary"/> :
 				<ExpandMore color="secondary"/>)}
@@ -137,7 +137,7 @@ class ListView extends Component {
 				)
 			    }
 			    <div className={classes.body}>
-			      {makeBody(item.node)}
+			      {makeBody && makeBody(item.node)}
 			    </div>
 			    {makeActions && makeActions(item.node)}
 			  </Collapse>
@@ -147,10 +147,10 @@ class ListView extends Component {
 		}
 	      </Grid>
 	      {
-		  scrollButton && 
+		  scrollButton && (makeBody || makeActions) && 
 		  <div>
 		    <Fab color="primary" className={classes.expandAll}>
-		      {expandedAll ?
+		      {(makeBody || makeActions) && expandedAll ?
 		       <UnfoldLess onClick={(e) => this.setState({ expandedAll: false})}/> :
 		       <UnfoldMore onClick={(e) => this.setState({ expandedAll: true})}/>
 		      }
@@ -169,10 +169,6 @@ class ListView extends Component {
 
 ListView.propTypes = {
     classes: PropTypes.object.isRequired,
-    makeImage: PropTypes.func.isRequired,
-    makeLabel: PropTypes.func.isRequired,
-    makeBody: PropTypes.func.isRequired,
-    makeActions: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
 };
 
