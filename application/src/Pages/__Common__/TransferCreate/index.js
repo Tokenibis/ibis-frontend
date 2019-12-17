@@ -66,11 +66,12 @@ const styles = theme => ({
     },
     dialogInner: {
 	padding: theme.spacing(4),
+	textAlign: 'center',
     },
     message: {
 	display: 'flex',
 	justifyContent: 'space-between',
-	paddingBottom: theme.spacing(4),
+	paddingBottom: theme.spacing(2),
     },
     action: {
 	textAlign: 'center',
@@ -78,12 +79,15 @@ const styles = theme => ({
     dialogButton: {
 	paddingLeft: theme.spacing(6),
 	paddingRight: theme.spacing(6),
+	marginTop: theme.spacing(1),
+	marginBottom: theme.spacing(1),
 	marginLeft: theme.spacing(2),
 	marginRight: theme.spacing(2),
 	color: theme.palette.secondary.main,
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
+	width: '80%',
     },
 });
 
@@ -247,22 +251,15 @@ class TransferCreate extends Component {
 			  <div className={classes.dialogInner}>
 			    <div className={classes.message}>
 			      <Typography variant="body2">
-				Do you really want to pay&nbsp;
-			      </Typography>
-			      <Typography variant="body2">
+				{'Do you really want to'}&nbsp;
+				{variant === DonationVal ? 'donate' : 'pay'}&nbsp;
 				{`$${amount_final ? amount_final / 100 : 0 }`}&nbsp;
-			      </Typography>
-			      <Typography variant="body2">
-				{`to ${data.target.name}`}&nbsp;
-			      </Typography>
-			      <Typography variant="body2" color="secondary">
-				{`@${data.target.username}`}
-			      </Typography>
-			      <Typography variant="body2">
-				?
+				{'to'}&nbsp;
+				{data.target.username}
+				{'?'}
 			      </Typography>
 			    </div>
-			    <div className={classes.action}>
+			    <div>
 			      <Mutation mutation={VARIANTS[variant].mutation}>
 				{mutation => (
 				    <Button
