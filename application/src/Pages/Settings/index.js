@@ -37,11 +37,11 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../GraphQL/Settings.gql')
+const query = loader('../../Static/GraphQL/Settings.gql')
 
-const person_mutation = loader('../../GraphQL/PersonSettingsUpdate.gql')
+const person_mutation = loader('../../Static/GraphQL/PersonSettingsUpdate.gql')
 
-const notifier_mutation = loader('../../GraphQL/NotifierSettingsUpdate.gql')
+const notifier_mutation = loader('../../Static/GraphQL/NotifierSettingsUpdate.gql')
 
 class Settings extends Component {
 

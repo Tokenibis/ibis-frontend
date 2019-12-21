@@ -60,7 +60,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const query = loader('../../GraphQL/DonationList.gql')
+const query = loader('../../Static/GraphQL/DonationList.gql')
 
 class DonationList extends Component {
 

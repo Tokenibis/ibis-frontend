@@ -70,7 +70,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const query = loader('../../GraphQL/PostList.gql')
+const query = loader('../../Static/GraphQL/PostList.gql')
 
 class PostList extends Component {
 

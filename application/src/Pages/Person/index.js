@@ -81,7 +81,7 @@ const styles = theme => ({
     },
 })
 
-const query = loader('../../GraphQL/Person.gql')
+const query = loader('../../Static/GraphQL/Person.gql')
 
 class Person extends Component {
     

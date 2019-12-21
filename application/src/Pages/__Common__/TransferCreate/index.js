@@ -95,12 +95,12 @@ const MAX_AMOUNT = 1000;
 
 const VARIANTS = {
     donation: {
-	query: loader('../../../GraphQL/DonationForm.gql'),
-	mutation: loader('../../../GraphQL/DonationCreate.gql'),
+	query: loader('../../../Static/GraphQL/DonationForm.gql'),
+	mutation: loader('../../../Static/GraphQL/DonationCreate.gql'),
     },
     transaction: {
-	query: loader('../../../GraphQL/TransactionForm.gql'),
-	mutation: loader('../../../GraphQL/TransactionCreate.gql'),
+	query: loader('../../../Static/GraphQL/TransactionForm.gql'),
+	mutation: loader('../../../Static/GraphQL/TransactionCreate.gql'),
     },
 };
 
