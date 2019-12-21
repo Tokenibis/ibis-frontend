@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -70,46 +70,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY = gql`
-    query PostList($self: String $search: String $byUser: String $byFollowing: String $bookmarkBy: String $orderBy: String $first: Int $after: String) {
-	allPosts(search: $search byUser: $byUser byFollowing: $byFollowing bookmarkBy: $bookmarkBy orderBy: $orderBy first: $first after: $after) {
-	    edges {
-  		node {
-		    id
-		    title
-		    created
-		    description
-		    user {
-			id
-			name
-			avatar
-			person {
-			    id
-			}
-		    }
-		    hasLiked: like(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		    hasBookmarked: bookmark(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		}
-		cursor
-	    }
-	    pageInfo {
-		hasNextPage
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/PostList.gql')
 
 class PostList extends Component {
 
@@ -296,7 +257,7 @@ class PostList extends Component {
 
 	return (
 	    <QueryHelper
-		query={QUERY}
+		query={query}
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}

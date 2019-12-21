@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -88,15 +88,7 @@ const styles = theme => ({
 
 const MAX_DESC = 320;
 
-const MUTATION = gql`
-    mutation PostCreate($user: ID! $title: String! $description: String!) {
-	createPost(user: $user title: $title description: $description) {
-	    post {
-		id
-	    }
-	}
-    }
-`;
+const create_mutation = loader('../../GraphQL/PostCreate.gql')
 
 class PostCreate extends Component {
 
@@ -158,7 +150,7 @@ class PostCreate extends Component {
 		    </Typography>
 		  </div>
 		  <div className={classes.action}>
-		    <Mutation mutation={MUTATION}>
+		    <Mutation mutation={create_mutation}>
 		      {mutation => (
 			  <Button
 			      className={classes.dialogButton}

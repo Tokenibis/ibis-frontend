@@ -15,8 +15,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { Query } from 'react-apollo';
+import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
@@ -84,17 +84,7 @@ const styles = theme => ({
     }
 });
 
-const QUERY = gql`
-    query Home($id: ID!) {
-	person(id: $id) {
-	    id
-	    avatar
-	    username
-	    name
-	    balance
-	}
-    }
-`;
+const query = loader('../../GraphQL/Home.gql')
 
 class Home extends Component {
     state = {
@@ -113,7 +103,7 @@ class Home extends Component {
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Query fetchPolicy="no-cache" query={QUERY} variables={{ id: context.userID }}>
+	      <Query fetchPolicy="no-cache" query={query} variables={{ id: context.userID }}>
 		{({ loading, error, data }) => {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;

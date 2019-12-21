@@ -1,0 +1,14 @@
+query Settings($id: ID!) {
+    person(id: $id) {
+	visibilityFollow
+	visibilityDonation
+	visibilityTransaction
+	notifier {
+	    id
+	    emailFollow
+	    emailTransaction
+	    emailComment
+	    emailLike
+	}
+    }
+}

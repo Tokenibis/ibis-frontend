@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -75,25 +75,7 @@ const styles = theme => ({
     },
 });
 
-const QUERY = gql`
-    query Nonprofit($id: ID! $self: String){
-	nonprofit(id: $id){
-	    id
-	    followerCount
-	    description
-	    title
-	    link
-	    avatar
-	    isFollowing: follower(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Nonprofit.gql')
 
 class Nonprofit extends Component {
     
@@ -243,7 +225,7 @@ class Nonprofit extends Component {
 	return (
 	    <Query
 		fetchPolicy="no-cache"
-		query={QUERY}
+		query={query}
 		variables={{ id, self: context.userID }}
 	    >
 	      {({ loading, error, data }) => {

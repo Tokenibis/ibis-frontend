@@ -1,0 +1,7 @@
+mutation NotificationClicked($id: ID!) {
+    updateNotification(id: $id clicked: true) {
+	notification {
+	    id
+	}
+    }
+}

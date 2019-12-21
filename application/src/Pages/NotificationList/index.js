@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Mutation, withApollo } from "react-apollo";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Icon from '@material-ui/icons/ArrowRightAlt';
@@ -46,56 +46,13 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const NOTIFICATIONS_QUERY = gql`
-    query NotificationList($forUser: String $first: Int $after: String) {
-	allNotifications(forUser: $forUser orderBy: "-created" first: $first after: $after) {
-	    edges {
-		node {
-		    id
-		    category
-		    clicked
-		    reference
-		    description
-		    created
-		}
-		cursor
-	    }
-	    pageInfo {
-		hasNextPage
-	    }
-	}
-    }
-`;
+const notifications_query = loader('../../GraphQL/NotificationList.gql')
 
-const NOTIFIER_QUERY = gql`
-    query Notifier($id: ID!) {
-	person(id: $id) {
-	    notifier {
-		id
-	    }
-	}
-    }
-`;
+const notifier_query = loader('../../GraphQL/Notifier.gql')
 
-const CLICK_MUTATION = gql`
-    mutation NotificationClicked($id: ID!) {
-	updateNotification(id: $id clicked: true) {
-	    notification {
-		id
-	    }
-	}
-    }
-`;
+const click_mutation = loader('../../GraphQL/NotificationClicked.gql')
 
-const SEEN_MUTATION = gql`
-    mutation NotifierSeen($id: ID! $lastSeen: String!) {
-	updateNotifier(id: $id lastSeen: $lastSeen) {
-	    notifier {
-		id
-	    }
-	}
-    }
-`;
+const seen_mutation = loader('../../GraphQL/NotifierSeen.gql')
 
 const CATEGORIES = {
     GA: <AnnouncementIcon color="secondary"/>,
@@ -139,7 +96,7 @@ class NotificationList extends Component {
 	console.log(data)
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Mutation mutation={CLICK_MUTATION}>
+	      <Mutation mutation={click_mutation}>
 		{
 		    mutation => (data.map((item, i) => ( 
 			<div
@@ -184,11 +141,11 @@ class NotificationList extends Component {
 	let { context, client } = this.props;
 
 	client.query({
-	    query: NOTIFIER_QUERY,
+	    query: notifier_query,
 	    variables: { id: context.userID },
 	}).then(results => {
 	    client.mutate({
-		mutation: SEEN_MUTATION,
+		mutation: seen_mutation,
 		variables: { id: results.data.person.notifier.id, lastSeen: new Date() }
 	    }).catch(error => {
 		console.log(error);
@@ -204,7 +161,7 @@ class NotificationList extends Component {
 
 	return (
 	    <QueryHelper
-		query={NOTIFICATIONS_QUERY}
+		query={notifications_query}
 		variables={{
 		    forUser: context.userID,
 		    first: DEFAULT_COUNT,

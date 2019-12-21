@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import DayPicker from 'react-day-picker';
 import ListItem from '@material-ui/core/ListItem';
@@ -49,6 +49,8 @@ const eventStyle = `
 
 const options = ['All', 'Featured', 'Following', 'Going'];
 
+const query = loader('../../GraphQL/EventListFilter.gql')
+
 class EventFilter extends Component {
 
     state = {
@@ -84,18 +86,10 @@ class EventFilter extends Component {
 	let endY = end.getFullYear().toString().padStart(4, '0');
 	let endM = (end.getMonth() + 1).toString().padStart(2, '0');
 	
-	let query = gql`
-	    query EventListFilter {
-		allEvents(beginDate: "${beginY}-${beginM}-${beginD}T00:00", endDate: "${endY}-${endM}-01T00:00") {
-		    edges {
-			node {
-			    id
-			    date
-			}
-		    }
-		}
-	    }
-	`;
+	let variables = {
+	    beginDate: `${beginY}-${beginM}-${beginD}T00:00`,
+	    endDate: `${endY}-${endM}-01T00:00`
+	};
 
 	return (
 	    <Filter 
@@ -121,7 +115,7 @@ class EventFilter extends Component {
 		</ListItem>
 		<Collapse in={expanded} timeout="auto" unmountOnExit>
 		  <style>{eventStyle}</style>
-		  <Query query={query}>
+		  <Query query={query} variables={variables}>
 		  {({ loading, error, data }) => {
 		      let dates = [];
 		      if (Object.keys(data).length !== 0) {

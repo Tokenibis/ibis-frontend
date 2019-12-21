@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import { Mutation } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
@@ -118,71 +118,9 @@ const styles = theme => ({
 })
 
 // three layer deep nested comments
-const QUERY = gql`
-    query CommentTree($hasParent: String! $self: String) {
-	allComments(hasParent: $hasParent orderBy: "-created") {
-	    edges {
-		node {
-		    id
-		    description
-		    created
-		    user {
-			id
-			name
-			username
-			avatar
-			person {
-			    id
-			}
-		    }
-		    hasLiked: like(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		    entryPtr {
-			id
-			commentCount
-		    }
-		}
-	    }
-	}
-    }
-`;
+const query = loader('../../../GraphQL/CommentTree.gql')
 
-const CREATE_MUTATION = gql`
-    mutation CommentCreate($user: ID! $parent: ID! $description: String! $self: String!) {
-	createComment(user: $user parent: $parent description: $description) {
-	    comment {
-		id
-		description
-		created
-		user {
-		    id
-		    name
-		    username
-		    avatar
-		    person {
-			id
-		    }
-		}
-		hasLiked: like(id: $self) {
-		    edges {
-			node {
-			    id
-			}
-		    }
-		}
-		entryPtr {
-		    id
-		    commentCount
-		}
-	    }
-	}
-    }
-`;
+const create_mutation = loader('../../../GraphQL/CommentCreate.gql')
 
 
 class CommentTree extends Component {
@@ -262,7 +200,7 @@ class CommentTree extends Component {
 		/>
 		<Mutation 
 		    className={classes.createMutation}
-		    mutation={CREATE_MUTATION}
+		    mutation={create_mutation}
 		>
 		  {mutation => (
   		      <Grid container direction="column" justify="right">
@@ -484,7 +422,7 @@ class CommentTree extends Component {
 	return (
 	    <Query
 	      fetchPolicy="no-cache"
-	      query={QUERY} 
+	      query={query} 
 	      variables={{ hasParent: parent, self: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {

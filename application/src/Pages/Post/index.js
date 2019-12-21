@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
@@ -75,39 +75,7 @@ const styles = theme => ({
     },
 });
 
-const QUERY = gql`
-    query Post($id: ID! $self: String){
-	post(id: $id){
-	    id
-	    title
-	    created
-	    description
-	    user {
-		id
-		name
-		avatar
-		person {
-		    id
-		    name
-		}
-	    }
-	    hasLiked: like(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	    hasBookmarked: bookmark(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Post.gql')
 
 class Post extends Component {
 
@@ -179,7 +147,7 @@ class Post extends Component {
 	return (
 	    <Query
 	      fetchPolicy="no-cache"
-	      query={QUERY}
+	      query={query}
 	      variables={{ id, self: context.userID }}
 	    >
 	      {({ loading, error, data }) => {

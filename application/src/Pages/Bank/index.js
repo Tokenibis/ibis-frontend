@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from "axios";
@@ -47,24 +47,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY = gql`
-    query DepositList($byUser: String $orderBy: String $first: Int $after: String) {
-	allDeposits(byUser: $byUser orderBy: $orderBy first: $first after: $after) {
-	    edges {
-  		node {
-		    id
-		    amount
-		    created
-		    paymentId
-		}
-		cursor
-	    }
-	    pageInfo {
-		hasNextPage
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/DepositList.gql')
 
 class DepositList extends Component {
 
@@ -99,7 +82,7 @@ class DepositList extends Component {
 
 	return (
 	    <QueryHelper
-		query={QUERY}
+		query={query}
 		variables={variables}
 		make={make}
 		infiniteScroll={true}

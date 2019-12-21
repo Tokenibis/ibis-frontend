@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -81,26 +81,7 @@ const styles = theme => ({
     },
 })
 
-const QUERY = gql`
-    query Person($id: ID! $self: String){
-	person(id: $id) {
-	    id
-	    name
-	    username
-	    avatar
-	    balance
-	    followerCount
-	    followingCount
-	    isFollowing: follower(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Person.gql')
 
 class Person extends Component {
     
@@ -227,7 +208,7 @@ class Person extends Component {
 	return (
 	    <Query
 		fetchPolicy="no-cache"
-		query={QUERY}
+		query={query}
 		variables={{ id, self: context.userID }}
 	    >
 	      {({ loading, error, data }) => {

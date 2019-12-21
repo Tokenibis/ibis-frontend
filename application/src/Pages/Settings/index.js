@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -37,42 +37,11 @@ const styles = theme => ({
     },
 });
 
-const QUERY = gql`
-    query Settings($id: ID!) {
-	person(id: $id) {
-	    visibilityFollow
-	    visibilityDonation
-	    visibilityTransaction
-	    notifier {
-		id
-		emailFollow
-		emailTransaction
-		emailComment
-		emailLike
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Settings.gql')
 
-const PERSON_MUTATION = gql`
-    mutation PersonSettingsUpdate($id: ID! $visibilityFollow: String $visibilityDonation: String $visibilityTransaction: String) {
-	updatePerson(id: $id visibilityFollow: $visibilityFollow visibilityDonation: $visibilityDonation visibilityTransaction: $visibilityTransaction) {
-	    person {
-		id
-	    }
-	}
-    }
-`;
+const person_mutation = loader('../../GraphQL/PersonSettingsUpdate.gql')
 
-const NOTIFIER_MUTATION = gql`
-    mutation NotifierSettingsUpdate($id: ID! $emailFollow: Boolean $emailTransaction: Boolean $emailComment: Boolean $emailLike: Boolean) {
-	updateNotifier(id: $id emailFollow: $emailFollow emailTransaction: $emailTransaction emailComment: $emailComment emailLike: $emailLike) {
-	    notifier {
-		id
-	    }
-	}
-    }
-`;
+const notifier_mutation = loader('../../GraphQL/NotifierSettingsUpdate.gql')
 
 class Settings extends Component {
 
@@ -383,16 +352,16 @@ class Settings extends Component {
 	return (
 	    <Query
 	      fetchPolicy="no-cache"
-	      query={QUERY}
+	      query={query}
 	      variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return (
-		      <Mutation mutation={PERSON_MUTATION} variables={{ id: context.userID}}>
+		      <Mutation mutation={person_mutation} variables={{ id: context.userID}}>
 			{person_mutation => (
-			    <Mutation mutation={NOTIFIER_MUTATION} variables={{ id: data.person.notifier.id}}>
+			    <Mutation mutation={notifier_mutation} variables={{ id: data.person.notifier.id}}>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, person_mutation, notifier_mutation)
 			      )}

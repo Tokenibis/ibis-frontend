@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -91,47 +91,7 @@ const styles = theme => ({
     },
 });
 
-const QUERY = gql`
-    query Event($id: ID! $self: String){
-	event(id: $id){
-	    id
-	    title
-	    image
-	    created
-	    description
-	    date
-	    address
-	    latitude
-	    longitude
-	    user {
-		id
-		name
-		avatar
-		nonprofit {
-		    id
-		    title
-		    category {
-			id
-		    }
-		}
-	    }
-	    hasLiked: like(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	    hasRsvp: rsvp(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Event.gql')
 
 class Event extends Component {
 
@@ -276,7 +236,7 @@ class Event extends Component {
 	return (
 	    <Query
 		fetchPolicy="no-cache"
-		query={QUERY}
+		query={query}
 		variables={{ id, self: context.userID }}
 	    >
 	      {({ loading, error, data }) => {

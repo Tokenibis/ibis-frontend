@@ -1,0 +1,18 @@
+query NotificationList($forUser: String $first: Int $after: String) {
+    allNotifications(forUser: $forUser orderBy: "-created" first: $first after: $after) {
+	edges {
+	    node {
+		id
+		category
+		clicked
+		reference
+		description
+		created
+	    }
+	    cursor
+	}
+	pageInfo {
+	    hasNextPage
+	}
+    }
+}

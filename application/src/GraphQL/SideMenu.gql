@@ -1,0 +1,9 @@
+query SideMenu ($id: ID!) {
+    person(id: $id) {
+	id
+	avatar
+	username
+	name
+	balance
+    }
+}

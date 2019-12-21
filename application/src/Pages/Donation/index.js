@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
+import axios from "axios";
 
 import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
@@ -86,46 +87,14 @@ const styles = theme => ({
     },
 });
 
-const QUERY = gql`
-    query Donation($id: ID! $self: String){
-	donation(id: $id) {
-	    id
-	    description 
-	    amount
-	    created
-	    likeCount
-	    user {
-		id
-		username
-		name
-		avatar
-		person {
-		    id
-		}
-	    }
-	    target {
-		id
-		title
-		category {
-		    id
-		}
-	    }
-	    hasLiked: like(id: $self) {
-		edges {
-		    node {
-			id
-		    }
-		}
-	    }
-	    entryPtr {
-		id
-		commentCountRecursive
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/Donation.gql')
 
 class Donation extends Component {
+
+    state = {
+	item: '',
+	price: 0,
+    }
 
     onSubmit() {
 	console.log('submitted')
@@ -133,6 +102,7 @@ class Donation extends Component {
 
     createPage(node) {
 	let { classes, context, id } = this.props;
+	let { item, price } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -170,7 +140,7 @@ class Donation extends Component {
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.gift}>
 		    {`$${(node.amount/100).toFixed(2)}`}
-		    {` (~${Math.round(node.amount/750*10)/10} Burritos)`}
+		    {item && ` (${Math.round(node.amount/price*10)/10} ${item})`}
 		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>
@@ -204,13 +174,26 @@ class Donation extends Component {
 	);
     }
 
+    componentDidMount() {
+	let quote, author;
+
+	axios('https://api.tokenibis.org/ibis/price/', {
+	    withCredentials: true,
+	}).then(response => {
+	    this.setState({ item: response.data.item, price: response.data.price });
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	})
+    };
+
     render() {
 	let { classes, context, id } = this.props
 
 	return (
 	    <Query
 		fetchPolicy="no-cache"
-		query={QUERY} 
+		query={query} 
 		variables={{ id, self: context.userID }}
 	    >
 	    {({ loading, error, data }) => {

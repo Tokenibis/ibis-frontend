@@ -1,0 +1,10 @@
+query EventListFilter($beginDate: String $endDate: String){
+    allEvents(beginDate: $beginDate, endDate: $endDate) {
+	edges {
+	    node {
+		id
+		date
+	    }
+	}
+    }
+}

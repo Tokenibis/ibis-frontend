@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -68,17 +68,7 @@ const styles = theme => ({
     },
 });
 
-const query = gql`
-    query SideMenu ($id: ID!) {
-	person(id: $id) {
-	    id
-	    avatar
-	    username
-	    name
-	    balance
-	}
-    }
-`;
+const query = loader('../../GraphQL/Home.gql')
 
 class SideMenu extends Component {
 

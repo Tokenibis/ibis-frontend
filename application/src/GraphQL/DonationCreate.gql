@@ -1,0 +1,7 @@
+mutation DonationCreate($user: ID! $target: ID! $amount: Int! $description: String!) {
+    createDonation(user: $user target: $target amount: $amount description: $description) {
+	donation {
+	    id
+	}
+    }
+}

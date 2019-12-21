@@ -1,0 +1,5 @@
+mutation LikeDelete($user: ID! $target: ID!) {
+    deleteLike(user: $user target: $target) {
+	state
+    }
+}

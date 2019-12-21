@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -95,52 +95,12 @@ const MAX_AMOUNT = 1000;
 
 const VARIANTS = {
     donation: {
-	query: gql`
-	    query DonationForm($id: ID! $target: ID!) {
-		user: person(id: $id) {
-		    id
-		    balance
-		}
-		target: nonprofit(id: $target) {
-		    id
-		    name
-		    username
-		}
-	    }
-	`,
-	mutation: gql`
-	    mutation DonationCreate($user: ID! $target: ID! $amount: Int! $description: String!) {
-		createDonation(user: $user target: $target amount: $amount description: $description) {
-		    donation {
-			id
-		    }
-		}
-	    }
-	`,
+	query: loader('../../../GraphQL/DonationForm.gql'),
+	mutation: loader('../../../GraphQL/DonationCreate.gql'),
     },
     transaction: {
-	query: gql`
-	    query TransactionForm($id: ID! $target: ID!) {
-		user: person(id: $id) {
-		    id
-		    balance
-		}
-		target: person(id: $target) {
-		    id
-		    name
-		    username
-		}
-	    }
-	`,
-	mutation: gql`
-	    mutation TransactionCreate($user: ID! $target: ID! $amount: Int! $description: String!) {
-		createTransaction(user: $user target: $target amount: $amount description: $description) {
-		    transaction {
-			id
-		    }
-		}
-	    }
-	`,
+	query: loader('../../../GraphQL/TransactionForm.gql'),
+	mutation: loader('../../../GraphQL/TransactionCreate.gql'),
     },
 };
 

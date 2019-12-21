@@ -1,0 +1,7 @@
+mutation PersonSettingsUpdate($id: ID! $visibilityFollow: String $visibilityDonation: String $visibilityTransaction: String) {
+    updatePerson(id: $id visibilityFollow: $visibilityFollow visibilityDonation: $visibilityDonation visibilityTransaction: $visibilityTransaction) {
+	person {
+	    id
+	}
+    }
+}

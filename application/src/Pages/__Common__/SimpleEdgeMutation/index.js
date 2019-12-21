@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import IconButton from '@material-ui/core/IconButton';
 import FollowOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import FollowFilledIcon from '@material-ui/icons/HowToReg';
@@ -29,74 +29,26 @@ const styles = theme => ({})
 
 const VARIANTS = {
     follow: {
-	createMutation: gql`
-	    mutation FollowCreate($user: ID! $target: ID!) {
-		createFollow(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
-	deleteMutation: gql`
-	    mutation FollowDelete($user: ID! $target: ID!) {
-		deleteFollow(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
+	createMutation: loader('../../../GraphQL/FollowCreate.gql'),
+	deleteMutation: loader('../../../GraphQL/FollowDelete.gql'),
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
     },
     like: {
-	createMutation: gql`
-	    mutation LikeCreate($user: ID! $target: ID!) {
-		createLike(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
-	deleteMutation: gql`
-	    mutation LikeDelete($user: ID! $target: ID!) {
-		deleteLike(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
+	createMutation: loader('../../../GraphQL/LikeCreate.gql'),
+	deleteMutation: loader('../../../GraphQL/LikeDelete.gql'),
 	trueIcon: <LikeFilledIcon color="secondary" />,
 	falseIcon: <LikeOutlinedIcon color="secondary" />,
     },
     bookmark: {
-	createMutation: gql`
-	    mutation BookmarkCreate($user: ID! $target: ID!) {
-		createBookmark(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
-	deleteMutation: gql`
-	    mutation BookmarkDelete($user: ID! $target: ID!) {
-		deleteBookmark(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
+	createMutation: loader('../../../GraphQL/BookmarkCreate.gql'),
+	deleteMutation: loader('../../../GraphQL/BookmarkDelete.gql'),
 	trueIcon: <BookmarkFilledIcon color="secondary" />,
 	falseIcon: <BookmarkOutlinedIcon color="secondary" />,
     },
     rsvp: {
-	createMutation: gql`
-	    mutation RsvpCreate ($user: ID! $target: ID!) {
-		createRsvp(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
-	deleteMutation: gql`
-	    mutation RsvpDelete($user: ID! $target: ID!) {
-		deleteRsvp(user: $user target: $target) {
-		    state
-		}
-	    }
-	`,
+	createMutation: loader('../../../GraphQL/RsvpCreate.gql'),
+	deleteMutation: loader('../../../GraphQL/RsvpDelete.gql'),
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
     },

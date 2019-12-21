@@ -1,0 +1,5 @@
+mutation FollowCreate($user: ID! $target: ID!) {
+    createFollow(user: $user target: $target) {
+	state
+    }
+}

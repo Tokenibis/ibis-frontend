@@ -1,0 +1,39 @@
+query Event($id: ID! $self: String){
+    event(id: $id){
+	id
+	title
+	image
+	created
+	description
+	date
+	address
+	latitude
+	longitude
+	user {
+	    id
+	    name
+	    avatar
+	    nonprofit {
+		id
+		title
+		category {
+		    id
+		}
+	    }
+	}
+	hasLiked: like(id: $self) {
+	    edges {
+		node {
+		    id
+		}
+	    }
+	}
+	hasRsvp: rsvp(id: $self) {
+	    edges {
+		node {
+		    id
+		}
+	    }
+	}
+    }
+}

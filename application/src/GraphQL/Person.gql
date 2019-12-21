@@ -1,0 +1,18 @@
+query Person($id: ID! $self: String){
+    person(id: $id) {
+	id
+	name
+	username
+	avatar
+	balance
+	followerCount
+	followingCount
+	isFollowing: follower(id: $self) {
+	    edges {
+		node {
+		    id
+		}
+	    }
+	}
+    }
+}

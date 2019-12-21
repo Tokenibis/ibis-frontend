@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import Avatar from '@material-ui/core/Avatar';
@@ -60,51 +60,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const QUERY = gql`
-    query DonationList($self: String $search: String $byUser: String $byFollowing: String $orderBy: String $first: Int $after: String) {
-	allDonations(search: $search byUser: $byUser byFollowing: $byFollowing orderBy: $orderBy first: $first after: $after) {
-	    edges {
-  		node {
-		    id
-		    amount
-		    description
-		    created
-		    likeCount
-		    target {
-			id
-			title
-			category {
-			    id
-			}
-		    }
-		    user {
-			id
-			name
-			avatar
-			person {
-			    id
-			}
-		    }
-		    hasLiked: like(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-		    entryPtr {
-			id
-			commentCountRecursive
-		    }
-		}
-		cursor
-	    }
-	    pageInfo {
-		hasNextPage
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/DonationList.gql')
 
 class DonationList extends Component {
 
@@ -255,7 +211,7 @@ class DonationList extends Component {
 
 	return (
 	    <QueryHelper
-		query={QUERY}
+		query={query}
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}

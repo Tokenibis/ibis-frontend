@@ -1,0 +1,11 @@
+query TransactionForm($id: ID! $target: ID!) {
+    user: person(id: $id) {
+	id
+	balance
+    }
+    target: person(id: $target) {
+	id
+	name
+	username
+    }
+}

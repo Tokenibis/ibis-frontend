@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
@@ -44,36 +44,7 @@ const styles = theme => ({
     }
 });
 
-const QUERY = gql`
-    query NonprofitList($self: String $search: String $followedBy: String $orderBy: String $first: Int $after: String) {
-	allNonprofits(search: $search followedBy: $followedBy orderBy: $orderBy first: $first after: $after) {
-	    edges {
-  		node {
-		    id
-		    username
-		    id
-		    title
-		    avatar
-  		    description
-		    category {
-			id
-		    }
-		    isFollowing: follower(id: $self) {
-			edges {
-			    node {
-				id
-			    }
-			}
-		    }
-  		}
-		cursor
-	    }
-	    pageInfo {
-		hasNextPage
-	    }
-	}
-    }
-`;
+const query = loader('../../GraphQL/NonprofitList.gql')
 
 const DEFAULT_COUNT = 25;
 
@@ -224,7 +195,7 @@ class NonprofitList extends Component {
 
 	return (
 	    <QueryHelper
-		query={QUERY}
+		query={query}
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}

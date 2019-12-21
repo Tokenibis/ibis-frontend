@@ -1,0 +1,5 @@
+mutation BookmarkCreate($user: ID! $target: ID!) {
+    createBookmark(user: $user target: $target) {
+	state
+    }
+}
