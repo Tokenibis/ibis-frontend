@@ -1,0 +1,16 @@
+query DepositList($byUser: String $orderBy: String $first: Int $after: String) {
+    allDeposits(byUser: $byUser orderBy: $orderBy first: $first after: $after) {
+	edges {
+  	    node {
+		id
+		amount
+		created
+		paymentId
+	    }
+	    cursor
+	}
+	pageInfo {
+	    hasNextPage
+	}
+    }
+}
