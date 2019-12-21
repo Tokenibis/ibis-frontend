@@ -8,6 +8,10 @@ Install the latest version of nodejs: https://nodejs.org/en/download/
 
 ## Setup
 
+`$ git submodule init`
+
+`$ git submodule update`
+
 `$ npm install`
 
 `$ npm audit fix`

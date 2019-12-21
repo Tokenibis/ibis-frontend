@@ -118,9 +118,9 @@ const styles = theme => ({
 })
 
 // three layer deep nested comments
-const query = loader('../../../Static/GraphQL/CommentTree.gql')
+const query = loader('../../../Static/graphql/operations/CommentTree.gql')
 
-const create_mutation = loader('../../../Static/GraphQL/CommentCreate.gql')
+const create_mutation = loader('../../../Static/graphql/operations/CommentCreate.gql')
 
 
 class CommentTree extends Component {

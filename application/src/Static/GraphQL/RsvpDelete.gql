@@ -1,5 +1,0 @@
-mutation RsvpDelete($user: ID! $target: ID!) {
-    deleteRsvp(user: $user target: $target) {
-	state
-    }
-}

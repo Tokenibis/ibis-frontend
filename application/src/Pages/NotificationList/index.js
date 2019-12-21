@@ -46,13 +46,13 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const notifications_query = loader('../../Static/GraphQL/NotificationList.gql')
+const notifications_query = loader('../../Static/graphql/operations/NotificationList.gql')
 
-const notifier_query = loader('../../Static/GraphQL/Notifier.gql')
+const notifier_query = loader('../../Static/graphql/operations/Notifier.gql')
 
-const click_mutation = loader('../../Static/GraphQL/NotificationClicked.gql')
+const click_mutation = loader('../../Static/graphql/operations/NotificationClicked.gql')
 
-const seen_mutation = loader('../../Static/GraphQL/NotifierSeen.gql')
+const seen_mutation = loader('../../Static/graphql/operations/NotifierSeen.gql')
 
 const CATEGORIES = {
     GA: <AnnouncementIcon color="secondary"/>,

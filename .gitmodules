@@ -1,0 +1,3 @@
+[submodule "application/src/Static/graphql"]
+	path = application/src/Static/graphql
+	url = git@github.com:Tokenibis/graphql.git

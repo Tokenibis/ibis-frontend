@@ -1,5 +1,0 @@
-mutation FollowDelete($user: ID! $target: ID!) {
-    deleteFollow(user: $user target: $target) {
-	state
-    }
-}

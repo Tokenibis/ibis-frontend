@@ -75,7 +75,7 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/GraphQL/Nonprofit.gql')
+const query = loader('../../Static/graphql/operations/Nonprofit.gql')
 
 class Nonprofit extends Component {
     

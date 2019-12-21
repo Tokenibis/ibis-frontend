@@ -49,7 +49,7 @@ const eventStyle = `
 
 const options = ['All', 'Featured', 'Following', 'Going'];
 
-const query = loader('../../Static/GraphQL/EventListFilter.gql')
+const query = loader('../../Static/graphql/operations/EventListFilter.gql')
 
 class EventFilter extends Component {
 

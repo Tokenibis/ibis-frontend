@@ -29,26 +29,26 @@ const styles = theme => ({})
 
 const VARIANTS = {
     follow: {
-	createMutation: loader('../../../Static/GraphQL/FollowCreate.gql'),
-	deleteMutation: loader('../../../Static/GraphQL/FollowDelete.gql'),
+	createMutation: loader('../../../Static/graphql/operations/FollowCreate.gql'),
+	deleteMutation: loader('../../../Static/graphql/operations/FollowDelete.gql'),
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
     },
     like: {
-	createMutation: loader('../../../Static/GraphQL/LikeCreate.gql'),
-	deleteMutation: loader('../../../Static/GraphQL/LikeDelete.gql'),
+	createMutation: loader('../../../Static/graphql/operations/LikeCreate.gql'),
+	deleteMutation: loader('../../../Static/graphql/operations/LikeDelete.gql'),
 	trueIcon: <LikeFilledIcon color="secondary" />,
 	falseIcon: <LikeOutlinedIcon color="secondary" />,
     },
     bookmark: {
-	createMutation: loader('../../../Static/GraphQL/BookmarkCreate.gql'),
-	deleteMutation: loader('../../../Static/GraphQL/BookmarkDelete.gql'),
+	createMutation: loader('../../../Static/graphql/operations/BookmarkCreate.gql'),
+	deleteMutation: loader('../../../Static/graphql/operations/BookmarkDelete.gql'),
 	trueIcon: <BookmarkFilledIcon color="secondary" />,
 	falseIcon: <BookmarkOutlinedIcon color="secondary" />,
     },
     rsvp: {
-	createMutation: loader('../../../Static/GraphQL/RsvpCreate.gql'),
-	deleteMutation: loader('../../../Static/GraphQL/RsvpDelete.gql'),
+	createMutation: loader('../../../Static/graphql/operations/RsvpCreate.gql'),
+	deleteMutation: loader('../../../Static/graphql/operations/RsvpDelete.gql'),
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
     },

@@ -1,5 +1,0 @@
-mutation BookmarkDelete($user: ID! $target: ID!) {
-    deleteBookmark(user: $user target: $target) {
-	state
-    }
-}

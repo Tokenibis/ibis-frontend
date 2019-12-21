@@ -47,7 +47,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const query = loader('../../Static/GraphQL/DepositList.gql')
+const query = loader('../../Static/graphql/operations/DepositList.gql')
 
 class DepositList extends Component {
 

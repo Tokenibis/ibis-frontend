@@ -44,7 +44,7 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const query = loader('../../Static/GraphQL/PersonList.gql')
+const query = loader('../../Static/graphql/operations/PersonList.gql')
 
 class PersonList extends Component {
 

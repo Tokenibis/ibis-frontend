@@ -1,7 +1,0 @@
-query Notifier($id: ID!) {
-    person(id: $id) {
-	notifier {
-	    id
-	}
-    }
-}

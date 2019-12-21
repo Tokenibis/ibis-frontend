@@ -91,7 +91,7 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/GraphQL/Event.gql')
+const query = loader('../../Static/graphql/operations/Event.gql')
 
 class Event extends Component {
 

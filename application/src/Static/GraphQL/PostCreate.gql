@@ -1,7 +1,0 @@
-mutation PostCreate($user: ID! $title: String! $description: String!) {
-    createPost(user: $user title: $title description: $description) {
-	post {
-	    id
-	}
-    }
-}

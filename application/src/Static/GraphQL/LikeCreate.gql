@@ -1,5 +1,0 @@
-mutation LikeCreate($user: ID! $target: ID!) {
-    createLike(user: $user target: $target) {
-	state
-    }
-}

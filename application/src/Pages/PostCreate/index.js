@@ -88,7 +88,7 @@ const styles = theme => ({
 
 const MAX_DESC = 320;
 
-const create_mutation = loader('../../Static/GraphQL/PostCreate.gql')
+const create_mutation = loader('../../Static/graphql/operations/PostCreate.gql')
 
 class PostCreate extends Component {
 

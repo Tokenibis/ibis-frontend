@@ -1,5 +1,0 @@
-mutation RsvpCreate($user: ID! $target: ID!) {
-    createRsvp(user: $user target: $target) {
-	state
-    }
-}
