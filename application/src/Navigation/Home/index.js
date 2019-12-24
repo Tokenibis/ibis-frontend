@@ -15,7 +15,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query } from 'react-apollo';
+import { Query, withApollo } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
@@ -89,6 +89,11 @@ const query = loader('../../Static/graphql/operations/Home.gql')
 class Home extends Component {
     state = {
 	expanded: null,
+	avatar: '',
+	username: '',
+	name: '.',
+	balance: 0,
+
     };
 
     handleExpand(expanded) {
@@ -97,50 +102,60 @@ class Home extends Component {
 	this.setState({ expanded });
     };
 
+    componentDidMount() {
+	let { context, client } = this.props;
+	client.query({
+	    query: query,
+	    variables: { id: context.userID }
+	}).then(results => {
+	    this.setState({
+		avatar: results.data.person.avatar,
+		username: results.data.person.username,
+		name: results.data.person.name,
+		balance: results.data.person.balance,
+	    })
+	}).catch(error => {
+	    console.log(error);
+	});
+
+    }
+
     render() {
 	let { classes, context } = this.props;
-	let { expanded } = this.state;
+	let { expanded, avatar, username, name, balance } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <Query fetchPolicy="no-cache" query={query} variables={{ id: context.userID }}>
-		{({ loading, error, data }) => {
-		    if (loading) return <LinearProgress className={classes.progress} />;
-		    if (error) return `Error! ${error.message}`;
-		    return (
-  			<Grid container direction="column" justify="center" alignItems="center" >
-  			  <Avatar
-			      component={Link}
-			      to="/_/Account"
-  			      alt="Ibis"
-  			      src={data.person.avatar}
-  			      className={classes.avatar}
-			  />
-			  <Typography
-			      component={Link}
-			      to="/_/Account"
-  			      alt="Ibis"
-			      variant="body2"
-			      className={classes.username}
-			    >
-			    {`@${data.person.username}`}
-			  </Typography>
-			  <Typography variant="h6" className={classes.name}>
-			    {`${data.person.name}`}
-			  </Typography>
-			  <Typography
-			      component={Link}
-			      to="/_/Bank"
-  			      alt="Ibis"
-			      variant="body2"
-			      className={classes.balance}
-			    >
-			    Balance ${(data.person.balance/100).toFixed(2)}
-			  </Typography>
-			</Grid>
-		    );
-		}}
-	      </Query>
+  	      <Grid container direction="column" justify="center" alignItems="center" >
+  		<Avatar
+		    component={Link}
+		    to="/_/Account"
+  		    alt="Ibis"
+  		    src={avatar}
+  		    className={classes.avatar}
+		/>
+		<Typography
+		    component={Link}
+		    to="/_/Account"
+  		    alt="Ibis"
+		    variant="body2"
+		    className={classes.username}
+		>
+		  {`@${username}`}
+		</Typography>
+		<Typography variant="h6" className={classes.name}>
+		  {`${name}`}
+		</Typography>
+		<Typography
+		    component={Link}
+		    to="/_/Bank"
+  		    alt="Ibis"
+		    variant="body2"
+		    className={classes.balance}
+		>
+		  Balance ${(balance/100).toFixed(2)}
+		</Typography>
+	      </Grid>
 	      <List
 		component="nav"
 		className={classes.list}
@@ -202,4 +217,4 @@ Home.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Home);
+export default withApollo(withStyles(styles)(Home));

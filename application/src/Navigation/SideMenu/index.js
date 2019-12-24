@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query } from "react-apollo";
+import { Query, withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
@@ -75,6 +75,10 @@ class SideMenu extends Component {
     state = {
 	drawer: false,
 	expanded: null,
+	avatar: '',
+	username: '.',
+	name: '.',
+	balance: 0,
     };
 
     toggleDrawer = (drawer) => {
@@ -102,54 +106,64 @@ class SideMenu extends Component {
 	this.setState({ expanded });
     };
 
+    componentDidMount() {
+	let { context, client } = this.props;
+	client.query({
+	    query: query,
+	    variables: { id: context.userID }
+	}).then(results => {
+	    this.setState({
+		avatar: results.data.person.avatar,
+		username: results.data.person.username,
+		name: results.data.person.name,
+		balance: results.data.person.balance,
+	    })
+	}).catch(error => {
+	    console.log(error);
+	});
+
+    }
+
     render() {
 	let { classes, context } = this.props;
-	let { drawer, expanded } = this.state;
+	let { drawer, expanded, avatar, username, name, balance } = this.state;
 
 	let sideMenu = (
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
-		<Query fetchPolicy="no-cache" query={query} variables={{ id: context.userID }}>
-		  {({ loading, error, data }) => {
-		      if (loading) return <LinearProgress className={classes.progress} />;
-		      if (error) return `Error! ${error.message}`;
-		      return (
-  			  <Grid container direction="column" justify="center" alignItems="center" >
-  			    <Avatar
-				component={Link}
-				to="/_/Account"
-  				alt="Ibis"
-  				src={data.person.avatar}
-  				className={classes.avatar}
-				onClick={(e) => this.toggleDrawer(false)}
-			    />
-			    <Typography
-				component={Link}
-				to="/_/Account"
-  				alt="Ibis"
-				variant="body2"
-				className={classes.username}
-				onClick={(e) => this.toggleDrawer(false)}
-			      >
-			      {`@${data.person.username}`}
-			    </Typography>
-			    <Typography variant="h6" className={classes.name}>
-			      {`${data.person.name}`}
-			    </Typography>
-			    <Typography
-				component={Link}
-				to="/_/Bank"
-  				alt="Ibis"
-				variant="body2"
-				className={classes.balance}
-				onClick={(e) => this.toggleDrawer(false)}
-			      >
-			      Balance ${(data.person.balance/100).toFixed(2)}
-			    </Typography>
-			  </Grid>
-		      );
-		  }} 
-		</Query>
+  		<Grid container direction="column" justify="center" alignItems="center" >
+  		  <Avatar
+		  component={Link}
+		  to="/_/Account"
+  		  alt="Ibis"
+  		  src={avatar}
+  		  className={classes.avatar}
+		  onClick={(e) => this.toggleDrawer(false)}
+		  />
+		  <Typography
+		    component={Link}
+		    to="/_/Account"
+  		    alt="Ibis"
+		    variant="body2"
+		    className={classes.username}
+		    onClick={(e) => this.toggleDrawer(false)}
+		  >
+		    {`@${username}`}
+		  </Typography>
+		  <Typography variant="h6" className={classes.name}>
+		    {`${name}`}
+		  </Typography>
+		  <Typography
+		    component={Link}
+		    to="/_/Bank"
+  		    alt="Ibis"
+		    variant="body2"
+		    className={classes.balance}
+		    onClick={(e) => this.toggleDrawer(false)}
+		  >
+		    Balance ${(balance/100).toFixed(2)}
+		  </Typography>
+		</Grid>
 	      </Grid>
 	      <Divider />
 	      <Sublist
@@ -286,4 +300,4 @@ SideMenu.propTypes = {
     handleFrame: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(SideMenu);
+export default withApollo(withStyles(styles)(SideMenu));
