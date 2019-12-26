@@ -11,9 +11,6 @@ import axios from "axios";
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-
 const config = require('../../config.json');
 
 const styles = theme => ({
@@ -122,7 +119,7 @@ class Bank extends Component {
     };
 
     updateServer(orderID) {
-	axios('https://api.tokenibis.org/ibis/payment/', {
+	axios('/ibis/payment/', {
 	    method: 'post',
 	    withCredentials: true,
 	    data: { orderID },

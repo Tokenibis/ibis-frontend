@@ -9,10 +9,9 @@
    authentication. Roughly speaking, the intended workflow is as
    follows for a brand new login:
 
-   1. Query the https://api.tokenibis.org/ibis/identify to determine
-   the current user. If recognized (based on cached authentication),
-   then proceed to the content. Otherwise, initiate the login
-   splashcreen.
+   1. Query the /ibis/identify to determine the current user. If
+   recognized (based on cached authentication), then proceed to the
+   content. Otherwise, initiate the login splashcreen.
 
    2. Once the user clicks a social login option, intiate the Oauth
    process with the social login site.
@@ -43,9 +42,6 @@ import { IbisProvider } from '../Context'
 import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
-
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 const styles = theme => ({
     icon: {
@@ -92,7 +88,7 @@ class Authenticator extends Component {
 
     /* retrieve the facebook oauth request url and redirect */
     facebookLogin = () => {
-	axios('https://api.tokenibis.org/auth/social/facebook/auth-server/', {
+	axios('/auth/social/facebook/auth-server/', {
 	    method: 'post',
 	    withCredentials: true
 	}).then(response => {
@@ -105,7 +101,7 @@ class Authenticator extends Component {
 
     /* retrieve the google oauth request url and redirect */
     googleLogin = () => {
-	axios('https://api.tokenibis.org/auth/social/google/auth-server/', {
+	axios('/auth/social/google/auth-server/', {
 	    method: 'post',
 	    withCredentials: true
 	}).then(response => {
@@ -118,7 +114,7 @@ class Authenticator extends Component {
 
     /* flag app the user as unauthenticated and clear the token */
     logout = () => {
-	axios('https://api.tokenibis.org/ibis/logout/', {
+	axios('/ibis/logout/', {
 	    method: 'post',
 	    withCredentials: true
 	}).then(response => {
@@ -139,7 +135,7 @@ class Authenticator extends Component {
 	    let code = url.searchParams.get('code');
 	    let state = url.searchParams.get('state');
 
-	    axios(`https://api.tokenibis.org/auth/social/${path[1]}/login/`, {
+	    axios(`/auth/social/${path[1]}/login/`, {
 		method: 'post',
 		data: {
 		    code: code,
@@ -148,7 +144,7 @@ class Authenticator extends Component {
 		withCredentials: true
 	    }).then(response => {
 		if ('data' in response && 'key' in response.data) {
-		    return axios('https://api.tokenibis.org/ibis/login/', {
+		    return axios('/ibis/login/', {
 			method: 'post',
 			withCredentials: true
 		    });
@@ -168,7 +164,7 @@ class Authenticator extends Component {
 		console.error(error.response);
 	    })
 	} else {
-	    axios('https://api.tokenibis.org/ibis/identify/', {
+	    axios('/ibis/identify/', {
 		withCredentials: true
 	    }).then(response => {
 		this.setState({ userID: response.data.user_id});

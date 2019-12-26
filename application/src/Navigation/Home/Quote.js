@@ -27,7 +27,7 @@ class Quote extends Component {
     componentDidMount() {
 	let quote, author;
 
-	axios('https://api.tokenibis.org/ibis/quote/', {
+	axios('/ibis/quote/', {
 	    withCredentials: true,
 	}).then(response => {
 	    this.setState({ quote: response.data.quote, author: response.data.author });

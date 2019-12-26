@@ -177,7 +177,7 @@ class Donation extends Component {
     componentDidMount() {
 	let quote, author;
 
-	axios('https://api.tokenibis.org/ibis/price/', {
+	axios('/ibis/price/', {
 	    withCredentials: true,
 	}).then(response => {
 	    this.setState({ item: response.data.item, price: response.data.price });
