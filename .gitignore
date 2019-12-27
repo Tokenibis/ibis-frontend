@@ -1,2 +1,6 @@
 application/yarn.lock
 application/package-lock.json
+
+application/config_dev.json
+application/config_prod.json
+application/src/config.json
