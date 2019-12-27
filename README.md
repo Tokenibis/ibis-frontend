@@ -1,6 +1,10 @@
 # Ibis Frontend PWA
 
-This is the application frontend for the Token Ibis application. It is implemented as a REACT single-page web app with the intention to be converted into a PWA.
+This is the application frontend for the Token Ibis application. It is
+implemented as a REACT single-page web app with the intention to be
+converted into a PWA.
+
+__This code is currently in BETA__
 
 ## Dependencies
 
@@ -22,10 +26,9 @@ Install the latest version of nodejs: https://nodejs.org/en/download/
 
 `$ npm start`
 
-## Build Production Mode
+## Build and Send to Remote Server
 
-`$ cd application`
+Make sure you have all values populated in config_prod.json or
+config_dev.json, depending your deployment intent.
 
-`$ npm build`
-
-The application from the `build` directory using any webserver.
+`$ ./application/deploy.sh [--development|--production] [remote_server]`

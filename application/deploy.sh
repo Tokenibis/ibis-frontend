@@ -22,16 +22,6 @@ if [ ! $DIR/src/config.json ]; then
     exit 1
 fi
 
-if [ ! -f $DIR/config_dev.json ]; then
-    echo 'ERROR: missing config_dev.json file'
-    exit 1
-fi
-
-if [ ! -f $DIR/config_prod.json ]; then
-    echo 'ERROR: missing config_prod.json file'
-    exit 1
-fi
-
 if [ $1 == '--production' ] || [ $1 == '-p' ]; then
     echo 'STOP! You are about deploy to production. Are you sure you want to continue? (y/N)'
     read response
@@ -39,6 +29,14 @@ if [ $1 == '--production' ] || [ $1 == '-p' ]; then
        echo 'Aborting deployment'
        exit 0
     else
+	if [ ! -f $DIR/config_prod.json ]; then
+	    echo 'ERROR: missing config_prod.json file'
+	    exit 1
+	fi
+	if [ ! -f $DIR/config_dev.json ]; then
+	    echo 'ERROR: missing config_dev.json file'
+	    exit 1
+	fi
 	cp $DIR/config_prod.json $DIR/src/config.json
     fi
 elif [ $1  == '--development' ] || [ $1 == '-d' ]; then
