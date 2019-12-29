@@ -36,6 +36,16 @@ const styles = theme => ({
     link: {
 	color: theme.palette.secondary.main,
 	paddingTop: theme.spacing(1),
+	textDecoration: 'none',
+	fontWeight: 'bold',
+    },
+    endWrapper: {
+	textAlign: 'center',
+    },
+    fundraised: {
+	color: theme.palette.tertiary.main,
+	fontWeight: 'bold',
+	marginBottom: theme.spacing(1),
     },
     progress: {
 	marginTop: theme.spacing(-0.5),
@@ -57,7 +67,7 @@ const styles = theme => ({
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
-	marginBottom: theme.spacing(3),
+	marginBottom: theme.spacing(1),
     },
     followers: {
 	textTransform: 'none',
@@ -126,21 +136,30 @@ class Nonprofit extends Component {
 		<CardContent>
   		  {
 		      expanded ? (
-			  <Typography variant="body2" className={classes.description}>
-			    <ReactMarkdown source={node.description} />
-			  </Typography>
+			  <div>
+			    <ReactMarkdown
+				className={classes.description}
+				source={node.description}
+			    />
+			    <div className={classes.endWrapper}>
+			      <Button>
+				<Typography variant="body2" className={classes.followers}>
+				  <a className={classes.link} href={node.link}>Go to website</a>
+				</Typography>
+			      </Button>
+			      <Typography variant="body2" className={classes.fundraised}>
+				Fundraised: ${(node.fundraised/100).toFixed(2)}
+			      </Typography>
+			    </div>
+			  </div>
 		      ):(
-			  <Typography variant="body2" className={classes.description}>
+			  <div className={classes.description}>
 			    <Truncated
 				text={removeMd(node.description)}
-				className={classes.description}
 			    />
-			  </Typography>
+			  </div>
 		      )
 		  }
-		  <Typography variant="body2" className={classes.link}>
-		    {node.link}
-		  </Typography>
 		</CardContent>
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
@@ -158,11 +177,10 @@ class Nonprofit extends Component {
 			  </Typography>
 			</Button>
 		      </div>
-		      <Button>
+		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
 			<Typography
 			    variant="body2"
 			    className={classes.seeMore}
-			    onClick={() => {this.setState({ expanded: !expanded })}}
 			>
 			  {expanded ? 'See Less' : 'See More'}
 			</Typography>
