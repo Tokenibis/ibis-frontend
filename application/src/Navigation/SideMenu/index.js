@@ -32,7 +32,6 @@ import HelpIcon from '@material-ui/icons/HelpOutline';
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
 import SublistItem from '../__Common__/SublistItem';
-import QRIcon from '../../__Common__/QRIcon';
 
 const styles = theme => ({
     avatar: {
@@ -244,14 +243,6 @@ class SideMenu extends Component {
 		    label="Help"
 		    classes={classes}
 		    icon={<HelpIcon />}
-		    onClick={(e) => this.toggleDrawer(false)}
-		/>
-	      </Link>
-	      <Link to="/_/QRScan">
-		<SublistItem
-		    label="Scanner"
-		    classes={classes}
-		    icon={<QRIcon />}
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>

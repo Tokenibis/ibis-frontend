@@ -23,8 +23,33 @@ const styles = theme => ({
     root: {
 	width: '100%',
     },
+    username: {
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+	textDecoration: 'none',
+	paddingTop: theme.spacing(1),
+    },
+    name: {
+	color: theme.palette.primary.main,
+    },
+    donated: {
+	fontWeight: 'bold',
+	paddingTop: theme.spacing(1),
+	color: theme.palette.primary.main,
+	textDecoration: 'none',
+    },
+    dateJoined: {
+	fontWeight: 'bold',
+	paddingTop: theme.spacing(1),
+	color: theme.palette.primary.main,
+	textDecoration: 'none',
+    },
     link: {
 	color: theme.palette.secondary.main,
+    },
+    followStatWrapper: {
+	paddingTop: theme.spacing(1),
+	display: 'flex',
     },
     progress: {
 	marginTop: theme.spacing(-0.5),
@@ -53,8 +78,14 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
 	marginBottom: theme.spacing(3),
     },
+    following: {
+	textTransform: 'none',
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+    },
     followers: {
 	textTransform: 'none',
+	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
     },
     readMore: {
@@ -108,34 +139,78 @@ class Person extends Component {
     		      src={node.avatar}
   		      className={classes.avatar}
 		  />
-		  </Grid>
-		<CardContent>
-		</CardContent>
+		  <Typography
+		      component={Link}
+		      to="/_/Account"
+  		      alt="Ibis"
+		      variant="body2"
+		      className={classes.username}
+		  >
+		  {`@${node.username}`}
+		  </Typography>
+		  <Typography variant="h6" className={classes.name}>
+		    {node.name}
+		  </Typography>
+		  <Typography
+		      variant="body2"
+		      className={classes.dateJoined}
+		  >
+		    Onboard Since: {new Date(node.dateJoined).toLocaleDateString()}
+		  </Typography>
+		  <Typography
+		      variant="body2"
+		      className={classes.donated}
+		  >
+		    Donated: ${(node.donated ? node.donated/100 : 0.0).toFixed(2)}
+		  </Typography>
+		  <div className={classes.followStatWrapper}>
+		    <Button>
+		      <Typography variant="body2" className={classes.following}>
+			{`Following: ${node.followerCount}`}
+		      </Typography>
+		    </Button>
+		    <Button>
+		      <Typography variant="body2" className={classes.followers}>
+			{`Followers: ${node.followerCount}`}
+		      </Typography>
+		    </Button>
+		  </div>
+		</Grid>
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
 		      <div className={classes.actionLeft}>
-			<SimpleEdgeMutation
-			    variant={FollowVal}
-			    user={context.userID}
-			    target={node.id}
-			    initial={node.isFollowing.edges.length === 1}
-			/>
+			{
+			    node.id !== context.userID &&
+			    <SimpleEdgeMutation
+				variant={FollowVal}
+				user={context.userID}
+				target={node.id}
+				initial={node.isFollowing.edges.length === 1}
+			    />
+			}
 		      </div>
-		      <Button>
-			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${node.followerCount}`}
-			</Typography>
-		      </Button>
 		    </div>
-		    <Button
-			component={Link}
-			prefix={1}
-			to={`TransactionCreate?target=${id}`}
-			className={classes.actionPay}
-		    >
-		      Pay
-		    </Button>
+		    { 
+			node.id !== context.userID ? (
+			    <Button
+				component={Link}
+				prefix={1}
+				to={`TransactionCreate?target=${id}`}
+				className={classes.actionPay}
+				>
+			      Pay
+			    </Button>
+			):(
+			    <Button
+				component={Link}
+				to="/_/Bank"
+				className={classes.actionPay}
+				>
+			      Deposit
+			    </Button>
+			)
+		    }
 		  </Grid>
 		</CardActions>
 	      </Card>

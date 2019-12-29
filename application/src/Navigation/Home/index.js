@@ -121,7 +121,7 @@ class Home extends Component {
     }
 
     render() {
-	let { classes } = this.props;
+	let { classes, context } = this.props;
 	let { expanded, avatar, username, name, balance } = this.state;
 
 	return (
@@ -129,15 +129,13 @@ class Home extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center" >
   		<Avatar
 		    component={Link}
-		    to="/_/Account"
-  		    alt="Ibis"
+		    to={`/_/Person?id=${context.userID}`}
   		    src={avatar}
   		    className={classes.avatar}
 		/>
 		<Typography
 		    component={Link}
-		    to="/_/Account"
-  		    alt="Ibis"
+		    to={`/_/Person?id=${context.userID}`}
 		    variant="body2"
 		    className={classes.username}
 		>
@@ -153,7 +151,7 @@ class Home extends Component {
 		    variant="body2"
 		    className={classes.balance}
 		>
-		  Balance ${(balance/100).toFixed(2)}
+		  Balance: ${(balance ? balance/100 : 0.0).toFixed(2)}
 		</Typography>
 	      </Grid>
 	      <List
