@@ -141,6 +141,7 @@ class NotificationList extends Component {
 	client.query({
 	    query: notifier_query,
 	    variables: { id: context.userID },
+	    fetchPolicy: "no-cache",
 	}).then(results => {
 	    client.mutate({
 		mutation: seen_mutation,

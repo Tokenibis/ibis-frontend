@@ -97,7 +97,8 @@ class SideMenu extends Component {
 	let { context, client } = this.props;
 	client.query({
 	    query: query,
-	    variables: { id: context.userID }
+	    variables: { id: context.userID },
+	    fetchPolicy: "no-cache",
 	}).then(results => {
 	    this.setState({
 		avatar: results.data.person.avatar,
