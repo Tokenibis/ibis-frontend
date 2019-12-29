@@ -8,7 +8,6 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -106,6 +105,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	width: '90%',
 	textAlign: 'right',
+	paddingTop: theme.spacing(1),
 	paddingBottom: theme.spacing(3),
 	textDecoration: 'none',
     },
@@ -166,7 +166,7 @@ class Person extends Component {
 		  <div className={classes.followStatWrapper}>
 		    <Button>
 		      <Typography variant="body2" className={classes.following}>
-			{`Following: ${node.followerCount}`}
+			{`Following: ${node.followingCount}`}
 		      </Typography>
 		    </Button>
 		    <Button>
@@ -220,7 +220,7 @@ class Person extends Component {
 		    Donation History
 		  </Typography>
 		  <DonationList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}
@@ -238,7 +238,7 @@ class Person extends Component {
 		    Transaction History
 		  </Typography>
 		  <TransactionList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}
@@ -256,7 +256,7 @@ class Person extends Component {
 		    Events Going
 		  </Typography>
 		  <EventList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_Going:${id}`}
 		      count={3}

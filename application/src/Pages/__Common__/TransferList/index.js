@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
+import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
-import Filter from '../__Common__/Filter';
-import Link from '../../__Common__/CustomLink';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
+import Link from '../../../__Common__/CustomLink';
+import QueryHelper from "../QueryHelper";
+import ListView from '../ListView';
+import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+import Truncated from '../Truncated';
 
 const removeMd = require('remove-markdown');
 
@@ -21,28 +20,14 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    title: {
-	fontWeight: 'bold',
-	color: theme.palette.primary.main,
-    },
-    subtitle: {
-	color: theme.palette.tertiary.main,
-    },
-    categoryIcon: {
-	color: theme.palette.secondary.main,
-	padding: 0,
-    },
     toIcon: {
-	marginBottom: -8,
+	marginBottom: -7,
 	marginLeft: 4,
 	marginRight: 4,
     },
-    label: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
-    },
-    likeBookmark: {
-	display: 'flex',
     },
     action: {
 	display: 'flex',
@@ -54,45 +39,30 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
     },
-    info: {
+    details: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
     },
-    postButton: {
-	width: '90%',
-	color: theme.palette.secondary.main,
-	backgroundColor: 'white',
-	borderStyle: 'solid',
-	borderWidth: '1px',
-	borderColor: theme.palette.secondary.main,
-	marginBottom: theme.spacing(3),
+    commentCount: {
+	color: theme.palette.tertiary.main,
+	fontSize: 14,
+    },
+    commentCountIcon: {
+	fontSize: 20,
+	marginBottom: -7,
+	paddingRight: theme.spacing(0.5),
+	color: theme.palette.tertiary.main,
     },
 });
 
 const DEFAULT_COUNT = 25;
 
-const query = loader('../../Static/graphql/operations/PostList.gql')
-
-class PostList extends Component {
-
-    makePreamble = () => {
-	let { classes } = this.props;
-
-	return (
-	    <Button
-		component={Link}
-		prefix={1}
-		to={`PostCreate`}
-		className={classes.postButton}
-	    >
-	      New Post
-	    </Button>
-	);
-    };
+class TransferList extends Component {
 
     makeImage = (node) => {
-	let { classes  } = this.props;
+	let { classes } = this.props;
+
 	return (
     	    <Avatar
 		component={Link}
@@ -102,19 +72,18 @@ class PostList extends Component {
     		src={node.user.avatar}
     		className={classes.avatar}
 	    />
-	)
+	);
     };
 
     makeLabel = (node) => {
 	let { classes } = this.props;
 	return (
 	    <div>
-  	      <Typography variant="body2" className={classes.title}>
-  		{node.title}
-  	      </Typography>
-  	      <Typography variant="body2" className={classes.subtitle}>
-  		{node.user.name} - {new Date(node.created).toDateString()}
-  	      </Typography>
+	      <Typography variant="body2" className={classes.title}>
+		{`${node.user.name}`}
+		{<ToIcon className={classes.toIcon} />}
+		{node.target.name}
+	      </Typography>
 	    </div>
 	);
     }
@@ -128,30 +97,21 @@ class PostList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, context } = this.props;
-	
+	let { classes, context, variant } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <div className={classes.likeBookmark}>
-		<SimpleEdgeMutation
-		    variant={LikeVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
-		/>
-		<SimpleEdgeMutation
-		    variant={BookmarkVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasBookmarked.edges.length === 1}
-		/>
-	      </div>
+	      <SimpleEdgeMutation
+		  variant={LikeVal}
+		  user={context.userID}
+		  target={node.id}
+		  initial={node.hasLiked.edges.length === 1}
+	      />
 	      <Typography
 		  component={Link}
 		  prefix={1}
-		  to={`Post?id=${node.id}`}
+		  to={`${variant === 'donation' ? 'Donation' : 'Transaction'}?id=${node.id}`}
 		  variant="body2"
-		  className={classes.info}
+		  className={classes.details}
 	      >
 		Go to page
 	      </Typography>
@@ -162,6 +122,14 @@ class PostList extends Component {
     render() {
 	let { context, minimal, variant, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
+
+	let query;
+
+	if (variant === 'donation') {
+	    query = loader('../../../Static/graphql/operations/DonationList.gql')
+	} else {
+	    query = loader('../../../Static/graphql/operations/TransactionList.gql')
+	}
 
 	if (minimal) {
 	    // hide icons/pictures and scroll button; intended for small partial-page lists
@@ -179,17 +147,15 @@ class PostList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		scrollButton
-		expandedAll
-		makePreamble={this.makePreamble}
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data}
+		    scrollButton
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
 		/>
 	    )
-	}
+	};
 
 	// set default values if needed
 	filterValue = filterValue ? filterValue : 'All'
@@ -214,19 +180,6 @@ class PostList extends Component {
 	    case 'All':
 		variables = {
 		    orderBy: "-created",
-		    first: count,
-		}
-		break;
-	    case 'Bookmarked':
-		variables = {
-		    bookmarkBy: context.userID,
-		    orderBy: "-created",
-		    first: count,
-		}
-		break;
-	    case 'Classic':
-		variables = {
-		    orderBy: "-like_count",
 		    first: count,
 		}
 		break;
@@ -259,16 +212,12 @@ class PostList extends Component {
 	    />
 	);
     };
-
 };
 
-PostList.propTypes = {
+TransferList.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-function PostFilter(props) {
-    return <Filter options={['Me', 'Following', 'All', 'Bookmarked', 'Classic',]} {...props} />;
-}
-
-export { PostFilter };
-export default withStyles(styles)(PostList);
+export const DonationVal = 'donation';
+export const TransactionVal = 'transaction';
+export default withStyles(styles)(TransferList);

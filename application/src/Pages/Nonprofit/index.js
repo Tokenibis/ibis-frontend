@@ -90,6 +90,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	width: '90%',
 	textAlign: 'right',
+	paddingTop: theme.spacing(1),
 	paddingBottom: theme.spacing(3),
 	textDecoration: 'none',
     },
@@ -203,7 +204,7 @@ class Nonprofit extends Component {
 		    Recent News
 		  </Typography>
 		  <NewsList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_Author:${id}`}
 		      count={3}
@@ -221,7 +222,7 @@ class Nonprofit extends Component {
 		    Upcoming Events
 		  </Typography>
 		  <EventList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_Host:${id}`}
 		      count={3}
@@ -239,7 +240,7 @@ class Nonprofit extends Component {
 		    Donation History
 		  </Typography>
 		  <DonationList
-		      variant="minimal"
+		      minimal
 		      context={context}
 		      filterValue={`_User:${id}`}
 		      count={3}

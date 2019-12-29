@@ -17,11 +17,11 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    name: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     action: {
@@ -66,11 +66,11 @@ class PersonList extends Component {
 	let { classes } = this.props;
 	return (
 	    <div>
-  	      <Typography variant="body2" className={classes.name}>
-  		{`${node.name}`}
-  	      </Typography>
-  	      <Typography variant="body2" className={classes.username}>
+  	      <Typography variant="body2" className={classes.title}>
   		{`@${node.username}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.subtitle}>
+  		{`${node.name}`}
   	      </Typography>
 	    </div>
 	);
@@ -120,39 +120,34 @@ class PersonList extends Component {
     };
 
     render() {
-	let { context, variant, filterValue, count } = this.props;
+	let { context, minimal, variant, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
-	// variant does not affect the content, only the visually displayed information
-	switch (variant) {
-
-	    case 'minimal':
-		// hide icons/pictures and scroll button; intended for small partial-page lists
-		infiniteScroll = false;
-		make = (data) => (
-		    <ListView
-			makeLabel={this.makeLabel}
-			makeBody={this.makeBody}
-			makeActions={this.makeActions}
-			data={data}
-		    />
-		)
-		break;
-
-	    default:
-		// show everything; intended for full-page lists
-		infiniteScroll = true;
-		make = (data) => (
-		    <ListView
+	if (minimal) {
+	    // hide icons/pictures and scroll button; intended for small partial-page lists
+	    infiniteScroll = false;
+	    make = (data) => (
+		<ListView
+		makeLabel={this.makeLabel}
+		makeBody={this.makeBody}
+		makeActions={this.makeActions}
+		data={data}
+		/>
+	    )
+	} else {
+	    // show everything; intended for full-page lists
+	    infiniteScroll = true;
+	    make = (data) => (
+		<ListView
 		    scrollButton
 		    makeImage={this.makeImage}
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
 		    data={data}
-		    />
-		)
-	};
+		/>
+	    )
+	}
 
 	// set default values if needed
 	filterValue = filterValue ? filterValue : 'All'
