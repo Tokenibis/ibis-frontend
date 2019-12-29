@@ -106,7 +106,7 @@ class Home extends Component {
 	client.query({
 	    query: query,
 	    variables: { id: context.userID },
-	    fetchPolicy: "no-cache",
+	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
 		avatar: results.data.person.avatar,

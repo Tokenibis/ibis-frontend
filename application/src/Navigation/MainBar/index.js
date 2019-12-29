@@ -13,13 +13,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import NotificationIcon from '@material-ui/icons/Notifications';
 
 import { IbisConsumer } from '../../Context';
 import Link from '../../__Common__/CustomLink';
 import IbisIcon from '../../__Common__/IbisIcon';
 import Cycler from '../Cycler'
 import SideMenu from '../SideMenu';
+import NotificationButton from '../NotificationButton';
 
 const styles = {
     root: {
@@ -48,21 +48,19 @@ function MainBar({ classes, context, cycle, hideHome }) {
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
 	      <Cycler value={cycle} />
 	    </Typography>
-	    {
-		hideHome ? (
-		    <Link to="/_/NotificationList">
-		      <IconButton color="inherit">
-			<NotificationIcon />
-		      </IconButton>
-		    </Link>
-		):(
-		    <Link to="/">
-		      <IconButton color="inherit">
-			<IbisIcon />
-		      </IconButton>
-		    </Link>
-		)
-	    }
+	    <IbisConsumer>
+	      {context => (
+		  hideHome ? (
+		      <NotificationButton context={context}/>
+		  ):(
+		      <Link to="/">
+			<IconButton color="inherit">
+			  <IbisIcon />
+			</IconButton>
+		      </Link>
+		  )
+	      )}
+	    </IbisConsumer> 
           </Toolbar>
 	</AppBar>
     );
