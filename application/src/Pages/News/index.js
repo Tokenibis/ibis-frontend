@@ -44,6 +44,9 @@ const styles = theme => ({
 	marginLeft: '0px',
 	paddingLeft: '0px',
     },
+    edgeMutations: {
+	display: 'flex',
+    },
     description: {
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(2),
@@ -120,18 +123,18 @@ class News extends Component {
   		  />
 		  <ReactMarkdown className={classes.description} source={node.description} />
 		  <div className={classes.action}>
-		    <div>
+		    <div className={classes.edgeMutations}>
 		      <SimpleEdgeMutation
-		      variant={LikeVal}
-		      user={context.userID}
-		      target={node.id}
-		      initial={node.hasLiked.edges.length === 1}
+			  variant={LikeVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasLiked.edges.length === 1}
 		      />
 		      <SimpleEdgeMutation
-		      variant={BookmarkVal}
-		      user={context.userID}
-		      target={node.id}
-		      initial={node.hasBookmarked.edges.length === 1}
+			  variant={BookmarkVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasBookmarked.edges.length === 1}
 		      />
 		    </div>
 		  </div>

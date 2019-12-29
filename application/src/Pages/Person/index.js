@@ -179,17 +179,15 @@ class Person extends Component {
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
-		      <div className={classes.actionLeft}>
-			{
-			    node.id !== context.userID &&
-			    <SimpleEdgeMutation
-				variant={FollowVal}
-				user={context.userID}
-				target={node.id}
-				initial={node.isFollowing.edges.length === 1}
-			    />
-			}
-		      </div>
+		      {
+			  node.id !== context.userID &&
+			  <SimpleEdgeMutation
+			  variant={FollowVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.isFollowing.edges.length === 1}
+			  />
+		      }
 		    </div>
 		    { 
 			node.id !== context.userID ? (

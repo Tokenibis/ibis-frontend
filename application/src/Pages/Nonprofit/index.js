@@ -42,6 +42,9 @@ const styles = theme => ({
     endWrapper: {
 	textAlign: 'center',
     },
+    edgeMutations: {
+	display: 'flex',
+    },
     fundraised: {
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
@@ -165,7 +168,7 @@ class Nonprofit extends Component {
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
-		      <div>
+		      <div className={classes.edgeMutations}>
 			<SimpleEdgeMutation
 			    variant={FollowVal}
 			    user={context.userID}

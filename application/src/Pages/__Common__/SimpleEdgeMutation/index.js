@@ -16,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Mutation } from "react-apollo";
 import { loader } from 'graphql.macro';
 import IconButton from '@material-ui/core/IconButton';
+import LoadingIcon from '@material-ui/icons/Sync';
 import FollowOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import FollowFilledIcon from '@material-ui/icons/HowToReg';
 import LikeOutlinedIcon from '@material-ui/icons/FavoriteBorder';
@@ -24,8 +25,14 @@ import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkFilledIcon from '@material-ui/icons/Bookmark';
 import RsvpOutlinedIcon from '@material-ui/icons/CalendarToday';
 import RsvpFilledIcon from '@material-ui/icons/EventAvailable';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const styles = theme => ({})
+const styles = theme => ({
+    progress: {
+	color: theme.palette.tertiary.main,
+	padding: theme.spacing(1.5),
+    },
+})
 
 const VARIANTS = {
     follow: {
@@ -59,26 +66,34 @@ class SimpleEdgeMutation extends Component {
     
     constructor({ initial }) {
 	super();
-	this.state = { initial };
+	this.state = { initial, loading: false };
     }
 
     updateInitial(mutation, user) {
+	this.setState({ loading: true })
 	mutation().then(response => {
-	    this.setState({ initial: response.data[Object.keys(response.data)[0]].state });
+	    this.setState({
+		initial: response.data[Object.keys(response.data)[0]].state,
+		loading: false,
+	    });
 	})
     }
 
     render() {
-	let { variant, user, target } = this.props
-	let { initial } = this.state
+	let { classes, variant, user, target } = this.props
+	let { initial, loading } = this.state
 
 	if (initial) {
 	    return (
 		<Mutation mutation={VARIANTS[variant].deleteMutation} variables={{ user, target }}>
 		  {mutation => (
-		      <IconButton onClick={() => this.updateInitial(mutation, user)}>
-			{VARIANTS[variant].trueIcon}
-		      </IconButton>
+		      loading ? (
+			  <CircularProgress size={24} className={classes.progress}/>
+		      ):(
+			  <IconButton onClick={() => this.updateInitial(mutation, user)}>
+			    {VARIANTS[variant].trueIcon}
+			  </IconButton>
+		      )
 		  )}
 		</Mutation>
 	    )
@@ -86,9 +101,13 @@ class SimpleEdgeMutation extends Component {
 	    return (
 		<Mutation mutation={VARIANTS[variant].createMutation} variables={{ user, target }}>
 		  {mutation => (
-		      <IconButton onClick={() => this.updateInitial(mutation, user)}>
-			{VARIANTS[variant].falseIcon}
-		      </IconButton>
+		      loading ? (
+			  <CircularProgress size={24} className={classes.progress}/>
+		      ):(
+			  <IconButton onClick={() => this.updateInitial(mutation, user)}>
+			    {VARIANTS[variant].falseIcon}
+			  </IconButton>
+		      )
 		  )}
 		</Mutation>
 	    )

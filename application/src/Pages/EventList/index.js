@@ -28,6 +28,9 @@ const styles = theme => ({
     username: {
 	color: theme.palette.tertiary.main,
     },
+    edgeMutations: {
+	display: 'flex',
+    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -110,7 +113,7 @@ class EventList extends Component {
 	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <div>
+	      <div className={classes.edgeMutations}>
 		<SimpleEdgeMutation
 		    variant={LikeVal}
 		    user={context.userID}

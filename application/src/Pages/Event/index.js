@@ -39,6 +39,9 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
+    edgeMutations: {
+	display: 'flex',
+    },
     info: {
 	paddingTop: theme.spacing(2),
     },
@@ -198,7 +201,7 @@ class Event extends Component {
 		  >
 		  </iframe>
 		  <div className={classes.action}>
-		    <div>
+		    <div className={classes.edgeMutations}>
 		      <SimpleEdgeMutation
 			  variant={LikeVal}
 			  user={context.userID}
