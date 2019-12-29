@@ -121,7 +121,7 @@ class EventList extends Component {
 		    variant={BookmarkVal}
 		    user={context.userID}
 		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
+		    initial={node.hasBookmarked.edges.length === 1}
 		/>
 		<SimpleEdgeMutation
 		    variant={RsvpVal}
@@ -198,6 +198,13 @@ class EventList extends Component {
 		variables = {
 		    byFollowing: context.userID,
 		    orderBy: "-date",
+		    first: count,
+		}
+		break;
+	    case 'Bookmarked':
+		variables = {
+		    bookmarkBy: context.userID,
+		    orderBy: "-created",
 		    first: count,
 		}
 		break;

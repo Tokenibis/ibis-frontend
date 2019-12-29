@@ -209,7 +209,7 @@ class Event extends Component {
 			  variant={BookmarkVal}
 			  user={context.userID}
 			  target={node.id}
-			  initial={node.hasLiked.edges.length === 1}
+			  initial={node.hasBookmarked.edges.length === 1}
 		      />
 		      <SimpleEdgeMutation
 			  variant={RsvpVal}
