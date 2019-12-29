@@ -13,6 +13,8 @@ import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
 
+const removeMd = require('remove-markdown');
+
 const styles = theme => ({
     avatar: {
  	borderStyle: 'solid',
@@ -97,7 +99,7 @@ class TransactionList extends Component {
     makeBody = (node) => {
 	return (
 	    <Typography variant="body2">
-  	      <Truncated text={node.description}/>
+  	      <Truncated text={removeMd(node.description)}/>
 	    </Typography>
 	);
     }

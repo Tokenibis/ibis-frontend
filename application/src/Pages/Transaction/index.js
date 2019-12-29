@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
+import ReactMarkdown from 'react-markdown';
 import axios from "axios";
 
 import Link from '../../__Common__/CustomLink';
@@ -142,7 +143,7 @@ class Transaction extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.description}>
-  		    {node.description}
+		    <ReactMarkdown source={node.description} />
 		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>

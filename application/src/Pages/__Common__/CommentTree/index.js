@@ -13,6 +13,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
+import ReactMarkdown from 'react-markdown';
 
 import Link from '../../../__Common__/CustomLink';
 import CustomDivider from '../../../__Common__/CustomDivider';
@@ -264,7 +265,7 @@ class CommentTree extends Component {
 		  />
 		</ListItem>
 		<Typography variant="body2" className={classes.body}>
-		  {node.description}
+		  <ReactMarkdown source={node.description} />
 		</Typography>
 	      </Grid>
 	      {

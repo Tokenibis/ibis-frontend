@@ -57,7 +57,7 @@ function App() {
 	  <MuiThemeProvider theme={theme}>
 	    <IbisProvider value={{
 		maxWindowWidth: 600,
-		displayRatio: 0.4
+		displayRatio: 0.5
 	    }}>
 	      <Authenticator>
 		<Content />

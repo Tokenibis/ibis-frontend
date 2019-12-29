@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
@@ -159,7 +160,7 @@ class Event extends Component {
   		      title={node.title}
   		  />
   		  <Typography variant="body2" className={classes.body}>
-		    {node.description}
+		    <ReactMarkdown source={node.description} />
 		  </Typography>
 		</Grid>
 		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>

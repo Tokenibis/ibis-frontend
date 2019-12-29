@@ -11,18 +11,22 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
+import Truncated from '../__Common__/Truncated';
+
+const removeMd = require('remove-markdown');
 
 const styles = theme => ({
     root: {
 	width: '100%',
     },
-    descriptionText: {
+    description: {
 	color: theme.palette.tertiary.main,
     },
     descriptionToggle: {
@@ -58,6 +62,12 @@ const styles = theme => ({
     followers: {
 	textTransform: 'none',
 	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
+    },
+    seeMore: {
+	textTransform: 'none',
+	color: theme.palette.secondary.main,
+	fontWeight: 'bold',
     },
     heading: {
 	fontSize: '18px',
@@ -116,12 +126,15 @@ class Nonprofit extends Component {
 		<CardContent>
   		  {
 		      expanded ? (
-			  <Typography variant="body2" className={classes.descriptionText}>
-			    node.description
+			  <Typography variant="body2" className={classes.description}>
+			    <ReactMarkdown source={node.description} />
 			  </Typography>
 		      ):(
-			  <Typography variant="body2" className={classes.descriptionText}>
-			    {`${node.description.substring(0, 300)}...`} readmore
+			  <Typography variant="body2" className={classes.description}>
+			    <Truncated
+				text={removeMd(node.description)}
+				className={classes.description}
+			    />
 			  </Typography>
 		      )
 		  }
@@ -132,17 +145,26 @@ class Nonprofit extends Component {
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
-		      <div className={classes.actionLeft}>
+		      <div>
 			<SimpleEdgeMutation
 			    variant={FollowVal}
 			    user={context.userID}
 			    target={node.id}
 			    initial={node.isFollowing.edges.length === 1}
 			/>
+			<Button>
+			  <Typography variant="body2" className={classes.followers}>
+			    {`Followers: ${node.followerCount}`}
+			  </Typography>
+			</Button>
 		      </div>
 		      <Button>
-			<Typography variant="body2" className={classes.followers}>
-			  {`Followers: ${node.followerCount}`}
+			<Typography
+			    variant="body2"
+			    className={classes.seeMore}
+			    onClick={() => {this.setState({ expanded: !expanded })}}
+			>
+			  {expanded ? 'See Less' : 'See More'}
 			</Typography>
 		      </Button>
 		    </div>

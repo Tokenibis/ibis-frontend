@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from "axios";
+import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal } from '../__Common__/SimpleEdgeMutation';
@@ -147,7 +148,7 @@ class Donation extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.description}>
-  		    {node.description}
+		    <ReactMarkdown source={node.description} />
 		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>
