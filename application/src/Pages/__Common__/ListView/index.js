@@ -113,6 +113,7 @@ class ListView extends Component {
 			<div className={classes.item} key={i}>
 			  <ListItem
 			      button
+			      key={i}
 			      className={classes.image}
 			      onClick={(e) => {this.handleExpand(i)}}
 			    >
@@ -169,7 +170,7 @@ class ListView extends Component {
 
 ListView.propTypes = {
     classes: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
+    data: PropTypes.array.isRequired,
 };
 
 

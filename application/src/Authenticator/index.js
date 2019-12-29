@@ -246,7 +246,9 @@ class Authenticator extends Component {
 };
 
 Authenticator.propTypes = {
-    authenticate: PropTypes.func.isRequired,
+    classes: PropTypes.object.isRequired,
+    children: PropTypes.object.isRequired,
+    context: PropTypes.object.isRequired,
 };
 
 function AuthenticatorWrapper(props) {

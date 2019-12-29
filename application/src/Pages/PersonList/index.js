@@ -135,7 +135,6 @@ class PersonList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -151,7 +150,6 @@ class PersonList extends Component {
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
 		    data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -201,7 +199,6 @@ class PersonList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };
@@ -210,7 +207,6 @@ class PersonList extends Component {
 
 PersonList.propTypes = {
     classes: PropTypes.object.isRequired,
-    filterValue: PropTypes.string.isRequired,
 };
 
 function PersonFilter(props) {

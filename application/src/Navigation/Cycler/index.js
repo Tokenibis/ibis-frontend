@@ -77,7 +77,6 @@ class Cycler extends Component {
 
 Cycler.propTypes = {
     value: PropTypes.number.isRequired,
-    handleFrame: PropTypes.func.isRequired,
 };
 
 export const StandardVal = Object.keys(cycleMap).indexOf('');

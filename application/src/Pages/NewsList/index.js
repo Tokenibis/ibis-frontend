@@ -149,7 +149,6 @@ class NewsList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -167,7 +166,6 @@ class NewsList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -238,7 +236,6 @@ class NewsList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };

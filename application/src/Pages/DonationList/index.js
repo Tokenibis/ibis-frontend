@@ -144,7 +144,6 @@ class DonationList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -160,7 +159,6 @@ class DonationList extends Component {
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
 		    data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -217,7 +215,6 @@ class DonationList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };

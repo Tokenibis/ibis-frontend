@@ -143,7 +143,6 @@ class TransactionList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -159,7 +158,6 @@ class TransactionList extends Component {
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
 		    data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -216,7 +214,6 @@ class TransactionList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };

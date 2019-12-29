@@ -6,11 +6,9 @@
  */
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -89,17 +87,6 @@ class SideMenu extends Component {
 	this.setState({ anchorEl: event.currentTarget });
     };
 
-    handleClick = (page, switchVal) => {
-	let { handleFrame } = this.props
-
-	this.setState({ 
-	    drawer: false,
-	    expanded: null,
-	});
-
-	handleFrame(page, switchVal);
-    };
-
     handleExpand(expanded) {
 	this.state.expanded === expanded ?
 	this.setState({ expanded: false }) :
@@ -174,8 +161,6 @@ class SideMenu extends Component {
 	      >
 		<Link to="/Nonprofit">
 		  <SublistItem
-		      component={Link}
-		      to="/Nonprofit"
 		      label="Nonprofits"
 		      classes={classes}
 		      icon={<NonprofitIcon />}
@@ -294,10 +279,6 @@ class SideMenu extends Component {
 	    </div>
 	);
     };
-};
-
-SideMenu.propTypes = {
-    handleFrame: PropTypes.func.isRequired,
 };
 
 export default withApollo(withStyles(styles)(SideMenu));

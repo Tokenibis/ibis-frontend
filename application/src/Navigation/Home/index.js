@@ -15,9 +15,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { loader } from 'graphql.macro';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -121,7 +120,7 @@ class Home extends Component {
     }
 
     render() {
-	let { classes, context } = this.props;
+	let { classes } = this.props;
 	let { expanded, avatar, username, name, balance } = this.state;
 
 	return (
@@ -167,10 +166,18 @@ class Home extends Component {
 		    onClick={(e) => {this.handleExpand('Give')}}
 		>
 		  <Link to="/Nonprofit">
-		    <SublistItem label="Nonprofits" classes={classes} icon={<NonprofitIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Nonprofits" 
+			icon={<NonprofitIcon />} 
+		    />
 		  </Link>
 		  <Link to="/Donation">
-		    <SublistItem label="Donations" classes={classes} icon={<DonationIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Donations" 
+			icon={<DonationIcon />} 
+		    />
 		  </Link>
 		</Sublist>
 		<Sublist
@@ -180,10 +187,18 @@ class Home extends Component {
 		    onClick={(e) => {this.handleExpand('Send')}}
 		>
 		  <Link to="/Person">
-		    <SublistItem label="People" classes={classes} icon={<PersonIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="People" 
+			icon={<PersonIcon />} 
+		    />
 		  </Link>
 		  <Link to="/Transaction">
-		    <SublistItem label="Transactions" classes={classes} icon={<TransactionIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Transactions" 
+			icon={<TransactionIcon />} 
+		    />
 		  </Link>
 		</Sublist>
 		<Sublist
@@ -193,13 +208,25 @@ class Home extends Component {
 		    onClick={(e) => {this.handleExpand('Explore')}}
 		>
 		  <Link to="/News">
-		    <SublistItem label="News" classes={classes} icon={<NewsIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="News" 
+			icon={<NewsIcon />} 
+		    />
 		  </Link>
 		  <Link to="/Event">
-		    <SublistItem label="Events" classes={classes} icon={<EventIcon />} />
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Events" 
+			icon={<EventIcon />} 
+		    />
 		  </Link>
 		  <Link to="/Post">
-		    <SublistItem label="Posts" classes={classes} icon={<PostIcon />} />
+		    <SublistItem
+			onClick={() => {}}
+			label="Posts"
+			icon={<PostIcon />}
+		    />
 		  </Link>
 		</Sublist>
 	      </List>

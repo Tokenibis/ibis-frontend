@@ -35,7 +35,7 @@ const styles = {
     },
 };
 
-function MainBar({ classes, context, handleFrame, cycle, hideHome }) {
+function MainBar({ classes, context, cycle, hideHome }) {
 
     return (
 	<AppBar color="primary" position="static">
@@ -46,7 +46,7 @@ function MainBar({ classes, context, handleFrame, cycle, hideHome }) {
 	      )}
 	    </IbisConsumer> 
 	    <Typography variant="h6" color="inherit" className={classes.grow}>
-	      <Cycler value={cycle} handleFrame={handleFrame} />
+	      <Cycler value={cycle} />
 	    </Typography>
 	    {
 		hideHome ? (
@@ -71,7 +71,6 @@ function MainBar({ classes, context, handleFrame, cycle, hideHome }) {
 
 MainBar.propTypes = {
     classes: PropTypes.object.isRequired,
-    handleFrame: PropTypes.func.isRequired,
     cycle: PropTypes.number.isRequired,
 };
 

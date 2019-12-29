@@ -4,7 +4,6 @@ import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from "../__Common__/QueryHelper";
@@ -127,7 +126,6 @@ class NonprofitList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -144,7 +142,6 @@ class NonprofitList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -199,7 +196,6 @@ class NonprofitList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };
@@ -207,7 +203,6 @@ class NonprofitList extends Component {
 
 NonprofitList.propTypes = {
     classes: PropTypes.object.isRequired,
-    filterValue: PropTypes.string.isRequired,
 };
 
 function NonprofitFilter(props) {

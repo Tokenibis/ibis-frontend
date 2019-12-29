@@ -185,9 +185,6 @@ class TransferCreate extends Component {
 	let { classes, context, target, variant } = this.props;
 	let { enableDonate, openedConfirmation, amount } = this.state;
 
-	let description = document.getElementById(`transfer_description`) ?
-			  document.getElementById(`transfer_description`).value :
-			  '';
 	let amount_str = document.getElementById(`transfer_amount`) ?
 			 document.getElementById(`transfer_amount`).value :
 			 '0.0';

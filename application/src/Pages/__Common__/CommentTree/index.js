@@ -204,7 +204,7 @@ class CommentTree extends Component {
 		    mutation={create_mutation}
 		>
 		  {mutation => (
-  		      <Grid container direction="column" justify="right">
+  		      <Grid container direction="column">
 			<Typography
 			  variant="body2"
 			  className={classes.submitButton}
@@ -264,13 +264,11 @@ class CommentTree extends Component {
 		      } 
 		  />
 		</ListItem>
-		<Typography variant="body2" className={classes.body}>
-		  <ReactMarkdown source={node.description} />
-		</Typography>
+		<ReactMarkdown className={classes.body} source={node.description} />
 	      </Grid>
 	      {
 		  [...Array(depth).keys()].map((i) => (
-		      <Grid item xs={1}>
+		      <Grid item xs={1} key={i}>
 			<div className={classes.verticalDivider}/>
 		      </Grid>
 		  ))

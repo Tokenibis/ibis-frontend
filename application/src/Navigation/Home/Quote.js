@@ -25,8 +25,6 @@ class Quote extends Component {
     }
 
     componentDidMount() {
-	let quote, author;
-
 	axios('/ibis/quote/', {
 	    withCredentials: true,
 	}).then(response => {

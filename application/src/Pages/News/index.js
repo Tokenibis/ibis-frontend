@@ -118,9 +118,7 @@ class News extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-  		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown source={node.description} />
-		  </Typography>
+		  <ReactMarkdown className={classes.description} source={node.description} />
 		  <div className={classes.action}>
 		    <div>
 		      <SimpleEdgeMutation

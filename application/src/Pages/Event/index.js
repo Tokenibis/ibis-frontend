@@ -159,11 +159,9 @@ class Event extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-  		  <Typography variant="body2" className={classes.body}>
-		    <ReactMarkdown source={node.description} />
-		  </Typography>
+		  <ReactMarkdown className={classes.body} source={node.description} />
 		</Grid>
-		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
+		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
 		    {'When:'}
 		  </Typography>
@@ -173,7 +171,7 @@ class Event extends Component {
   		    {node.user.name} - {new Date(node.created).toDateString()}
 		  </Typography>
 		</Grid>
-		<Grid alignItems="right" className={classes.infoLeft} item xs={4}>
+		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
 		    {'Where:'}
 		  </Typography>
@@ -196,7 +194,7 @@ class Event extends Component {
 			  margin: 0,
 		      }}
 		      src={`https://www.google.com/maps/embed/v1/search?q=${node.latitude}%2C%20${node.longitude}&key=${config.maps.google.key}&zoom=11`}
-		      allowfullscreen
+		      allowFullScreen
 		  >
 		  </iframe>
 		  <div className={classes.action}>

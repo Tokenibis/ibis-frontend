@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 import { loader } from 'graphql.macro';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
 import Dialog from '@material-ui/core/Dialog';
 
@@ -86,8 +84,6 @@ const styles = theme => ({
     },
 });
 
-const MAX_DESC = 320;
-
 const create_mutation = loader('../../Static/graphql/operations/PostCreate.gql')
 
 class PostCreate extends Component {
@@ -103,7 +99,7 @@ class PostCreate extends Component {
     }
 
     handleYes(mutation) {
-	let { context, target, history, variant } = this.props;
+	let { context, history } = this.props;
 
 	let title = document.getElementById(`post_title`).value;
 	let description = document.getElementById(`post_description`).value;
@@ -134,8 +130,8 @@ class PostCreate extends Component {
     }
 
     render() {
-	let { classes, context } = this.props;
-	let { enablePost, openedConfirmation, amount } = this.state;
+	let { classes } = this.props;
+	let { enablePost, openedConfirmation } = this.state;
 
 	return (
 	    <div>

@@ -77,7 +77,7 @@ const query = loader('../../Static/graphql/operations/PostList.gql')
 class PostList extends Component {
 
     makePreamble = () => {
-	let { classes, context  } = this.props;
+	let { classes } = this.props;
 
 	return (
 	    <Button
@@ -160,7 +160,7 @@ class PostList extends Component {
     };
 
     render() {
-	let { classes, context, variant, filterValue, count } = this.props;
+	let { context, variant, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	// variant does not affect the content, only the visually displayed information
@@ -175,7 +175,6 @@ class PostList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 		break;
@@ -193,7 +192,6 @@ class PostList extends Component {
 			makeBody={this.makeBody}
 			makeActions={this.makeActions}
 			data={data}
-		    {...this.props}
 		    />
 		)
 	};
@@ -263,7 +261,6 @@ class PostList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={infiniteScroll}
-	    {...this.props}
 	    />
 	);
     };

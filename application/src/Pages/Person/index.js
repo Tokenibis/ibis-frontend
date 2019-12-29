@@ -25,7 +25,6 @@ const styles = theme => ({
     },
     link: {
 	color: theme.palette.secondary.main,
-	paddingTop: theme.spacing,
     },
     progress: {
 	marginTop: theme.spacing(-0.5),

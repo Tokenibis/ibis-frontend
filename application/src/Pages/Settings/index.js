@@ -59,7 +59,7 @@ class Settings extends Component {
 
     inner(data, refetch, person_mutation, notifier_mutation) {
 
-	let { classes, context } = this.props;
+	let { classes } = this.props;
 
 	return (
 	    <div>

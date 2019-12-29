@@ -60,21 +60,22 @@ class DepositList extends Component {
     }
 
     render() {
-	let { context, variant, filterValue, count } = this.props;
+	let { context, count } = this.props;
+
+	count = count ? count: DEFAULT_COUNT
 
 	let make = (data) => (
 	    <ListView
 		scrollButton
 		makeLabel={this.makeLabel}
 		data={data}
-	    {...this.props}
 	    />
 	);
 
 	let variables = {
 	    byUser: context.userID,
 	    orderBy: "-created",
-	    first: DEFAULT_COUNT,
+	    first: count,
 	}
 
 	return (
@@ -83,7 +84,6 @@ class DepositList extends Component {
 		variables={variables}
 		make={make}
 		infiniteScroll={true}
-	    {...this.props}
 	    />
 	);
     };

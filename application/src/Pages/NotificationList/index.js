@@ -5,8 +5,6 @@ import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import { loader } from 'graphql.macro';
 import { Mutation, withApollo } from "react-apollo";
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Icon from '@material-ui/icons/ArrowRightAlt';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -93,7 +91,6 @@ class NotificationList extends Component {
 	
 	let { classes } = this.props;
 
-	console.log(data)
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Mutation mutation={click_mutation}>
@@ -105,6 +102,7 @@ class NotificationList extends Component {
 			    >
 			  <ListItem
 			      button
+			      key={i}
 			      className={classes.image}
 			      onClick={() => {
 				  this.handleClick(mutation, item.node.id, item.node.reference)
@@ -157,7 +155,7 @@ class NotificationList extends Component {
     };
 
     render() {
-	let { classes, context } = this.props;
+	let { context } = this.props;
 
 	return (
 	    <QueryHelper
@@ -168,7 +166,6 @@ class NotificationList extends Component {
 		}}
 		make={this.make}
 		infiniteScroll={true}
-	    {...this.props}
 	    />
 	);
     };

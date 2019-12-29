@@ -147,9 +147,7 @@ class Donation extends Component {
 		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown source={node.description} />
-		  </Typography>
+		  <ReactMarkdown className={classes.description} source={node.description} />
 		</Grid>
 		<Grid item xs={2}></Grid>
 		<Grid item xs={12} className={classes.divider}>
@@ -176,8 +174,6 @@ class Donation extends Component {
     }
 
     componentDidMount() {
-	let quote, author;
-
 	axios('/ibis/price/', {
 	    withCredentials: true,
 	}).then(response => {

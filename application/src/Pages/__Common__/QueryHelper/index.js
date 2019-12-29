@@ -97,11 +97,16 @@ class QueryHelper extends Component {
 				  loadMore={() => this.paginate(dataCurrent)}
 				  hasMore={(dataCurrent.length > dataOld.length) || data[Object.keys(data)[0]].pageInfo.hasNextPage}
 				  loader={
-				      <Typography type="body2" className={classes.loader}>
+				      <Typography
+					  key={dataCurrent.length}
+					  type="body2" className={classes.loader}
+					  >
 					Loading more results...
 				      </Typography>
 				  }
-			      />
+			      >
+				<div key={0}></div>
+			      </InfiniteScroll>
 			      {
 				  (dataCurrent.length === 0) &&
 				  <Typography type="body2" className={classes.empty}>
