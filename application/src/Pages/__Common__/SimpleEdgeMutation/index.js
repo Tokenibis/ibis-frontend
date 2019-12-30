@@ -32,7 +32,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Confirmation from '../Confirmation';
 
 const styles = theme => ({
-})
+    buttonWrapper: {
+	display: 'flex' 
+    },
+    stat: {
+	fontSize: 12,
+	color: theme.palette.secondary.main,
+	marginTop: theme.spacing(1.5),
+	marginLeft: theme.spacing(-1),
+	marginRight: theme.spacing(-1),
+    },
+});
 
 const VARIANTS = {
     follow: {
@@ -74,59 +84,81 @@ class SimpleEdgeMutation extends Component {
     
     constructor({ initial }) {
 	super();
-	this.state = { initial, loading: false, confirm: false };
+	this.state = { current: initial, loading: false, confirm: false };
     }
 
     handleCreate() {
-	let { classes, client, variant, user, target } = this.props
+	let { classes, client, variant, user, target, initial, count, countCallback } = this.props;
+	let { current } = this.state;
 
 	return client.mutate({
 	    mutation: VARIANTS[variant].createMutation,
 	    variables: { user, target }
 	}).then(response => {
 	    this.setState({
-		initial: response.data[Object.keys(response.data)[0]].state,
+		current: response.data[Object.keys(response.data)[0]].state,
 		loading: false,
 		confirm: true,
 	    });
+	    countCallback(initial ? 0 : 1);
 	}).catch(error => {
 	    console.log(error);
 	});
     }
 
     handleDelete() {
-	let { classes, client, variant, user, target } = this.props
+	let { classes, client, variant, user, target, initial, count, countCallback } = this.props;
+	let { current } = this.state;
 
 	return client.mutate({
 	    mutation: VARIANTS[variant].deleteMutation,
 	    variables: { user, target }
 	}).then(response => {
 	    this.setState({
-		initial: response.data[Object.keys(response.data)[0]].state,
+		current: response.data[Object.keys(response.data)[0]].state,
 		loading: false,
 		confirm: true,
 	    });
+	    countCallback(initial ? -1 : 0);
 	}).catch(error => {
 	    console.log(error);
 	});
     }
 
     render() {
-	let { classes, variant, user, target } = this.props
-	let { initial, loading, confirm } = this.state
+	let { classes, initial, variant, user, target, count, hide } = this.props
+	let { current, loading, confirm } = this.state
+
+	if (hide) {
+	    return (
+		<div style={{ height: 50}}></div>
+	    );
+	}
+
+	let liveCount = count;
+	if (current != initial) {
+	    liveCount += current ? 1 : -1;
+	}
 
 	let button;
 
-	if (initial) {
+	if (current) {
 	    return (
 		<Confirmation
 		  autoconfirm={VARIANTS[variant].autoconfirm}
 		  onClick={() => this.handleDelete()}
 		  message={VARIANTS[variant].messageDelete}
 		>
-		  <IconButton>
-		    {VARIANTS[variant].trueIcon}
-		  </IconButton>
+		  <div className={classes.buttonWrapper}>
+		    <IconButton>
+		      {VARIANTS[variant].trueIcon}
+		    </IconButton>
+		    {count !== undefined && 
+		     <div className={classes.stat}>
+		       ({liveCount})
+		     </div>
+		    }
+		  </div>
 		</Confirmation>
 	    );
 	} else {
@@ -136,9 +168,16 @@ class SimpleEdgeMutation extends Component {
 		  onClick={() => this.handleCreate()}
 		  message={VARIANTS[variant].messageCreate}
 		>
-		  <IconButton>
-		    {VARIANTS[variant].falseIcon}
-		  </IconButton>
+		  <div className={classes.buttonWrapper}>
+		    <IconButton>
+		      {VARIANTS[variant].falseIcon}
+		    </IconButton>
+		    {count !== undefined && 
+		     <div className={classes.stat}>
+		       ({liveCount})
+		     </div>
+		    }
+		  </div>
 		</Confirmation>
 	    );
 	}

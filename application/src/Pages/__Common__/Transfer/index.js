@@ -171,7 +171,6 @@ class Transfer extends Component {
 			variant={DialogLikeVal}
 			count={node.likeCount}
 			node={node.id}
-			hideZero
 			/>
 		    ):(
 			<SimpleEdgeMutation

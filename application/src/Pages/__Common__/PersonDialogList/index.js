@@ -113,7 +113,9 @@ class PersonDialogList extends Component {
 		  }
 		</div>
 	      </Dialog>
-	      {!(hideZero && count === 0) &&
+	      {(hideZero && count === 0) ? (
+		  <div style={{ height: 50 }}></div>
+	      ):(
 	       <Button onClick={() => this.handleOpen()}>
 		 <Typography
 		     variant="body2"
@@ -122,7 +124,7 @@ class PersonDialogList extends Component {
 		   {`${VARIANTS[variant].display}: ${count}`}
 		 </Typography>
 	       </Button>
-	      }
+	      )}
 	    </div>
 	);
     };

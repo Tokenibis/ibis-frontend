@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import PersonDialogList, { LikeVal as DialogLikeVal } from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -47,6 +48,9 @@ const styles = theme => ({
     edgeMutations: {
 	display: 'flex',
     },
+    personDialogWrapper: {
+	marginTop: theme.spacing(1),
+    },
     description: {
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(2),
@@ -80,11 +84,23 @@ const query = loader('../../Static/graphql/operations/News.gql')
 
 class News extends Component {
 
+    state = {
+	likeCount: null,
+    }
+
     createPage(node) {
 	let { classes, context, id } = this.props;
+	let { likeCount } = this.state;
 	
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
+
+	let likeCallback = (change) => {
+	    this.setState({ likeCount: node.likeCount + change });
+	}
+	if (likeCount === null) {
+	    this.setState({ likeCount: node.likeCount });
+	}
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -133,6 +149,7 @@ class News extends Component {
 			  user={context.userID}
 			  target={node.id}
 			  initial={node.hasLiked.edges.length === 1}
+		          countCallback={likeCallback}
 		      />
 		      <SimpleEdgeMutation
 			  variant={BookmarkVal}
@@ -140,6 +157,13 @@ class News extends Component {
 			  target={node.id}
 			  initial={node.hasBookmarked.edges.length === 1}
 		      />
+		      <div className={classes.personDialogWrapper}>
+			<PersonDialogList
+			    variant={DialogLikeVal}
+			    count={likeCount}
+			    node={node.id}
+			/>
+		      </div>
 		    </div>
 		  </div>
 		</Grid>

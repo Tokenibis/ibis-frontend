@@ -108,6 +108,10 @@ const styles = theme => ({
 const query = loader('../../Static/graphql/operations/Person.gql')
 
 class Person extends Component {
+
+    state = {
+	followerCount: null,
+    }
     
     processDonations(data) {
 	return data;
@@ -123,6 +127,14 @@ class Person extends Component {
     
     createPage(node) {
 	let { classes, context, id } = this.props;
+	let { followerCount } = this.state;
+
+	let followerCallback = (change) => {
+	    this.setState({ followerCount: node.followerCount + change });
+	}
+	if (followerCount === null) {
+	    this.setState({ followerCount: node.followerCount });
+	}
 
 	return (
 	    <div className={classes.root}>
@@ -165,7 +177,7 @@ class Person extends Component {
 		    />
 		    <PersonDialogList
 			variant={FollowerVal}
-			count={node.followerCount}
+			count={followerCount}
 			node={node.id}
 		    />
 		  </div>
@@ -176,10 +188,11 @@ class Person extends Component {
 		      {
 			  node.id !== context.userID &&
 			  <SimpleEdgeMutation
-			  variant={FollowVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.isFollowing.edges.length === 1}
+			      variant={FollowVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.isFollowing.edges.length === 1}
+		              countCallback={followerCallback}
 			  />
 		      }
 		    </div>

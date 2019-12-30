@@ -13,7 +13,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
-import PersonDialogList, { RsvpVal as DialogRsvpVal} from '../__Common__/PersonDialogList';
+import PersonDialogList, {
+    LikeVal as DialogLikeVal,
+    RsvpVal as DialogRsvpVal,
+} from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -105,6 +108,8 @@ class Event extends Component {
 	super();
 	// use Math.ceil + 0.89 because 0.9 seems to overflow a bit most of the time
 	this.state = {
+	    likeCount: null,
+	    rsvpCount: null,
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth) * 0.89),
 	    height: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)
 		* context.displayRatio),
@@ -121,8 +126,18 @@ class Event extends Component {
     };
     
     createPage(node) {
-	let { width, height } = this.state;
+	let { likeCount, rsvpCount, width, height } = this.state;
 	let { classes, context, id } = this.props;
+
+	let likeCallback = (change) => {
+	    this.setState({ likeCount: node.likeCount + change });
+	}
+	let rsvpCallback = (change) => {
+	    this.setState({ rsvpCount: node.rsvpCount + change });
+	}
+	if (likeCount === null || rsvpCount === null) {
+	    this.setState({ likeCount: node.likeCount, rsvpCount: node.rsvpCount });
+	}
 
 	let imageHeight = Math.floor(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
@@ -213,6 +228,7 @@ class Event extends Component {
 			  user={context.userID}
 			  target={node.id}
 			  initial={node.hasLiked.edges.length === 1}
+		          countCallback={likeCallback}
 		      />
 		      <SimpleEdgeMutation
 			  variant={BookmarkVal}
@@ -225,11 +241,19 @@ class Event extends Component {
 			  user={context.userID}
 			  target={node.id}
 			  initial={node.hasRsvp.edges.length === 1}
+		          countCallback={rsvpCallback}
 		      />
 		      <div className={classes.personDialogWrapper}>
 			<PersonDialogList
+			    variant={DialogLikeVal}
+			    count={likeCount}
+			    node={node.id}
+			/>
+		      </div>
+		      <div className={classes.personDialogWrapper}>
+			<PersonDialogList
 			    variant={DialogRsvpVal}
-			    count={node.rsvpCount}
+			    count={rsvpCount}
 			    node={node.id}
 			/>
 		      </div>

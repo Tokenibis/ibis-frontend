@@ -133,29 +133,23 @@ class PostList extends Component {
 	
 	return (
 	    <div className={classes.action}>
-	      {context.userID === node.user.person.id ? (
-	      <PersonDialogList
-		  variant={DialogLikeVal}
-		  count={node.likeCount}
-		  node={node.id}
-		  hideZero
-	      />
-	      ):(
-		  <div className={classes.likeBookmark}>
-		    <SimpleEdgeMutation
-			variant={LikeVal}
-			user={context.userID}
-			target={node.id}
-			initial={node.hasLiked.edges.length === 1}
-		    />
-		    <SimpleEdgeMutation
-			variant={BookmarkVal}
-			user={context.userID}
-			target={node.id}
-			initial={node.hasBookmarked.edges.length === 1}
-		    />
-		  </div>
-	      )}
+	      <div className={classes.likeBookmark}>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
+		    count={node.likeCount}
+		    hide={context.userID === node.user.person.id}
+		/>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		    hide={context.userID === node.user.person.id}
+		/>
+	      </div>
 	      <Typography
 		  component={Link}
 		  prefix={1}

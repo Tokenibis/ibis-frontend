@@ -44,6 +44,9 @@ const styles = theme => ({
 	marginLeft: '0px',
 	paddingLeft: '0px',
     },
+    personDialogWrapper: {
+	marginTop: theme.spacing(1),
+    },
     description: {
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(2),
@@ -80,8 +83,20 @@ const query = loader('../../Static/graphql/operations/Post.gql')
 
 class Post extends Component {
 
+    state = {
+	likeCount: null,
+    }
+
     createPage(node) {
 	let { classes, context, id } = this.props;
+	let { likeCount } = this.state;
+
+	let likeCallback = (change) => {
+	    this.setState({ likeCount: node.likeCount + change });
+	}
+	if (likeCount === null) {
+	    this.setState({ likeCount: node.likeCount });
+	}
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -120,12 +135,13 @@ class Post extends Component {
 		  </Typography>
 		  <div className={classes.action}>
 		    {context.userID === node.user.person.id ? (
-			<PersonDialogList
-			    variant={DialogLikeVal}
-			    count={node.likeCount}
-			    node={node.id}
-			    hideZero
-			/>
+			<div className={classes.personDialogWrapper}>
+			  <PersonDialogList
+			      variant={DialogLikeVal}
+			      count={likeCount}
+			      node={node.id}
+			  />
+			</div>
 		    ):(
 			<div className={classes.likeBookmark}>
 			  <SimpleEdgeMutation
@@ -133,6 +149,7 @@ class Post extends Component {
 			      user={context.userID}
 			      target={node.id}
 			      initial={node.hasLiked.edges.length === 1}
+		              countCallback={likeCallback}
 			  />
 			  <SimpleEdgeMutation
 			      variant={BookmarkVal}
@@ -140,6 +157,13 @@ class Post extends Component {
 			      target={node.id}
 			      initial={node.hasBookmarked.edges.length === 1}
 			  />
+			  <div className={classes.personDialogWrapper}>
+			    <PersonDialogList
+				variant={DialogLikeVal}
+				count={likeCount}
+				node={node.id}
+			    />
+			  </div>
 			</div>
 		    )}
 		  </div>

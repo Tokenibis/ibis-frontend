@@ -119,6 +119,7 @@ class EventList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasLiked.edges.length === 1}
+		    count={node.likeCount}
 		/>
 		<SimpleEdgeMutation
 		    variant={BookmarkVal}
@@ -131,6 +132,7 @@ class EventList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasRsvp.edges.length === 1}
+		    count={node.rsvpCount}
 		/>
 	      </div>
 	      <Link prefix={1} to={`Event?id=${node.id}`}>

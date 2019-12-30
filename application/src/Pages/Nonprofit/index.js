@@ -105,6 +105,7 @@ class Nonprofit extends Component {
     
     state = {
 	expanded: false,
+	followerCount: null,
     }
     
     toggleExpand() {
@@ -125,7 +126,14 @@ class Nonprofit extends Component {
     
     createPage(node) {
 	let { classes, context, id } = this.props;
-	let { expanded } = this.state;
+	let { expanded, followerCount } = this.state;
+
+	let followerCallback = (change) => {
+	    this.setState({ followerCount: node.followerCount + change });
+	}
+	if (followerCount === null) {
+	    this.setState({ followerCount: node.followerCount });
+	}
 
 	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
 	    * context.displayRatio);
@@ -157,7 +165,7 @@ class Nonprofit extends Component {
 			      </Typography>
 			      <PersonDialogList
 				  variant={FollowerVal}
-				  count={node.followerCount}
+				  count={followerCount}
 				  node={node.id}
 			      />
 			    </div>
@@ -180,6 +188,7 @@ class Nonprofit extends Component {
 			    user={context.userID}
 			    target={node.id}
 			    initial={node.isFollowing.edges.length === 1}
+		            countCallback={followerCallback}
 			/>
 		      </div>
 		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
