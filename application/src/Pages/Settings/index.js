@@ -66,92 +66,6 @@ class Settings extends Component {
 	      <List
 		  subheader={
 		      <ListSubheader disableSticky className={classes.subheader}>
-			Email Notifications
-		      </ListSubheader>
-		  }
-		  className={classes.root}
-	      >
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <FollowIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Follows" />
-		  <ListItemSecondaryAction>
-		    <Switch
-			edge="end"
-			checked={data.person.notifier.emailFollow}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailFollow',
-			    !data.person.notifier.emailFollow,
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <TransactionIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Transactions" />
-		  <ListItemSecondaryAction>
-		    <Switch
-			edge="end"
-			checked={data.person.notifier.emailTransaction}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailTransaction',
-			    !data.person.notifier.emailTransaction,
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <TransactionIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Comments" />
-		  <ListItemSecondaryAction>
-		    <Switch
-			edge="end"
-			checked={data.person.notifier.emailComment}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailComment',
-			    !data.person.notifier.emailComment,
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <LikeIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Likes" />
-		  <ListItemSecondaryAction>
-		    <Switch
-			edge="end"
-			checked={data.person.notifier.emailLike}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailLike',
-			    !data.person.notifier.emailLike,
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-	      </List>
-	      <List
-		  subheader={
-		      <ListSubheader disableSticky className={classes.subheader}>
 			Donation Visibility
 		      </ListSubheader>
 		  }
@@ -312,3 +226,90 @@ class Settings extends Component {
 };
 
 export default withStyles(styles)(Settings);
+
+/* <List
+   subheader={
+   <ListSubheader disableSticky className={classes.subheader}>
+   Email Notifications
+   </ListSubheader>
+   }
+   className={classes.root}
+   >
+   <CustomDivider />
+   <ListItem>
+   <ListItemIcon>
+   <FollowIcon />
+   </ListItemIcon>
+   <ListItemText className={classes.text} primary="Follows" />
+   <ListItemSecondaryAction>
+   <Switch
+   edge="end"
+   checked={data.person.notifier.emailFollow}
+   onChange={() => (this.updateSetting(
+   notifier_mutation,
+   refetch,
+   'emailFollow',
+   !data.person.notifier.emailFollow,
+   ))}
+   />
+   </ListItemSecondaryAction>
+   </ListItem>
+   <CustomDivider />
+   <ListItem>
+   <ListItemIcon>
+   <TransactionIcon />
+   </ListItemIcon>
+   <ListItemText className={classes.text} primary="Transactions" />
+   <ListItemSecondaryAction>
+   <Switch
+   edge="end"
+   checked={data.person.notifier.emailTransaction}
+   onChange={() => (this.updateSetting(
+   notifier_mutation,
+   refetch,
+   'emailTransaction',
+   !data.person.notifier.emailTransaction,
+   ))}
+   />
+   </ListItemSecondaryAction>
+   </ListItem>
+   <CustomDivider />
+   <ListItem>
+   <ListItemIcon>
+   <TransactionIcon />
+   </ListItemIcon>
+   <ListItemText className={classes.text} primary="Comments" />
+   <ListItemSecondaryAction>
+   <Switch
+   edge="end"
+   checked={data.person.notifier.emailComment}
+   onChange={() => (this.updateSetting(
+   notifier_mutation,
+   refetch,
+   'emailComment',
+   !data.person.notifier.emailComment,
+   ))}
+   />
+   </ListItemSecondaryAction>
+   </ListItem>
+   <CustomDivider />
+   <ListItem>
+   <ListItemIcon>
+   <LikeIcon />
+   </ListItemIcon>
+   <ListItemText className={classes.text} primary="Likes" />
+   <ListItemSecondaryAction>
+   <Switch
+   edge="end"
+   checked={data.person.notifier.emailLike}
+   onChange={() => (this.updateSetting(
+   notifier_mutation,
+   refetch,
+   'emailLike',
+   !data.person.notifier.emailLike,
+   ))}
+   />
+   </ListItemSecondaryAction>
+   </ListItem>
+   <CustomDivider />
+   </List> */
