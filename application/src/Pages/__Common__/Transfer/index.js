@@ -47,21 +47,16 @@ const styles = theme => ({
 	textDecoration: 'none',
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
-	paddingBottom: theme.spacing(1),
-    },
-    header: {
-	fontWeight: 'bold',
-	color: theme.palette.primary.main,
-	paddingBottom: theme.spacing(1),
     },
     created: {
 	color: theme.palette.tertiary.main,
 	paddingBottom: theme.spacing(1),
     },
     toIcon: {
-	marginTop: -2,
-	marginLeft: 4,
-	marginRight: 4,
+	paddingRight: theme.spacing(1),
+	paddingLeft: theme.spacing(1),
+	position: 'relative',
+	transform: 'translateY(25%)',
     }, 
     gift: {
 	paddingBottom: theme.spacing(1),
@@ -126,26 +121,20 @@ class Transfer extends Component {
 		</Grid>
 		<Grid item xs={7}>
 		  <div style={{display: 'flex'}}>
-		    <Typography
-			component={Link}
-			prefix={1}
-			to={`Person?id=${node.user.person.id}`}
-			variant="body2"
-			className={classes.userlink}
-		    >
-		      {`${node.user.name}`}
-		    </Typography>
-		    <Typography variant="body2" className={classes.userlinks}>
-		      {<ToIcon className={classes.toIcon} />}
-		    </Typography>
-		    <Typography
-			component={Link}
-			prefix={1}
-			to={`${variant === 'donation' ? 'Nonprofit' : 'Person'}?id=${node.target.id}`}
-			variant="body2"
-			className={classes.userlink}
-		    >
-		      {node.target.name}
+		    <Typography variant="body2">
+		      <Link
+			  to={`Person?id=${node.user.person.id}`}
+			  prefix={1}
+		      >
+			<span className={classes.userlink}>{`${node.user.name}`}</span>
+		      </Link>
+		      <span>{<ToIcon className={classes.toIcon}/>}</span>
+		      <Link
+			  to={`${variant === 'donation' ? 'Nonprofit' : 'Person'}?id=${node.target.id}`}
+			  prefix={1}
+		      >
+			<span className={classes.userlink}>{`${node.target.name}`}</span>
+		      </Link>
 		    </Typography>
 		  </div>
 		</Grid>
