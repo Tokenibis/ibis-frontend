@@ -12,7 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
-import FollowDisplay, { FollowingVal, FollowerVal } from '../__Common__/FollowDisplay';
+import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
@@ -33,13 +33,11 @@ const styles = theme => ({
 	color: theme.palette.primary.main,
     },
     donated: {
-	fontWeight: 'bold',
 	paddingTop: theme.spacing(1),
 	color: theme.palette.primary.main,
 	textDecoration: 'none',
     },
     dateJoined: {
-	fontWeight: 'bold',
 	paddingTop: theme.spacing(1),
 	color: theme.palette.primary.main,
 	textDecoration: 'none',
@@ -160,15 +158,15 @@ class Person extends Component {
 		    Donated: ${(node.donated ? node.donated/100 : 0.0).toFixed(2)}
 		  </Typography>
 		  <div className={classes.followStatWrapper}>
-		    <FollowDisplay
+		    <PersonDialogList
 			variant={FollowingVal}
 			count={node.followingCount}
-			user={node.id}
+			node={node.id}
 		    />
-		    <FollowDisplay
+		    <PersonDialogList
 			variant={FollowerVal}
 			count={node.followerCount}
-			user={node.id}
+			node={node.id}
 		    />
 		  </div>
 		</Grid>

@@ -100,12 +100,16 @@ class PersonList extends Component {
 	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={FollowVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.isFollowing.edges.length === 1}
-	      />
+	      {context.userID === node.id ? (
+		  <div style={{ height: 40 }}></div>
+	      ):(
+		  <SimpleEdgeMutation
+		      variant={FollowVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.isFollowing.edges.length === 1}
+		  />
+	      )}
 	      <Typography
 		  component={Link}
 		  prefix={1}
@@ -184,6 +188,20 @@ class PersonList extends Component {
 	    case '_Followers':
 		variables = {
 		    followerOf: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
+		break;
+	    case '_LikeFor':
+		variables = {
+		    likeFor: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
+		break;
+	    case '_RsvpFor':
+		variables = {
+		    rsvpFor: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
 		    first: count,
 		}

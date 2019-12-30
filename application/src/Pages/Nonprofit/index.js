@@ -14,7 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
-import FollowDisplay, { FollowingVal, FollowerVal } from '../__Common__/FollowDisplay';
+import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
@@ -155,10 +155,10 @@ class Nonprofit extends Component {
 			      <Typography variant="body2" className={classes.fundraised}>
 				Fundraised: ${(node.fundraised/100).toFixed(2)}
 			      </Typography>
-			      <FollowDisplay
+			      <PersonDialogList
 				  variant={FollowerVal}
 				  count={node.followerCount}
-				  user={node.id}
+				  node={node.id}
 			      />
 			    </div>
 			  </div>

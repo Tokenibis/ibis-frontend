@@ -17,6 +17,7 @@ import ReactMarkdown from 'react-markdown';
 
 import Link from '../../../__Common__/CustomLink';
 import CustomDivider from '../../../__Common__/CustomDivider';
+import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Confirmation from '../Confirmation';
 
@@ -301,12 +302,21 @@ class CommentTree extends Component {
 	      }
 	      <Grid item xs={12 - depth}>
 		<div className={classes.action}>
-		  <SimpleEdgeMutation
-		      variant={LikeVal}
-		      user={context.userID}
-		      target={node.id}
-		      initial={node.hasLiked.edges.length === 1}
-		  />
+		  {context.userID === node.user.person.id ? (
+		      <PersonDialogList
+			  variant={DialogLikeVal}
+			  count={node.likeCount}
+			  node={node.id}
+			  hideZero
+		      />
+		  ):(
+		      <SimpleEdgeMutation
+			  variant={LikeVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasLiked.edges.length === 1}
+		      />
+		  )}
 		  <Typography
 		      variant="body2"
 		      className={classes.replyButton}

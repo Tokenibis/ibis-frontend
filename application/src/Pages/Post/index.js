@@ -12,6 +12,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import PersonDialogList, { LikeVal as DialogLikeVal} from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -118,20 +119,29 @@ class Post extends Component {
 		    />
 		  </Typography>
 		  <div className={classes.action}>
-		    <div className={classes.likeBookmark}>
-		      <SimpleEdgeMutation
-		      variant={LikeVal}
-		      user={context.userID}
-		      target={node.id}
-		      initial={node.hasLiked.edges.length === 1}
-		      />
-		      <SimpleEdgeMutation
-		      variant={BookmarkVal}
-		      user={context.userID}
-		      target={node.id}
-		      initial={node.hasBookmarked.edges.length === 1}
-		      />
-		    </div>
+		    {context.userID === node.user.person.id ? (
+			<PersonDialogList
+			    variant={DialogLikeVal}
+			    count={node.likeCount}
+			    node={node.id}
+			    hideZero
+			/>
+		    ):(
+			<div className={classes.likeBookmark}>
+			  <SimpleEdgeMutation
+			      variant={LikeVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasLiked.edges.length === 1}
+			  />
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			</div>
+		    )}
 		  </div>
 		</Grid>
 		<Grid item xs={12}>

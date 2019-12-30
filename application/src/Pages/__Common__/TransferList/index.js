@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Link from '../../../__Common__/CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
+import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
@@ -100,12 +101,21 @@ class TransferList extends Component {
 	let { classes, context, variant } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={LikeVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.hasLiked.edges.length === 1}
-	      />
+	      {context.userID === node.user.person.id ? (
+		  <PersonDialogList
+		  variant={DialogLikeVal}
+		  count={node.likeCount}
+		  node={node.id}
+		  hideZero
+		  />
+	      ):(
+		  <SimpleEdgeMutation
+		      variant={LikeVal}
+		      user={context.userID}
+		      target={node.id}
+		      initial={node.hasLiked.edges.length === 1}
+		  />
+	      )}
 	      <Typography
 		  component={Link}
 		  prefix={1}

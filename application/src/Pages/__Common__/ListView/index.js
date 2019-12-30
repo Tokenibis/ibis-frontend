@@ -49,6 +49,8 @@ const styles = theme => ({
 	paddingLeft: '0px',
     },
     body: {
+	paddingLeft: theme.spacing(1),
+	paddingRight: theme.spacing(1),
 	textAlign: 'left',
 	color: theme.palette.tertiary.main,
     },

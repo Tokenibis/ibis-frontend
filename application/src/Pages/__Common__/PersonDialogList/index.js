@@ -17,15 +17,22 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
     },
+    buttonDisabled: {
+	opacity: '50%',
+	textTransform: 'none',
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+    },
     dialogPaper: {
 	width: '70%',
     },
     dialogInner: {
 	textAlign: 'center',
+	padding: theme.spacing(1),
     },
     viewAllWrapper: {
 	paddingTop: theme.spacing(2),
-	paddingBottom: theme.spacing(3),
+	paddingBottom: theme.spacing(2),
     },
     viewAll: {
 	color: theme.palette.secondary.main,
@@ -34,7 +41,28 @@ const styles = theme => ({
     },
 });
 
-class FollowDisplay extends Component {
+const VARIANTS = {
+    following: {
+	display: 'Following',
+	filter: '_Following',
+    },
+    follower: {
+	display: 'Followers',
+	filter: '_Followers',
+    },
+    like: {
+	display: 'Likes',
+	filter: '_LikeFor',
+    },
+    rsvp: {
+	display: 'Going',
+	filter: '_RsvpFor',
+    },
+}
+
+const NUM = 10;
+
+class PersonDialogList extends Component {
 
     state = {
 	opened: false,
@@ -49,14 +77,14 @@ class FollowDisplay extends Component {
     };
 
     render() {
-	let { classes, context, variant, count, user } = this.props;
+	let { classes, context, variant, count, node, hideZero } = this.props;
 	let { opened } = this.state;
 
 	return (
 	    <div>
 	      <Dialog
 		  PaperProps={{className: classes.dialogPaper}}
-		  open={opened}
+		  open={opened && count > 0}
 		  onClose={() => this.handleClose()}
 	      >
 		<div className={classes.dialogInner}>
@@ -65,29 +93,36 @@ class FollowDisplay extends Component {
 			<PersonList
 			    minimal
 			    context={context}
-			    filterValue={`_${variant === 'following' ? 'Following' : 'Followers'}:${user}`}
-			    count={10}
+			    filterValue={`${VARIANTS[variant].filter}:${node}`}
+			    count={NUM}
 			/>
 		    )}
 		  </IbisConsumer>
-		  <div className={classes.viewAllWrapper}>
-		    <Typography
-			component={Link}
-			prefix={1}
-			to={`PersonList?filterValue=_${variant === 'following' ? 'Following' : 'Followers'}:${user}`}
-			variant="body2"
-			className={classes.viewAll}
-		    >
-		      View all {variant === 'following' ? 'Following' : 'Followers'}
-		    </Typography>
-		  </div>
+		  {count > NUM &&
+		   <div className={classes.viewAllWrapper}>
+		     <Typography
+		       component={Link}
+		       prefix={1}
+		       to={`PersonList?filterValue=${VARIANTS[variant].filter}:${node}`}
+		       variant="body2"
+		       className={classes.viewAll}
+		       >
+		       View all {VARIANTS[variant].display}
+		     </Typography>
+		   </div>
+		  }
 		</div>
 	      </Dialog>
-	      <Button onClick={() => this.handleOpen()}>
-		<Typography variant="body2" className={classes.button}>
-		  {`${variant === 'following' ? 'Following' : 'Followers'}: ${count}`}
-		</Typography>
-	      </Button>
+	      {!(hideZero && count === 0) &&
+	       <Button onClick={() => this.handleOpen()}>
+		 <Typography
+		     variant="body2"
+		     className={count === 0 ? classes.buttonDisabled : classes.button}
+		   >
+		   {`${VARIANTS[variant].display}: ${count}`}
+		 </Typography>
+	       </Button>
+	      }
 	    </div>
 	);
     };
@@ -95,4 +130,6 @@ class FollowDisplay extends Component {
 
 export const FollowingVal = 'following';
 export const FollowerVal = 'follower';
-export default withStyles(styles)(FollowDisplay);
+export const LikeVal = 'like';
+export const RsvpVal = 'rsvp';
+export default withStyles(styles)(PersonDialogList);

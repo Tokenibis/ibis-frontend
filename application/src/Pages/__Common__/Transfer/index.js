@@ -12,6 +12,7 @@ import axios from "axios";
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../../__Common__/CustomLink';
+import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 
@@ -165,12 +166,21 @@ class Transfer extends Component {
 		<Grid item xs={2}></Grid>
 		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
-		    <SimpleEdgeMutation
+		    {context.userID === node.user.person.id ? (
+			<PersonDialogList
+			variant={DialogLikeVal}
+			count={node.likeCount}
+			node={node.id}
+			hideZero
+			/>
+		    ):(
+			<SimpleEdgeMutation
 			variant={LikeVal}
 			user={context.userID}
 			target={node.id}
 			initial={node.hasLiked.edges.length === 1}
-		    />
+			/>
+		    )}
 		  </div>
 		</Grid>
 		<Grid item xs={12}>

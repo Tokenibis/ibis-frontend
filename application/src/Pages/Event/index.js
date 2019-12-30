@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import PersonDialogList, { RsvpVal as DialogRsvpVal} from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 
@@ -65,6 +66,9 @@ const styles = theme => ({
     },
     description: {
 	color: theme.palette.tertiary.main,
+    },
+    personDialogWrapper: {
+	marginTop: theme.spacing(1),
     },
     action: {
 	display: 'flex',
@@ -173,7 +177,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-  		    {node.user.name} - {new Date(node.created).toDateString()}
+  		    {new Date(node.created).toDateString()}
 		  </Typography>
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={4}>
@@ -222,6 +226,13 @@ class Event extends Component {
 			  target={node.id}
 			  initial={node.hasRsvp.edges.length === 1}
 		      />
+		      <div className={classes.personDialogWrapper}>
+			<PersonDialogList
+			    variant={DialogRsvpVal}
+			    count={node.rsvpCount}
+			    node={node.id}
+			/>
+		      </div>
 		    </div>
 		  </div>
 		</Grid>
