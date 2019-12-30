@@ -141,10 +141,11 @@ class Nonprofit extends Component {
   		  {
 		      expanded ? (
 			  <div>
-			    <ReactMarkdown
-				className={classes.description}
-				source={node.description}
-			    />
+			    <Typography variant="body2" className={classes.description}>
+			      <ReactMarkdown
+				  source={node.description}
+			      />
+			    </Typography>
 			    <div className={classes.endWrapper}>
 			      <Button>
 				<Typography variant="body2" className={classes.followers}>
@@ -157,11 +158,11 @@ class Nonprofit extends Component {
 			    </div>
 			  </div>
 		      ):(
-			  <div className={classes.description}>
+			  <Typography variant="body2" className={classes.description}>
 			    <Truncated
 				text={removeMd(node.description)}
 			    />
-			  </div>
+			  </Typography>
 		      )
 		  }
 		</CardContent>

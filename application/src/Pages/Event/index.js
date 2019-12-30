@@ -63,10 +63,8 @@ const styles = theme => ({
 	marginLeft: '0px',
 	paddingLeft: '0px',
     },
-    body: {
+    description: {
 	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing(2),
-	paddingTop: theme.spacing(2),
     },
     action: {
 	display: 'flex',
@@ -162,7 +160,11 @@ class Event extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-		  <ReactMarkdown className={classes.body} source={node.description} />
+		  <Typography variant="body2" className={classes.description}>
+		    <ReactMarkdown
+			source={node.description}
+		    />
+		  </Typography>
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>

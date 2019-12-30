@@ -112,7 +112,11 @@ class Post extends Component {
 			}
 		    />
 		  </ListItem>
-		  <ReactMarkdown className={classes.description} source={node.description} />
+		  <Typography variant="body2" className={classes.description}>
+		    <ReactMarkdown
+			source={node.description}
+		    />
+		  </Typography>
 		  <div className={classes.action}>
 		    <div className={classes.likeBookmark}>
 		      <SimpleEdgeMutation

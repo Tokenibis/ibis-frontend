@@ -156,7 +156,11 @@ class Transfer extends Component {
 		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <ReactMarkdown className={classes.description} source={node.description} />
+		  <Typography variant="body2" className={classes.description}>
+		    <ReactMarkdown
+			source={node.description}
+		    />
+		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>
 		<Grid item xs={12} className={classes.divider}>

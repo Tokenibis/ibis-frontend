@@ -67,7 +67,7 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
-    body: {
+    description: {
 	textAlign: 'left',
 	color: theme.palette.tertiary.main,
     },
@@ -286,7 +286,11 @@ class CommentTree extends Component {
 		      } 
 		  />
 		</ListItem>
-		<ReactMarkdown className={classes.body} source={node.description} />
+		  <Typography variant="body2" className={classes.description}>
+		    <ReactMarkdown
+			source={node.description}
+		    />
+		  </Typography>
 	      </Grid>
 	      {
 		  [...Array(depth).keys()].map((i) => (
