@@ -13,8 +13,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Mutation } from "react-apollo";
+import { withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import LoadingIcon from '@material-ui/icons/Sync';
 import FollowOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
@@ -27,11 +29,9 @@ import RsvpOutlinedIcon from '@material-ui/icons/CalendarToday';
 import RsvpFilledIcon from '@material-ui/icons/EventAvailable';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import Confirmation from '../Confirmation';
+
 const styles = theme => ({
-    progress: {
-	color: theme.palette.tertiary.main,
-	padding: theme.spacing(1.5),
-    },
 })
 
 const VARIANTS = {
@@ -40,24 +40,32 @@ const VARIANTS = {
 	deleteMutation: loader('../../../Static/graphql/operations/FollowDelete.gql'),
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
+	autoconfirm: false,
+	messageCreate: 'Are you sure you want to follow this user?',
+	messageDelete: 'Are you sure you want to unfollow this user?',
     },
     like: {
 	createMutation: loader('../../../Static/graphql/operations/LikeCreate.gql'),
 	deleteMutation: loader('../../../Static/graphql/operations/LikeDelete.gql'),
 	trueIcon: <LikeFilledIcon color="secondary" />,
 	falseIcon: <LikeOutlinedIcon color="secondary" />,
+	autoconfirm: true,
     },
     bookmark: {
 	createMutation: loader('../../../Static/graphql/operations/BookmarkCreate.gql'),
 	deleteMutation: loader('../../../Static/graphql/operations/BookmarkDelete.gql'),
 	trueIcon: <BookmarkFilledIcon color="secondary" />,
 	falseIcon: <BookmarkOutlinedIcon color="secondary" />,
+	autoconfirm: true,
     },
     rsvp: {
 	createMutation: loader('../../../Static/graphql/operations/RsvpCreate.gql'),
 	deleteMutation: loader('../../../Static/graphql/operations/RsvpDelete.gql'),
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
+	autoconfirm: false,
+	messageCreate: 'Are you sure you want to RSVP to this event?',
+	messageDelete: 'Are you sure you want to cancel your RSVP to this event?',
     },
 };
 
@@ -66,55 +74,77 @@ class SimpleEdgeMutation extends Component {
     
     constructor({ initial }) {
 	super();
-	this.state = { initial, loading: false };
+	this.state = { initial, loading: false, confirm: false };
     }
 
-    updateInitial(mutation, user) {
-	this.setState({ loading: true })
-	mutation().then(response => {
+    handleCreate() {
+	let { classes, client, variant, user, target } = this.props
+
+	return client.mutate({
+	    mutation: VARIANTS[variant].createMutation,
+	    variables: { user, target }
+	}).then(response => {
 	    this.setState({
 		initial: response.data[Object.keys(response.data)[0]].state,
 		loading: false,
+		confirm: true,
 	    });
-	})
+	}).catch(error => {
+	    console.log(error);
+	});
+    }
+
+    handleDelete() {
+	let { classes, client, variant, user, target } = this.props
+
+	return client.mutate({
+	    mutation: VARIANTS[variant].deleteMutation,
+	    variables: { user, target }
+	}).then(response => {
+	    this.setState({
+		initial: response.data[Object.keys(response.data)[0]].state,
+		loading: false,
+		confirm: true,
+	    });
+	}).catch(error => {
+	    console.log(error);
+	});
     }
 
     render() {
 	let { classes, variant, user, target } = this.props
-	let { initial, loading } = this.state
+	let { initial, loading, confirm } = this.state
+
+	let button;
 
 	if (initial) {
 	    return (
-		<Mutation mutation={VARIANTS[variant].deleteMutation} variables={{ user, target }}>
-		  {mutation => (
-		      loading ? (
-			  <CircularProgress size={24} className={classes.progress}/>
-		      ):(
-			  <IconButton onClick={() => this.updateInitial(mutation, user)}>
-			    {VARIANTS[variant].trueIcon}
-			  </IconButton>
-		      )
-		  )}
-		</Mutation>
-	    )
+		<Confirmation
+		  autoconfirm={VARIANTS[variant].autoconfirm}
+		  onClick={() => this.handleDelete()}
+		  message={VARIANTS[variant].messageDelete}
+		>
+		  <IconButton>
+		    {VARIANTS[variant].trueIcon}
+		  </IconButton>
+		</Confirmation>
+	    );
 	} else {
 	    return (
-		<Mutation mutation={VARIANTS[variant].createMutation} variables={{ user, target }}>
-		  {mutation => (
-		      loading ? (
-			  <CircularProgress size={24} className={classes.progress}/>
-		      ):(
-			  <IconButton onClick={() => this.updateInitial(mutation, user)}>
-			    {VARIANTS[variant].falseIcon}
-			  </IconButton>
-		      )
-		  )}
-		</Mutation>
-	    )
+		<Confirmation
+		  autoconfirm={VARIANTS[variant].autoconfirm}
+		  onClick={() => this.handleCreate()}
+		  message={VARIANTS[variant].messageCreate}
+		>
+		  <IconButton>
+		    {VARIANTS[variant].falseIcon}
+		  </IconButton>
+		</Confirmation>
+	    );
 	}
     }
 }
-    
+
 SimpleEdgeMutation.propTypes = {
     classes: PropTypes.object.isRequired,
     initial: PropTypes.bool.isRequired,
@@ -128,4 +158,4 @@ export const LikeVal = 'like';
 export const BookmarkVal = 'bookmark';
 export const RsvpVal = 'rsvp';
 
-export default withStyles(styles)(SimpleEdgeMutation);
+export default withApollo(withStyles(styles)(SimpleEdgeMutation));

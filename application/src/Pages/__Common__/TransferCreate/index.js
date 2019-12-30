@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query, Mutation } from "react-apollo";
+import { Query, withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
+
+import Confirmation from '../Confirmation';
 
 const styles = theme => ({
     content: {
@@ -25,11 +26,6 @@ const styles = theme => ({
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
 	marginBottom: theme.spacing(3),
-    },
-    recipient: {
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
     },
     name: {
 	paddingTop: theme.spacing(2),
@@ -64,34 +60,9 @@ const styles = theme => ({
 	    },
 	},
     },
-    dialogInner: {
-	padding: theme.spacing(4),
-	textAlign: 'center',
-    },
-    message: {
-	display: 'flex',
-	justifyContent: 'space-between',
-	paddingBottom: theme.spacing(2),
-    },
-    action: {
-	textAlign: 'center',
-    },
-    dialogButton: {
-	paddingLeft: theme.spacing(6),
-	paddingRight: theme.spacing(6),
-	marginTop: theme.spacing(1),
-	marginBottom: theme.spacing(1),
-	marginLeft: theme.spacing(2),
-	marginRight: theme.spacing(2),
-	color: theme.palette.secondary.main,
-	borderStyle: 'solid',
-	borderWidth: '1px',
-	borderColor: theme.palette.secondary.main,
-	width: '80%',
-    },
 });
 
-const MAX_AMOUNT = 1000;
+const MAX_AMOUNT = 100;
 
 const VARIANTS = {
     donation: {
@@ -108,28 +79,25 @@ class TransferCreate extends Component {
 
     state = {
 	amount: '0.00',
-	enableDonate: false,
-	openedConfirmation: false,
+	enableTransfer: false,
     };
 
-    handlePay(mutation) {
-	// do input validation here
-	this.setState({ enableDonate: false, openedConfirmation: true });
-    }
-
-    handleYes(mutation) {
-	let { context, target, history, variant } = this.props;
+    handleTransfer(mutation) {
+	let { context, client, target, history, variant } = this.props;
 
 	let description = document.getElementById(`transfer_description`).value
 	let amount_str = document.getElementById(`transfer_amount`).value
 	let amount = Math.floor(Number(amount_str) * 100)
 
-	mutation({ variables: {
-	    user: context.userID,
-	    target,
-	    amount,
-	    description,
-	}}).then(response => {
+	client.mutate({
+	    mutation: VARIANTS[variant].mutation,
+	    variables: {
+		user: context.userID,
+		target,
+		amount,
+		description,
+	    },
+	}).then(response => {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let page = variant === 'donation' ? 'Donation' : 'Transaction';
@@ -137,12 +105,7 @@ class TransferCreate extends Component {
 	    history.push(`/${path[0]}/${page}?id=${result[Object.keys(result)[0]].id}`)
 	}).catch(error => {
 	    console.log(error);
-	    console.log(error.response);
 	});
-    }
-
-    handleClose() {
-	this.setState({ openedConfirmation: false, enableDonate: true });
     }
 
     handleKeyPressAmount(event) {
@@ -169,21 +132,21 @@ class TransferCreate extends Component {
 	    value = MAX_AMOUNT;
 	}
 
-	let enableDonate = Number(value) > 0 &&
+	let enableTransfer = Number(value) > 0 &&
 			   document.getElementById('transfer_description').value.length > 0;
-	this.setState({ enableDonate, amount: parseFloat(value).toFixed(2)});
+	this.setState({ enableTransfer, amount: parseFloat(value).toFixed(2)});
     }
 
     handleChangeDescription() {
-	let enableDonate = !isNaN(document.getElementById('transfer_amount').value) && 
+	let enableTransfer = !isNaN(document.getElementById('transfer_amount').value) && 
 			   Number(document.getElementById('transfer_amount').value) > 0 &&
 			   document.getElementById('transfer_description').value.length > 0;
-	this.setState({ enableDonate });
+	this.setState({ enableTransfer });
     }
 
     render() {
 	let { classes, context, target, variant } = this.props;
-	let { enableDonate, openedConfirmation, amount } = this.state;
+	let { enableTransfer, amount } = this.state;
 
 	let description = document.getElementById(`transfer_description`) ?
 			  document.getElementById(`transfer_description`).value :
@@ -203,111 +166,79 @@ class TransferCreate extends Component {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return (
-		      <div>
-			<Dialog
-			    open={openedConfirmation}
-			    onClose={(e) => this.handleClose()}
-			>
-			  <div className={classes.dialogInner}>
-			    <div className={classes.message}>
-			      <Typography variant="body2">
-				{'Do you really want to'}&nbsp;
-				{variant === DonationVal ? 'donate' : 'pay'}&nbsp;
-				{`$${amount_final ? amount_final / 100 : 0 }`}&nbsp;
-				{'to'}&nbsp;
-				{data.target.username}
-				{'?'}
-			      </Typography>
-			    </div>
-			    <div>
-			      <Mutation mutation={VARIANTS[variant].mutation}>
-				{mutation => (
-				    <Button
-				      className={classes.dialogButton}
-				      onClick={() => this.handleYes(mutation)}
-				    >
-				      Yes
-				    </Button>
-				)}
-			      </Mutation>
+  		      <Grid container direction="column" justify="center" alignItems="center" >
+			<Grid container className={classes.content}>
+			  <Grid item xs={4}>
+			    <Typography variant="body2" className={classes.label}>
+			      Recipient
+			    </Typography>
+			  </Grid>
+			  <Grid item xs={8}>
+			    <Typography variant="body2" className={classes.name}>
+			      {data.target.name}
+			    </Typography>
+			    <Typography variant="body2" className={classes.username}>
+			      @{data.target.username}
+			    </Typography>
+			  </Grid>
+			  <Grid item xs={4}>
+			    <Typography variant="body2" className={classes.label}>
+			      Amount
+			    </Typography>
+			  </Grid>
+			  <Grid item xs={8}>
+			    <TextField
+				id="transfer_amount"
+				autoFocus
+				required
+ 				className={classes.textField}
+				margin="normal"
+				variant="outlined"
+				fullWidth
+				value={amount}
+				onKeyPress={(e) => this.handleKeyPressAmount(e)}
+				onChange={() => this.handleChangeAmount()}
+				type="number"
+				InputProps={{
+				    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+				}}
+			    />
+			  </Grid>
+			  <Grid item xs={4}>
+			    <Typography variant="body2" className={classes.label}>
+			      Description
+			    </Typography>
+			  </Grid>
+			  <Grid item xs={8}>
+			    <TextField
+				id="transfer_description"
+				required
+				defaultValue=""
+ 				className={classes.textField}
+				margin="normal"
+				variant="outlined"
+				fullWidth
+				multiline
+				placeholder="Words"
+				onChange={() => this.handleChangeDescription()}
+			    />
+			  </Grid>
+			  <Grid item xs={12} className={classes.buttonWrapper}>
+			    <Confirmation
+			      disabled={!enableTransfer}
+			      onClick={() => this.handleTransfer()}
+			      message={`Do you really want to ${variant === DonationVal ? 'donate' : 'pay'} ${amount_final ? amount_final / 100 : 0 } to ${data.target.username}?`}
+			    >
 			      <Button
-				className={classes.dialogButton}
-				onClick={() => this.handleClose()}
-			      >
-				No
-			      </Button>
-			    </div>
-			  </div>
-			</Dialog>
-  			<Grid container direction="column" justify="center" alignItems="center" >
-			  <Grid container className={classes.content}>
-			    <Grid item xs={4}>
-			      <Typography variant="body2" className={classes.label}>
-				Recipient
-			      </Typography>
-			    </Grid>
-			    <Grid item xs={8}>
-			      <Typography variant="body2" className={classes.name}>
-				{data.target.name}
-			      </Typography>
-			      <Typography variant="body2" className={classes.username}>
-				@{data.target.username}
-			      </Typography>
-			    </Grid>
-			    <Grid item xs={4}>
-			      <Typography variant="body2" className={classes.label}>
-				Amount
-			      </Typography>
-			    </Grid>
-			    <Grid item xs={8}>
-			      <TextField
-				  id="transfer_amount"
-				  autoFocus
-				  required
- 				  className={classes.textField}
-				  margin="normal"
-				  variant="outlined"
-				  fullWidth
-				  value={amount}
-				  onKeyPress={(e) => this.handleKeyPressAmount(e)}
-				  onChange={() => this.handleChangeAmount()}
-				  type="number"
-				  InputProps={{
-				      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-			      }}
-			      />
-			    </Grid>
-			    <Grid item xs={4}>
-			      <Typography variant="body2" className={classes.label}>
-				Description
-			      </Typography>
-			    </Grid>
-			    <Grid item xs={8}>
-			      <TextField
-				  id="transfer_description"
-				  required
-				  defaultValue=""
- 				  className={classes.textField}
-				  margin="normal"
-				  variant="outlined"
-				  fullWidth
-				  multiline
-				  placeholder="Words"
-				  onChange={() => this.handleChangeDescription()}
-			      />
-			    </Grid>
-			    <Grid item xs={12} className={classes.buttonWrapper}>
-			      <Button
-				disabled={!enableDonate}
-				onClick={() => this.handlePay()}
-				className={classes.actionTransfer}
+				  disabled={!enableTransfer}
+				  className={classes.actionTransfer}
 			      >
 				{variant === 'donation' ? 'Donate' : 'Pay'}
 			      </Button>
-			    </Grid>
+			    </Confirmation>
 			  </Grid>
 			</Grid>
-		      </div>
+		      </Grid>
 		  );
 	      }}
 	    </Query>
@@ -326,4 +257,4 @@ TransferCreate.propTypes = {
 export const DonationVal = 'donation';
 export const TransactionVal = 'transaction';
 
-export default withRouter(withStyles(styles)(TransferCreate));
+export default withRouter(withApollo(withStyles(styles)(TransferCreate)));

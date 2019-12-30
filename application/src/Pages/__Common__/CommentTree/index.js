@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
-import { Mutation } from "react-apollo";
+import { withApollo } from "react-apollo";
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -18,6 +18,7 @@ import ReactMarkdown from 'react-markdown';
 import Link from '../../../__Common__/CustomLink';
 import CustomDivider from '../../../__Common__/CustomDivider';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+import Confirmation from '../Confirmation';
 
 
 const MAX_DEPTH = 3;
@@ -86,15 +87,21 @@ const styles = theme => ({
 	justifyContent: 'space-between',
 	alignItems: 'center',
     },
-    createMutation: {
-	width: '100%',
+    confirmationWrapper: {
+	marginLeft: 'auto',
     },
     submitButton: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
-	paddingRight: theme.spacing(1),
-	paddingBottom: theme.spacing(1),
-	marginLeft: 'auto',
+    },
+    submitButtonDisabled: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	opacity: '50%',
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
     },
     spacer: {
 	height: theme.spacing(3),
@@ -118,7 +125,6 @@ const styles = theme => ({
     },
 })
 
-// three layer deep nested comments
 const query = loader('../../../Static/graphql/operations/CommentTree.gql')
 
 const create_mutation = loader('../../../Static/graphql/operations/CommentCreate.gql')
@@ -131,6 +137,7 @@ class CommentTree extends Component {
 	this.state = {
 	    seeMoreState: false,
 	    showReplyChild: new Set(),
+	    enableSubmit: false,
 	}
     }
 
@@ -156,26 +163,40 @@ class CommentTree extends Component {
 
     renderReplyForm(depth, refetch) {
 
-	let { classes, context, parent, onSubmitRoot, replyFocused } = this.props
+	let { classes, client, context, parent, onSubmitRoot, replyFocused } = this.props;
+	let { enableSubmit } = this.state;
 
-	let submit = (mutation) => {
+	let submit = () => {
 	    let description = document.getElementById(`reply_form_${parent}`).value
-	    if (description.length > 0) {
-		mutation({ variables: { 
+
+	    return client.mutate({
+		mutation: create_mutation,
+		variables: {
 		    user: context.userID,
 		    parent, 
 		    description,
 		    self: context.userID,
-		}}).then(response => {
-		    onSubmitRoot && onSubmitRoot();
-		    this.onSubmitSelf();
-		    refetch();
-		}).catch(error => {
-		    console.log(error);
-		    console.log(error.response);
-		});
-	    }
+		},
+	    }).then(response => {
+		onSubmitRoot && onSubmitRoot();
+		this.onSubmitSelf();
+		this.setState({ enableSubmit: false });
+		refetch();
+	    }).catch(error => {
+		console.log(error);
+	    });
 	};
+
+	let handleChange = () => {
+	    let { enableSubmit } = this.state;
+	    let length = document.getElementById(`reply_form_${parent}`).value.length;
+
+	    if ( !enableSubmit && length > 0) {
+		this.setState({ enableSubmit: true });
+	    } else if ( enableSubmit && length == 0) {
+		this.setState({ enableSubmit: false });
+	    }
+	}
 
 	return (
   	    <Grid container>
@@ -192,6 +213,7 @@ class CommentTree extends Component {
 		    required
 		    defaultValue=""
  		    className={classes.textField}
+		    onChange={() => handleChange()}
 		    margin="normal"
 		    variant="outlined"
 		    fullWidth
@@ -199,22 +221,22 @@ class CommentTree extends Component {
 		    autoFocus={replyFocused}
 		    placeholder="Leave a reply"
 		/>
-		<Mutation 
-		    className={classes.createMutation}
-		    mutation={create_mutation}
-		>
-		  {mutation => (
-  		      <Grid container direction="column">
-			<Typography
-			  variant="body2"
-			  className={classes.submitButton}
-			  onClick={() => (submit(mutation))}
-			  >
-			  Submit
-			</Typography>
-		      </Grid>
-		  )}
-		</Mutation>
+		<Grid container direction="column">
+		  <div className={classes.confirmationWrapper}>
+		    <Confirmation
+			disabled={!enableSubmit}
+			onClick={() => submit()}
+			message="Are you sure you want to submit this comment?"
+		    >
+		      <Typography
+			variant="body2"
+			className={enableSubmit ? classes.submitButton : classes.submitButtonDisabled}
+		      >
+			Submit
+		      </Typography>
+		    </Confirmation>
+		  </div>
+		</Grid>
 	      </Grid>
 	    </Grid>
 	);
@@ -299,7 +321,7 @@ class CommentTree extends Component {
     };
 
     renderCommentTree(depth, data) {
-	let { classes, context } = this.props;
+	let { classes, client, context } = this.props;
 	let { showReplyChild } = this.state;
 
 	return (
@@ -307,6 +329,7 @@ class CommentTree extends Component {
 		<div>
 		  {this.renderComment(item.node, depth)}
 		  <CommentTree
+		      client={client}
 		      depth={depth + 1}
 		      parent={item.node.id}
 		      showReplyRoot={showReplyChild.has(item.node.id)}
@@ -455,4 +478,4 @@ CommentTree.propTypes = {
     parent: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(CommentTree);
+export default withApollo(withStyles(styles)(CommentTree));
