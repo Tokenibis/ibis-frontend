@@ -14,6 +14,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import FollowDisplay, { FollowingVal, FollowerVal } from '../__Common__/FollowDisplay';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
@@ -48,7 +49,6 @@ const styles = theme => ({
     fundraised: {
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
-	marginBottom: theme.spacing(1),
     },
     progress: {
 	marginTop: theme.spacing(-0.5),
@@ -72,7 +72,7 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
 	marginBottom: theme.spacing(1),
     },
-    followers: {
+    website: {
 	textTransform: 'none',
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
@@ -148,13 +148,18 @@ class Nonprofit extends Component {
 			    </Typography>
 			    <div className={classes.endWrapper}>
 			      <Button>
-				<Typography variant="body2" className={classes.followers}>
+				<Typography variant="body2" className={classes.website}>
 				  <a className={classes.link} href={node.link}>Go to website</a>
 				</Typography>
 			      </Button>
 			      <Typography variant="body2" className={classes.fundraised}>
 				Fundraised: ${(node.fundraised/100).toFixed(2)}
 			      </Typography>
+			      <FollowDisplay
+				  variant={FollowerVal}
+				  count={node.followerCount}
+				  user={node.id}
+			      />
 			    </div>
 			  </div>
 		      ):(
@@ -176,11 +181,6 @@ class Nonprofit extends Component {
 			    target={node.id}
 			    initial={node.isFollowing.edges.length === 1}
 			/>
-			<Button>
-			  <Typography variant="body2" className={classes.followers}>
-			    {`Followers: ${node.followerCount}`}
-			  </Typography>
-			</Button>
 		      </div>
 		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
 			<Typography

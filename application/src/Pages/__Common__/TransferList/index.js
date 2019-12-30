@@ -131,6 +131,7 @@ class TransferList extends Component {
 	    query = loader('../../../Static/graphql/operations/TransactionList.gql')
 	}
 
+	// variant does not affect the content, only the visually displayed information
 	if (minimal) {
 	    // hide icons/pictures and scroll button; intended for small partial-page lists
 	    infiniteScroll = false;

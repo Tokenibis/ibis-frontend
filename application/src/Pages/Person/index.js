@@ -12,6 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
+import FollowDisplay, { FollowingVal, FollowerVal } from '../__Common__/FollowDisplay';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
@@ -76,11 +77,6 @@ const styles = theme => ({
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
 	marginBottom: theme.spacing(3),
-    },
-    following: {
-	textTransform: 'none',
-	fontWeight: 'bold',
-	color: theme.palette.secondary.main,
     },
     followers: {
 	textTransform: 'none',
@@ -164,16 +160,16 @@ class Person extends Component {
 		    Donated: ${(node.donated ? node.donated/100 : 0.0).toFixed(2)}
 		  </Typography>
 		  <div className={classes.followStatWrapper}>
-		    <Button>
-		      <Typography variant="body2" className={classes.following}>
-			{`Following: ${node.followingCount}`}
-		      </Typography>
-		    </Button>
-		    <Button>
-		      <Typography variant="body2" className={classes.followers}>
-			{`Followers: ${node.followerCount}`}
-		      </Typography>
-		    </Button>
+		    <FollowDisplay
+			variant={FollowingVal}
+			count={node.followingCount}
+			user={node.id}
+		    />
+		    <FollowDisplay
+			variant={FollowerVal}
+			count={node.followerCount}
+			user={node.id}
+		    />
 		  </div>
 		</Grid>
 		<CardActions>

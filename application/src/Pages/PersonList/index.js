@@ -128,10 +128,9 @@ class PersonList extends Component {
 	    infiniteScroll = false;
 	    make = (data) => (
 		<ListView
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data}
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    data={data}
 		/>
 	    )
 	} else {
@@ -171,6 +170,20 @@ class PersonList extends Component {
 	    case 'Followers':
 		variables = {
 		    followerOf: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
+		break;
+	    case '_Following':
+		variables = {
+		    followedBy: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
+		break;
+	    case '_Followers':
+		variables = {
+		    followerOf: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
 		    first: count,
 		}
