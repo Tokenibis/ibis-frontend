@@ -60,7 +60,7 @@ const VARIANTS = {
     },
 }
 
-const NUM = 10;
+const NUM = 25;
 
 class PersonDialogList extends Component {
 

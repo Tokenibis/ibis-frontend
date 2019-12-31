@@ -10,7 +10,7 @@ function DonationList(props) {
 };
 
 function DonationFilter(props) {
-    return <Filter options={['Me', 'Following', 'All']} {...props} />;
+    return <Filter options={['All', 'Following', 'Mine']} {...props} />;
 }
 
 export { DonationFilter };

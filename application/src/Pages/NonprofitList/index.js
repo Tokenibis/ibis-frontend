@@ -161,7 +161,7 @@ class NonprofitList extends Component {
 		break;
 	    case 'New':
 		variables = {
-		    orderBy: "-date_joined",
+		    orderBy: "date_joined",
 		    first: count,
 		}
 		break;
@@ -201,7 +201,7 @@ NonprofitList.propTypes = {
 };
 
 function NonprofitFilter(props) {
-    return <Filter options={['Featured', 'Popular', 'New', 'Following']} {...props} />;
+    return <Filter options={['New', 'Popular', 'Following']} {...props} />;
 }
 
 export { NonprofitFilter };

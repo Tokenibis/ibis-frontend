@@ -245,7 +245,7 @@ NewsList.propTypes = {
 };
 
 function NewsFilter(props) {
-    return <Filter options={['All', 'Featured', 'Following', 'Bookmarked', 'Classic']} {...props} />;
+    return <Filter options={['All', 'Following', 'Bookmarked']} {...props} />;
 }
 
 export { NewsFilter };

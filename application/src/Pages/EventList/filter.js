@@ -47,7 +47,7 @@ const eventStyle = `
 `;
 
 
-const options = ['All', 'Featured', 'Following', 'Bookmarked', 'Going'];
+const options = ['All', 'Following', 'Bookmarked', 'Going'];
 
 const query = loader('../../Static/graphql/operations/EventListFilter.gql')
 

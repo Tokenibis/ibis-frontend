@@ -165,7 +165,7 @@ class TransferList extends Component {
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
-	    case 'Me':
+	    case 'Mine':
 		variables = {
 		    byUser: context.userID,
 		    orderBy: "-created",

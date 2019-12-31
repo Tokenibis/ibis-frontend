@@ -10,7 +10,7 @@ function TransactionList(props) {
 };
 
 function TransactionFilter(props) {
-    return <Filter options={['Me', 'Following', 'All']} {...props} />;
+    return <Filter options={['All', 'Following', 'Mine']} {...props} />;
 }
 
 export { TransactionFilter };
