@@ -1,6 +1,6 @@
 /*
 
-   Handles the behavior of the Give<->Send<->Explore cycler in the
+   Handles the behavior of the Give<->Send<->Engage cycler in the
    middle of MainBar. It is rendered by MainBar using state from
    Content.
 
@@ -25,7 +25,7 @@ const cycleMap = {
     '': null,
     'Give': 'Nonprofit',
     'Send': 'Person',
-    'Explore': 'News',
+    'Engage': 'News',
 };
 
 
@@ -82,6 +82,6 @@ Cycler.propTypes = {
 export const StandardVal = Object.keys(cycleMap).indexOf('');
 export const GiveVal = Object.keys(cycleMap).indexOf('Give');
 export const SendVal = Object.keys(cycleMap).indexOf('Send');
-export const ExploreVal = Object.keys(cycleMap).indexOf('Explore');
+export const EngageVal = Object.keys(cycleMap).indexOf('Engage');
 
 export default withStyles(styles)(Cycler);

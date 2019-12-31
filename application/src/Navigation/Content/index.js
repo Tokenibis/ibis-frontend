@@ -16,7 +16,7 @@ import React from 'react';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
 import TabBar from '../TabBar';
-import { StandardVal, GiveVal, SendVal, ExploreVal } from '../Cycler'
+import { StandardVal, GiveVal, SendVal, EngageVal } from '../Cycler'
 import MainBar from '../MainBar';
 import Home from '../Home';
 import { NonprofitFilter } from '../../Pages/NonprofitList';
@@ -146,7 +146,7 @@ function ContentLoader({ match, location }) {
 	case 'News':
 	    nav = (
 		<div>
-		  <MainBar cycle={ExploreVal} />
+		  <MainBar cycle={EngageVal} />
 		  <TabBar options={exploreOptions} value={0} />
 		</div>
 	    );
@@ -155,7 +155,7 @@ function ContentLoader({ match, location }) {
 	case 'Event':
 	    nav = (
 		<div>
-		  <MainBar cycle={ExploreVal} />
+		  <MainBar cycle={EngageVal} />
 		  <TabBar options={exploreOptions} value={1} />
 		</div>
 	    );
@@ -164,7 +164,7 @@ function ContentLoader({ match, location }) {
 	case 'Post':
 	    nav = (
 		<div>
-		  <MainBar cycle={ExploreVal} />
+		  <MainBar cycle={EngageVal} />
 		  <TabBar options={exploreOptions} value={2} />
 		</div>
 	    );

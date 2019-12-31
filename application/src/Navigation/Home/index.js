@@ -23,7 +23,7 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
-import ExploreIcon from '@material-ui/icons/MapOutlined';
+import EngageIcon from '@material-ui/icons/MapOutlined';
 import NonprofitIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/AttachMoney';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
@@ -201,10 +201,10 @@ class Home extends Component {
 		  </Link>
 		</Sublist>
 		<Sublist
-		    label="Explore"
-		    value={expanded === 'Explore'}
-		    icon={<ExploreIcon />}
-		    onClick={(e) => {this.handleExpand('Explore')}}
+		    label="Engage"
+		    value={expanded === 'Engage'}
+		    icon={<EngageIcon />}
+		    onClick={(e) => {this.handleExpand('Engage')}}
 		>
 		  <Link to="/News">
 		    <SublistItem 
