@@ -27,7 +27,7 @@ import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
-import HelpIcon from '@material-ui/icons/HelpOutline';
+import InfoIcon from '@material-ui/icons/HelpOutline';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
@@ -238,11 +238,11 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      <Link to="/_/Help">
+	      <Link to="/_/Info">
 		<SublistItem
-		    label="Help"
+		    label="Info"
 		    classes={classes}
-		    icon={<HelpIcon />}
+		    icon={<InfoIcon />}
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
