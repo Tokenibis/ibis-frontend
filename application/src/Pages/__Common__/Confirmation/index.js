@@ -10,12 +10,17 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	padding: theme.spacing(1.5),
     },
+    fadeProgress: {
+	opacity: '50%',
+    },
     clickable: {
 	cursor: 'pointer',
     },
     progressWrapper: {
 	textAlign: 'center',
 	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
     },
     dialogInner: {
 	padding: theme.spacing(4),
@@ -73,7 +78,7 @@ class Confirmation extends Component {
     };
 
     render() {
-	let { classes, children, autoconfirm, message, onClick, disabled } = this.props;
+	let { classes, children, autoconfirm, message, onClick, progress, disabled } = this.props;
 	let { opened, confirmed } = this.state;
 	
 	if (disabled) {
@@ -87,9 +92,15 @@ class Confirmation extends Component {
 	return (
 	    <span>
 	      {(opened || confirmed) ? (
-		  <span className={classes.progressWrapper}>
-		    <CircularProgress size={24} className={classes.progress}/>
-		  </span>
+		  progress ? (
+		      <span className={classes.progressWrapper}>
+			<CircularProgress size={24} className={classes.progress}/>
+		      </span>
+		  ):(
+		      <span className={classes.fadeProgress}>
+			{children}
+		      </span>
+		  )
 	      ):(
 		  <span className={classes.clickable} onClick={autoconfirm ? (
 		      () => this.handleClick()

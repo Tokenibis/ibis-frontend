@@ -23,7 +23,6 @@ function CustomMarkdownLink({ classes, safe, ...other }) {
     let followLink = (destination) => {
 	window.location = destination;
     }
-    console.log(other)
 
     let domain = (new URL(config.ibis.app)).hostname;
     let isExternal;

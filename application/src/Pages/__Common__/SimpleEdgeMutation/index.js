@@ -40,7 +40,7 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	marginTop: theme.spacing(1.5),
 	marginLeft: theme.spacing(-1),
-	marginRight: theme.spacing(-1),
+	marginRight: theme.spacing(-0.8),
     },
 });
 
@@ -148,6 +148,7 @@ class SimpleEdgeMutation extends Component {
 		  autoconfirm={VARIANTS[variant].autoconfirm}
 		  onClick={() => this.handleDelete()}
 		  message={VARIANTS[variant].messageDelete}
+		  progress
 		>
 		  <div className={classes.buttonWrapper}>
 		    <IconButton>
@@ -167,6 +168,7 @@ class SimpleEdgeMutation extends Component {
 		  autoconfirm={VARIANTS[variant].autoconfirm}
 		  onClick={() => this.handleCreate()}
 		  message={VARIANTS[variant].messageCreate}
+		  progress
 		>
 		  <div className={classes.buttonWrapper}>
 		    <IconButton>

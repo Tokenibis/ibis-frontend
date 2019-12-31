@@ -13,6 +13,7 @@ import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
+import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
 import DonationList from '../DonationList';
@@ -152,11 +153,16 @@ class Nonprofit extends Component {
 			  <div>
 			    <CustomMarkdown safe source={node.description} />
 			    <div className={classes.endWrapper}>
-			      <Button>
-				<Typography variant="body2" className={classes.website}>
-				  <a className={classes.link} href={node.link}>Go to website</a>
-				</Typography>
-			      </Button>
+			      <Confirmation
+				  onClick={() => {window.location = node.link}}
+				  autoconfirm
+			      >
+				<Button>
+				  <Typography variant="body2" className={classes.website}>
+				    Go to website
+				  </Typography>
+				</Button>
+			      </Confirmation>
 			      <Typography variant="body2" className={classes.fundraised}>
 				Fundraised: ${(node.fundraised/100).toFixed(2)}
 			      </Typography>

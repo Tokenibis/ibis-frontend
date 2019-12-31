@@ -122,17 +122,17 @@ class EventList extends Component {
 		    count={node.likeCount}
 		/>
 		<SimpleEdgeMutation
-		    variant={BookmarkVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasBookmarked.edges.length === 1}
-		/>
-		<SimpleEdgeMutation
 		    variant={RsvpVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasRsvp.edges.length === 1}
 		    count={node.rsvpCount}
+		/>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
 		/>
 	      </div>
 	      <Link prefix={1} to={`Event?id=${node.id}`}>

@@ -224,17 +224,17 @@ class Event extends Component {
 		          countCallback={likeCallback}
 		      />
 		      <SimpleEdgeMutation
-			  variant={BookmarkVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasBookmarked.edges.length === 1}
-		      />
-		      <SimpleEdgeMutation
 			  variant={RsvpVal}
 			  user={context.userID}
 			  target={node.id}
 			  initial={node.hasRsvp.edges.length === 1}
 		          countCallback={rsvpCallback}
+		      />
+		      <SimpleEdgeMutation
+			  variant={BookmarkVal}
+			  user={context.userID}
+			  target={node.id}
+			  initial={node.hasBookmarked.edges.length === 1}
 		      />
 		      <div className={classes.personDialogWrapper}>
 			<PersonDialogList
