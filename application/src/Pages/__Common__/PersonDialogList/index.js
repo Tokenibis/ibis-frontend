@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,8 +7,6 @@ import Dialog from '@material-ui/core/Dialog';
 import Link from '../../../__Common__/CustomLink';
 import { IbisConsumer } from '../../../Context';
 import PersonList from '../../PersonList';
-
-const query = loader('../../../Static/graphql/operations/PersonList.gql')
 
 const styles = theme => ({
     button: {
@@ -77,7 +74,7 @@ class PersonDialogList extends Component {
     };
 
     render() {
-	let { classes, context, variant, count, node, hideZero } = this.props;
+	let { classes, variant, count, node, hideZero } = this.props;
 	let { opened } = this.state;
 
 	return (

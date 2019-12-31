@@ -121,7 +121,7 @@ class PersonList extends Component {
     };
 
     render() {
-	let { context, minimal, variant, filterValue, count } = this.props;
+	let { context, minimal, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	if (minimal) {

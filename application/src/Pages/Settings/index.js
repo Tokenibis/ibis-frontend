@@ -9,13 +9,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import Switch from '@material-ui/core/Switch';
 import PublicIcon from '@material-ui/icons/Public';
 import FollowingIcon from '@material-ui/icons/People';
 import MeIcon from '@material-ui/icons/PersonOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
-import FollowIcon from '@material-ui/icons/Add';
-import LikeIcon from '@material-ui/icons/Favorite';
 
 import Radio from '@material-ui/core/Radio';
 import CustomDivider from '../../__Common__/CustomDivider';

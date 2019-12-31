@@ -10,7 +10,6 @@ import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import Link from '../../__Common__/CustomLink';
-import PersonDialogList, { LikeVal as DialogLikeVal} from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
 
@@ -163,7 +162,7 @@ class PostList extends Component {
     };
 
     render() {
-	let { context, minimal, variant, filterValue, count } = this.props;
+	let { context, minimal, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	if (minimal) {

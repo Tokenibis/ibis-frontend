@@ -15,10 +15,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import LoadingIcon from '@material-ui/icons/Sync';
 import FollowOutlinedIcon from '@material-ui/icons/PersonAddOutlined';
 import FollowFilledIcon from '@material-ui/icons/HowToReg';
 import LikeOutlinedIcon from '@material-ui/icons/FavoriteBorder';
@@ -27,7 +24,6 @@ import BookmarkOutlinedIcon from '@material-ui/icons/BookmarkBorder';
 import BookmarkFilledIcon from '@material-ui/icons/Bookmark';
 import RsvpOutlinedIcon from '@material-ui/icons/CalendarToday';
 import RsvpFilledIcon from '@material-ui/icons/EventAvailable';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Confirmation from '../Confirmation';
 
@@ -88,8 +84,7 @@ class SimpleEdgeMutation extends Component {
     }
 
     handleCreate() {
-	let { classes, client, variant, user, target, initial, count, countCallback } = this.props;
-	let { current } = this.state;
+	let { client, variant, user, target, initial, countCallback } = this.props;
 
 	return client.mutate({
 	    mutation: VARIANTS[variant].createMutation,
@@ -107,8 +102,7 @@ class SimpleEdgeMutation extends Component {
     }
 
     handleDelete() {
-	let { classes, client, variant, user, target, initial, count, countCallback } = this.props;
-	let { current } = this.state;
+	let { client, variant, user, target, initial, countCallback } = this.props;
 
 	return client.mutate({
 	    mutation: VARIANTS[variant].deleteMutation,
@@ -126,8 +120,8 @@ class SimpleEdgeMutation extends Component {
     }
 
     render() {
-	let { classes, initial, variant, user, target, count, hide } = this.props
-	let { current, loading, confirm } = this.state
+	let { classes, initial, variant, count, hide } = this.props
+	let { current } = this.state
 
 	if (hide) {
 	    return (
@@ -136,11 +130,9 @@ class SimpleEdgeMutation extends Component {
 	}
 
 	let liveCount = count;
-	if (current != initial) {
+	if (current !== initial) {
 	    liveCount += current ? 1 : -1;
 	}
-
-	let button;
 
 	if (current) {
 	    return (

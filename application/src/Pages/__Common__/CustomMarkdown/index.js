@@ -36,7 +36,7 @@ function CustomMarkdownLink({ classes, safe, ...other }) {
     return (
 	<Confirmation
 	  onClick={() => followLink(other.href)}
-	  message={`Hold up. You\'re about to leave the app for a user-posted link to ${other.href}. Are you sure you want to continue?`}
+	  message={`Hold up. You're about to leave the app for a user-posted link to ${other.href}. Are you sure you want to continue?`}
 	  autoconfirm={safe || !isExternal}
 	>
 	  <span className={classes.link} {...other} />

@@ -78,7 +78,7 @@ class Confirmation extends Component {
     };
 
     render() {
-	let { classes, children, autoconfirm, message, onClick, progress, disabled } = this.props;
+	let { classes, children, autoconfirm, message, progress, disabled } = this.props;
 	let { opened, confirmed } = this.state;
 	
 	if (disabled) {

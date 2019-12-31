@@ -191,7 +191,7 @@ class CommentTree extends Component {
 
 	    if ( !enableSubmit && length > 0) {
 		this.setState({ enableSubmit: true });
-	    } else if ( enableSubmit && length == 0) {
+	    } else if ( enableSubmit && length === 0) {
 		this.setState({ enableSubmit: false });
 	    }
 	}

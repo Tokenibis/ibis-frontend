@@ -15,7 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
-import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
+import PersonDialogList, { FollowerVal } from '../__Common__/PersonDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
