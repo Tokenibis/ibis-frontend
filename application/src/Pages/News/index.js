@@ -10,9 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal } from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
@@ -50,11 +50,6 @@ const styles = theme => ({
     },
     personDialogWrapper: {
 	marginTop: theme.spacing(1),
-    },
-    description: {
-	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing(2),
-	paddingTop: theme.spacing(2),
     },
     action: {
 	display: 'flex',
@@ -137,11 +132,7 @@ class News extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown
-			source={node.description}
-		    />
-		  </Typography>
+		  <CustomMarkdown safe source={node.description} />
 		  <div className={classes.action}>
 		    <div className={classes.edgeMutations}>
 		      <SimpleEdgeMutation

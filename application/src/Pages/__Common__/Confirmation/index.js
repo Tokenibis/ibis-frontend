@@ -10,6 +10,9 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	padding: theme.spacing(1.5),
     },
+    clickable: {
+	cursor: 'pointer',
+    },
     progressWrapper: {
 	textAlign: 'center',
 	display: 'flex',
@@ -58,11 +61,15 @@ class Confirmation extends Component {
 	let { onClick } = this.props;
 
 	this.setState({ confirmed: true });
-	onClick(e).then(response => {
-	    this.setState({ opened: false, confirmed: false });
-	}).catch(error => {
+	try {
+	    onClick(e).then(response => {
+		this.setState({ opened: false, confirmed: false });
+	    }).catch(error => {
+		console.log(error);
+	    });
+	} catch (error) {
 	    console.log(error);
-	});
+	}
     };
 
     render() {
@@ -71,26 +78,26 @@ class Confirmation extends Component {
 	
 	if (disabled) {
 	    return (
-		<div>
+		<span>
 		  {children}
-		</div>
+		</span>
 	    )
 	}
 
 	return (
-	    <div>
+	    <span>
 	      {(opened || confirmed) ? (
-		  <div className={classes.progressWrapper}>
+		  <span className={classes.progressWrapper}>
 		    <CircularProgress size={24} className={classes.progress}/>
-		  </div>
+		  </span>
 	      ):(
-		  <div onClick={autoconfirm ? (
+		  <span className={classes.clickable} onClick={autoconfirm ? (
 		      () => this.handleClick()
 		  ):(
 		      () => this.handleOpen()
 		  )}>
 		    {children}
-		  </div>
+		  </span>
 	      )}
 	      <Dialog
 		  open={opened}
@@ -126,7 +133,7 @@ class Confirmation extends Component {
 		  </div>
 		</div>
 	      </Dialog>
-	    </div>
+	    </span>
 	);
     };
 };

@@ -13,9 +13,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
-import ReactMarkdown from 'react-markdown';
 
 import Link from '../../../__Common__/CustomLink';
+import CustomMarkdown from '../CustomMarkdown';
 import CustomDivider from '../../../__Common__/CustomDivider';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
@@ -36,6 +36,7 @@ const styles = theme => ({
     },
     listItem: {
 	paddingLeft: 0,
+	cursor: 'default',
 	margin: 0,
     },
     verticalDivider: {
@@ -68,10 +69,6 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
-    description: {
-	textAlign: 'left',
-	color: theme.palette.tertiary.main,
-    },
     expandedReplyHeader: {
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
@@ -80,6 +77,7 @@ const styles = theme => ({
     },
     replyButton: {
 	fontWeight: 'bold',
+	cursor: 'pointer',
 	color: theme.palette.secondary.main,
 	paddingRight: theme.spacing(1),
     },
@@ -287,11 +285,7 @@ class CommentTree extends Component {
 		      } 
 		  />
 		</ListItem>
-		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown
-			source={node.description}
-		    />
-		  </Typography>
+		<CustomMarkdown source={node.description} />
 	      </Grid>
 	      {
 		  [...Array(depth).keys()].map((i) => (

@@ -11,9 +11,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
@@ -28,6 +28,7 @@ const styles = theme => ({
 	width: '100%',
     },
     description: {
+	paddingTop: theme.spacing(1.8),
 	color: theme.palette.tertiary.main,
     },
     descriptionToggle: {
@@ -149,11 +150,7 @@ class Nonprofit extends Component {
   		  {
 		      expanded ? (
 			  <div>
-			    <Typography variant="body2" className={classes.description}>
-			      <ReactMarkdown
-				  source={node.description}
-			      />
-			    </Typography>
+			    <CustomMarkdown safe source={node.description} />
 			    <div className={classes.endWrapper}>
 			      <Button>
 				<Typography variant="body2" className={classes.website}>

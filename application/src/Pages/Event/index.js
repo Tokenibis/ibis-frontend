@@ -10,9 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import ReactMarkdown from 'react-markdown';
 
 import Link from '../../__Common__/CustomLink';
+import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, {
     LikeVal as DialogLikeVal,
     RsvpVal as DialogRsvpVal,
@@ -66,9 +66,6 @@ const styles = theme => ({
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
-    },
-    description: {
-	color: theme.palette.tertiary.main,
     },
     personDialogWrapper: {
 	marginTop: theme.spacing(1),
@@ -179,12 +176,8 @@ class Event extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
-		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown
-			source={node.description}
-		    />
-		  </Typography>
 		</Grid>
+		<CustomMarkdown safe source={node.description} />
 		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
 		    {'When:'}

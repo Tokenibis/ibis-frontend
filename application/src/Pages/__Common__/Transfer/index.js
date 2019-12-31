@@ -9,9 +9,9 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from "axios";
-import ReactMarkdown from 'react-markdown';
 
 import Link from '../../../__Common__/CustomLink';
+import CustomMarkdown from '../CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
@@ -63,10 +63,6 @@ const styles = theme => ({
 	paddingBottom: theme.spacing(1),
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
-    },
-    description: {
-	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing(2),
     },
     commentCount: {
 	color: theme.palette.tertiary.main,
@@ -157,11 +153,7 @@ class Transfer extends Component {
 		<Grid item xs={2}></Grid>
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <Typography variant="body2" className={classes.description}>
-		    <ReactMarkdown
-			source={node.description}
-		    />
-		  </Typography>
+		  <CustomMarkdown source={node.description} />
 		</Grid>
 		<Grid item xs={2}></Grid>
 		<Grid item xs={12} className={classes.divider}>
