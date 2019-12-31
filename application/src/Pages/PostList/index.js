@@ -139,7 +139,6 @@ class PostList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasLiked.edges.length === 1}
-		    count={node.likeCount}
 		    hide={context.userID === node.user.person.id}
 		/>
 		<SimpleEdgeMutation

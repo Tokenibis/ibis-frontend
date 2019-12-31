@@ -119,14 +119,12 @@ class EventList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasLiked.edges.length === 1}
-		    count={node.likeCount}
 		/>
 		<SimpleEdgeMutation
 		    variant={RsvpVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasRsvp.edges.length === 1}
-		    count={node.rsvpCount}
 		/>
 		<SimpleEdgeMutation
 		    variant={BookmarkVal}

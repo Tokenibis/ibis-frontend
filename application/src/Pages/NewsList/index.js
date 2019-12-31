@@ -119,7 +119,6 @@ class NewsList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasLiked.edges.length === 1}
-		    count={node.likeCount}
 		/>
 		<SimpleEdgeMutation
 		    variant={BookmarkVal}
