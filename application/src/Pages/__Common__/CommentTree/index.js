@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import { withApollo } from "react-apollo";
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -90,14 +91,12 @@ const styles = theme => ({
 	marginLeft: 'auto',
     },
     submitButton: {
-	paddingTop: theme.spacing(2),
-	paddingBottom: theme.spacing(2),
+	textTransform: 'none',
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
     },
     submitButtonDisabled: {
-	paddingTop: theme.spacing(2),
-	paddingBottom: theme.spacing(2),
+	textTransform: 'none',
 	opacity: '50%',
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
@@ -224,15 +223,17 @@ class CommentTree extends Component {
 		  <div className={classes.confirmationWrapper}>
 		    <Confirmation
 			disabled={!enableSubmit}
-			onClick={() => submit()}
-			message="Are you sure you want to submit this comment?"
+		      onClick={() => submit()}
+		      message="Are you sure you want to submit this comment?"
 		    >
-		      <Typography
-			variant="body2"
-			className={enableSubmit ? classes.submitButton : classes.submitButtonDisabled}
-		      >
-			Submit
-		      </Typography>
+		      <Button>
+			<Typography
+			  variant="body2"
+			  className={enableSubmit ? classes.submitButton : classes.submitButtonDisabled}
+			>
+			  Submit
+			</Typography>
+		      </Button>
 		    </Confirmation>
 		  </div>
 		</Grid>

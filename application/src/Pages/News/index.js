@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
@@ -12,6 +13,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
+import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal } from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
@@ -73,6 +75,12 @@ const styles = theme => ({
     bottom: {
 	height: theme.spacing(5),
     },
+    link: {
+	color: theme.palette.secondary.main,
+	paddingTop: theme.spacing(1),
+	paddingBottom: theme.spacing(1),
+	fontWeight: 'bold',
+    },
 });
 
 const query = loader('../../Static/graphql/operations/News.gql')
@@ -97,6 +105,7 @@ class News extends Component {
 	    this.setState({ likeCount: node.likeCount });
 	}
 
+	console.log(node.link)
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid container className={classes.content}>
@@ -106,12 +115,12 @@ class News extends Component {
 		  >
 		    <ListItemIcon>
     		      <Avatar
-		      component={Link}
-		      prefix={1}
-		      to={`Nonprofit?id=${node.user.nonprofit.id}`}
-  		      alt="Ibis"
-    		      src={node.user.avatar}
-    		      className={classes.avatar}
+			  component={Link}
+			  prefix={1}
+			  to={`Nonprofit?id=${node.user.nonprofit.id}`}
+  			  alt="Ibis"
+    			  src={node.user.avatar}
+    			  className={classes.avatar}
 		      />
 		    </ListItemIcon>
 		    <ListItemText
@@ -132,6 +141,14 @@ class News extends Component {
     		      image={node.image}
   		      title={node.title}
   		  />
+		  <Typography variant="body2" className={classes.link}>
+		    <Confirmation
+			onClick={() => {window.location = node.link}}
+			autoconfirm
+		    >
+		      Link to original article
+		    </Confirmation>
+		  </Typography>
 		  <CustomMarkdown safe source={node.description} />
 		  <div className={classes.action}>
 		    <div className={classes.edgeMutations}>
@@ -155,6 +172,18 @@ class News extends Component {
 			    node={node.id}
 			/>
 		      </div>
+		    </div>
+		    <div className={classes.linkWrapper}>
+		      <Confirmation
+			onClick={() => {window.location = node.link}}
+			autoconfirm
+		      >
+			<Button>
+			  <Typography variant="body2" className={classes.link}>
+			    Go to link
+			  </Typography>
+			</Button>
+		      </Confirmation>
 		    </div>
 		  </div>
 		</Grid>

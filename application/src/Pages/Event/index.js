@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
@@ -12,6 +13,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
+import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, {
     LikeVal as DialogLikeVal,
@@ -95,6 +97,12 @@ const styles = theme => ({
     bottom: {
 	height: theme.spacing(5),
     },
+    link: {
+	color: theme.palette.secondary.main,
+	paddingTop: theme.spacing(1),
+	paddingBottom: theme.spacing(1),
+	fontWeight: 'bold',
+    },
 });
 
 const query = loader('../../Static/graphql/operations/Event.gql')
@@ -177,6 +185,14 @@ class Event extends Component {
   		      title={node.title}
   		  />
 		</Grid>
+		<Typography variant="body2" className={classes.link}>
+		  <Confirmation
+		    onClick={() => {window.location = node.link}}
+		    autoconfirm
+		  >
+		    Link to original event
+		  </Confirmation>
+		</Typography>
 		<CustomMarkdown safe source={node.description} />
 		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
