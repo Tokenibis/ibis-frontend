@@ -148,6 +148,8 @@ class Event extends Component {
 
 	window.addEventListener('resize', this.resizeMap);
 
+	let searchAddress = node.address.replace('/\./g', '').replace(/\s+/g, '+')
+
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid container className={classes.content}>
@@ -184,15 +186,19 @@ class Event extends Component {
   		      title={node.title}
   		  />
 		</Grid>
-		<Typography variant="body2" className={classes.link}>
-		  <Confirmation
-		    onClick={() => {window.location = node.link}}
-		    autoconfirm
-		  >
-		    Link to original event
-		  </Confirmation>
-		</Typography>
-		<CustomMarkdown safe source={node.description} />
+		<Grid item xs={12}>
+		  <Typography variant="body2" className={classes.link}>
+		    <Confirmation
+			onClick={() => {window.location = node.link}}
+			autoconfirm
+		    >
+		      Link to original event
+		    </Confirmation>
+		  </Typography>
+		</Grid>
+		<Grid item xs={12}>
+		  <CustomMarkdown safe source={node.description} />
+		</Grid>
 		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
 		    {'When:'}
@@ -225,7 +231,7 @@ class Event extends Component {
 			  padding: 0,
 			  margin: 0,
 		      }}
-		      src={`https://www.google.com/maps/embed/v1/search?q=${node.latitude}%2C%20${node.longitude}&key=${config.maps.google.key}&zoom=11`}
+		      src={`https://www.google.com/maps/embed/v1/search?q=${searchAddress}&key=${config.maps.google.key}&zoom=11`}
 		      allowFullScreen
 		  >
 		  </iframe>
