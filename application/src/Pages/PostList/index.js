@@ -181,7 +181,6 @@ class PostList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		scrollButton
 		expandedAll
 		makePreamble={this.makePreamble}
 		makeImage={this.makeImage}

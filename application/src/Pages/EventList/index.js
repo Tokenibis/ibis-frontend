@@ -163,7 +163,6 @@ class EventList extends Component {
 	    make = (data) => (
 		<ListView
 		expandedAll
-		scrollButton
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeMedia={this.makeMedia}

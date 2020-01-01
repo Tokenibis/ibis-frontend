@@ -149,7 +149,6 @@ class TransferList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		    scrollButton
 		    makeImage={this.makeImage}
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}

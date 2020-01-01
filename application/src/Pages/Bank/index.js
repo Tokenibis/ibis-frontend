@@ -66,7 +66,6 @@ class DepositList extends Component {
 
 	let make = (data) => (
 	    <ListView
-		scrollButton
 		makeLabel={this.makeLabel}
 		data={data}
 	    />

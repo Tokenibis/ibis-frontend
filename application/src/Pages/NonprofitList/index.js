@@ -130,13 +130,12 @@ class NonprofitList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		scrollButton
 		    infiniteScroll={this.infiniteScroll}
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data}
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
 		/>
 	    )
 	}
