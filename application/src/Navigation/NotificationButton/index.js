@@ -9,9 +9,17 @@ import NotificationIconNo from '@material-ui/icons/Notifications';
 import Link from '../../__Common__/CustomLink';
 
 const styles = theme => ({
+    unseenWrapper: {
+	display: 'flex',
+    },
     hasUnseen: {
 	color: "#ffcfcf",
-    }
+    },
+    stat: {
+	fontSize: 12,
+	fontWeight: 'bold',
+	marginTop: theme.spacing(-2),
+    },
 })
 
 const query = loader('../../Static/graphql/operations/Notifier.gql')
@@ -19,7 +27,7 @@ const query = loader('../../Static/graphql/operations/Notifier.gql')
 class NotificationButton extends Component {
 
     state = {
-	hasUnseen: false,
+	unseenCount: false,
     }
 
     componentDidMount() {
@@ -31,7 +39,7 @@ class NotificationButton extends Component {
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
-		hasUnseen: results.data.person.notifier.hasUnseen,
+		unseenCount: results.data.person.notifier.unseenCount,
 	    })
 	}).catch(error => {
 	    console.log(error);
@@ -39,16 +47,21 @@ class NotificationButton extends Component {
     };
 
     render() {
-	let { hasUnseen } = this.state;
+	let { unseenCount } = this.state;
 	let { classes } = this.props;
 
 	return (
 	    <Link to="/_/NotificationList">
 		{
-		    hasUnseen ? (
-			<IconButton className={classes.hasUnseen}>
-			  <NotificationIconYes className={classes.hasUnseen}/>
-			</IconButton>
+		    unseenCount > 0 ? (
+			<div className={classes.unseenWrapper}>
+			  <IconButton className={classes.hasUnseen}>
+			    <NotificationIconYes/>
+			    <div className={classes.stat}>
+			      {unseenCount}
+			    </div>
+			  </IconButton>
+			</div>
 		    ):(
 			<IconButton color="inherit">
 			  <NotificationIconNo />
