@@ -22,7 +22,7 @@ const styles = theme => ({
     },
 });
 
-function CustomMarkdownLink({ classes, safe, nolink, ...other }) {
+function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
 
     let followLink = (destination) => {
 	window.location = destination;
@@ -38,29 +38,45 @@ function CustomMarkdownLink({ classes, safe, nolink, ...other }) {
 	isExternal = false;
     }
 
-    if (nolink) {
+    if (noLink) {
 	return <span className={classes.linkInert} {...other} />;
     }
 
     return (
 	<Confirmation
-	  onClick={() => (followLink(other.href))}
+	  onClick={() => (!noClick && followLink(other.href))}
 	  message={`You're about to __leave the app__ for a user-posted link to ${other.href}. Are you sure you want to continue?`}
-	  autoconfirm={safe || !isExternal}
+	  autoconfirm={noClick || safe || !isExternal}
 	>
 	  <span className={classes.link} {...other} />
 	</Confirmation>
     );
 };
 
-function CustomMarkdown({ classes, source, safe, nolink, ...other }) {
+function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
     return (
 	<Typography variant="body2" className={classes.message}>
 	  <ReactMarkdown
 	      source={source}
 	      renderers={{
-		  link: props => (<CustomMarkdownLink classes={classes} safe={safe} nolink={nolink} {...props}/>),
-		  linkReference: props => (<CustomMarkdownLink classes={classes} safe={safe} {...props}/>),
+		  link: props => (
+		      <CustomMarkdownLink
+			  classes={classes}
+		          safe={safe}
+		          noLink={noLink}
+		          noClick={noClick}
+		      {...props}
+		      />
+		  ),
+		  linkReference: props => (
+		      <CustomMarkdownLink
+			  classes={classes}
+		          safe={safe}
+		          noLink={noLink}
+		          noClick={noClick}
+		      {...props}
+		      />
+		  ),
 	      }}
 	  {...other}
 	  />

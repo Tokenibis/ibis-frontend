@@ -25,13 +25,26 @@ const styles = theme => ({
 	alignItems: 'center',
 	justifyContent: 'center',
     },
+    dialogPaper: {
+	width: '70%',
+    },
+    dialogPaperPreview: {
+	width: '90%',
+	margin: theme.spacing(1),
+    },
     dialogInner: {
-	padding: theme.spacing(4),
+	padding: theme.spacing(2),
 	textAlign: 'center',
     },
     message: {
 	fontSize: 16,
+	paddingTop: theme.spacing(3),
+	paddingLeft: theme.spacing(3),
+	paddingRight: theme.spacing(3),
 	paddingBottom: theme.spacing(1),
+    },
+    buttonsWrapper: {
+	paddingBottom: theme.spacing(3),
     },
     dialogButton: {
 	paddingLeft: theme.spacing(6),
@@ -44,7 +57,7 @@ const styles = theme => ({
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
-	width: '80%',
+	width: theme.spacing(25),
     },
     preview: {
  	borderStyle: 'solid',
@@ -53,6 +66,7 @@ const styles = theme => ({
   	borderColor: theme.palette.light.main,
 	paddingLeft: theme.spacing(1),
 	paddingRight: theme.spacing(1),
+	marginBottom: theme.spacing(1),
     },
     previewHeader: {
 	fontWeight: 'bold',
@@ -128,18 +142,19 @@ class Confirmation extends Component {
 		  </span>
 	      )}
 	      <Dialog
+		  PaperProps={{className: preview ? classes.dialogPaperPreview : classes.dialogPaper}}
 		  open={opened}
 		  onClose={(e) => this.handleClose()}
 	      >
 		<div className={classes.dialogInner}>
-		  <CustomMarkdown className={classes.message} nolink source={message}/>
+		  <CustomMarkdown className={classes.message} noLink source={message}/>
 		  {preview && (
 		      <div className={classes.previewWrapper}>
 			<div className={classes.previewHeader}>Preview</div>
-			<CustomMarkdown className={classes.preview} safe source={preview()}/>
+			<CustomMarkdown className={classes.preview} noClick source={preview()}/>
 		      </div>
 		  )}
-		  <div>
+		  <div className={classes.buttonsWrapper}>
 		    {confirmed ? (
 			<div className={classes.progressWrapper}>
 			  <CircularProgress size={24} className={classes.progress}/>
