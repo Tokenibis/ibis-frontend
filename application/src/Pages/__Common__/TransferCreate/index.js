@@ -27,12 +27,12 @@ const styles = theme => ({
 	borderColor: theme.palette.secondary.main,
 	marginBottom: theme.spacing(3),
     },
-    name: {
+    title: {
 	paddingTop: theme.spacing(2),
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     label: {
@@ -171,11 +171,11 @@ class TransferCreate extends Component {
 			    </Typography>
 			  </Grid>
 			  <Grid item xs={8}>
-			    <Typography variant="body2" className={classes.name}>
-			      {data.target.name}
-			    </Typography>
-			    <Typography variant="body2" className={classes.username}>
+			    <Typography variant="body2" className={classes.title}>
 			      @{data.target.username}
+			    </Typography>
+			    <Typography variant="body2" className={classes.subtitle}>
+			      {data.target.name}
 			    </Typography>
 			  </Grid>
 			  <Grid item xs={4}>
@@ -224,7 +224,7 @@ class TransferCreate extends Component {
 			    <Confirmation
 			      disabled={!enableTransfer}
 			      onClick={() => this.handleTransfer()}
-			      message={`Do you really want to ${variant === DonationVal ? 'donate' : 'pay'} ${amount_final ? amount_final / 100 : 0 } to ${data.target.username}?`}
+			      message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? amount_final / 100 : 0 }__ to __@${data.target.username}__ (${data.target.name})?`}
 			    >
 			      <Button
 				  disabled={!enableTransfer}

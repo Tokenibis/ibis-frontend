@@ -72,7 +72,6 @@ const create_mutation = loader('../../Static/graphql/operations/PostCreate.gql')
 class PostCreate extends Component {
 
     state = {
-	amount: '0.00',
 	enablePost: false,
     };
 
@@ -146,7 +145,8 @@ class PostCreate extends Component {
 		    <Confirmation
 			disabled={!enablePost}
 			onClick={() => this.handlePost()}
-			message="Are you sure you want to submit this post?"
+			message="Are you sure you want to __submit__ this post?"
+			preview={() => (document.getElementById('post_description').value)}
 		    >
 		      <Button
 			  disabled={!enablePost}

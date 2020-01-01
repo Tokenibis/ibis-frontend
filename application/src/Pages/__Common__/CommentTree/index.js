@@ -223,8 +223,9 @@ class CommentTree extends Component {
 		  <div className={classes.confirmationWrapper}>
 		    <Confirmation
 			disabled={!enableSubmit}
-		      onClick={() => submit()}
-		      message="Are you sure you want to submit this comment?"
+			onClick={() => submit()}
+			message="Are you sure you want to __submit__ this comment?"
+			preview={() => (document.getElementById(`reply_form_${parent}`).value)}
 		    >
 		      <Button>
 			<Typography

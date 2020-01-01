@@ -47,8 +47,8 @@ const VARIANTS = {
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
 	autoconfirm: false,
-	messageCreate: 'Are you sure you want to follow this user?',
-	messageDelete: 'Are you sure you want to unfollow this user?',
+	messageCreate: 'Are you sure you want to __follow__ this user?',
+	messageDelete: 'Are you sure you want to __unfollow__ this user?',
     },
     like: {
 	createMutation: loader('../../../Static/graphql/operations/LikeCreate.gql'),
@@ -70,8 +70,8 @@ const VARIANTS = {
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
 	autoconfirm: false,
-	messageCreate: 'Are you sure you want to RSVP to this event?',
-	messageDelete: 'Are you sure you want to cancel your RSVP to this event?',
+	messageCreate: 'Are you sure you want to __RSVP__ to this event?',
+	messageDelete: 'Are you sure you want to __cancel__ your RSVP to this event?',
     },
 };
 

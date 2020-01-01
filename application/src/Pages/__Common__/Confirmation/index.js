@@ -5,6 +5,9 @@ import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import CustomMarkdown from '../CustomMarkdown';
+import CustomDivider from '../../../__Common__/CustomDivider';
+
 const styles = theme => ({
     progress: {
 	color: theme.palette.tertiary.main,
@@ -27,10 +30,8 @@ const styles = theme => ({
 	textAlign: 'center',
     },
     message: {
-	display: 'flex',
-	color: theme.palette.tertiary.main,
-	justifyContent: 'space-between',
-	paddingBottom: theme.spacing(2),
+	fontSize: 16,
+	paddingBottom: theme.spacing(1),
     },
     dialogButton: {
 	paddingLeft: theme.spacing(6),
@@ -44,6 +45,22 @@ const styles = theme => ({
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
 	width: '80%',
+    },
+    preview: {
+ 	borderStyle: 'solid',
+  	borderWidth: '2px',
+	textAlign: 'left',
+  	borderColor: theme.palette.light.main,
+	paddingLeft: theme.spacing(1),
+	paddingRight: theme.spacing(1),
+    },
+    previewHeader: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+	paddingBottom: theme.spacing(1),
+    },
+    previewWrapper: {
+	paddingBottom: theme.spacing(2),
     },
 });
 
@@ -78,7 +95,7 @@ class Confirmation extends Component {
     };
 
     render() {
-	let { classes, children, autoconfirm, message, progress, disabled } = this.props;
+	let { classes, children, autoconfirm, message, progress, preview, disabled } = this.props;
 	let { opened, confirmed } = this.state;
 	
 	if (disabled) {
@@ -115,11 +132,13 @@ class Confirmation extends Component {
 		  onClose={(e) => this.handleClose()}
 	      >
 		<div className={classes.dialogInner}>
-		  <div className={classes.message}>
-		    <Typography variant="body2">
-		      {message}
-		    </Typography>
-		  </div>
+		  <CustomMarkdown className={classes.message} nolink source={message}/>
+		  {preview && (
+		      <div className={classes.previewWrapper}>
+			<div className={classes.previewHeader}>Preview</div>
+			<CustomMarkdown className={classes.preview} safe source={preview()}/>
+		      </div>
+		  )}
 		  <div>
 		    {confirmed ? (
 			<div className={classes.progressWrapper}>

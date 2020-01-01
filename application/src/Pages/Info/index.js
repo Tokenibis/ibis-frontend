@@ -52,7 +52,6 @@ more:
 * Email notifications
 * In-app deposits using Paypal/Credit cards
 * QR code scanning for various operations
-* Post/comment preview
 
 ## Adding Ibis to your Home Screen
 
