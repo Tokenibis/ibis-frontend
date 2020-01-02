@@ -67,10 +67,10 @@ class PersonList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.title}>
-  		{`@${node.username}`}
+  		{`${node.name}`}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{`${node.name}`}
+  		{`@${node.username}`}
   	      </Typography>
 	    </div>
 	);

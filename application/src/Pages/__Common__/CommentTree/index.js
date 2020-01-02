@@ -278,10 +278,10 @@ class CommentTree extends Component {
 			      variant="body2"
 			      className={classes.title}
 			    >
-			      {`@${node.user.username}`}
+			      {node.user.name}
 			    </Typography>
   			    <Typography variant="body2" className={classes.subtitle}>
-			      {node.user.name} - <CustomDate date={node.created} />
+			      @{node.user.username} - <CustomDate date={node.created} />
   			    </Typography>
 			  </div>
 		      } 

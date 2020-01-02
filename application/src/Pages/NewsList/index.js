@@ -76,7 +76,7 @@ class NewsList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{node.user.name} - <CustomDate date={node.created} />
+  		@{node.user.username} - <CustomDate date={node.created} />
   	      </Typography>
 	    </div>
 	);

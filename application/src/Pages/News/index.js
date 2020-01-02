@@ -37,11 +37,11 @@ const styles = theme => ({
 	fontSize: 20,
 	marginBottom: -4,
     },
-    name: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     image: {
@@ -127,11 +127,11 @@ class News extends Component {
 		    <ListItemText
 			primary={
 			    <div>
-  			      <Typography variant="body2" className={classes.name}>
+  			      <Typography variant="body2" className={classes.title}>
   				{node.title}
   			      </Typography>
-  			      <Typography variant="body2" className={classes.username}>
-  				{node.user.name} - <CustomDate date={node.created} />
+  			      <Typography variant="body2" className={classes.subtitle}>
+  				@{node.user.username} - <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}

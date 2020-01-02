@@ -68,10 +68,10 @@ class NonprofitList extends Component {
 	return (
 	    <div>
   	      <Typography variant="body2" className={classes.title}>
-  		{`@${node.username}`}
+  		{node.name}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{node.title}
+  		{`@${node.username}`}
   	      </Typography>
 	    </div>
 	);

@@ -76,7 +76,7 @@ class EventList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{node.user.name} - <CustomDate variant={PreciseVal} date={node.date} />
+  		@{node.user.username} - <CustomDate variant={PreciseVal} date={node.date} />
   	      </Typography>
 	    </div>
 	);

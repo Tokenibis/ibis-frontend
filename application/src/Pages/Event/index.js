@@ -41,7 +41,7 @@ const styles = theme => ({
 	fontSize: 20,
 	marginBottom: -4,
     },
-    name: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
@@ -62,7 +62,7 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     image: {
@@ -171,11 +171,11 @@ class Event extends Component {
 		    <ListItemText
 			primary={
 			    <div>
-  			      <Typography variant="body2" className={classes.name}>
+  			      <Typography variant="body2" className={classes.title}>
   				{node.title}
   			      </Typography>
-  			      <Typography variant="body2" className={classes.username}>
-  				{node.user.name} - <CustomDate variant={PreciseVal} date={node.date} />
+  			      <Typography variant="body2" className={classes.subtitle}>
+  				@{node.user.username} - <CustomDate variant={PreciseVal} date={node.date} />
   			      </Typography>
 			    </div>
 			}

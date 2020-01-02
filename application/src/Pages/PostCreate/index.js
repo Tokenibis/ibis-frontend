@@ -34,9 +34,6 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
-	color: theme.palette.tertiary.main,
-    },
     label: {
 	paddingTop: theme.spacing(2),
 	fontWeight: 'bold',
