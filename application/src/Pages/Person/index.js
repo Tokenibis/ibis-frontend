@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
 import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
+import PostList from '../PostList';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
@@ -94,6 +95,9 @@ const styles = theme => ({
 	paddingLeft: theme.spacing(1),
 	width: '90%',
 	textAlign: 'left',
+    },
+    hide: {
+	display: 'none',
     },
     viewAll: {
 	color: theme.palette.secondary.main,
@@ -220,7 +224,13 @@ class Person extends Component {
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
-  		<Grid container direction="column" justify="center" alignItems="center" >
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.donationToCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Donation History
 		  </Typography>
@@ -239,6 +249,14 @@ class Person extends Component {
 		  >
 		    View all donations
 		  </Typography>
+		</Grid>
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.transactionToCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Transaction History
 		  </Typography>
@@ -257,6 +275,14 @@ class Person extends Component {
 		  >
 		    View all transactions
 		  </Typography>
+		</Grid>
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.eventRsvpCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Events Going
 		  </Typography>
@@ -274,6 +300,32 @@ class Person extends Component {
 		      className={classes.viewAll}
 		  >
 		    View all events
+		  </Typography>
+		</Grid>
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.postCount === 0 && classes.hide}
+		>
+		  <Typography variant="button" className={classes.heading} >
+		    Post History
+		  </Typography>
+		  <PostList
+		      minimal
+		      context={context}
+		      filterValue={`_User:${id}`}
+		      count={3}
+		  />
+		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`PostList?filterValue=_User:${id}`}
+		      variant="body2"
+		      className={classes.viewAll}
+		  >
+		    View all posts
 		  </Typography>
 		</Grid>
 	      </div>

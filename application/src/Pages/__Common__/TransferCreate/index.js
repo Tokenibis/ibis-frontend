@@ -172,10 +172,10 @@ class TransferCreate extends Component {
 			  </Grid>
 			  <Grid item xs={8}>
 			    <Typography variant="body2" className={classes.title}>
-			      @{data.target.username}
+			      {data.target.name}
 			    </Typography>
 			    <Typography variant="body2" className={classes.subtitle}>
-			      {data.target.name}
+			      @{data.target.username}
 			    </Typography>
 			  </Grid>
 			  <Grid item xs={4}>

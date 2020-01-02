@@ -82,6 +82,9 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
     },
+    hide: {
+	display: 'none',
+    },
     heading: {
 	fontSize: '18px',
 	color: theme.palette.tertiary.main,
@@ -213,7 +216,13 @@ class Nonprofit extends Component {
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
-  		<Grid container direction="column" justify="center" alignItems="center" >
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.newsCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Recent News
 		  </Typography>
@@ -232,6 +241,14 @@ class Nonprofit extends Component {
 		  >
 		    View all news
 		  </Typography>
+		</Grid>
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.eventCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Upcoming Events
 		  </Typography>
@@ -250,6 +267,14 @@ class Nonprofit extends Component {
 		  >
 		    View all events
 		  </Typography>
+		</Grid>
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.donationFromCount === 0 && classes.hide}
+		>
 		  <Typography variant="button" className={classes.heading} >
 		    Donation History
 		  </Typography>
