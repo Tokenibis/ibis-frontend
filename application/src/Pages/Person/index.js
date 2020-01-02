@@ -18,6 +18,7 @@ import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
+import Amount from '../__Common__/Amount';
 
 
 const styles = theme => ({
@@ -171,7 +172,7 @@ class Person extends Component {
 		      variant="body2"
 		      className={classes.donated}
 		  >
-		    Donated: ${(node.donated ? node.donated/100 : 0.0).toFixed(2)}
+		    Donated: <Amount amount={node.donated} />
 		  </Typography>
 		  <div className={classes.followStatWrapper}>
 		    <PersonDialogList

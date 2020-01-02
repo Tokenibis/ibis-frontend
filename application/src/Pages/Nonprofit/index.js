@@ -21,10 +21,21 @@ import NewsList from '../NewsList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
+import Amount from '../__Common__/Amount';
 
 const styles = theme => ({
     root: {
 	width: '100%',
+    },
+    titleWrapper: {
+	textAlign: 'center',
+    },
+    title: {
+	fontWeight: 'bold',
+	color: theme.palette.primary.main,
+    },
+    subtitle: {
+	color: theme.palette.tertiary.main,
     },
     description: {
 	paddingTop: theme.spacing(1.8),
@@ -49,6 +60,7 @@ const styles = theme => ({
     fundraised: {
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
+	paddingTop: theme.spacing(1),
     },
     progress: {
 	marginTop: theme.spacing(-0.5),
@@ -149,6 +161,14 @@ class Nonprofit extends Component {
     		    image={node.avatar}
 		/>
 		<CardContent>
+		  <div className={classes.titleWrapper}>
+		    <Typography variant="h6" className={classes.title}>
+		      {node.name}
+		    </Typography>
+		    <Typography variant="body2" className={classes.subtitle}>
+		      @{node.username}
+		    </Typography>
+		  </div>
   		  {
 		      expanded ? (
 			  <div>
@@ -164,14 +184,14 @@ class Nonprofit extends Component {
 				  </Typography>
 				</Button>
 			      </Confirmation>
-			      <Typography variant="body2" className={classes.fundraised}>
-				Fundraised: ${(node.fundraised/100).toFixed(2)}
-			      </Typography>
 			      <PersonDialogList
 				  variant={FollowerVal}
 				  count={followerCount}
 				  node={node.id}
 			      />
+			      <Typography variant="body2" className={classes.fundraised}>
+				Fundraised: <Amount amount={node.fundraised} />
+			      </Typography>
 			    </div>
 			  </div>
 		      ):(

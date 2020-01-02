@@ -8,19 +8,24 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
-import axios from "axios";
 
+import CustomDivider from '../../../__Common__/CustomDivider';
 import Link from '../../../__Common__/CustomLink';
 import CustomMarkdown from '../CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 import CustomDate from '../CustomDate';
+import Amount from '../Amount';
 
 const styles = theme => ({
     content: {
 	paddingTop: theme.spacing(4),
 	width: '90%',
+    },
+    title: {
+	fontWeight: 'bold',
+	color: theme.palette.primary.main,
     },
     categoryIcon: {
 	color: theme.palette.tertiary.main,
@@ -29,6 +34,9 @@ const styles = theme => ({
     },
     progress: {
 	margin: theme.spacing(-0.5),
+    },
+    divider: {
+	paddingTop: theme.spacing(1),
     },
     avatarContainer: {
 	width: '100%',
@@ -45,14 +53,22 @@ const styles = theme => ({
 	width: 60,
 	height: 60,
     },
-    userlink: {
+    userLinkWrapper: {
+	marginTop: theme.spacing(0.7),
+    },
+    userLink: {
 	textDecoration: 'none',
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
     },
-    created: {
+    label: {
+	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing(1),
+	paddingTop: theme.spacing(1),
+    },
+    info: {
+	color: theme.palette.tertiary.main,
+	paddingTop: theme.spacing(1),
     },
     toIcon: {
 	paddingRight: theme.spacing(1),
@@ -89,18 +105,12 @@ const styles = theme => ({
 
 class Transfer extends Component {
 
-    state = {
-	item: '',
-	price: 0,
-    }
-
     onSubmit() {
 	console.log('submitted')
     }
 
     createPage(node) {
 	let { classes, context, variant, id } = this.props;
-	let { item, price } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -118,45 +128,102 @@ class Transfer extends Component {
 		  </div>
 		</Grid>
 		<Grid item xs={7}>
-		  <div style={{display: 'flex'}}>
-		    <Typography variant="body2">
-		      <Link
-			  to={`Person?id=${node.user.person.id}`}
-			  prefix={1}
-		      >
-			<span className={classes.userlink}>{`${node.user.name}`}</span>
-		      </Link>
-		      <span>{<ToIcon className={classes.toIcon}/>}</span>
-		      <Link
-			  to={`${variant === 'donation' ? 'Nonprofit' : 'Person'}?id=${node.target.id}`}
-			  prefix={1}
-		      >
-			<span className={classes.userlink}>{`${node.target.name}`}</span>
-		      </Link>
+		  <div>
+		    <Typography variant="body2" className={classes.title}>
+		      {`${node.user.name}`}
+		      {<ToIcon className={classes.toIcon} />}
+		      {node.target.name}
 		    </Typography>
 		  </div>
 		</Grid>
 		<Grid item xs={2}></Grid>
+
 		<Grid item xs={3}></Grid>
-		<Grid item xs={7}>
-		  <Typography variant="body2" className={classes.created}>
+		<Grid item xs={2}>
+		  <Typography variant="body2" className={classes.label}>
+		    From:
+		  </Typography>
+		</Grid>
+		<Grid item xs={5}>
+		  <div className={classes.userLinkWrapper}>
+		    <Typography
+			component={Link}
+			prefix={1}
+			to={`Person?id=${node.user.person.id}`}
+			variant="body2"
+			className={classes.userLink}
+		    >
+		      <span>@{node.user.username}</span>
+		    </Typography>
+		  </div>
+		</Grid>
+		<Grid item xs={2}></Grid>
+
+		<Grid item xs={3}></Grid>
+		<Grid item xs={2}>
+		  <Typography variant="body2" className={classes.label}>
+		    To:
+		  </Typography>
+		</Grid>
+		<Grid item xs={5}>
+		  <div className={classes.userLinkWrapper}>
+		    <Typography
+			component={Link}
+			prefix={1}
+			to={variant === 'donation' ? (
+			    `Nonprofit?id=${node.target.id}`
+			):(
+			    `Person?id=${node.target.id}`
+			)}
+			variant="body2"
+			className={classes.userLink}
+		    >
+		      <span>@{node.target.username}</span>
+		    </Typography>
+		  </div>
+		</Grid>
+		<Grid item xs={2}></Grid>
+
+		<Grid item xs={3}></Grid>
+		<Grid item xs={2}>
+		  <Typography variant="body2" className={classes.label}>
+		    Value:
+		  </Typography>
+		</Grid>
+		<Grid item xs={5}>
+		  <Typography variant="body2" className={classes.info}>
+		    <Amount amount={node.amount} />
+		  </Typography>
+		</Grid>
+		<Grid item xs={2}></Grid>
+
+		<Grid item xs={3}></Grid>
+		<Grid item xs={2}>
+		  <Typography variant="body2" className={classes.label}>
+		    Time:
+		  </Typography>
+		</Grid>
+		<Grid item xs={5}>
+		  <Typography variant="body2" className={classes.info}>
 		    <CustomDate date={node.created} />
 		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>
+
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <Typography variant="body2" className={classes.gift}>
-		    {`$${(node.amount/100).toFixed(2)}`}
-		    {item && ` (${Math.round(node.amount/price*10)/10} ${item})`}
-		  </Typography>
+		  <div className={classes.divider}>
+		    <CustomDivider />
+		  </div>
 		</Grid>
 		<Grid item xs={2}></Grid>
+
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <CustomMarkdown source={node.description} />
 		</Grid>
 		<Grid item xs={2}></Grid>
+
 		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
 		    {context.userID === node.user.person.id ? (
@@ -175,6 +242,7 @@ class Transfer extends Component {
 		    )}
 		  </div>
 		</Grid>
+
 		<Grid item xs={12}>
 		  <CommentTree
 		      showReplyRoot
@@ -187,17 +255,6 @@ class Transfer extends Component {
 	   </Grid>
 	);
     }
-
-    componentDidMount() {
-	axios('/ibis/price/', {
-	    withCredentials: true,
-	}).then(response => {
-	    this.setState({ item: response.data.item, price: response.data.price });
-	}).catch(error => {
-	    console.log(error);
-	    console.log(error.response);
-	})
-    };
 
     render() {
 	let { classes, context, variant, id } = this.props

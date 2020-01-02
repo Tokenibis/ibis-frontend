@@ -33,6 +33,10 @@ const styles = theme => ({
 	alignItems: 'center',
 	paddingRight: theme.spacing(2),
     },
+    body: {
+	paddingLeft: theme.spacing(6),
+	paddingRight: theme.spacing(6),
+    },
     amount: {
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
@@ -87,8 +91,9 @@ class TransferList extends Component {
     }
 
     makeBody = (node) => {
+	let { classes } = this.props;
 	return (
-	    <Typography variant="body2">
+	    <Typography variant="body2" className={classes.body}>
   	      <Truncated text={node.description}/>
 	    </Typography>
 	);

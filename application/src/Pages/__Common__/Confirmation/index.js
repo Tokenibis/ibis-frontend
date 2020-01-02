@@ -68,11 +68,6 @@ const styles = theme => ({
 	paddingRight: theme.spacing(1),
 	marginBottom: theme.spacing(1),
     },
-    previewHeader: {
-	fontWeight: 'bold',
-	color: theme.palette.tertiary.main,
-	paddingBottom: theme.spacing(1),
-    },
     previewWrapper: {
 	paddingBottom: theme.spacing(2),
     },
@@ -150,7 +145,6 @@ class Confirmation extends Component {
 		  <CustomMarkdown className={classes.message} noLink source={message}/>
 		  {preview && (
 		      <div className={classes.previewWrapper}>
-			<div className={classes.previewHeader}>Preview</div>
 			<CustomMarkdown className={classes.preview} noClick source={preview()}/>
 		      </div>
 		  )}
