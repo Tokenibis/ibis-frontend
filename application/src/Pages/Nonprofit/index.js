@@ -161,7 +161,7 @@ class Nonprofit extends Component {
 	      <Card raised className={classes.card}>
 		<CardMedia
 	            style={{ height: imageHeight }}
-    		    image={node.avatar}
+    		    image={node.banner}
 		/>
 		<CardContent>
 		  <div className={classes.titleWrapper}>
