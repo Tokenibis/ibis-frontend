@@ -20,6 +20,7 @@ import PostIcon from '@material-ui/icons/ForumOutlined';
 import CustomDivider from '../../__Common__/CustomDivider';
 import QueryHelper from "../__Common__/QueryHelper";
 import UBPIcon from '../../__Common__/IbisIcon';
+import CustomDate, { LongVal } from '../__Common__/CustomDate';
 
 const styles = theme => ({
     clicked: {
@@ -120,7 +121,7 @@ class NotificationList extends Component {
 				      {`${item.node.description}`}
 				    </Typography>
 				    <Typography variant="body2" className={classes.subtitle}>
-  				      {new Date(item.node.created).toDateString()}
+  				      <CustomDate variant={LongVal} date={item.node.created} />
 				    </Typography>
 				  </div>
 			      } />

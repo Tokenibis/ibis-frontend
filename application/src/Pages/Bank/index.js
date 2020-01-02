@@ -10,6 +10,7 @@ import axios from "axios";
 
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
+import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
 
 const config = require('../../config.json');
 
@@ -53,7 +54,7 @@ class DepositList extends Component {
 	return (
 	    <div>
 	      <Typography variant="body2" className={classes.title}>
-		{`$${(node.amount/100).toFixed(2)}`} - {new Date(node.created).toDateString()}
+		{`$${(node.amount/100).toFixed(2)}`} - <CustomDate variant={PreciseVal} date={node.created} />
 	      </Typography>
 	    </div>
 	);

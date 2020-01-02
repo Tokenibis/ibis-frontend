@@ -12,6 +12,7 @@ import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
+import CustomDate from '../__Common__/CustomDate';
 
 const styles = theme => ({
     avatar: {
@@ -75,7 +76,7 @@ class NewsList extends Component {
   		{node.title}
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
-  		{node.user.name} - {new Date(node.created).toDateString()}
+  		{node.user.name} - <CustomDate date={node.created} />
   	      </Typography>
 	    </div>
 	);

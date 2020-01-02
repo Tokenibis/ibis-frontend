@@ -15,6 +15,7 @@ import CustomMarkdown from '../CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
+import CustomDate from '../CustomDate';
 
 const styles = theme => ({
     content: {
@@ -139,7 +140,7 @@ class Transfer extends Component {
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <Typography variant="body2" className={classes.created}>
-  		    {new Date(node.created).toDateString()}
+		    <CustomDate date={node.created} />
 		  </Typography>
 		</Grid>
 		<Grid item xs={2}></Grid>

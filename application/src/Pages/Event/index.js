@@ -20,6 +20,7 @@ import PersonDialogList, {
 } from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
+import CustomDate, { PreciseVal, LongVal } from '../__Common__/CustomDate';
 
 const config = require('../../config.json');
 
@@ -174,7 +175,7 @@ class Event extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.username}>
-  				{node.user.name} - {new Date(node.created).toDateString()}
+  				{node.user.name} - <CustomDate variant={PreciseVal} date={node.date} />
   			      </Typography>
 			    </div>
 			}
@@ -201,12 +202,22 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={4}>
   		  <Typography variant="body2" className={classes.infoLine}>
+		    {'Who:'}
+		  </Typography>
+		</Grid>
+		<Grid className={classes.infoRight} item xs={8}>
+  		  <Typography variant="body2" className={classes.infoLine}>
+		    {node.user.name}
+		  </Typography>
+		</Grid>
+		<Grid className={classes.infoLeft} item xs={4}>
+  		  <Typography variant="body2" className={classes.infoLine}>
 		    {'When:'}
 		  </Typography>
 		</Grid>
 		<Grid className={classes.infoRight} item xs={8}>
   		  <Typography variant="body2" className={classes.infoLine}>
-  		    {new Date(node.created).toDateString()}
+		    <CustomDate variant={LongVal} date={node.date} />
 		  </Typography>
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={4}>

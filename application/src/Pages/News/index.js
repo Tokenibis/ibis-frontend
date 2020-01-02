@@ -18,6 +18,7 @@ import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal } from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
+import CustomDate from '../__Common__/CustomDate';
 
 const styles = theme => ({
     content: {
@@ -130,7 +131,7 @@ class News extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.username}>
-  				{node.user.name} - {new Date(node.created).toDateString()}
+  				{node.user.name} - <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}
@@ -172,18 +173,6 @@ class News extends Component {
 			    node={node.id}
 			/>
 		      </div>
-		    </div>
-		    <div className={classes.linkWrapper}>
-		      <Confirmation
-			onClick={() => {window.location = node.link}}
-			autoconfirm
-		      >
-			<Button>
-			  <Typography variant="body2" className={classes.link}>
-			    Go to link
-			  </Typography>
-			</Button>
-		      </Confirmation>
 		    </div>
 		  </div>
 		</Grid>

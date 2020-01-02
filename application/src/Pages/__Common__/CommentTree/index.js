@@ -21,7 +21,7 @@ import CustomDivider from '../../../__Common__/CustomDivider';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Confirmation from '../Confirmation';
-
+import CustomDate from '../CustomDate';
 
 const MAX_DEPTH = 3;
 
@@ -278,10 +278,10 @@ class CommentTree extends Component {
 			      variant="body2"
 			      className={classes.title}
 			    >
-			      {node.user.name}
+			      {`@${node.user.username}`}
 			    </Typography>
   			    <Typography variant="body2" className={classes.subtitle}>
-  			      {new Date(node.created).toDateString()}
+			      {node.user.name} - <CustomDate date={node.created} />
   			    </Typography>
 			  </div>
 		      } 

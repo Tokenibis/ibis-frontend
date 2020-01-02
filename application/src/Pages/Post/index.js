@@ -15,6 +15,7 @@ import CustomMarkdown from '../__Common__/CustomMarkdown';
 import PersonDialogList, { LikeVal as DialogLikeVal} from '../__Common__/PersonDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
+import CustomDate from '../__Common__/CustomDate';
 
 const styles = theme => ({
     content: {
@@ -117,7 +118,7 @@ class Post extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.username}>
-  				{node.user.name} - {new Date(node.created).toDateString()}
+  				{node.user.name} - <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}

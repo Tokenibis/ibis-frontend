@@ -12,6 +12,7 @@ import ListView from '../__Common__/ListView';
 import EventFilter from './filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
+import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
 
 const styles = theme => ({
     avatar: {
@@ -19,11 +20,11 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
-    name: {
+    title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    username: {
+    subtitle: {
 	color: theme.palette.tertiary.main,
     },
     edgeMutations: {
@@ -71,11 +72,11 @@ class EventList extends Component {
 	let { classes } = this.props;
 	return (
 	    <div>
-  	      <Typography variant="body2" className={classes.name}>
+  	      <Typography variant="body2" className={classes.title}>
   		{node.title}
   	      </Typography>
-  	      <Typography variant="body2" className={classes.username}>
-  		{node.user.name} - {new Date(node.date).toDateString()}
+  	      <Typography variant="body2" className={classes.subtitle}>
+  		{node.user.name} - <CustomDate variant={PreciseVal} date={node.date} />
   	      </Typography>
 	    </div>
 	);
