@@ -144,10 +144,11 @@ class NewsList extends Component {
 	    infiniteScroll = false;
 	    make = (data) => (
 		<ListView
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data}
+		    makeLabel={this.makeLabel}
+		    makeBody={this.makeBody}
+		    makeMedia={this.makeMedia}
+		    makeActions={this.makeActions}
+		    data={data}
 		/>
 	    );
 	} else {
@@ -155,13 +156,13 @@ class NewsList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		expandedAll
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeMedia={this.makeMedia}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
-		data={data}
+		    expandedAll
+		    makeImage={this.makeImage}
+		    makeLabel={this.makeLabel}
+		    makeMedia={this.makeMedia}
+		    makeBody={this.makeBody}
+		    makeActions={this.makeActions}
+		    data={data}
 		/>
 	    );
 	}

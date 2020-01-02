@@ -112,6 +112,9 @@ const styles = theme => ({
 	paddingBottom: theme.spacing(3),
 	textDecoration: 'none',
     },
+    bottom: {
+	height: theme.spacing(5),
+    },
 });
 
 const query = loader('../../Static/graphql/operations/Nonprofit.gql')
@@ -314,6 +317,7 @@ class Nonprofit extends Component {
 		      View all donations
 		    </Typography>
 		</Grid>
+		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </div>
 	    </div>
 	); 

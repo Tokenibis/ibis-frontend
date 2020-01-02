@@ -46,7 +46,7 @@ class Quote extends Component {
 		{quote}
 	      </Typography>
 	      <Typography variant="body2" className={classes.author}>
-		{author && `-- ${author}`}
+		&mdash;&nbsp;{author && `${author}`}
 	      </Typography>
 	    </div>										    
 	);

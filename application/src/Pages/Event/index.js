@@ -48,8 +48,8 @@ const styles = theme => ({
     edgeMutations: {
 	display: 'flex',
     },
-    info: {
-	paddingTop: theme.spacing(2),
+    description: {
+	paddingBottom: theme.spacing(1),
     },
     infoLeft: {
 	marginLeft: 'auto',
@@ -57,10 +57,14 @@ const styles = theme => ({
     infoRight: {
 	marginRight: 'auto',
     },
-    infoLine: {
+    label: {
+	fontWeight: 'bold',
 	paddingBottom: theme.spacing(1),
 	color: theme.palette.tertiary.main,
-	fontWeight: 'bold',
+    },
+    info: {
+	paddingBottom: theme.spacing(1),
+	color: theme.palette.tertiary.main,
     },
     subtitle: {
 	color: theme.palette.tertiary.main,
@@ -197,36 +201,36 @@ class Event extends Component {
 		    </Confirmation>
 		  </Typography>
 		</Grid>
-		<Grid item xs={12}>
+		<Grid item xs={12} className={classes.description}>
 		  <CustomMarkdown safe source={node.description} />
 		</Grid>
-		<Grid className={classes.infoLeft} item xs={4}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoLeft} item xs={3}>
+  		  <Typography variant="body2" className={classes.label}>
 		    {'Who:'}
 		  </Typography>
 		</Grid>
-		<Grid className={classes.infoRight} item xs={8}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoRight} item xs={9}>
+  		  <Typography variant="body2" className={classes.info}>
 		    {node.user.name}
 		  </Typography>
 		</Grid>
-		<Grid className={classes.infoLeft} item xs={4}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoLeft} item xs={3}>
+  		  <Typography variant="body2" className={classes.label}>
 		    {'When:'}
 		  </Typography>
 		</Grid>
-		<Grid className={classes.infoRight} item xs={8}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoRight} item xs={9}>
+  		  <Typography variant="body2" className={classes.info}>
 		    <CustomDate variant={LongVal} date={node.date} />
 		  </Typography>
 		</Grid>
-		<Grid className={classes.infoLeft} item xs={4}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoLeft} item xs={3}>
+  		  <Typography variant="body2" className={classes.label}>
 		    {'Where:'}
 		  </Typography>
 		</Grid>
-		<Grid className={classes.infoRight} item xs={8}>
-  		  <Typography variant="body2" className={classes.infoLine}>
+		<Grid className={classes.infoRight} item xs={9}>
+  		  <Typography variant="body2" className={classes.info}>
 		    {node.address.split('\n').map((item, key) => (
 			<span key={key}>{item}<br/></span>
 		    ))}

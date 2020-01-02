@@ -38,26 +38,19 @@ const styles = theme => ({
     },
     message: {
 	fontSize: 16,
-	paddingTop: theme.spacing(3),
 	paddingLeft: theme.spacing(3),
 	paddingRight: theme.spacing(3),
 	paddingBottom: theme.spacing(1),
     },
     buttonsWrapper: {
-	paddingBottom: theme.spacing(3),
     },
     dialogButton: {
-	paddingLeft: theme.spacing(6),
-	paddingRight: theme.spacing(6),
-	marginTop: theme.spacing(1),
-	marginBottom: theme.spacing(1),
-	marginLeft: theme.spacing(2),
-	marginRight: theme.spacing(2),
+	margin: theme.spacing(1),
 	color: theme.palette.secondary.main,
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.palette.secondary.main,
-	width: theme.spacing(25),
+	width: theme.spacing(10),
     },
     preview: {
  	borderStyle: 'solid',

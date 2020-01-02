@@ -120,12 +120,12 @@ class SideMenu extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center">
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar
-		  component={Link}
-		  to="/_/Account"
-  		  alt="Ibis"
-  		  src={avatar}
-  		  className={classes.avatar}
-		  onClick={(e) => this.toggleDrawer(false)}
+		    component={Link}
+		    to={`/_/Person?id=${context.userID}`}
+		    alt="Ibis"
+		    src={avatar}
+		    className={classes.avatar}
+		    onClick={(e) => this.toggleDrawer(false)}
 		  />
 		  <Typography
 		    component={Link}

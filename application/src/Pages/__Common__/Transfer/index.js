@@ -101,6 +101,9 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	paddingRight: theme.spacing(1),
     },
+    bottom: {
+	height: theme.spacing(5),
+    },
 });
 
 class Transfer extends Component {
@@ -251,6 +254,7 @@ class Transfer extends Component {
 		      onSubmitParent={() => this.onSubmit()}
 		  />
 		</Grid>
+		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </Grid>
 	   </Grid>
 	);

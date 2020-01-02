@@ -26,23 +26,24 @@ const styles = theme => ({
 	width: '100%',
     },
     username: {
-	color: theme.palette.secondary.main,
-	fontWeight: 'bold',
-	textDecoration: 'none',
-	paddingTop: theme.spacing(1),
+	color: theme.palette.tertiary.main,
+	paddingBottom: theme.spacing(2),
     },
     name: {
 	color: theme.palette.primary.main,
     },
     donated: {
 	paddingTop: theme.spacing(1),
-	color: theme.palette.primary.main,
+	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
     },
     dateJoined: {
 	paddingTop: theme.spacing(1),
-	color: theme.palette.primary.main,
+	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
+    },
+    label: {
+	fontWeight: 'bold',
     },
     link: {
 	color: theme.palette.secondary.main,
@@ -108,6 +109,9 @@ const styles = theme => ({
 	paddingBottom: theme.spacing(3),
 	textDecoration: 'none',
     },
+    bottom: {
+	height: theme.spacing(5),
+    },
 })
 
 const query = loader('../../Static/graphql/operations/Person.gql')
@@ -150,29 +154,29 @@ class Person extends Component {
     		      src={node.avatar}
   		      className={classes.avatar}
 		  />
-		  <Typography
-		      component={Link}
-		      to="/_/Account"
-  		      alt="Ibis"
-		      variant="body2"
-		      className={classes.username}
-		  >
-		  {`@${node.username}`}
-		  </Typography>
 		  <Typography variant="h6" className={classes.name}>
 		    {node.name}
+		  </Typography>
+		  <Typography variant="body2" className={classes.username}>
+		    @{node.username}
 		  </Typography>
 		  <Typography
 		      variant="body2"
 		      className={classes.dateJoined}
 		  >
-		    Onboard Since: {new Date(node.dateJoined).toLocaleDateString()}
+		    <span className={classes.label}> Since: </span> 
+		    {new Date(node.dateJoined).toLocaleDateString('en-us', {
+			month: 'short',
+			day: 'numeric',
+			year: 'numeric',
+		    })}
 		  </Typography>
 		  <Typography
 		      variant="body2"
 		      className={classes.donated}
 		  >
-		    Donated: <Amount amount={node.donated} />
+		    <span className={classes.label}> Donated: </span> 
+		    <Amount amount={node.donated} />
 		  </Typography>
 		  <div className={classes.followStatWrapper}>
 		    <PersonDialogList
@@ -225,6 +229,32 @@ class Person extends Component {
 		</CardActions>
 	      </Card>
 	      <div className={classes.preview} >
+  		<Grid
+		    container
+		    direction="column"
+		    justify="center"
+		    alignItems="center"
+		    className={node.postCount === 0 && classes.hide}
+		>
+		  <Typography variant="button" className={classes.heading} >
+		    Post History
+		  </Typography>
+		  <PostList
+		      minimal
+		      context={context}
+		      filterValue={`_User:${id}`}
+		      count={3}
+		  />
+		  <Typography
+		      component={Link}
+		      prefix={1}
+		      to={`PostList?filterValue=_User:${id}`}
+		      variant="body2"
+		      className={classes.viewAll}
+		  >
+		    View all posts
+		  </Typography>
+		</Grid>
   		<Grid
 		    container
 		    direction="column"
@@ -303,32 +333,7 @@ class Person extends Component {
 		    View all events
 		  </Typography>
 		</Grid>
-  		<Grid
-		    container
-		    direction="column"
-		    justify="center"
-		    alignItems="center"
-		    className={node.postCount === 0 && classes.hide}
-		>
-		  <Typography variant="button" className={classes.heading} >
-		    Post History
-		  </Typography>
-		  <PostList
-		      minimal
-		      context={context}
-		      filterValue={`_User:${id}`}
-		      count={3}
-		  />
-		  <Typography
-		      component={Link}
-		      prefix={1}
-		      to={`PostList?filterValue=_User:${id}`}
-		      variant="body2"
-		      className={classes.viewAll}
-		  >
-		    View all posts
-		  </Typography>
-		</Grid>
+		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </div>
 	    </div>
 	); 
