@@ -40,6 +40,14 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
     },
+    balance: {
+	paddingTop: theme.spacing(2),
+	color: theme.palette.tertiary.main,
+    },
+    zeroBalance: {
+	paddingTop: theme.spacing(2),
+	color: 'red',
+    },
     buttonWrapper: {
 	paddingTop: theme.spacing(2),
     },
@@ -62,7 +70,7 @@ const styles = theme => ({
     },
 });
 
-const MAX_AMOUNT = 100;
+const MAX_AMOUNT = 10000;
 
 const VARIANTS = {
     donation: {
@@ -114,7 +122,7 @@ class TransferCreate extends Component {
 	}
     }
 
-    handleChangeAmount() {
+    handleChangeAmount(balance) {
 	let value = document.getElementById('transfer_amount').value;
 
 	// handle negatives 
@@ -128,8 +136,9 @@ class TransferCreate extends Component {
 	}
 
 	// handle numbers that are out of range
-	if (!isNaN(value) && Number(value) > MAX_AMOUNT) {
-	    value = MAX_AMOUNT;
+	let max = Math.min(balance, MAX_AMOUNT)
+	if (!isNaN(value) && Number(value) > max / 100) {
+	    value = max / 100;
 	}
 
 	let enableTransfer = Number(value) > 0 &&
@@ -162,6 +171,7 @@ class TransferCreate extends Component {
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
+
 		  return (
   		      <Grid container direction="column" justify="center" alignItems="center" >
 			<Grid container className={classes.content}>
@@ -180,6 +190,22 @@ class TransferCreate extends Component {
 			  </Grid>
 			  <Grid item xs={4}>
 			    <Typography variant="body2" className={classes.label}>
+			      Balance
+			    </Typography>
+			  </Grid>
+			  <Grid item xs={8}>
+			    {data.user.balance > 0.0 ? (
+				<Typography variant="body2" className={classes.balance}>
+				  ${(data.user.balance/100).toFixed(2)}
+				</Typography>
+			    ):(
+				<Typography variant="body2" className={classes.zeroBalance}>
+				  $0.00 - No funds remaining
+				</Typography>
+			    )}
+			  </Grid>
+			  <Grid item xs={4}>
+			    <Typography variant="body2" className={classes.label}>
 			      Amount
 			    </Typography>
 			  </Grid>
@@ -194,7 +220,7 @@ class TransferCreate extends Component {
 				fullWidth
 				value={amount}
 				onKeyPress={(e) => this.handleKeyPressAmount(e)}
-				onChange={() => this.handleChangeAmount()}
+				onChange={() => this.handleChangeAmount(data.user.balance)}
 				type="number"
 				InputProps={{
 				    startAdornment: <InputAdornment position="start">$</InputAdornment>,
