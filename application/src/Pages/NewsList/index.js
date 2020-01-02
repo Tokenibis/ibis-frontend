@@ -13,8 +13,6 @@ import Filter from '../__Common__/Filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
 
-const removeMd = require('remove-markdown');
-
 const styles = theme => ({
     avatar: {
  	borderStyle: 'solid',
@@ -104,7 +102,7 @@ class NewsList extends Component {
     makeBody = (node) => {
 	return (
   	    <Typography variant="body2">
-  	      <Truncated text={removeMd(node.description)}/>
+  	      <Truncated text={node.description}/>
   	    </Typography>
 	);
     };

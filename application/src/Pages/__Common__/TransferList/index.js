@@ -12,8 +12,6 @@ import ListView from '../ListView';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
-const removeMd = require('remove-markdown');
-
 const styles = theme => ({
     avatar: {
  	borderStyle: 'solid',
@@ -91,7 +89,7 @@ class TransferList extends Component {
     makeBody = (node) => {
 	return (
 	    <Typography variant="body2">
-  	      <Truncated text={removeMd(node.description)}/>
+  	      <Truncated text={node.description}/>
 	    </Typography>
 	);
     }

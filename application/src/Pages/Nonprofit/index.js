@@ -22,8 +22,6 @@ import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
 
-const removeMd = require('remove-markdown');
-
 const styles = theme => ({
     root: {
 	width: '100%',
@@ -176,7 +174,7 @@ class Nonprofit extends Component {
 		      ):(
 			  <Typography variant="body2" className={classes.description}>
 			    <Truncated
-				text={removeMd(node.description)}
+				text={node.description}
 			    />
 			  </Typography>
 		      )
