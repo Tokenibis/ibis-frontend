@@ -31,11 +31,14 @@ function CustomDate({ date, variant }) {
     } else if (diff < 60 * 5) {
 	return 'A few minutes ago';
     } else if (diff < 60 * 60) {
-	return `${Math.round(diff / 60)} minutes ago`;
+	let minutes = Math.round(diff / 60)
+	return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     } else if (diff < 60 * 60 * 24) {
-	return `${Math.round(diff / 60 / 60)} hours ago`;
+	let hours = Math.round(diff / 60 / 60)
+	return `${hours} hour${hours > 1 ? 's' : ''} ago`;
     } else if (diff < 60 * 60 * 14) {
-	return `${Math.round(diff / 60 / 60 / 14)} days ago`;
+	let days = Math.round(diff / 60 / 60 / 24)
+	return `${days} day${days > 1 ? 's' : ''} ago`;
     } else {
 	return time.toLocaleDateString('en-us', {
 	    month: 'long',
