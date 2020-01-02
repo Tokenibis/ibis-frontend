@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
 import Link from '../../__Common__/CustomLink';
+import PersonDialogList, { FollowingVal, FollowerVal } from '../__Common__/PersonDialogList';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import Filter from '../__Common__/Filter';
@@ -24,6 +25,11 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
+    followStatWrapper: {
+	paddingTop: theme.spacing(1),
+	paddingLeft: theme.spacing(5),
+	display: 'flex',
+    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -33,7 +39,7 @@ const styles = theme => ({
     },
     body: {
 	color: theme.palette.tertiary.main,
-	paddingLeft: theme.spacing(3),
+	paddingLeft: theme.spacing(6),
     },
     info: {
 	fontWeight: 'bold',
@@ -71,26 +77,6 @@ class PersonList extends Component {
   	      </Typography>
   	      <Typography variant="body2" className={classes.subtitle}>
   		{`@${node.username}`}
-  	      </Typography>
-	    </div>
-	);
-    }
-
-    makeBody = (node) => {
-	let { classes } = this.props;
-	return (
-	    <div>
-  	      <Typography variant="body2" className={classes.body}>
-		{`Date joined: ${new Date(node.dateJoined).toLocaleDateString()}`}
-  	      </Typography>
-  	      <Typography variant="body2" className={classes.body}>
-		{`Number of followers: ${node.followerCount}`}
-  	      </Typography>
-  	      <Typography variant="body2" className={classes.body}>
-		{`Number following: ${node.followingCount}`}
-  	      </Typography>
-  	      <Typography variant="body2" className={classes.body}>
-		{`Current Balance: $${(node.balance/100).toFixed(2)}`}
   	      </Typography>
 	    </div>
 	);
