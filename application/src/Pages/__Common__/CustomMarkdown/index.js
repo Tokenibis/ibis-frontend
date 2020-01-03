@@ -20,6 +20,9 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
     },
+    image: {
+	maxWidth: '100%',
+    },
 });
 
 function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
@@ -76,6 +79,9 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
 		          noClick={noClick}
 		      {...props}
 		      />
+		  ),
+		  image: props => (
+		      <img className={classes.image} src={props.src} />
 		  ),
 	      }}
 	  {...other}
