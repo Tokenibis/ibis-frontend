@@ -69,6 +69,9 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
+    img: {
+	width: '100%',
+    },
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
@@ -186,10 +189,10 @@ class Event extends Component {
 		    />
 		  </ListItem>
   		  <CardMedia
-		      style={{ height: imageHeight }}
-    		      image={node.image}
   		      title={node.title}
-  		  />
+  		  >
+		    <img className={classes.img} src={node.image} />
+		  </CardMedia>
 		</Grid>
 		<Grid item xs={12}>
 		  <Typography variant="body2" className={classes.link}>

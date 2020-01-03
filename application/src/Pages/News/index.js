@@ -44,6 +44,9 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
+    img: {
+	width: '100%',
+    },
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
@@ -96,9 +99,6 @@ class News extends Component {
 	let { classes, context, id } = this.props;
 	let { likeCount } = this.state;
 	
-	let imageHeight = Math.round(Math.min(window.innerWidth, context.maxWindowWidth)
-	    * context.displayRatio);
-
 	let likeCallback = (change) => {
 	    this.setState({ likeCount: node.likeCount + change });
 	}
@@ -138,10 +138,10 @@ class News extends Component {
 		    />
 		  </ListItem>
   		  <CardMedia
-		      style={{ height: imageHeight }}
-    		      image={node.image}
   		      title={node.title}
-  		  />
+  		  >
+		    <img className={classes.img} src={node.image} />
+		  </CardMedia>
 		  <Typography variant="body2" className={classes.link}>
 		    <Confirmation
 			onClick={() => {window.location = node.link}}

@@ -158,7 +158,7 @@ class NonprofitList extends Component {
 		break;
 	    case 'New':
 		variables = {
-		    orderBy: "date_joined",
+		    orderBy: "-date_joined",
 		    first: count,
 		}
 		break;

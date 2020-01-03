@@ -181,7 +181,7 @@ class EventList extends Component {
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
 		variables = {
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
@@ -194,49 +194,49 @@ class EventList extends Component {
 	    case 'Following':
 		variables = {
 		    byFollowing: context.userID,
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case 'Bookmarked':
 		variables = {
 		    bookmarkBy: context.userID,
-		    orderBy: "-created",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case 'Going':
 		variables = {
 		    rsvpBy: context.userID,
-		    orderBy: "-created",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case '_Search':
 		variables = {
 		    search: filterValue.split(':')[1],
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case '_Host':
 		variables = {
 		    byUser: filterValue.split(':')[1],
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case `_Going`:
 		variables = {
 		    rsvpBy: filterValue.split(':')[1],
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
 	    case `_Calendar`:
 		variables = {
 		    beginDate: filterValue.split(/:(.+)/)[1],
-		    orderBy: "-date",
+		    orderBy: "date",
 		    first: count,
 		}
 		break;
