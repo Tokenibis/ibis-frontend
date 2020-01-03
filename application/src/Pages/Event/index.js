@@ -14,10 +14,10 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
-import PersonDialogList, {
+import UserDialogList, {
     LikeVal as DialogLikeVal,
     RsvpVal as DialogRsvpVal,
-} from '../__Common__/PersonDialogList';
+} from '../__Common__/UserDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 import CustomDate, { PreciseVal, LongVal } from '../__Common__/CustomDate';
@@ -276,14 +276,14 @@ class Event extends Component {
 			  initial={node.hasBookmarked.edges.length === 1}
 		      />
 		      <div className={classes.personDialogWrapper}>
-			<PersonDialogList
+			<UserDialogList
 			    variant={DialogLikeVal}
 			    count={likeCount}
 			    node={node.id}
 			/>
 		      </div>
 		      <div className={classes.personDialogWrapper}>
-			<PersonDialogList
+			<UserDialogList
 			    variant={DialogRsvpVal}
 			    count={rsvpCount}
 			    node={node.id}

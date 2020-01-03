@@ -15,7 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
-import PersonDialogList, { FollowerVal } from '../__Common__/PersonDialogList';
+import UserDialogList, { FollowerVal } from '../__Common__/UserDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
@@ -187,7 +187,7 @@ class Nonprofit extends Component {
 				  </Typography>
 				</Button>
 			      </Confirmation>
-			      <PersonDialogList
+			      <UserDialogList
 				  variant={FollowerVal}
 				  count={followerCount}
 				  node={node.id}

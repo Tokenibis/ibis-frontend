@@ -12,7 +12,7 @@ import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import CustomDivider from '../../../__Common__/CustomDivider';
 import Link from '../../../__Common__/CustomLink';
 import CustomMarkdown from '../CustomMarkdown';
-import PersonDialogList, { LikeVal as DialogLikeVal} from '../PersonDialogList';
+import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 import CustomDate from '../CustomDate';
@@ -230,7 +230,7 @@ class Transfer extends Component {
 		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
 		    {context.userID === node.user.person.id ? (
-			<PersonDialogList
+			<UserDialogList
 			variant={DialogLikeVal}
 			count={node.likeCount}
 			node={node.id}

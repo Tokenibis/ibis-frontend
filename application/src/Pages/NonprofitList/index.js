@@ -117,9 +117,8 @@ class NonprofitList extends Component {
 	    infiniteScroll = false;
 	    make = (data) => (
 		<ListView
+		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
-		makeActions={this.makeActions}
 		data={data}
 		/>
 	    )
@@ -165,6 +164,13 @@ class NonprofitList extends Component {
 	    case 'Following':
 		variables = {
 		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		    first: count,
+		}
+		break;
+	    case '_Following':
+		variables = {
+		    followedBy: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
 		    first: count,
 		}

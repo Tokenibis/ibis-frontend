@@ -7,6 +7,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Link from '../../../__Common__/CustomLink';
 import { IbisConsumer } from '../../../Context';
 import PersonList from '../../PersonList';
+import NonprofitList from '../../NonprofitList';
 
 const styles = theme => ({
     button: {
@@ -55,11 +56,15 @@ const VARIANTS = {
 	display: 'Going',
 	filter: '_RsvpFor',
     },
+    nonprofitFollow: {
+	display: 'Nonprofits',
+	filter: '_Following',
+    },
 }
 
 const NUM = 25;
 
-class PersonDialogList extends Component {
+class UserDialogList extends Component {
 
     state = {
 	opened: false,
@@ -87,12 +92,22 @@ class PersonDialogList extends Component {
 		<div className={classes.dialogInner}>
 		  <IbisConsumer>
 		    {context => (
-			<PersonList
-			    minimal
-			    context={context}
-			    filterValue={`${VARIANTS[variant].filter}:${node}`}
-			    count={NUM}
-			/>
+			variant === 'nonprofitFollow' ?
+			(
+			    <NonprofitList
+				minimal
+				context={context}
+				filterValue={`${VARIANTS[variant].filter}:${node}`}
+				count={NUM}
+			    />
+			):(
+			    <PersonList
+				minimal
+				context={context}
+				filterValue={`${VARIANTS[variant].filter}:${node}`}
+				count={NUM}
+			    />
+			)
 		    )}
 		  </IbisConsumer>
 		  {count > NUM &&
@@ -131,4 +146,5 @@ export const FollowingVal = 'following';
 export const FollowerVal = 'follower';
 export const LikeVal = 'like';
 export const RsvpVal = 'rsvp';
-export default withStyles(styles)(PersonDialogList);
+export const NonprofitFollowVal = 'nonprofitFollow';
+export default withStyles(styles)(UserDialogList);

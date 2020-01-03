@@ -15,7 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../__Common__/Confirmation';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
-import PersonDialogList, { LikeVal as DialogLikeVal } from '../__Common__/PersonDialogList';
+import UserDialogList, { LikeVal as DialogLikeVal } from '../__Common__/UserDialogList';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
 import CommentTree from '../__Common__/CommentTree';
 import CustomDate from '../__Common__/CustomDate';
@@ -167,7 +167,7 @@ class News extends Component {
 			  initial={node.hasBookmarked.edges.length === 1}
 		      />
 		      <div className={classes.personDialogWrapper}>
-			<PersonDialogList
+			<UserDialogList
 			    variant={DialogLikeVal}
 			    count={likeCount}
 			    node={node.id}
