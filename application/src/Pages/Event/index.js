@@ -224,7 +224,15 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={9}>
   		  <Typography variant="body2" className={classes.info}>
-		    <CustomDate variant={LongVal} date={node.date} />
+		    {
+			CustomDate({
+			    variant: LongVal,
+			    date: node.date,
+			    duration: node.duration
+			}).split('\n').map((item, key) => (
+			    <span key={key}>{item}<br/></span>
+			))
+		    }
 		  </Typography>
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={3}>

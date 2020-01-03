@@ -1,9 +1,22 @@
-function CustomDate({ date, variant }) {
+function CustomDate({ date, variant, duration }) {
 
     let time = date ? new Date(date) : new Date()
     let now = new Date()
 
-    if (variant === 'long') { 
+    if (duration) {
+	return time.toLocaleDateString('en-us', {
+	    weekday: 'long',
+	    month: 'short',
+	    day: 'numeric',
+	    year: 'numeric',
+	}) + '\n' + time.toLocaleString('en-us', {
+	    hour: 'numeric',
+	    minute: 'numeric',
+	}) + ' to ' + new Date((time.getTime() + (duration * 60 * 1000))).toLocaleString('en-us', {
+	    hour: 'numeric',
+	    minute: 'numeric',
+	});
+    } else if (variant === 'long') { 
 	return time.toLocaleDateString('en-us', {
 	    weekday: 'long',
 	    month: 'short',
