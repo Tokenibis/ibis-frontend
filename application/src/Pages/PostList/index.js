@@ -58,6 +58,11 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
     },
+    buttonWrapper: {
+	width: '100%',
+	textAlign: 'center',
+	paddingTop: theme.spacing(2),
+    },
     postButton: {
 	width: '90%',
 	color: theme.palette.secondary.main,
@@ -74,21 +79,6 @@ const DEFAULT_COUNT = 25;
 const query = loader('../../Static/graphql/operations/PostList.gql')
 
 class PostList extends Component {
-
-    makePreamble = () => {
-	let { classes } = this.props;
-
-	return (
-	    <Button
-		component={Link}
-		prefix={1}
-		to={`PostCreate`}
-		className={classes.postButton}
-	    >
-	      New Post
-	    </Button>
-	);
-    };
 
     makeImage = (node) => {
 	let { classes  } = this.props;
@@ -161,7 +151,7 @@ class PostList extends Component {
     };
 
     render() {
-	let { context, minimal, filterValue, count } = this.props;
+	let { classes, context, minimal, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	if (minimal) {
@@ -181,7 +171,6 @@ class PostList extends Component {
 	    make = (data) => (
 		<ListView
 		expandedAll
-		makePreamble={this.makePreamble}
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
 		makeBody={this.makeBody}
@@ -251,12 +240,26 @@ class PostList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <QueryHelper
-		query={query}
-		variables={variables}
-		make={make}
-		infiniteScroll={infiniteScroll}
-	    />
+	    <div>
+	      {!minimal && 
+	       <div className={classes.buttonWrapper}>
+		 <Button
+		     component={Link}
+		     prefix={1}
+		     to={`PostCreate`}
+		     className={classes.postButton}
+		   >
+		   New Post
+		 </Button>
+	       </div>
+	      }
+	      <QueryHelper
+		  query={query}
+		  variables={variables}
+		  make={make}
+		  infiniteScroll={infiniteScroll}
+	      />
+	    </div>
 	);
     };
 
