@@ -97,6 +97,9 @@ const styles = theme => ({
     subtitle: {
 	color: theme.palette.tertiary.main,
     },
+    bottom: {
+	height: theme.spacing(5),
+    },
 });
 
 const DEFAULT_COUNT = 25;
@@ -402,6 +405,7 @@ class Deposit extends Component {
 		</Typography>
 	      </Grid>
 	      <DepositList classes={classes} context={context} numDeposits={numDeposits}/>
+	      <Grid item xs={12}><div className={classes.bottom} /></Grid>
 	    </React.Fragment>
 
 	);
