@@ -13,6 +13,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Dialog from '@material-ui/core/Dialog';
 import DepositIcon from '@material-ui/icons/SwapHoriz';
+import Checkbox from '@material-ui/core/Checkbox';
 import axios from "axios";
 
 import QueryHelper from "../__Common__/QueryHelper";
@@ -57,13 +58,22 @@ const styles = theme => ({
 	backgroundColor: theme.palette.lightBackground.main,
 	marginBottom: theme.spacing(3),
     },
+    checkBox: {
+	paddingTop: theme.spacing(2),
+    },
     dialogInner: {
 	padding: theme.spacing(2),
 	textAlign: 'center',
     },
     label: {
 	paddingTop: theme.spacing(2),
+	paddingRight: theme.spacing(2),
 	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    fine: {
+	paddingTop: theme.spacing(2),
+	fontSize: '12px',
 	color: theme.palette.tertiary.main,
     },
     icon: {
@@ -75,10 +85,6 @@ const styles = theme => ({
 	width: '90%',
 	paddingTop: theme.spacing(2),
 	paddingBottom: theme.spacing(2),
-    },
-    fine: {
-	fontSize: '12px',
-	color: theme.palette.tertiary.main,
     },
     button: {
 	width: '80%',
@@ -104,9 +110,13 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
+const FEE_FIXED = 30;
+
+const FEE_PERCENT = 0.029;
+
 const MAX_AMOUNT = 100000;
 
-const MIN_AMOUNT = 500;
+const MIN_AMOUNT = 1000;
 
 const query = loader('../../Static/graphql/operations/DepositList.gql')
 
@@ -126,15 +136,10 @@ class DepositList extends Component {
     makeLabel = (node) => {
 	let { classes } = this.props;
 
-	let amount = node.amount;
-	if (node.paymentId.split(':')[0] === 'paypal') {
-	    amount += parseInt(node.paymentId.split(':')[1]);
-	}
-
 	return (
 	    <div>
 	      <Typography variant="body2" className={classes.title}>
-		<span className={classes.amount}>{`$${(amount/100).toFixed(2)}`} - </span>
+		<span className={classes.amount}>{`$${(node.amount/100).toFixed(2)}`} - </span>
 		<CustomDate variant={PreciseVal} date={node.created} />
 	      </Typography>
 	    </div>
@@ -189,6 +194,7 @@ class Deposit extends Component {
 	enableDeposit: false,
 	numDeposits: 0,
 	dialog: '',
+	checked: true,
     };
 
     handleKeyPressAmount(event) {
@@ -275,9 +281,14 @@ class Deposit extends Component {
 
     render() {
 	let { classes, context } = this.props
-	let { sdkLoaded, ordering, enableDeposit, amount, numDeposits, dialog } = this.state;
+	let { sdkLoaded, ordering, enableDeposit, amount, numDeposits, dialog, checked } = this.state;
 
 	let paypalButton;
+
+	let amount_final = amount;
+	if (checked) {
+	    amount_final = (Math.round((amount * 100 + FEE_FIXED) / (1 - FEE_PERCENT)) / 100).toFixed(2);
+	}
 
 	if (sdkLoaded && !ordering) {
 	    let PaypalButton = window.paypal.Buttons.driver('react', {
@@ -293,7 +304,7 @@ class Deposit extends Component {
 			  return actions.order.create({
 			      purchase_units: [{
 				  amount: {
-				      value: amount.toString(),
+				      value: amount_final.toString(),
 				  },
 				  custom_id: context.userID,
 			      }],
@@ -327,7 +338,7 @@ class Deposit extends Component {
 	      />
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		<Dialog
-		    open={dialog}
+		    open={!!dialog}
 		    onClose={() => this.setState({ dialog: ''})}
 		>
 		  <div className={classes.dialogInner}>
@@ -391,9 +402,24 @@ class Deposit extends Component {
 			    }}
 			/>
 		      </Grid>
-		      <Grid item xs={12}>
+		      <Grid item xs={4}>
+			<Typography variant="body2" className={classes.label}>
+			  Cover Our Fees?
+			</Typography>
+		      </Grid>
+		      <Grid item xs={2}>
+			<Checkbox
+			    className={classes.checkBox}
+			    color="secondary"
+			    checked={checked}
+			    onClick={() => {this.setState({ checked: !checked })}}
+			    value="primary"
+			    inputProps={{ 'aria-label': 'primary checkbox' }}
+			/>
+		      </Grid>
+		      <Grid item xs={6}>
 			<Typography variant="body2" className={classes.fine}>
-			  * $5.00 minimum charge. The credit card processing fee (which is charged by Paypal and, as far as we can tell, standard for all online donations) will be deducted from this total.
+			  This is the standard processing fee that Paypal charges.
 			</Typography>
 		      </Grid>
 		    </Grid>
