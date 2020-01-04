@@ -232,7 +232,7 @@ class Person extends Component {
 			):(
 			    <Button
 				component={Link}
-				to="/_/Bank"
+				to="/_/Deposit"
 				className={classes.actionPay}
 				>
 			      Deposit

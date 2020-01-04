@@ -10,7 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AnnouncementIcon from '@material-ui/icons/AnnouncementOutlined';
 import FollowIcon from '@material-ui/icons/HowToReg';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import SendIcon from '@material-ui/icons/SendOutlined';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import NewsIcon from '@material-ui/icons/ListAlt';
@@ -57,7 +57,7 @@ const CATEGORIES = {
     GA: <AnnouncementIcon color="secondary"/>,
     UD: <UBPIcon color="secondary"/>,
     RF: <FollowIcon color="secondary"/>,
-    RT: <TransactionIcon color="secondary"/>,
+    RT: <SendIcon color="secondary"/>,
     RC: <CommentIcon color="secondary"/>,
     RL: <LikeIcon color="secondary"/>,
     FN: <NewsIcon color="secondary"/>,

@@ -25,9 +25,7 @@ import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import EngageIcon from '@material-ui/icons/MapOutlined';
 import NonprofitIcon from '@material-ui/icons/StoreOutlined';
-import DonationIcon from '@material-ui/icons/AttachMoney';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
@@ -146,7 +144,7 @@ class Home extends Component {
 		</Typography>
 		<Typography
 		    component={Link}
-		    to="/_/Bank"
+		    to="/_/Deposit"
   		    alt="Ibis"
 		    variant="body2"
 		    className={classes.balance}
@@ -175,7 +173,7 @@ class Home extends Component {
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Donations" 
-			icon={<DonationIcon />} 
+			icon={<GiveIcon />} 
 		    />
 		  </Link>
 		</Sublist>
@@ -196,7 +194,7 @@ class Home extends Component {
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Transactions" 
-			icon={<TransactionIcon />} 
+			icon={<SendIcon />} 
 		    />
 		  </Link>
 		</Sublist>
