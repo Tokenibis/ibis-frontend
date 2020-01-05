@@ -31,7 +31,7 @@ const styles = theme => ({
 	width: '80%',
     },
     progressWrapper: {
-	paddingBottom: theme.spacing(5),
+	padding: theme.spacing(5),
     },
     balanceProgress: {
 	marginTop: theme.spacing(2.5),
@@ -86,13 +86,17 @@ const styles = theme => ({
 	paddingTop: theme.spacing(2),
 	paddingBottom: theme.spacing(2),
     },
-    button: {
+    buttonActive: {
 	width: '80%',
     },
     buttonDisabled: {
 	width: '80%',
 	pointerEvents: 'none',
 	opacity: '50%',
+    },
+    buttonOrdering: {
+	width: '80%',
+	display: 'none',
     },
     title: {
 	color: theme.palette.primary.main,
@@ -102,6 +106,23 @@ const styles = theme => ({
     },
     subtitle: {
 	color: theme.palette.tertiary.main,
+    },
+    textField: {
+	'& .MuiOutlinedInput-root': {
+	    'color': theme.palette.tertiary.main,
+	    '& inputMultiline': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '& fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '&:hover fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	    '&.Mui-focused fieldset': {
+		borderColor: theme.palette.tertiary.main,
+	    },
+	},
     },
     bottom: {
 	height: theme.spacing(5),
@@ -270,9 +291,9 @@ class Deposit extends Component {
     }
 
     componentDidUpdate = () => {
-	let { enableDeposit } = this.state;
+	let { ordering } = this.state;
 
-	if (enableDeposit) {
+	if (ordering) {
 	    window.onbeforeunload = () => true
 	} else {
 	    window.onbeforeunload = undefined
@@ -283,24 +304,32 @@ class Deposit extends Component {
 	let { classes, context } = this.props
 	let { sdkLoaded, ordering, enableDeposit, amount, numDeposits, dialog, checked } = this.state;
 
-	let paypalButton;
-
 	let amount_final = amount;
 	if (checked) {
 	    amount_final = (Math.round((amount * 100 + FEE_FIXED) / (1 - FEE_PERCENT)) / 100).toFixed(2);
 	}
 
-	if (sdkLoaded && !ordering) {
+	let paypalButton = <div></div>;
+	if (sdkLoaded) {
 	    let PaypalButton = window.paypal.Buttons.driver('react', {
 	       React,
 	       ReactDOM,
 	    });
 	    paypalButton = (
 		<div
-		    className={enableDeposit ? classes.button : classes.buttonDisabled}
+		    className={(sdkLoaded && enableDeposit) ? (
+			ordering ? (
+			    classes.buttonOrdering
+			):(
+			    classes.buttonActive
+			)
+		    ):(
+			classes.buttonDisabled
+		    )}
 		>
 		  <PaypalButton
 		      createOrder={ (data, actions) => {
+			  this.setState({ ordering: true });
 			  return actions.order.create({
 			      purchase_units: [{
 				  amount: {
@@ -315,17 +344,11 @@ class Deposit extends Component {
 		      }}
 		      onApprove={ (data, actions) => {
 			  return actions.order.capture().then((details) => {
-			      this.setState({ ordering: true });
 			      this.updateServer(data.orderID);
 			  });
 		      }}
+		      onCancel={ () => {this.setState({ ordering: false })}}
 		  />
-		</div>
-	    );
-	} else {
-	    paypalButton = (
-		<div className={classes.progressWrapper}>
-		  <CircularProgress/>
 		</div>
 	    );
 	}
@@ -333,7 +356,7 @@ class Deposit extends Component {
 	return (
 	    <React.Fragment>
 	      <Prompt
-		  when={enableDeposit}
+		  when={ordering}
 		  message='Wait! Leaving may interrupt the deposit process. Are you sure you want to continue?'
 	      />
   	      <Grid container direction="column" justify="center" alignItems="center" >
@@ -424,6 +447,11 @@ class Deposit extends Component {
 		      </Grid>
 		    </Grid>
 		    {paypalButton}
+		    {(!sdkLoaded || ordering) &&
+			<div className={classes.progressWrapper}>
+			  <CircularProgress/>
+			</div>
+		    }
 		  </Grid>
 		</Card>
 		<Typography variant="button" className={classes.heading} >
