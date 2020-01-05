@@ -12,7 +12,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Dialog from '@material-ui/core/Dialog';
-import DepositIcon from '@material-ui/icons/SwapHoriz';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from "axios";
 
@@ -21,6 +20,7 @@ import ListView from '../__Common__/ListView';
 import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
 import CustomMarkdown from '../__Common__/CustomMarkdown';
 import IbisIcon from '../../__Common__/IbisIcon';
+import PaypalIcon from '../__Common__/PaypalIcon';
 
 const config = require('../../config.json');
 
@@ -127,7 +127,7 @@ class DepositList extends Component {
     makeImage = (node) => {
 	let { classes } = this.props;
 	if (node.paymentId.split(':')[0] === 'paypal') {
-	    return <DepositIcon className={classes.icon} />
+	    return <PaypalIcon className={classes.icon} />
 	} else {
 	    return <IbisIcon className={classes.icon} />
 	}

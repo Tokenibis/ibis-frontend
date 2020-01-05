@@ -20,7 +20,9 @@ import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import EngageIcon from '@material-ui/icons/MapOutlined';
 import NonprofitIcon from '@material-ui/icons/StoreOutlined';
+import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
+import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
@@ -169,7 +171,7 @@ class SideMenu extends Component {
 		  <SublistItem
 		      label="Donations"
 		      classes={classes}
-		      icon={<GiveIcon />}
+		      icon={<DonationIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
@@ -192,7 +194,7 @@ class SideMenu extends Component {
 		  <SublistItem
 		      label="Transactions"
 		      classes={classes}
-		      icon={<SendIcon />}
+		      icon={<TransactionIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
