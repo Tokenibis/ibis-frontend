@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
 
-import Confirmation from '../Confirmation';
+import Confirmation from '../../../__Common__/Confirmation';
 
 const styles = theme => ({
     content: {

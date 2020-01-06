@@ -42,6 +42,7 @@ import { IbisProvider } from '../Context'
 import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
+import UserAgreement from '../__Common__/UserAgreement'
 
 const styles = theme => ({
     icon: {
@@ -65,6 +66,12 @@ const styles = theme => ({
 	paddingTop: theme.spacing(10),
 	display: 'flex',
 	justifyContent: 'center'
+    },
+    agreement: {
+	textAlign: 'center',
+	color: 'white',
+	position: 'fixed',
+	bottom: '5%',
     },
 });
 
@@ -232,6 +239,13 @@ class Authenticator extends Component {
 		      <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
 		    </Grid>
 		  </div>
+		    <Typography 
+			variant="body2"
+			style={{ width: width * 0.7 }}
+			className={classes.agreement}
+		    >
+		      <UserAgreement/>
+		    </Typography>
 		</Grid>
 	    );
 	} else {

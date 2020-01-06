@@ -25,7 +25,7 @@ import BookmarkFilledIcon from '@material-ui/icons/Bookmark';
 import RsvpOutlinedIcon from '@material-ui/icons/CalendarToday';
 import RsvpFilledIcon from '@material-ui/icons/EventAvailable';
 
-import Confirmation from '../Confirmation';
+import Confirmation from '../../../__Common__/Confirmation';
 
 const styles = theme => ({
     buttonWrapper: {

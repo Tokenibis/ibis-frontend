@@ -1,8 +1,10 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
-import CustomMarkdown from '../__Common__/CustomMarkdown';
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
+import UserAgreement from '../../__Common__/UserAgreement'
 
 let message = `
 
@@ -86,11 +88,19 @@ with headers, italics, images, lists, hyperlinks, etc. just like this
 page. For instance, typing \\*\\*I am bold\\*\\* will turn into **I am
 bold**. For more tips, checkout this [Markdown
 Cheatsheet](https://www.markdownguide.org/cheat-sheet/).
+
+---
 `
 
 const styles = theme => ({
     inner: {
 	width: '90%',
+	paddingBottom: theme.spacing(2),
+    },
+    agreement: {
+	color: theme.palette.tertiary.main,
+	width: '90%',
+	textAlign: 'center',
 	paddingBottom: theme.spacing(4),
     },
 });
@@ -101,6 +111,9 @@ function Info({ classes }) {
 	  <div className={classes.inner}>
 	    <CustomMarkdown safe source={message} />
 	  </div>
+	  <Typography variant="body2" className={classes.agreement}>
+	    <UserAgreement using/>
+	  </Typography>
 	</Grid>
     );
 };

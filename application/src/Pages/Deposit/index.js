@@ -15,10 +15,11 @@ import Dialog from '@material-ui/core/Dialog';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from "axios";
 
+import Popup from '../../__Common__/Popup';
 import QueryHelper from "../__Common__/QueryHelper";
 import ListView from '../__Common__/ListView';
 import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
-import CustomMarkdown from '../__Common__/CustomMarkdown';
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import IbisIcon from '../../__Common__/IbisIcon';
 import PaypalIcon from '../__Common__/PaypalIcon';
 
@@ -29,6 +30,9 @@ const styles = theme => ({
 	paddingTop: theme.spacing(2),
 	paddingBottom: theme.spacing(2),
 	width: '80%',
+    },
+    info: {
+	marginTop: theme.spacing(-0.5),
     },
     progressWrapper: {
 	padding: theme.spacing(5),
@@ -45,6 +49,11 @@ const styles = theme => ({
 	textAlign: 'center',
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
+    },
+    readme: {
+	textAlign: 'center',
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
     },
     heading: {
 	fontSize: '18px',
@@ -69,7 +78,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing(2),
 	paddingRight: theme.spacing(2),
 	fontWeight: 'bold',
-	color: theme.palette.tertiary.main,
+	color: theme.palette.primary.main,
     },
     fine: {
 	paddingTop: theme.spacing(2),
@@ -142,6 +151,40 @@ const MIN_AMOUNT = 1000;
 const query = loader('../../Static/graphql/operations/DepositList.gql')
 
 const query_balance = loader('../../Static/graphql/operations/Deposit.gql')
+
+const message = `## Payment Guide
+
+### Where is my money going?
+
+By making a deposit on this page, you will be exchanging real money
+(from your credit card, Paypal, etc) in exchange for donable ibis
+tokens on the app.
+
+### Are you sure this is safe?
+
+Yes! Token Ibis does not store your actual payment information at any
+__ever__. The entire workflow goes through _Paypal_, so you can feel
+safe making this payment as long as you trust them.
+
+### What is this fee?
+
+Token Ibis collects zero fees. However, all credit card transactions
+have a hidden fee that's usually silently charged to the vendor; in
+this case, the fee goes to _Paypal_. Please note that similar charges
+apply no matter where you make your online donation, so going through
+Ibis _does not_ add any more fees to the processes. If you would like
+to put money into your account without any fees at all, please get in
+contact with us and we will be happy to arrange for a donation via
+physical check or money transfer.
+
+### Something went wrong, what do I do?
+
+No need to panic. The most likely explanation is either a temporary
+network hiccup or a bug in our code. Assuming that Paypal engineers
+know what they're doing, your money is either in our bank account or
+still in yours. Please get in contact at __info@tokenibis.org__ to let
+us know about the bug and so that we can credit your balance as
+necessary.`;
 
 class DepositList extends Component {
 
@@ -373,8 +416,15 @@ class Deposit extends Component {
 		    <Grid container className={classes.content}>
 		      <Grid item xs={12} style={{ textAlign: 'center'}}>
 			<Typography variant="h6" className={classes.headingTitle} >
-			  Make Deposit
+			  Make Deposit 
 			</Typography>
+			<div>
+			  <Popup wide message={message}>
+			    <Typography variant="body2" className={classes.readme} >
+			      Read me
+			    </Typography>
+			  </Popup>
+			</div>
 		      </Grid>
 		      <Grid item xs={4}>
 			<Typography variant="body2" className={classes.label}>
@@ -442,7 +492,7 @@ class Deposit extends Component {
 		      </Grid>
 		      <Grid item xs={6}>
 			<Typography variant="body2" className={classes.fine}>
-			  This is the standard processing fee that Paypal charges.
+			  This is the standard Paypal processing fee.
 			</Typography>
 		      </Grid>
 		    </Grid>

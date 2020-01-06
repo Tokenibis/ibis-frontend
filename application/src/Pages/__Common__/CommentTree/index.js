@@ -16,11 +16,11 @@ import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
 
 import Link from '../../../__Common__/CustomLink';
-import CustomMarkdown from '../CustomMarkdown';
+import CustomMarkdown from '../../../__Common__/CustomMarkdown';
 import CustomDivider from '../../../__Common__/CustomDivider';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
-import Confirmation from '../Confirmation';
+import Confirmation from '../../../__Common__/Confirmation';
 import CustomDate from '../CustomDate';
 
 const MAX_DEPTH = 3;

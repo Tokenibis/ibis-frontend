@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 
-import Confirmation from '../__Common__/Confirmation';
+import Confirmation from '../../__Common__/Confirmation';
 
 const styles = theme => ({
     content: {

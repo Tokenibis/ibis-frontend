@@ -23,7 +23,7 @@ import SubmitIcon from '@material-ui/icons/DoneOutline';
 import Radio from '@material-ui/core/Radio';
 
 import CustomDivider from '../../__Common__/CustomDivider';
-import CustomMarkdown from '../__Common__/CustomMarkdown';
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
 
 
 const styles = theme => ({

@@ -10,8 +10,8 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 
 import CustomDivider from '../../../__Common__/CustomDivider';
+import CustomMarkdown from '../../../__Common__/CustomMarkdown';
 import Link from '../../../__Common__/CustomLink';
-import CustomMarkdown from '../CustomMarkdown';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';

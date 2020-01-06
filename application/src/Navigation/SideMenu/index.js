@@ -129,7 +129,7 @@ class SideMenu extends Component {
 		  />
 		  <Typography
 		    component={Link}
-		    to="/_/Account"
+		    to={`/_/Person?id=${context.userID}`}
   		    alt="Ibis"
 		    variant="body2"
 		    className={classes.username}

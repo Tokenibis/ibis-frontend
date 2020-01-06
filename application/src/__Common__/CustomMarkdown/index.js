@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 
 import Confirmation from '../Confirmation';
 
-const config = require('../../../config.json');
+const config = require('../../config.json');
 
 const styles = theme => ({
     message: {

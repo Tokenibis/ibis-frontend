@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomMarkdown from '../CustomMarkdown';
-import CustomDivider from '../../../__Common__/CustomDivider';
+import CustomDivider from '../CustomDivider';
 
 const styles = theme => ({
     progress: {
