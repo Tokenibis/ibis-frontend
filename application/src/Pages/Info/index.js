@@ -89,6 +89,27 @@ page. For instance, typing \\*\\*I am bold\\*\\* will turn into **I am
 bold**. For more tips, checkout this [Markdown
 Cheatsheet](https://www.markdownguide.org/cheat-sheet/).
 
+## Troubleshooting
+
+Since Ibis is in Beta mode, we do expect that things will break
+at some point. In general here are some standard procedures we 
+recommend trying first:
+
+1. Refresh the page.
+
+2. Log out and then back in.
+
+3. Try in the mobile browser (instead of home-screen app).
+
+4. Clear the cache and cookies for your mobile browser.
+
+5. Download new updates for your mobile browser.
+
+6. Try in a desktop browser.
+
+And if all fails, the last step, of course, is to email us at
+__info@tokenibis.org__.
+
 ---
 `
 
