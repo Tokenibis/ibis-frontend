@@ -16,7 +16,7 @@ import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 import CustomDate from '../CustomDate';
-import Amount from '../Amount';
+import Amount from '../../../__Common__/Amount';
 
 const styles = theme => ({
     content: {

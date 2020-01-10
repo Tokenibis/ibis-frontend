@@ -195,14 +195,16 @@ class Event extends Component {
 		  </CardMedia>
 		</Grid>
 		<Grid item xs={12}>
-		  <Typography variant="body2" className={classes.link}>
-		    <Confirmation
-			onClick={() => {window.location = node.link}}
-			autoconfirm
-		    >
-		      Link to original event
-		    </Confirmation>
-		  </Typography>
+		  {node.link && 
+		   <Typography variant="body2" className={classes.link}>
+		     <Confirmation
+		       onClick={() => {window.location = node.link}}
+		       autoconfirm
+		       >
+		       Link to original event
+		     </Confirmation>
+		   </Typography>
+		  }
 		</Grid>
 		<Grid item xs={12} className={classes.description}>
 		  <CustomMarkdown safe source={node.description} />

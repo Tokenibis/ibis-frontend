@@ -36,6 +36,7 @@ import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
 import SublistItem from '../__Common__/SublistItem';
 import Quote from './Quote'
+import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
     list: {
@@ -55,10 +56,11 @@ const styles = theme => ({
 	color: theme.palette.primary.main,
     },
     balance: {
-	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
-	textDecoration: 'none',
+    },
+    label: {
+	color: theme.palette.tertiary.main,
     },
     notificationIcon: {
 	color: theme.palette.secondary.main,
@@ -145,13 +147,11 @@ class Home extends Component {
 		  {`${name}`}
 		</Typography>
 		<Typography
-		    component={Link}
-		    to="/_/Deposit"
-  		    alt="Ibis"
 		    variant="body2"
 		    className={classes.balance}
 		>
-		  Balance: ${(balance ? balance/100 : 0.0).toFixed(2)}
+		  <span className={classes.label}>{"Balance: "}</span>
+		  <Amount amount={balance} />
 		</Typography>
 	      </Grid>
 	      <List

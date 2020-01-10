@@ -27,13 +27,18 @@ import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import DepositIcon from '@material-ui/icons/LocalAtm';
 import InfoIcon from '@material-ui/icons/HelpOutline';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../__Common__/Sublist';
 import SublistItem from '../__Common__/SublistItem';
+import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
+    sideMenu: {
+	minWidth: 220,
+    },
     avatar: {
 	margin: 10,
 	width: 80,
@@ -52,13 +57,13 @@ const styles = theme => ({
 	color: theme.palette.primary.main,
     },
     balance: {
-	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
-	textDecoration: 'none',
+	paddingLeft: theme.spacing(2),
+	paddingRight: theme.spacing(2),
     },
-    sideMenu: {
-	minWidth: theme.spacing(28),
+    label: {
+	color: theme.palette.tertiary.main,
     },
     nested: {
 	paddingLeft: theme.spacing(4),
@@ -141,14 +146,11 @@ class SideMenu extends Component {
 		    {`${name}`}
 		  </Typography>
 		  <Typography
-		    component={Link}
-		    to="/_/Deposit"
-  		    alt="Ibis"
 		    variant="body2"
 		    className={classes.balance}
-		    onClick={(e) => this.toggleDrawer(false)}
 		  >
-		    Balance ${(balance/100).toFixed(2)}
+		    <span className={classes.label}>{"Balance: "}</span>
+		    <Amount amount={balance} />
 		  </Typography>
 		</Grid>
 	      </Grid>
@@ -230,6 +232,14 @@ class SideMenu extends Component {
 		  />
 		</Link>
 	      </Sublist>
+	      <Link to="/_/Deposit">
+		<SublistItem
+		    label="Deposit"
+		    classes={classes}
+		    icon={<DepositIcon />}
+		    onClick={(e) => this.toggleDrawer(false)}
+		/>
+	      </Link>
 	      <Link to="/_/Settings">
 		<SublistItem
 		    label="Settings"

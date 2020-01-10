@@ -143,12 +143,14 @@ class News extends Component {
 		    <img className={classes.img} src={node.image} />
 		  </CardMedia>
 		  <Typography variant="body2" className={classes.link}>
-		    <Confirmation
-			onClick={() => {window.location = node.link}}
-			autoconfirm
-		    >
-		      Link to original article
-		    </Confirmation>
+		    {node.link && 
+		     <Confirmation
+		       onClick={() => {window.location = node.link}}
+		       autoconfirm
+			 >
+		       Link to original article
+		     </Confirmation>
+		    }
 		  </Typography>
 		  <CustomMarkdown safe source={node.description} />
 		  <div className={classes.action}>

@@ -138,7 +138,7 @@ class NonprofitList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'Featured'
+	filterValue = filterValue ? filterValue : 'New'
 	count = count ? count: DEFAULT_COUNT
 
 	// the filterValue option determines the content of the data that gets fetched

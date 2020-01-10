@@ -22,7 +22,7 @@ import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
-import Amount from '../__Common__/Amount';
+import Amount from '../../__Common__/Amount';
 
 
 const styles = theme => ({

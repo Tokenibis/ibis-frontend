@@ -21,7 +21,7 @@ import NewsList from '../NewsList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
 import Truncated from '../__Common__/Truncated';
-import Amount from '../__Common__/Amount';
+import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
     root: {
