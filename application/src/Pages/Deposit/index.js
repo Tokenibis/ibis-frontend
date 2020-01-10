@@ -35,7 +35,7 @@ const styles = theme => ({
 	marginTop: theme.spacing(-0.5),
     },
     progressWrapper: {
-	padding: theme.spacing(5),
+	padding: theme.spacing(3),
     },
     balanceProgress: {
 	marginTop: theme.spacing(2.5),
@@ -82,6 +82,10 @@ const styles = theme => ({
     },
     fine: {
 	paddingTop: theme.spacing(2),
+	fontSize: '12px',
+	color: theme.palette.tertiary.main,
+    },
+    min: {
 	fontSize: '12px',
 	color: theme.palette.tertiary.main,
     },
@@ -132,6 +136,11 @@ const styles = theme => ({
 		borderColor: theme.palette.tertiary.main,
 	    },
 	},
+    },
+    paypalWrapper: {
+	width: '100%',
+	textAlign: 'center',
+	paddingBottom: theme.spacing(3),
     },
     bottom: {
 	height: theme.spacing(5),
@@ -300,7 +309,7 @@ class Deposit extends Component {
 
 	const script = document.createElement('script');
 	script.type = 'text/javascript';
-	script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&currency=USD`;
+	script.src = `https://www.paypal.com/sdk/js?client-id=${clientID}&disable-funding=credit,card&currency=USD`;
 	script.async = true;
 	script.onload = () => { this.setState({ sdkLoaded: true })};
 	script.onerror = (e) => { console.error(e) };
@@ -456,6 +465,9 @@ class Deposit extends Component {
 			<Typography variant="body2" className={classes.label}>
 			  Amount
 			</Typography>
+			<Typography variant="body2" className={classes.min}>
+			  Min $10.00
+			</Typography>
 		      </Grid>
 		      <Grid item xs={8}>
 			<TextField
@@ -496,7 +508,11 @@ class Deposit extends Component {
 			</Typography>
 		      </Grid>
 		    </Grid>
-		    {paypalButton}
+		    <div className={classes.paypalWrapper}>
+  		      <Grid container direction="column" justify="center" alignItems="center" >
+			{paypalButton}
+		      </Grid>
+		    </div>
 		    {(!sdkLoaded || ordering) &&
 			<div className={classes.progressWrapper}>
 			  <CircularProgress/>
