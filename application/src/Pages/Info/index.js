@@ -12,11 +12,15 @@ let message = `
 
 Welcome to the official Ibis app! As we enter the first stage of
 testing, the name of the game is to generate as much activity as
-possible. By putting in a little bit of money, sending it around, and
-engaging with the community, you are helping us build a stronger case
-to empower the students of Albuquerque and eventually change the world
-(maybe). To learn more about our mission or to donate, visit
-https://tokenibis.org.
+possible. By putting in a little bit of money, sending it around,
+and engaging with the community, you are helping us build a
+stronger case to empower the students of Albuquerque and
+eventually change the world (maybe). To learn more about our
+mission or to donate, visit https://tokenibis.org. Even better,
+if you want to show your support, follow us on social media on
+[facebook](https://www.facebook.com/tokenibis/),
+[instagram](https://www.instagram.com/tokenibis/), or
+[twitter](https://twitter.com/tokenibis)
 
 ## Reporting Bugs
 
