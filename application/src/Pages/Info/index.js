@@ -20,9 +20,9 @@ mission or to donate, visit https://tokenibis.org. Even better,
 if you want to show your support, follow us on social media on
 [facebook](https://www.facebook.com/tokenibis/),
 [instagram](https://www.instagram.com/tokenibis/), or
-[twitter](https://twitter.com/tokenibis)
+[twitter](https://twitter.com/tokenibis).
 
-## Reporting Bugs
+## Beta Testing
 
 This code is in _Beta Testing_, which means that we're still working
 out some kinks. If you find one yourself, the most helpful thing you
@@ -33,6 +33,15 @@ dollars your way.
 All Token Ibis software is 100% free and open source. If you're a
 developer yourself and see some areas for improvement, we also welcome
 issue reports and pull request at https://github.com/Tokenibis.
+
+__IMPORTANT!__ At this stage, although we will honor all
+completed donations made on the app, we may have to make changes
+that could affect your balance and transaction history. This
+could be extreme as deleting the entire database of transactions.
+If so, we will send out notifications via the email connected to
+your account so you can complete your donations in a timely
+manner. All unspent funds afterwards will be lost to you and
+recycled back for a future user base.
 
 ## Using the App
 
