@@ -138,7 +138,7 @@ class NonprofitList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'New'
+	filterValue = filterValue ? filterValue : 'Featured'
 	count = count ? count: DEFAULT_COUNT
 
 	// the filterValue option determines the content of the data that gets fetched
@@ -204,7 +204,7 @@ NonprofitList.propTypes = {
 };
 
 function NonprofitFilter(props) {
-    return <Filter options={['New', 'Popular', 'Following']} {...props} />;
+    return <Filter options={['Featured', 'Popular', 'Following']} {...props} />;
 }
 
 export { NonprofitFilter };
