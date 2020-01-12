@@ -59,9 +59,6 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
     },
-    label: {
-	color: theme.palette.tertiary.main,
-    },
     notificationIcon: {
 	color: theme.palette.secondary.main,
 	fontSize: 14,
@@ -150,8 +147,7 @@ class Home extends Component {
 		    variant="body2"
 		    className={classes.balance}
 		>
-		  <span className={classes.label}>{"Balance: "}</span>
-		  <Amount amount={balance} />
+		  <Amount amount={balance} label="Balance"/>
 		</Typography>
 	      </Grid>
 	      <List

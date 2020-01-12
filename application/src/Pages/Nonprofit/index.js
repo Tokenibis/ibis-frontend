@@ -193,7 +193,7 @@ class Nonprofit extends Component {
 				  node={node.id}
 			      />
 			      <Typography variant="body2" className={classes.fundraised}>
-				Fundraised: <Amount amount={node.fundraised} />
+				<Amount amount={node.fundraised} label="Fundraised"/>
 			      </Typography>
 			    </div>
 			  </div>

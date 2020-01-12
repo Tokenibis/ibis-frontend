@@ -62,9 +62,6 @@ const styles = theme => ({
 	paddingLeft: theme.spacing(2),
 	paddingRight: theme.spacing(2),
     },
-    label: {
-	color: theme.palette.tertiary.main,
-    },
     nested: {
 	paddingLeft: theme.spacing(4),
     },
@@ -149,8 +146,7 @@ class SideMenu extends Component {
 		    variant="body2"
 		    className={classes.balance}
 		  >
-		    <span className={classes.label}>{"Balance: "}</span>
-		    <Amount amount={balance} />
+		    <Amount amount={balance} label="Balance"/>
 		  </Typography>
 		</Grid>
 	      </Grid>

@@ -51,7 +51,7 @@ class Amount extends Component {
     };
 
     render() {
-	let { classes, amount } = this.props;
+	let { classes, amount, label } = this.props;
 	let { monetary, item, price, loading } = this.state;
 
 	let dollars = amount > 0 ? amount / 100 : 0.0
@@ -61,6 +61,7 @@ class Amount extends Component {
 	      onClick={() => {!loading && this.handleClick()}}
 	      className={loading? classes.amountLoading : classes.amount}
 	    >
+	      {label && `${label}: `}
 	      {monetary ? (
 		  `$${(dollars).toFixed(2)}`
 	      ):(

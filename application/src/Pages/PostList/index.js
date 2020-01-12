@@ -15,6 +15,9 @@ import Truncated from '../__Common__/Truncated';
 import CustomDate from '../__Common__/CustomDate';
 
 const styles = theme => ({
+    root: {
+	width: '100%',
+    },
     avatar: {
  	borderStyle: 'solid',
   	borderWidth: '2px',
@@ -240,7 +243,7 @@ class PostList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <div>
+	    <div className={classes.root}>
 	      {!minimal && 
 	       <div className={classes.buttonWrapper}>
 		 <Button

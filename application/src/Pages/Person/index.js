@@ -43,14 +43,12 @@ const styles = theme => ({
     },
     dateJoined: {
 	paddingTop: theme.spacing(1),
+	paddingBottom: theme.spacing(1),
 	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
     },
     nonprofitWrapper: {
 	paddingBottom: theme.spacing(1),
-    },
-    label: {
-	fontWeight: 'bold',
     },
     link: {
 	color: theme.palette.secondary.main,
@@ -171,7 +169,7 @@ class Person extends Component {
 		      variant="body2"
 		      className={classes.dateJoined}
 		  >
-		    <span className={classes.label}> Since: </span> 
+		    {'Since: '}
 		    {new Date(node.dateJoined).toLocaleDateString('en-us', {
 			month: 'short',
 			day: 'numeric',
@@ -182,8 +180,7 @@ class Person extends Component {
 		      variant="body2"
 		      className={classes.donated}
 		  >
-		    <span className={classes.label}> Donated: </span> 
-		    <Amount amount={node.donated} />
+		    <Amount amount={node.donated} label="Donated"/>
 		  </Typography>
 		  <div className={classes.followStatWrapper}>
 		    <UserDialogList
