@@ -300,7 +300,9 @@ class Person extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.transactionToCount === 0 && classes.hide}
+		    className={
+		        (node.transactionToCount + node.transactionFromCount)=== 0 && classes.hide
+		    }
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Transaction History
