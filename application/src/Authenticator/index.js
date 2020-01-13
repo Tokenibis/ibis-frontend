@@ -82,6 +82,7 @@ class Authenticator extends Component {
 	this.state = {
 	    userID: null,
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
+	    anonClicks: 0,
 	};
     };
 
@@ -117,6 +118,27 @@ class Authenticator extends Component {
 	    console.log(error);
 	    console.log(error.response);
 	})
+    }
+
+    anonLogin = () => {
+	let { anonClicks } = this.state;
+
+	if (anonClicks >= 2) {
+	    this.setState({ anonClicks: 0 })
+	    axios('/ibis/login-anon/', {
+		method: 'post',
+		withCredentials: true
+	    }).then(response => {
+		if ('user_id' in response.data) {
+		    this.setState({ userID: response.data.user_id });
+		} else {
+		    console.error('Did not receive ibis user id in login response');
+		    console.error(response);
+		}
+	    })
+	} else {
+	    this.setState({ anonClicks: anonClicks + 1 });
+	}
     }
 
     /* flag app the user as unauthenticated and clear the token */
@@ -185,7 +207,7 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, width } = this.state;
+	let { userID, width  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
@@ -231,7 +253,10 @@ class Authenticator extends Component {
 		      className={classes.content}
 		  >
   		    <Grid container direction="column" justify="center" alignItems="center" >
-		      <IbisIcon className={classes.icon}/>
+		      <IbisIcon
+			  className={classes.icon}
+		          onClick={() => this.anonLogin()}
+		      />
 		      <Typography variant="body2" className={classes.welcome}>
 			Welcome to ibis
 		      </Typography>
