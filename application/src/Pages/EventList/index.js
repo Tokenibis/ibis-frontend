@@ -246,6 +246,11 @@ class EventList extends Component {
 
 	variables.self = context.userID
 
+	// show events for an hour into the event
+	if (!Object.keys(variables).includes('beginDate')) {
+	    variables.beginDate = (new Date((new Date()).getTime() - 60 * 60 * 1000)).toISOString()
+	}
+
 	return (
 	    <QueryHelper
 		query={query}
