@@ -100,7 +100,7 @@ class PersonList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Profile
+		Go to page
 	      </Typography>
 	    </div>
 	);

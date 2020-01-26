@@ -13,10 +13,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import HomeIcon from '@material-ui/icons/Home';
 
 import { IbisConsumer } from '../../Context';
 import Link from '../../__Common__/CustomLink';
-import IbisIcon from '../../__Common__/IbisIcon';
 import Cycler from '../Cycler'
 import SideMenu from '../SideMenu';
 import NotificationButton from '../NotificationButton';
@@ -55,7 +55,7 @@ function MainBar({ classes, context, cycle, hideHome }) {
 		  ):(
 		      <Link to="/">
 			<IconButton color="inherit">
-			  <IbisIcon />
+			  <HomeIcon />
 			</IconButton>
 		      </Link>
 		  )

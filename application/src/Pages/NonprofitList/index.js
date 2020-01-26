@@ -102,7 +102,7 @@ class NonprofitList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Profile | Donate
+		Go to page
 	      </Typography>
 	    </div>
 	);
