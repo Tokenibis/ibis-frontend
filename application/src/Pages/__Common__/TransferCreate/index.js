@@ -157,10 +157,7 @@ class TransferCreate extends Component {
 	let { classes, context, target, variant } = this.props;
 	let { enableTransfer, amount } = this.state;
 
-	let amount_str = document.getElementById(`transfer_amount`) ?
-			 document.getElementById(`transfer_amount`).value :
-			 '0.0';
-	let amount_final = Math.floor(Number(amount_str) * 100)
+	let amount_final = Math.floor(amount * 100)
 
 	return (
 	    <Query
@@ -250,7 +247,7 @@ class TransferCreate extends Component {
 			    <Confirmation
 			      disabled={!enableTransfer}
 			      onClick={() => this.handleTransfer()}
-			      message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? amount_final / 100 : 0 }__ to __@${data.target.username}__ (${data.target.name})?`}
+			      message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
 			    >
 			      <Button
 				  disabled={!enableTransfer}
