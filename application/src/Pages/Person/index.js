@@ -16,12 +16,12 @@ import UserDialogList, {
     FollowingVal,
     FollowerVal,
     NonprofitFollowVal,
-} from '../__Common__/UserDialogList';
+} from '../../__Common__/UserDialogList';
 import PostList from '../PostList';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
-import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
+import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Amount from '../../__Common__/Amount';
 
 

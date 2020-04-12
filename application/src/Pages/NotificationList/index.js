@@ -18,9 +18,9 @@ import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 
 import CustomDivider from '../../__Common__/CustomDivider';
-import QueryHelper from "../__Common__/QueryHelper";
+import QueryHelper from '../../__Common__/QueryHelper';
 import UBPIcon from '../../__Common__/IbisIcon';
-import CustomDate, { LongVal } from '../__Common__/CustomDate';
+import CustomDate, { LongVal } from '../../__Common__/CustomDate';
 
 const styles = theme => ({
     clicked: {

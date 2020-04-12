@@ -15,12 +15,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import TextField from '@material-ui/core/TextField';
 
-import Link from '../../../__Common__/CustomLink';
-import CustomMarkdown from '../../../__Common__/CustomMarkdown';
-import CustomDivider from '../../../__Common__/CustomDivider';
+import Link from '../CustomLink';
+import CustomMarkdown from '../CustomMarkdown';
+import CustomDivider from '../CustomDivider';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
-import Confirmation from '../../../__Common__/Confirmation';
+import Confirmation from '../Confirmation';
 import CustomDate from '../CustomDate';
 
 const MAX_DEPTH = 3;
@@ -123,9 +123,9 @@ const styles = theme => ({
     },
 })
 
-const query = loader('../../../Static/graphql/operations/CommentTree.gql')
+const query = loader('../../Static/graphql/operations/CommentTree.gql')
 
-const create_mutation = loader('../../../Static/graphql/operations/CommentCreate.gql')
+const create_mutation = loader('../../Static/graphql/operations/CommentCreate.gql')
 
 
 class CommentTree extends Component {

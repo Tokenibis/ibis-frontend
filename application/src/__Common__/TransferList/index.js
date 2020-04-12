@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import Avatar from '@material-ui/core/Avatar';
 
-import Link from '../../../__Common__/CustomLink';
+import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
@@ -130,9 +130,9 @@ class TransferList extends Component {
 	let query;
 
 	if (variant === 'donation') {
-	    query = loader('../../../Static/graphql/operations/DonationList.gql')
+	    query = loader('../../Static/graphql/operations/DonationList.gql')
 	} else {
-	    query = loader('../../../Static/graphql/operations/TransactionList.gql')
+	    query = loader('../../Static/graphql/operations/TransactionList.gql')
 	}
 
 	// variant does not affect the content, only the visually displayed information

@@ -1,7 +1,7 @@
 import React from 'react';
-import Filter from '../__Common__/Filter';
+import Filter from '../../__Common__/Filter';
 
-import TransferList, { DonationVal } from '../__Common__/TransferList';
+import TransferList, { DonationVal } from '../../__Common__/TransferList';
 
 function DonationList(props) {
     return (

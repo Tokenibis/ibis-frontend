@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
 import Link from '../../__Common__/CustomLink';
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
-import Filter from '../__Common__/Filter';
-import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
+import Filter from '../../__Common__/Filter';
+import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated from '../../__Common__/Truncated';
 
 const styles = theme => ({
     avatar: {

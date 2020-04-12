@@ -15,12 +15,12 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../../__Common__/Confirmation';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
-import UserDialogList, { FollowerVal } from '../__Common__/UserDialogList';
+import UserDialogList, { FollowerVal } from '../../__Common__/UserDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
-import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
+import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated from '../../__Common__/Truncated';
 import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({

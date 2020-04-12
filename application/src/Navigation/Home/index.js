@@ -33,8 +33,8 @@ import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 
 import Link from '../../__Common__/CustomLink';
-import Sublist from '../__Common__/Sublist';
-import SublistItem from '../__Common__/SublistItem';
+import Sublist from '../../__Common__/Sublist';
+import SublistItem from '../../__Common__/SublistItem';
 import Quote from './Quote'
 import Amount from '../../__Common__/Amount';
 

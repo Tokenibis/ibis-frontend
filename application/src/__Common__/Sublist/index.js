@@ -17,7 +17,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
-import CustomDivider from '../../../__Common__/CustomDivider';
+import CustomDivider from '../CustomDivider';
 
 const styles = theme => ({
     itemIcon: {

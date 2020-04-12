@@ -32,7 +32,7 @@ import ScrollToTop from "react-scroll-up";
 import Fab from '@material-ui/core/Fab';
 import UpIcon from '@material-ui/icons/ArrowUpward';
 
-import CustomDivider from '../../../__Common__/CustomDivider';
+import CustomDivider from '../CustomDivider';
 
 const styles = theme => ({
     root: {

@@ -25,7 +25,7 @@ import BookmarkFilledIcon from '@material-ui/icons/Bookmark';
 import RsvpOutlinedIcon from '@material-ui/icons/CalendarToday';
 import RsvpFilledIcon from '@material-ui/icons/EventAvailable';
 
-import Confirmation from '../../../__Common__/Confirmation';
+import Confirmation from '../Confirmation';
 
 const styles = theme => ({
     buttonWrapper: {
@@ -42,8 +42,8 @@ const styles = theme => ({
 
 const VARIANTS = {
     follow: {
-	createMutation: loader('../../../Static/graphql/operations/FollowCreate.gql'),
-	deleteMutation: loader('../../../Static/graphql/operations/FollowDelete.gql'),
+	createMutation: loader('../../Static/graphql/operations/FollowCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/operations/FollowDelete.gql'),
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
 	autoconfirm: false,
@@ -51,22 +51,22 @@ const VARIANTS = {
 	messageDelete: 'Are you sure you want to __unfollow__ this user?',
     },
     like: {
-	createMutation: loader('../../../Static/graphql/operations/LikeCreate.gql'),
-	deleteMutation: loader('../../../Static/graphql/operations/LikeDelete.gql'),
+	createMutation: loader('../../Static/graphql/operations/LikeCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/operations/LikeDelete.gql'),
 	trueIcon: <LikeFilledIcon color="secondary" />,
 	falseIcon: <LikeOutlinedIcon color="secondary" />,
 	autoconfirm: true,
     },
     bookmark: {
-	createMutation: loader('../../../Static/graphql/operations/BookmarkCreate.gql'),
-	deleteMutation: loader('../../../Static/graphql/operations/BookmarkDelete.gql'),
+	createMutation: loader('../../Static/graphql/operations/BookmarkCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/operations/BookmarkDelete.gql'),
 	trueIcon: <BookmarkFilledIcon color="secondary" />,
 	falseIcon: <BookmarkOutlinedIcon color="secondary" />,
 	autoconfirm: true,
     },
     rsvp: {
-	createMutation: loader('../../../Static/graphql/operations/RsvpCreate.gql'),
-	deleteMutation: loader('../../../Static/graphql/operations/RsvpDelete.gql'),
+	createMutation: loader('../../Static/graphql/operations/RsvpCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/operations/RsvpDelete.gql'),
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
 	autoconfirm: false,

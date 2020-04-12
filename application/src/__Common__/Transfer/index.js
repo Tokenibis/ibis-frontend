@@ -9,14 +9,14 @@ import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 
-import CustomDivider from '../../../__Common__/CustomDivider';
-import CustomMarkdown from '../../../__Common__/CustomMarkdown';
-import Link from '../../../__Common__/CustomLink';
+import CustomDivider from '../CustomDivider';
+import CustomMarkdown from '../CustomMarkdown';
+import Link from '../CustomLink';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 import CustomDate from '../CustomDate';
-import Amount from '../../../__Common__/Amount';
+import Amount from '../Amount';
 
 const styles = theme => ({
     content: {
@@ -266,9 +266,9 @@ class Transfer extends Component {
 	let query;
 
 	if (variant === 'donation') {
-	    query = loader('../../../Static/graphql/operations/Donation.gql')
+	    query = loader('../../Static/graphql/operations/Donation.gql')
 	} else {
-	    query = loader('../../../Static/graphql/operations/Transaction.gql')
+	    query = loader('../../Static/graphql/operations/Transaction.gql')
 	}
 
 	return (

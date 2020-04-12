@@ -6,13 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
-import Filter from '../__Common__/Filter';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
+import Filter from '../../__Common__/Filter';
 import Link from '../../__Common__/CustomLink';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
-import CustomDate from '../__Common__/CustomDate';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated from '../../__Common__/Truncated';
+import CustomDate from '../../__Common__/CustomDate';
 
 const styles = theme => ({
     root: {

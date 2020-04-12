@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TransferCreate, { DonationVal } from '../__Common__/TransferCreate';
+import TransferCreate, { DonationVal } from '../../__Common__/TransferCreate';
 
 function DonationCreate(props) {
     return (

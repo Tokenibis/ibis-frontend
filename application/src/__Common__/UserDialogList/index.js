@@ -4,10 +4,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 
-import Link from '../../../__Common__/CustomLink';
-import { IbisConsumer } from '../../../Context';
-import PersonList from '../../PersonList';
-import NonprofitList from '../../NonprofitList';
+import Link from '../CustomLink';
+import { IbisConsumer } from '../../Context';
+import PersonList from '../../Pages/PersonList';
+import NonprofitList from '../../Pages/NonprofitList';
 
 const styles = theme => ({
     button: {

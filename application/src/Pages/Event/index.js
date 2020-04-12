@@ -17,10 +17,10 @@ import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import UserDialogList, {
     LikeVal as DialogLikeVal,
     RsvpVal as DialogRsvpVal,
-} from '../__Common__/UserDialogList';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
-import CommentTree from '../__Common__/CommentTree';
-import CustomDate, { PreciseVal, LongVal } from '../__Common__/CustomDate';
+} from '../../__Common__/UserDialogList';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../../__Common__/SimpleEdgeMutation';
+import CommentTree from '../../__Common__/CommentTree';
+import CustomDate, { PreciseVal, LongVal } from '../../__Common__/CustomDate';
 
 const config = require('../../config.json');
 

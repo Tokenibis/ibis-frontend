@@ -11,7 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
 
-import Confirmation from '../../../__Common__/Confirmation';
+import Confirmation from '../Confirmation';
 
 const styles = theme => ({
     content: {
@@ -74,12 +74,12 @@ const MAX_AMOUNT = 10000;
 
 const VARIANTS = {
     donation: {
-	query: loader('../../../Static/graphql/operations/DonationForm.gql'),
-	mutation: loader('../../../Static/graphql/operations/DonationCreate.gql'),
+	query: loader('../../Static/graphql/operations/DonationForm.gql'),
+	mutation: loader('../../Static/graphql/operations/DonationCreate.gql'),
     },
     transaction: {
-	query: loader('../../../Static/graphql/operations/TransactionForm.gql'),
-	mutation: loader('../../../Static/graphql/operations/TransactionCreate.gql'),
+	query: loader('../../Static/graphql/operations/TransactionForm.gql'),
+	mutation: loader('../../Static/graphql/operations/TransactionCreate.gql'),
     },
 };
 

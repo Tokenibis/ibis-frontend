@@ -16,12 +16,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import axios from "axios";
 
 import Popup from '../../__Common__/Popup';
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
-import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
+import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import IbisIcon from '../../__Common__/IbisIcon';
-import PaypalIcon from '../__Common__/PaypalIcon';
+import PaypalIcon from '../../__Common__/PaypalIcon';
 
 const config = require('../../config.json');
 

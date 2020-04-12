@@ -1,7 +1,7 @@
 import React from 'react';
-import Filter from '../__Common__/Filter';
+import Filter from '../../__Common__/Filter';
 
-import TransferList, { TransactionVal } from '../__Common__/TransferList';
+import TransferList, { TransactionVal } from '../../__Common__/TransferList';
 
 function TransactionList(props) {
     return (

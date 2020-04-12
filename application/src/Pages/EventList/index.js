@@ -7,12 +7,12 @@ import Avatar from '@material-ui/core/Avatar';
 import CardMedia from '@material-ui/core/CardMedia';
 
 import Link from '../../__Common__/CustomLink';
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
 import EventFilter from './filter';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../__Common__/SimpleEdgeMutation';
-import Truncated from '../__Common__/Truncated';
-import CustomDate, { PreciseVal } from '../__Common__/CustomDate';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated from '../../__Common__/Truncated';
+import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
 
 const styles = theme => ({
     avatar: {

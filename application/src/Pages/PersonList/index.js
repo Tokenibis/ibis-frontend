@@ -6,11 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
 import Link from '../../__Common__/CustomLink';
-import UserDialogList, { FollowingVal, FollowerVal } from '../__Common__/UserDialogList';
-import QueryHelper from "../__Common__/QueryHelper";
-import ListView from '../__Common__/ListView';
-import Filter from '../__Common__/Filter';
-import SimpleEdgeMutation, { FollowVal } from '../__Common__/SimpleEdgeMutation';
+import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
+import Filter from '../../__Common__/Filter';
+import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 
 const styles = theme => ({
     avatar: {
