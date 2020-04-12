@@ -70,13 +70,14 @@ const CATEGORIES = {
 // This maps the backend reference to the front-end pages. So far, the names are the same,
 // but things could conceivably change
 const LINKS = {
-    Nonprofit: 'Nonprofit/Nonprofit',
-    Donation: 'Donation/Donation',
-    Person: 'Person/Person',
-    Transaction: 'Transaction/Transaction',
-    News: 'News/News',
-    Event: 'Event/Event',
-    Post: 'Post/Post',
+    Nonprofit: (id) => ('/Nonprofit/Nonprofit?id=' + id),
+    Donation: (id) => ('/Donation/Donation' + id),
+    Person: (id) => ('/Person/Person' + id),
+    Transaction: (id) => ('/Transaction/Transaction' + id),
+    News: (id) => ('/News/News' + id),
+    Event: (id) => ('/Event/Event' + id),
+    Post: (id) => ('/Post/Post' + id),
+    Deposit: (id) => ('/_/Deposit'),
 };
 
 class NotificationList extends Component {
@@ -85,7 +86,7 @@ class NotificationList extends Component {
 	let { history } = this.props;
 
 	mutation({ variables: { id }});
-	history.push(`/${LINKS[reference.split(':')[0]]}?id=${reference.split(':')[1]}`);
+	history.push(LINKS[reference.split(':')[0]](reference.split(':')[1]))
     };
 
     make = (data) => {
