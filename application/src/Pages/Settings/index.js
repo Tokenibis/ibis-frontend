@@ -84,7 +84,7 @@ const MAX_USERNAME_LEN = 15
 
 const query = loader('../../Static/graphql/operations/Settings.gql')
 
-const user_mutation = loader('../../Static/graphql/operations/PersonSettingsUpdate.gql')
+const user_mutation = loader('../../Static/graphql/operations/UserSettingsUpdate.gql')
 
 const notifier_mutation = loader('../../Static/graphql/operations/NotifierSettingsUpdate.gql')
 

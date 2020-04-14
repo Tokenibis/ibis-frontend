@@ -91,7 +91,7 @@ class PersonList extends Component {
 		  user={context.userID}
 		  target={node.id}
 		  initial={node.isFollowing.edges.length === 1}
-		  hide={context.userID === node.id}
+		  hide={context.userID === node.ibisuserPtr.id || context.userType != 'person'}
 	      />
 	      <Typography
 		  component={Link}

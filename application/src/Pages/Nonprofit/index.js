@@ -216,6 +216,7 @@ class Nonprofit extends Component {
 			    target={node.id}
 			    initial={node.isFollowing.edges.length === 1}
 		            countCallback={followerCallback}
+			    hide={context.userType !== 'person'}
 			/>
 		      </div>
 		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>

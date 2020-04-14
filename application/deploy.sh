@@ -47,4 +47,3 @@ else
 fi
 
 yarn build && ssh $2 rm /srv/app/build -rf && scp -r build/ $2:/srv/app/build
-rm $DIR/src/config.json

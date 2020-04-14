@@ -354,7 +354,15 @@ class Deposit extends Component {
 
     render() {
 	let { classes, context } = this.props
-	let { sdkLoaded, ordering, enableDeposit, amount, numDeposits, dialog, checked } = this.state;
+	let {
+	    sdkLoaded,
+	    ordering,
+	    enableDeposit,
+	    amount,
+	    numDeposits,
+	    dialog,
+	    checked
+	} = this.state;
 
 	let amount_final = amount;
 	if (checked) {
@@ -454,7 +462,7 @@ class Deposit extends Component {
 			       if (error) return `Error! ${error.message}`;
 			       return (
 				   <Typography variant="body2" className={classes.balance}>
-				     ${(data.person.balance/100).toFixed(2)}
+				     ${(data.ibisUser.balance/100).toFixed(2)}
 				   </Typography>
 			       )
 			   }}

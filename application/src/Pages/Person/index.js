@@ -213,6 +213,7 @@ class Person extends Component {
 			      target={node.id}
 			      initial={node.isFollowing.edges.length === 1}
 		              countCallback={followerCallback}
+			      hide={context.userType !== 'person'}
 			  />
 		      }
 		    </div>
