@@ -87,6 +87,8 @@ const query = loader('../../Static/graphql/operations/Home.gql')
 class Home extends Component {
     state = {
 	expanded: null,
+	person_id: '',
+	nonprofit_id: '',
 	avatar: '',
 	username: '',
 	name: '.',
@@ -108,10 +110,14 @@ class Home extends Component {
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
-		avatar: results.data.person.avatar,
-		username: results.data.person.username,
-		name: results.data.person.name,
-		balance: results.data.person.balance,
+		person_id: results.data.ibisUser.person ?
+			   results.data.ibisUser.person.id : '',
+		nonprofit_id: results.data.ibisUser.nonprofit ?
+			      results.data.ibisUser.nonprofit.id : '',
+		avatar: results.data.ibisUser.avatar,
+		username: results.data.ibisUser.username,
+		name: results.data.ibisUser.name,
+		balance: results.data.ibisUser.balance,
 	    })
 	}).catch(error => {
 	    console.log(error);
@@ -121,14 +127,16 @@ class Home extends Component {
 
     render() {
 	let { classes, context } = this.props;
-	let { expanded, avatar, username, name, balance } = this.state;
+	let { expanded, person_id, nonprofit_id, avatar, username, name, balance } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
   	      <Grid container direction="column" justify="center" alignItems="center" >
   		<Avatar
 		    component={Link}
-		    to={`/_/Person?id=${context.userID}`}
+		    to={person_id ?
+			`/_/Person?id=${person_id}` :
+			`/_/Nonprofit?id=${nonprofit_id}`}
   		    src={avatar}
   		    className={classes.avatar}
 		/>

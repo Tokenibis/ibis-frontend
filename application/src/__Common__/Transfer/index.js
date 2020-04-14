@@ -123,7 +123,9 @@ class Transfer extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Person?id=${node.user.person.id}`}
+			to={node.user.person ?
+			    `Person?id=${node.user.person.id}` :
+			    `Nonprofit?id=${node.user.nonprofit.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -152,7 +154,9 @@ class Transfer extends Component {
 		    <Typography
 			component={Link}
 			prefix={1}
-			to={`Person?id=${node.user.person.id}`}
+			to={node.user.person ?
+			    `Person?id=${node.user.person.id}` :
+			    `Nonprofit?id=${node.user.nonprofit.id}`}
 			variant="body2"
 			className={classes.userLink}
 		    >
@@ -229,7 +233,7 @@ class Transfer extends Component {
 
 		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
-		    {context.userID === node.user.person.id ? (
+		    {context.userID === node.user.id ? (
 			<UserDialogList
 			variant={DialogLikeVal}
 			count={node.likeCount}

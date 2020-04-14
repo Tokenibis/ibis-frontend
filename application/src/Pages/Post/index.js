@@ -126,7 +126,7 @@ class Post extends Component {
 		  </ListItem>
 		  <CustomMarkdown source={node.description} />
 		  <div className={classes.action}>
-		    {context.userID === node.user.person.id ? (
+		    {context.userID === node.user.id ? (
 			<div className={classes.personDialogWrapper}>
 			  <UserDialogList
 			      variant={DialogLikeVal}

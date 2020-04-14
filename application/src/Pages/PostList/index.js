@@ -130,14 +130,14 @@ class PostList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasLiked.edges.length === 1}
-		    hide={context.userID === node.user.person.id}
+		    hide={context.userID === node.user.id}
 		/>
 		<SimpleEdgeMutation
 		    variant={BookmarkVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
-		    hide={context.userID === node.user.person.id}
+		    hide={context.userID === node.user.id}
 		/>
 	      </div>
 	      <Typography

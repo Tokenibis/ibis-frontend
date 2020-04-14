@@ -69,7 +69,9 @@ class TransferList extends Component {
     	    <Avatar
 		component={Link}
 		prefix={1}
-		to={`Person?id=${node.user.person.id}`}
+		to={node.user.person ?
+		    `Person?id=${node.user.person.id}` :
+		    `Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -108,7 +110,7 @@ class TransferList extends Component {
 		  user={context.userID}
 		  target={node.id}
 		  initial={node.hasLiked.edges.length === 1}
-		  hide={context.userID === node.user.person.id}
+		  hide={context.userID === node.user.id}
 	      />
 	      <Typography
 		  component={Link}

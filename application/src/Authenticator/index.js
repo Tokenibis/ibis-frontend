@@ -81,6 +81,7 @@ class Authenticator extends Component {
 	super()
 	this.state = {
 	    userID: null,
+	    userType: '',
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
 	    anonClicks: 0,
 	};
@@ -130,7 +131,10 @@ class Authenticator extends Component {
 		withCredentials: true
 	    }).then(response => {
 		if ('user_id' in response.data) {
-		    this.setState({ userID: response.data.user_id });
+		    this.setState({
+			userID: response.data.user_id,
+			userType: response.data.user_type,
+		    });
 		} else {
 		    console.error('Did not receive ibis user id in login response');
 		    console.error(response);
@@ -147,10 +151,10 @@ class Authenticator extends Component {
 	    method: 'post',
 	    withCredentials: true
 	}).then(response => {
-	    this.setState({ userID: '' });
+	    this.setState({ userID: '', userType: '' });
 	}).catch(error => {
 	    console.log(error);
-	    this.setState({ userID: '' });
+	    this.setState({ userID: '', userType: '' });
 	})
     };
 
@@ -183,7 +187,10 @@ class Authenticator extends Component {
 		}
 	    }).then(response => {
 		if ('user_id' in response.data) {
-		    this.setState({ userID: response.data.user_id });
+		    this.setState({
+			userID: response.data.user_id,
+			userType: response.data.user_type
+		    });
 		} else {
 		    console.error('Did not receive ibis user id in login response');
 		    console.error(response);
@@ -196,10 +203,13 @@ class Authenticator extends Component {
 	    axios('/ibis/identify/', {
 		withCredentials: true
 	    }).then(response => {
-		this.setState({ userID: response.data.user_id});
+		this.setState({
+		    userID: response.data.user_id,
+		    userType: response.data.user_type,
+		});
 	    }).catch(error => {
 		console.log(error);
-		this.setState({ userID: '' });
+		this.setState({ userID: '', userType: '' });
 	    })
 	}
     };
@@ -207,7 +217,7 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, width  } = this.state;
+	let { userID, userType, width  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
@@ -217,6 +227,7 @@ class Authenticator extends Component {
 	    return (
 		<IbisProvider value={{
 		    userID,
+		    userType,
 		    logout: this.logout,
 		    ...context,
 		}}>
@@ -299,7 +310,6 @@ function AuthenticatorWrapper(props) {
 	</IbisConsumer> 
     );
 }
-
 
 export default withStyles(styles)(AuthenticatorWrapper);
 

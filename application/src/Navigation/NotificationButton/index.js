@@ -39,7 +39,7 @@ class NotificationButton extends Component {
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
-		unseenCount: results.data.person.notifier.unseenCount,
+		unseenCount: results.data.ibisUser.notifier.unseenCount,
 	    })
 	}).catch(error => {
 	    console.log(error);

@@ -265,7 +265,9 @@ class CommentTree extends Component {
     		    <Avatar
 			component={Link}
 			prefix={1}
-			to={`Person?id=${node.user.person.id}`}
+			to={node.user.person ?
+			    `Person?id=${node.user.person.id}` :
+			    `Nonprofit?id=${node.user.nonprofit.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -298,7 +300,7 @@ class CommentTree extends Component {
 	      }
 	      <Grid item xs={12 - depth}>
 		<div className={classes.action}>
-		  {context.userID === node.user.person.id ? (
+		  {context.userID === node.user.id ? (
 		      <UserDialogList
 			  variant={DialogLikeVal}
 			  count={node.likeCount}

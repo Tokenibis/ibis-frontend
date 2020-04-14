@@ -84,7 +84,7 @@ const MAX_USERNAME_LEN = 15
 
 const query = loader('../../Static/graphql/operations/Settings.gql')
 
-const person_mutation = loader('../../Static/graphql/operations/PersonSettingsUpdate.gql')
+const user_mutation = loader('../../Static/graphql/operations/PersonSettingsUpdate.gql')
 
 const notifier_mutation = loader('../../Static/graphql/operations/NotifierSettingsUpdate.gql')
 
@@ -141,7 +141,7 @@ class Settings extends Component {
 	    
     }
 
-    inner(data, refetch, person_mutation, notifier_mutation) {
+    inner(data, refetch, user_mutation, notifier_mutation) {
 
 	let { classes } = this.props;
 	let { dialog, username, editUsername, canSubmitUsername } = this.state;
@@ -179,8 +179,8 @@ class Settings extends Component {
 				  margin="normal"
 				  variant="outlined"
 				  fullWidth
-				  value={username !== null ? username: data.person.username}
-			          onInput={() => this.handleInput(data.person.username)}
+				  value={username !== null ? username: data.ibisUser.username}
+			          onInput={() => this.handleInput(data.ibisUser.username)}
 				  InputProps={{
 				      startAdornment: (
 					  <InputAdornment position="start">@</InputAdornment>
@@ -192,13 +192,13 @@ class Settings extends Component {
 		      </Typography>
 		      </div>
 		  ):(
-		      <ListItemText className={classes.text} primary={`@${data.person.username}`} />
+		      <ListItemText className={classes.text} primary={`@${data.ibisUser.username}`} />
 		  )}
 		  <ListItemSecondaryAction>
 		    {editUsername ? (
 			<IconButton
 			    className={canSubmitUsername ? classes.button : classes.disabledButton}
-			    onClick={() => {this.updateUsername(person_mutation, refetch)}}
+			    onClick={() => {this.updateUsername(user_mutation, refetch)}}
 			    >
 			  <SubmitIcon />
 			</IconButton>
@@ -229,9 +229,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Public" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityDonation === 'PC'}
+			checked={data.ibisUser.visibilityDonation === 'PC'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'PC',
@@ -247,9 +247,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Following Only" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityDonation === 'FL'}
+			checked={data.ibisUser.visibilityDonation === 'FL'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'FL',
@@ -265,9 +265,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Me Only" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityDonation === 'PR'}
+			checked={data.ibisUser.visibilityDonation === 'PR'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityDonation',
 			    'PR',
@@ -293,9 +293,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Public" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityTransaction === 'PC'}
+			checked={data.ibisUser.visibilityTransaction === 'PC'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'PC',
@@ -311,9 +311,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Following Only" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityTransaction === 'FL'}
+			checked={data.ibisUser.visibilityTransaction === 'FL'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'FL',
@@ -329,9 +329,9 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Me Only" />
 		  <ListItemSecondaryAction>
 		    <Radio
-			checked={data.person.visibilityTransaction === 'PR'}
+			checked={data.ibisUser.visibilityTransaction === 'PR'}
 			onChange={() => (this.updateSetting(
-			    person_mutation,
+			    user_mutation,
 			    refetch,
 			    'visibilityTransaction',
 			    'PR',
@@ -359,14 +359,14 @@ class Settings extends Component {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return (
-		      <Mutation mutation={person_mutation} variables={{ id: context.userID}}>
-			{person_mutation => (
+		      <Mutation mutation={user_mutation} variables={{ id: context.userID}}>
+			{user_mutation => (
 			    <Mutation
 				mutation={notifier_mutation}
-				variables={{ id: data.person.notifier.id}}
+				variables={{ id: data.ibisUser.notifier.id}}
 				>
 			      {notifier_mutation => (
-				  this.inner(data, refetch, person_mutation, notifier_mutation)
+				  this.inner(data, refetch, user_mutation, notifier_mutation)
 			      )}
 			    </Mutation>
 			)}

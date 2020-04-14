@@ -74,6 +74,8 @@ class SideMenu extends Component {
     state = {
 	drawer: false,
 	expanded: null,
+	person_id: '',
+	nonprofit_id: '',
 	avatar: '',
 	username: '.',
 	name: '.',
@@ -101,11 +103,16 @@ class SideMenu extends Component {
 	    variables: { id: context.userID },
 	    fetchPolicy: "no-cache",
 	}).then(results => {
+	    console.log(results.data.ibisUser)
 	    this.setState({
-		avatar: results.data.person.avatar,
-		username: results.data.person.username,
-		name: results.data.person.name,
-		balance: results.data.person.balance,
+		person_id: results.data.ibisUser.person ?
+			   results.data.ibisUser.person.id : '',
+		nonprofit_id: results.data.ibisUser.nonprofit ?
+			      results.data.ibisUser.nonprofit.id : '',
+		avatar: results.data.ibisUser.avatar,
+		username: results.data.ibisUser.username,
+		name: results.data.ibisUser.name,
+		balance: results.data.ibisUser.balance,
 	    })
 	}).catch(error => {
 	    console.log(error);
@@ -115,27 +122,40 @@ class SideMenu extends Component {
 
     render() {
 	let { classes, context } = this.props;
-	let { drawer, expanded, avatar, username, name, balance } = this.state;
+	let {
+	    drawer,
+	    expanded,
+	    person_id,
+	    nonprofit_id,
+	    avatar,
+	    username,
+	    name,
+	    balance,
+	} = this.state;
 
 	let sideMenu = (
 	    <div className={classes.sideMenu}>
   	      <Grid container direction="column" justify="center" alignItems="center">
   		<Grid container direction="column" justify="center" alignItems="center" >
   		  <Avatar
-		    component={Link}
-		    to={`/_/Person?id=${context.userID}`}
-		    alt="Ibis"
-		    src={avatar}
-		    className={classes.avatar}
-		    onClick={(e) => this.toggleDrawer(false)}
+		      component={Link}
+		      to={context.userType === 'person' ?
+			  `/_/Person?id=${person_id}`:
+			  `/_/Nonprofit?id=${nonprofit_id}`}
+		      alt="Ibis"
+		      src={avatar}
+		      className={classes.avatar}
+		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		  <Typography
-		    component={Link}
-		    to={`/_/Person?id=${context.userID}`}
-  		    alt="Ibis"
-		    variant="body2"
-		    className={classes.username}
-		    onClick={(e) => this.toggleDrawer(false)}
+		      component={Link}
+		      to={context.userType === 'person' ?
+			  `/_/Person?id=${person_id}`:
+			  `/_/Nonprofit?id=${nonprofit_id}`}
+  		      alt="Ibis"
+		      variant="body2"
+		      className={classes.username}
+		      onClick={(e) => this.toggleDrawer(false)}
 		  >
 		    {`@${username}`}
 		  </Typography>

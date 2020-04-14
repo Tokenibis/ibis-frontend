@@ -147,7 +147,7 @@ class NotificationList extends Component {
 	}).then(results => {
 	    client.mutate({
 		mutation: seen_mutation,
-		variables: { id: results.data.person.notifier.id, lastSeen: new Date() }
+		variables: { id: results.data.ibisUser.notifier.id, lastSeen: new Date() }
 	    }).catch(error => {
 		console.log(error);
 	    });
