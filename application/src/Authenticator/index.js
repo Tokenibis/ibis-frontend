@@ -241,7 +241,8 @@ class Authenticator extends Component {
   		<Grid container direction="column" justify="center" alignItems="center" >
 		  <img
 		      style={{
-			  width: width,
+			  width: '100%',
+			  minHeight: '100%',
 			  margin: '0 auto',
 			  filter: "brightness(60%)",
 			  position: 'fixed',
@@ -257,7 +258,7 @@ class Authenticator extends Component {
 			  width: width,
 			  margin: '0 auto',
 			  position: 'fixed',
-			  top: `${Math.min(60, Math.round(window.innerWidth/window.innerHeight*100))}%`,
+			  top: `${window.innerHeight < 460 ? 40 : Math.min(60, Math.round(window.innerWidth/window.innerHeight*100))}%`,
 			  left: '50%',
 			  transform: 'translate(-50%, -50%)',
 		      }}
@@ -275,13 +276,13 @@ class Authenticator extends Component {
 		      <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
 		    </Grid>
 		  </div>
-		    <Typography 
-			variant="body2"
-			style={{ width: width * 0.7 }}
-			className={classes.agreement}
-		    >
-		      <UserAgreement/>
-		    </Typography>
+		  <Typography 
+		    variant="body2"
+		    style={{ width: width * 0.7 }}
+		    className={classes.agreement}
+		  >
+		    <UserAgreement/>
+		  </Typography>
 		</Grid>
 	    );
 	} else {
