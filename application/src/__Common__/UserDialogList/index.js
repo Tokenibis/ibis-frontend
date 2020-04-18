@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import $ from "jquery";
 
 import Link from '../CustomLink';
 import { IbisConsumer } from '../../Context';
