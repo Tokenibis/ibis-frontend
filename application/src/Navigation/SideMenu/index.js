@@ -103,7 +103,6 @@ class SideMenu extends Component {
 	    variables: { id: context.userID },
 	    fetchPolicy: "no-cache",
 	}).then(results => {
-	    console.log(results.data.ibisUser)
 	    this.setState({
 		person_id: results.data.ibisUser.person ?
 			   results.data.ibisUser.person.id : '',

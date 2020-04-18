@@ -71,13 +71,13 @@ const CATEGORIES = {
 // but things could conceivably change
 const LINKS = {
     Nonprofit: (id) => ('/Nonprofit/Nonprofit?id=' + id),
-    Donation: (id) => ('/Donation/Donation' + id),
-    Person: (id) => ('/Person/Person' + id),
-    Transaction: (id) => ('/Transaction/Transaction' + id),
-    News: (id) => ('/News/News' + id),
-    Event: (id) => ('/Event/Event' + id),
-    Post: (id) => ('/Post/Post' + id),
-    Deposit: (id) => ('/_/Deposit'),
+    Donation: (id) => ('/Donation/Donation?id=' + id),
+    Person: (id) => ('/Person/Person?id=' + id),
+    Transaction: (id) => ('/Transaction/Transaction?id=' + id),
+    News: (id) => ('/News/News?id=' + id),
+    Event: (id) => ('/Event/Event?id=' + id),
+    Post: (id) => ('/Post/Post?id=' + id),
+    Deposit: (id) => ('/_/Deposit?id='),
 };
 
 class NotificationList extends Component {
@@ -86,6 +86,7 @@ class NotificationList extends Component {
 	let { history } = this.props;
 
 	mutation({ variables: { id }});
+	console.log(reference)
 	history.push(LINKS[reference.split(':')[0]](reference.split(':')[1]))
     };
 

@@ -12,11 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
-import UserDialogList, {
-    FollowingVal,
-    FollowerVal,
-    NonprofitFollowVal,
-} from '../../__Common__/UserDialogList';
+import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import PostList from '../PostList';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
@@ -46,9 +42,6 @@ const styles = theme => ({
 	paddingBottom: theme.spacing(1),
 	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
-    },
-    nonprofitWrapper: {
-	paddingBottom: theme.spacing(1),
     },
     link: {
 	color: theme.palette.secondary.main,
@@ -185,19 +178,12 @@ class Person extends Component {
 		  <div className={classes.followStatWrapper}>
 		    <UserDialogList
 			variant={FollowingVal}
-			count={node.followingCountPerson}
+			count={node.followingCount}
 			node={node.id}
 		    />
 		    <UserDialogList
 			variant={FollowerVal}
 			count={followerCount}
-			node={node.id}
-		    />
-		  </div>
-		  <div className={classes.nonprofitWrapper}>
-		    <UserDialogList
-			variant={NonprofitFollowVal}
-			count={node.followingCountNonprofit}
 			node={node.id}
 		    />
 		  </div>

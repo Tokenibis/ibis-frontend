@@ -142,7 +142,9 @@ class Home extends Component {
 		/>
 		<Typography
 		    component={Link}
-		    to={`/_/Person?id=${context.userID}`}
+		    to={person_id ?
+			`/_/Person?id=${person_id}` :
+			`/_/Nonprofit?id=${nonprofit_id}`}
 		    variant="body2"
 		    className={classes.username}
 		>

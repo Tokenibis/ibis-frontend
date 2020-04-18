@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import $ from "jquery";
 
 import Link from '../CustomLink';
 import { IbisConsumer } from '../../Context';
-import PersonList from '../../Pages/PersonList';
-import NonprofitList from '../../Pages/NonprofitList';
+import QueryHelper from '../../__Common__/QueryHelper';
+import ListView from '../../__Common__/ListView';
 
 const styles = theme => ({
+    avatar: {
+ 	borderStyle: 'solid',
+  	borderWidth: '2px',
+  	borderColor: theme.palette.secondary.main,
+    },
+    title: {
+	fontWeight: 'bold',
+	color: theme.palette.primary.main,
+    },
+    subtitle: {
+	color: theme.palette.tertiary.main,
+    },
     button: {
 	textTransform: 'none',
 	fontWeight: 'bold',
@@ -56,13 +72,125 @@ const VARIANTS = {
 	display: 'Going',
 	filter: '_RsvpFor',
     },
-    nonprofitFollow: {
-	display: 'Nonprofits',
-	filter: '_Following',
-    },
 }
 
-const NUM = 25;
+
+const query = loader('../../Static/graphql/operations/IbisUserList.gql')
+
+class IbisUserList extends Component {
+
+    makeImage = (node) => {
+	let { classes  } = this.props;
+	return (
+    	    <Avatar
+		component={Link}
+		prefix={1}
+		to={node.person ?
+		    `Person?id=${node.person.id}` :
+		    `Nonprofit?id=${node.nonprofit.id}`}
+  		alt="Ibis"
+    		src={node.avatar}
+    		className={classes.avatar}
+	    />
+	)
+    };
+
+    makeLabel = (node) => {
+	let { classes } = this.props;
+	return (
+	    <div>
+  	      <Typography variant="body2" className={classes.title}>
+  		{`${node.name}`}
+  	      </Typography>
+  	      <Typography variant="body2" className={classes.subtitle}>
+  		{`@${node.username}`}
+  	      </Typography>
+	    </div>
+	);
+    }
+
+    render() {
+	let { context, minimal, filterValue } = this.props;
+	let make, variables;
+
+	make = (data) => (
+	    <ListView
+		makeImage={this.makeImage}
+		makeLabel={this.makeLabel}
+		data={data}
+	    />
+	)
+
+	// set default values if needed
+	filterValue = filterValue ? filterValue : 'All'
+
+	// the filterValue option determines the content of the data that gets fetched
+	switch (filterValue.split(':')[0]) {
+	    case 'All':
+		variables = {
+		    orderBy: '-date_joined',
+		}
+		break;
+	    case 'Following':
+		variables = {
+		    followedBy: context.userID,
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case 'Followers':
+		variables = {
+		    followerOf: context.userID,
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case '_Following':
+		variables = {
+		    followedBy: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case '_Followers':
+		variables = {
+		    followerOf: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case '_LikeFor':
+		variables = {
+		    likeFor: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case '_RsvpFor':
+		variables = {
+		    rsvpFor: filterValue.split(':')[1],
+		    orderBy: "first_name,last_name",
+		}
+		break;
+	    case '_Search':
+		variables = {
+		    search: filterValue.split(':')[1],
+		    orderBy: "firstname,lastname",
+		}
+		break;
+	    default:
+		console.error('Unsupported filter option')
+	}
+
+	return (
+	    <QueryHelper
+		query={query}
+		variables={variables}
+		make={make}
+	    />
+	);
+    };
+};
+
+
+IbisUserList.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
 
 class UserDialogList extends Component {
 
@@ -85,45 +213,19 @@ class UserDialogList extends Component {
 	return (
 	    <div>
 	      <Dialog
-		  PaperProps={{className: classes.dialogPaper}}
+		  PaperProps={{id: "dialog_box", className: classes.dialogPaper}}
 		  open={opened && count > 0}
 		  onClose={() => this.handleClose()}
 	      >
-		<div className={classes.dialogInner}>
-		  <IbisConsumer>
-		    {context => (
-			variant === 'nonprofitFollow' ?
-			(
-			    <NonprofitList
-				minimal
-				context={context}
-				filterValue={`${VARIANTS[variant].filter}:${node}`}
-				count={NUM}
-			    />
-			):(
-			    <PersonList
-				minimal
-				context={context}
-				filterValue={`${VARIANTS[variant].filter}:${node}`}
-				count={NUM}
-			    />
-			)
-		    )}
-		  </IbisConsumer>
-		  {count > NUM &&
-		   <div className={classes.viewAllWrapper}>
-		     <Typography
-		       component={Link}
-		       prefix={1}
-		       to={`PersonList?filterValue=${VARIANTS[variant].filter}:${node}`}
-		       variant="body2"
-		       className={classes.viewAll}
-		       >
-		       View all {VARIANTS[variant].display}
-		     </Typography>
-		   </div>
-		  }
-		</div>
+		<IbisConsumer>
+		  {context => (
+		      <IbisUserList
+			  classes={classes}
+			  context={context}
+			  filterValue={`${VARIANTS[variant].filter}:${node}`}
+		      />
+		  )}
+		</IbisConsumer>
 	      </Dialog>
 	      {(hideZero && count === 0) ? (
 		  <div style={{ height: 50 }}></div>
@@ -146,5 +248,4 @@ export const FollowingVal = 'following';
 export const FollowerVal = 'follower';
 export const LikeVal = 'like';
 export const RsvpVal = 'rsvp';
-export const NonprofitFollowVal = 'nonprofitFollow';
 export default withStyles(styles)(UserDialogList);
