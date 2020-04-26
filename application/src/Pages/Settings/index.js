@@ -84,7 +84,9 @@ const MAX_USERNAME_LEN = 15
 
 const query = loader('../../Static/graphql/operations/Settings.gql')
 
-const user_mutation = loader('../../Static/graphql/operations/UserSettingsUpdate.gql')
+const person_mutation = loader('../../Static/graphql/operations/PersonSettingsUpdate.gql')
+
+const nonprofit_mutation = loader('../../Static/graphql/operations/NonprofitSettingsUpdate.gql')
 
 const notifier_mutation = loader('../../Static/graphql/operations/NotifierSettingsUpdate.gql')
 
@@ -359,7 +361,13 @@ class Settings extends Component {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
 		  return (
-		      <Mutation mutation={user_mutation} variables={{ id: context.userID}}>
+		      <Mutation
+			  mutation={
+			      context.userType == 'person' ?
+			      person_mutation :
+			      nonprofit_mutation
+			  }
+			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation
 				mutation={notifier_mutation}
