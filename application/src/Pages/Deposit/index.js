@@ -151,7 +151,7 @@ const DEFAULT_COUNT = 25;
 
 const FEE_FIXED = 30;
 
-const FEE_PERCENT = 0.029;
+const FEE_PERCENT = 0.025;
 
 const MAX_AMOUNT = 100000;
 
