@@ -210,14 +210,17 @@ class Nonprofit extends Component {
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
 		      <div className={classes.edgeMutations}>
-			<SimpleEdgeMutation
-			    variant={FollowVal}
-			    user={context.userID}
-			    target={node.id}
-			    initial={node.isFollowing.edges.length === 1}
-		            countCallback={followerCallback}
-			    hide={context.userType !== 'person'}
-			/>
+		      {
+			  node.ibisuserPtr.id !== context.userID &&
+			  <SimpleEdgeMutation
+			      variant={FollowVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.isFollowing.edges.length === 1}
+		              countCallback={followerCallback}
+			      hide={context.userType !== 'person'}
+			  />
+		      }
 		      </div>
 		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
 			<Typography
@@ -228,14 +231,26 @@ class Nonprofit extends Component {
 			</Typography>
 		      </Button>
 		    </div>
-		    <Button
-			component={Link}
-			prefix={1}
-			to={`DonationCreate?target=${id}`}
-			className={classes.actionDonate}
-		    >
-		      Donate
-		    </Button>
+		    { 
+			node.ibisuserPtr.id !== context.userID ? (
+			    <Button
+			      component={Link}
+			      prefix={1}
+			      to={`DonationCreate?target=${id}`}
+			      className={classes.actionDonate}
+				>
+			      Donate
+			    </Button>
+			):(
+			    <Button
+				component={Link}
+				to="/_/Deposit"
+				className={classes.actionPay}
+				>
+			      Deposit
+			    </Button>
+			)
+		    }
 		  </Grid>
 		</CardActions>
 	      </Card>

@@ -192,7 +192,7 @@ class Person extends Component {
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
 		      {
-			  node.id !== context.userID &&
+			  node.ibisuserPtr.id !== context.userID &&
 			  <SimpleEdgeMutation
 			      variant={FollowVal}
 			      user={context.userID}
@@ -204,7 +204,7 @@ class Person extends Component {
 		      }
 		    </div>
 		    { 
-			node.id !== context.userID ? (
+			node.ibisuserPtr.id !== context.userID ? (
 			    <Button
 				component={Link}
 				prefix={1}
