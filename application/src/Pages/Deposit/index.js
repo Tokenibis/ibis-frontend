@@ -176,6 +176,12 @@ Yes! Token Ibis does not store your actual payment information at any
 __ever__. The entire workflow goes through _Paypal_, so you can feel
 safe making this payment as long as you trust them.
 
+### Can anybody else see this deposit?
+
+The details will not appear on app, but by making a donation
+here, you are agreeing to be recognized on various Token Ibis
+donor gratitude materials
+
 ### What is this fee?
 
 Token Ibis collects zero fees. However, all credit card transactions

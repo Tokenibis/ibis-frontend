@@ -145,7 +145,6 @@ class Settings extends Component {
 				value.length >= MIN_USERNAME_LEN &&
 				value.length <= MAX_USERNAME_LEN;
 	this.setState({ canSubmitUsername });
-	    
     }
 
     inner(data, refetch, user_mutation, notifier_mutation) {
@@ -177,26 +176,26 @@ class Settings extends Component {
 		  </ListItemIcon>
 		  {editUsername ? (
 		      <div>
-		      <ListItemText className={classes.usernameEdit} primary={
-			  <TextField
-			      id="edit_username"
-				  autoFocus
-				  required
-				  className={classes.textField}
-				  margin="normal"
-				  variant="outlined"
-				  fullWidth
-				  value={username !== null ? username: data.ibisUser.username}
-			          onInput={() => this.handleInput(data.ibisUser.username)}
-				  InputProps={{
-				      startAdornment: (
-					  <InputAdornment position="start">@</InputAdornment>
-				      ),}}
-			  />
-		      }/>
-		      <Typography variant="body2" className={classes.fine}>
-			3-15 characters; a-z, 0-9, and _ only
-		      </Typography>
+			<ListItemText className={classes.usernameEdit} primary={
+			    <TextField
+				id="edit_username"
+				    autoFocus
+				    required
+				    className={classes.textField}
+				    margin="normal"
+				    variant="outlined"
+				    fullWidth
+				    value={username !== null ? username: data.ibisUser.username}
+			            onInput={() => this.handleInput(data.ibisUser.username)}
+				    InputProps={{
+					startAdornment: (
+					    <InputAdornment position="start">@</InputAdornment>
+					),}}
+			    />
+			}/>
+			<Typography variant="body2" className={classes.fine}>
+			  3-15 characters; a-z, 0-9, and _ only
+			</Typography>
 		      </div>
 		  ):(
 		      <ListItemText className={classes.text} primary={`@${data.ibisUser.username}`} />
@@ -211,19 +210,19 @@ class Settings extends Component {
 			</IconButton>
 		    ):(
 			<IconButton
-			  onClick={() => {this.setState({ editUsername: true })}}
-			>
+			    onClick={() => {this.setState({ editUsername: true })}}
+			    >
 			  <EditIcon color="secondary" />
 			</IconButton>
 		    )}
 		  </ListItemSecondaryAction>
 		</ListItem>
-		<CustomDivider />
 	      </List>
+	      <CustomDivider />
 	      <List
 		  subheader={
 		      <ListSubheader disableSticky className={classes.subheader}>
-			Donation Visibility
+			Email Notifications
 		      </ListSubheader>
 		  }
 		  className={classes.root}
@@ -231,17 +230,18 @@ class Settings extends Component {
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
-		    <PublicIcon />
+		    <FollowIcon />
 		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Public" />
+		  <ListItemText className={classes.text} primary="Follows" />
 		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityDonation === 'PC'}
+		    <Switch
+			edge="end"
+			checked={data.ibisUser.notifier.emailFollow}
 			onChange={() => (this.updateSetting(
-			    user_mutation,
+			    notifier_mutation,
 			    refetch,
-			    'visibilityDonation',
-			    'PC',
+			    'emailFollow',
+			    !data.ibisUser.notifier.emailFollow,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -249,17 +249,18 @@ class Settings extends Component {
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
-		    <FollowingIcon />
+		    <TransactionIcon />
 		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Following Only" />
+		  <ListItemText className={classes.text} primary="Transactions" />
 		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityDonation === 'FL'}
+		    <Switch
+			edge="end"
+			checked={data.ibisUser.notifier.emailTransaction}
 			onChange={() => (this.updateSetting(
-			    user_mutation,
+			    notifier_mutation,
 			    refetch,
-			    'visibilityDonation',
-			    'FL',
+			    'emailTransaction',
+			    !data.ibisUser.notifier.emailTransaction,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -267,172 +268,42 @@ class Settings extends Component {
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
-		    <MeIcon />
+		    <CommentIcon />
 		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Me Only" />
+		  <ListItemText className={classes.text} primary="Comments" />
 		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityDonation === 'PR'}
+		    <Switch
+			edge="end"
+			checked={data.ibisUser.notifier.emailComment}
 			onChange={() => (this.updateSetting(
-			    user_mutation,
+			    notifier_mutation,
 			    refetch,
-			    'visibilityDonation',
-			    'PR',
+			    'emailComment',
+			    !data.ibisUser.notifier.emailComment,
 			))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-	      </List>
-	      <List
-		  subheader={
-		      <ListSubheader disableSticky className={classes.subheader}>
-			Transaction Visibility
-		      </ListSubheader>
-		  }
-		  className={classes.root}
-	      >
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
-		    <PublicIcon />
+		    <DepositIcon />
 		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Public" />
+		  <ListItemText className={classes.text} primary="Deposits" />
 		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityTransaction === 'PC'}
+		    <Switch
+			edge="end"
+			checked={data.ibisUser.notifier.emailDeposit}
 			onChange={() => (this.updateSetting(
-			    user_mutation,
+			    notifier_mutation,
 			    refetch,
-			    'visibilityTransaction',
-			    'PC',
+			    'emailDeposit',
+			    !data.ibisUser.notifier.emailDeposit,
 			))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <FollowingIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Following Only" />
-		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityTransaction === 'FL'}
-			onChange={() => (this.updateSetting(
-			    user_mutation,
-			    refetch,
-			    'visibilityTransaction',
-			    'FL',
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <MeIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Me Only" />
-		  <ListItemSecondaryAction>
-		    <Radio
-			checked={data.ibisUser.visibilityTransaction === 'PR'}
-			onChange={() => (this.updateSetting(
-			    user_mutation,
-			    refetch,
-			    'visibilityTransaction',
-			    'PR',
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<List
-		    subheader={
-			<ListSubheader disableSticky className={classes.subheader}>
-			  Email Notifications
-			</ListSubheader>
-		    }
-		    className={classes.root}
-		>
-		  <CustomDivider />
-		  <ListItem>
-		    <ListItemIcon>
-		      <FollowIcon />
-		    </ListItemIcon>
-		    <ListItemText className={classes.text} primary="Follows" />
-		    <ListItemSecondaryAction>
-		      <Switch
-			  edge="end"
-			  checked={data.ibisUser.notifier.emailFollow}
-			  onChange={() => (this.updateSetting(
-			      notifier_mutation,
-			      refetch,
-			      'emailFollow',
-			      !data.ibisUser.notifier.emailFollow,
-			  ))}
-		      />
-		    </ListItemSecondaryAction>
-		  </ListItem>
-		  <CustomDivider />
-		  <ListItem>
-		    <ListItemIcon>
-		      <TransactionIcon />
-		    </ListItemIcon>
-		    <ListItemText className={classes.text} primary="Transactions" />
-		    <ListItemSecondaryAction>
-		      <Switch
-			  edge="end"
-			  checked={data.ibisUser.notifier.emailTransaction}
-			  onChange={() => (this.updateSetting(
-			      notifier_mutation,
-			      refetch,
-			      'emailTransaction',
-			      !data.ibisUser.notifier.emailTransaction,
-			  ))}
-		      />
-		    </ListItemSecondaryAction>
-		  </ListItem>
-		  <CustomDivider />
-		  <ListItem>
-		    <ListItemIcon>
-		      <CommentIcon />
-		    </ListItemIcon>
-		    <ListItemText className={classes.text} primary="Comments" />
-		    <ListItemSecondaryAction>
-		      <Switch
-			  edge="end"
-			  checked={data.ibisUser.notifier.emailComment}
-			  onChange={() => (this.updateSetting(
-			      notifier_mutation,
-			      refetch,
-			      'emailComment',
-			      !data.ibisUser.notifier.emailComment,
-			  ))}
-		      />
-		    </ListItemSecondaryAction>
-		  </ListItem>
-		  <CustomDivider />
-		  <CustomDivider />
-		  <ListItem>
-		    <ListItemIcon>
-		      <DepositIcon />
-		    </ListItemIcon>
-		    <ListItemText className={classes.text} primary="Deposits" />
-		    <ListItemSecondaryAction>
-		      <Switch
-			  edge="end"
-			  checked={data.ibisUser.notifier.emailDeposit}
-			  onChange={() => (this.updateSetting(
-			      notifier_mutation,
-			      refetch,
-			      'emailDeposit',
-			      !data.ibisUser.notifier.emailDeposit,
-			  ))}
-		      />
-		    </ListItemSecondaryAction>
-		  </ListItem>
-		</List>
 	      </List>
 	    </div>
 	);
