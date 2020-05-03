@@ -13,6 +13,7 @@ import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
 import CustomDate from '../../__Common__/CustomDate';
+import { IbisConsumer } from '../../Context';
 
 const styles = theme => ({
     root: {
@@ -273,7 +274,15 @@ PostList.propTypes = {
 };
 
 function PostFilter(props) {
-    return <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} />;
+    return (
+	<IbisConsumer>
+	  {context => (
+	      context.userType === 'person' ?
+	      <Filter options={['Mine', 'All', 'Following', 'Bookmarked']} {...props} />:
+	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
+	  )}
+	</IbisConsumer> 
+    )
 }
 
 export { PostFilter };

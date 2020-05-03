@@ -72,7 +72,7 @@ const sendOptions = [
     [ 'Transaction', makeTransactionFilter, 'Transaction', 'TransactionList' ],
 ]
 
-const exploreOptions = [
+const engageOptions = [
     [ 'News', makeNewsFilter, 'News', 'NewsList' ],
     [ 'Events', makeEventFilter, 'Event', 'EventList' ],
     [ 'Posts', makePostFilter, 'Post', 'PostList' ],
@@ -147,7 +147,7 @@ function ContentLoader({ match, location }) {
 	    nav = (
 		<div>
 		  <MainBar cycle={EngageVal} />
-		  <TabBar options={exploreOptions} value={0} />
+		  <TabBar options={engageOptions} value={0} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'NewsList';
@@ -156,7 +156,7 @@ function ContentLoader({ match, location }) {
 	    nav = (
 		<div>
 		  <MainBar cycle={EngageVal} />
-		  <TabBar options={exploreOptions} value={1} />
+		  <TabBar options={engageOptions} value={1} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'EventList';
@@ -165,7 +165,7 @@ function ContentLoader({ match, location }) {
 	    nav = (
 		<div>
 		  <MainBar cycle={EngageVal} />
-		  <TabBar options={exploreOptions} value={2} />
+		  <TabBar options={engageOptions} value={2} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'PostList';

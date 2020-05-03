@@ -5,6 +5,7 @@ import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
@@ -13,6 +14,7 @@ import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
 import CustomDate from '../../__Common__/CustomDate';
+import { IbisConsumer } from '../../Context';
 
 const styles = theme => ({
     avatar: {
@@ -45,7 +47,21 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'None',
-    }
+    },
+    buttonWrapper: {
+	width: '100%',
+	textAlign: 'center',
+	paddingTop: theme.spacing(2),
+    },
+    newButton: {
+	width: '90%',
+	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
+	borderStyle: 'solid',
+	borderWidth: '1px',
+	borderColor: theme.palette.secondary.main,
+	marginBottom: theme.spacing(3),
+    },
 });
 
 const DEFAULT_COUNT = 25;
@@ -136,7 +152,7 @@ class NewsList extends Component {
     };
 
     render() {
-	let { context, minimal, filterValue, count } = this.props;
+	let { classes, context, minimal, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	if (minimal) {
@@ -173,6 +189,13 @@ class NewsList extends Component {
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
+	    case 'Mine':
+		variables = {
+		    byUser: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
+		break;
 	    case 'All':
 		variables = {
 		    orderBy: "-created",
@@ -228,12 +251,26 @@ class NewsList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <QueryHelper
-		query={query}
-		variables={variables}
-		make={make}
-		infiniteScroll={infiniteScroll}
-	    />
+	    <div className={classes.root}>
+	      {!minimal && context.userType === 'nonprofit' &&
+	       <div className={classes.buttonWrapper}>
+		 <Button
+		     component={Link}
+		     prefix={1}
+		     to={`NewsMutate`}
+		     className={classes.newButton}
+		   >
+		   New Article
+		 </Button>
+	       </div>
+	      }
+	      <QueryHelper
+		  query={query}
+		  variables={variables}
+		  make={make}
+		  infiniteScroll={infiniteScroll}
+	      />
+	    </div>
 	);
     };
 };
@@ -243,7 +280,15 @@ NewsList.propTypes = {
 };
 
 function NewsFilter(props) {
-    return <Filter options={['All', 'Following', 'Bookmarked']} {...props} />;
+    return (
+	<IbisConsumer>
+	  {context => (
+	      context.userType === 'nonprofit' ?
+	      <Filter options={['Mine', 'All', 'Following', 'Bookmarked']} {...props} /> :
+	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
+	  )}
+	</IbisConsumer> 
+    )
 }
 
 export { NewsFilter };

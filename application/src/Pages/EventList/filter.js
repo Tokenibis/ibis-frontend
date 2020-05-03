@@ -12,6 +12,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 
 import Filter from '../../__Common__/Filter';
+import { IbisConsumer } from '../../Context';
 
 import './filter_style.css';
 
@@ -47,6 +48,7 @@ const eventStyle = `
 `;
 
 
+const nonprofit_options = ['Mine', 'All', 'Following', 'Bookmarked', 'Going'];
 const options = ['All', 'Following', 'Bookmarked', 'Going'];
 
 const query = loader('../../Static/graphql/operations/EventListFilter.gql')
@@ -92,57 +94,61 @@ class EventFilter extends Component {
 	};
 
 	return (
-	    <Filter 
-	    options={options}
-	    custom={(
-		<div>
-		<ListItem button onClick={() => this.handleExpand()}>
-		<ListItemText color="inherit" primary={
-		    <div className={classes.label}>
-		      <div className={classes.calendarIcon}>
-			<CalendarIcon />
-		      </div>
-		      <Typography variant="button" className={classes.calendarText}>
-			Calendar
-		      </Typography>
-		    </div>
-		} />
-		  {
-		      expanded ?
-		      <ExpandLess color="secondary"/> :
-		      <ExpandMore color="secondary"/>
-		  }
-		</ListItem>
-		<Collapse in={expanded} timeout="auto" unmountOnExit>
-		  <style>{eventStyle}</style>
-		  <Query query={query} variables={variables}>
-		  {({ loading, error, data }) => {
-		      let dates = [];
-		      if (Object.keys(data).length !== 0) {
-			  dates = data.allEvents.edges.map((item, i) => (new Date(item.node.date)))
-		      }
-		      let modifiers = {
-			  events: dates,
-			  past: {
-			      before: new Date(),
-			  },
-		      };
+	    <IbisConsumer>
+	      {context => (
+		  <Filter 
+		      options={context.userType === 'nonprofit' ? nonprofit_options : options}
+		      custom={(
+			  <div>
+			    <ListItem button onClick={() => this.handleExpand()}>
+			      <ListItemText color="inherit" primary={
+				  <div className={classes.label}>
+				    <div className={classes.calendarIcon}>
+				      <CalendarIcon />
+				    </div>
+				    <Typography variant="button" className={classes.calendarText}>
+				      Calendar
+				    </Typography>
+				  </div>
+			      } />
+			      {
+				  expanded ?
+				  <ExpandLess color="secondary"/> :
+				  <ExpandMore color="secondary"/>
+			      }
+			    </ListItem>
+			    <Collapse in={expanded} timeout="auto" unmountOnExit>
+			      <style>{eventStyle}</style>
+			      <Query query={query} variables={variables}>
+				{({ loading, error, data }) => {
+				    let dates = [];
+				    if (Object.keys(data).length !== 0) {
+					dates = data.allEvents.edges.map((item, i) => (new Date(item.node.date)))
+				    }
+				    let modifiers = {
+					events: dates,
+					past: {
+					    before: new Date(),
+					},
+				    };
 
-		      return (
-			  <DayPicker
-			      className={classes.picker}
-			  modifiers={modifiers}
-			  month={new Date()}
-			  onDayClick={(day) => (handleDayClick(day))}
-			  onMonthChange={(day) => (handleMonthChange(day))}
-			  />
-		      );
-		  }}
-		  </Query>
-		</Collapse>
-		</div>
-	    )}
-	    {...this.props} />
+				    return (
+					<DayPicker
+					    className={classes.picker}
+						      modifiers={modifiers}
+						      month={new Date()}
+						      onDayClick={(day) => (handleDayClick(day))}
+						      onMonthChange={(day) => (handleMonthChange(day))}
+					/>
+				    );
+				}}
+			      </Query>
+			    </Collapse>
+			  </div>
+		      )}
+		  {...this.props} />
+	      )}
+	    </IbisConsumer> 
 	);
     };
 };

@@ -10,6 +10,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../../__Common__/Confirmation';
@@ -44,6 +46,15 @@ const styles = theme => ({
     title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
+    },
+    editButton: {
+	color: theme.palette.secondary.main,
+    },
+    edgeMutationsEdit: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	width: '100%',
     },
     edgeMutations: {
 	display: 'flex',
@@ -261,42 +272,71 @@ class Event extends Component {
 		  >
 		  </iframe>
 		  <div className={classes.action}>
-		    <div className={classes.edgeMutations}>
-		      <SimpleEdgeMutation
-			  variant={LikeVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasLiked.edges.length === 1}
-		          countCallback={likeCallback}
-		      />
-		      <SimpleEdgeMutation
-			  variant={RsvpVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasRsvp.edges.length === 1}
-		          countCallback={rsvpCallback}
-		      />
-		      <SimpleEdgeMutation
-			  variant={BookmarkVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasBookmarked.edges.length === 1}
-		      />
-		      <div className={classes.personDialogWrapper}>
-			<UserDialogList
-			    variant={DialogLikeVal}
-			    count={likeCount}
-			    node={node.id}
-			/>
-		      </div>
-		      <div className={classes.personDialogWrapper}>
-			<UserDialogList
-			    variant={DialogRsvpVal}
-			    count={rsvpCount}
-			    node={node.id}
-			/>
-		      </div>
-		    </div>
+		    {context.userID === node.user.id ? (
+			<div className={classes.edgeMutationsEdit}>
+			  <div className={classes.edgeMutations}>
+			    <div className={classes.personDialogWrapper}>
+			      <UserDialogList
+			      variant={DialogLikeVal}
+			      count={likeCount}
+			      node={node.id}
+			      />
+			    </div>
+			    <div className={classes.personDialogWrapper}>
+			      <UserDialogList
+			      variant={DialogRsvpVal}
+			      count={rsvpCount}
+			      node={node.id}
+			      />
+			    </div>
+			  </div>
+			  <IconButton
+			      component={Link}
+			      to={`EventMutate?id=${node.id}`}
+			      className={classes.editButton}
+			    >
+			    <EditIcon/>
+			  </IconButton>
+			</div>
+
+		    ):(
+			<div className={classes.edgeMutations}>
+			  <SimpleEdgeMutation
+			      variant={LikeVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasLiked.edges.length === 1}
+		              countCallback={likeCallback}
+			  />
+			  <SimpleEdgeMutation
+			      variant={RsvpVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasRsvp.edges.length === 1}
+		              countCallback={rsvpCallback}
+			  />
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogLikeVal}
+				count={likeCount}
+				node={node.id}
+			    />
+			  </div>
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogRsvpVal}
+				count={rsvpCount}
+				node={node.id}
+			    />
+			  </div>
+			</div>
+		    )}
 		  </div>
 		</Grid>
 		<Grid item xs={12}>

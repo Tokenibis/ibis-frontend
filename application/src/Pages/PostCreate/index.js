@@ -119,7 +119,7 @@ class PostCreate extends Component {
 			margin="normal"
 			variant="outlined"
 			fullWidth
-			placeholder="Title"
+			label="Title"
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>
@@ -134,7 +134,7 @@ class PostCreate extends Component {
 			fullWidth
 			multiline
 			rows={5}
-			placeholder="Post"
+			label="Post"
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>

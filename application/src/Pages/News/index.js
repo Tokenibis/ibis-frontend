@@ -10,6 +10,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import CardMedia from '@material-ui/core/CardMedia';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../../__Common__/Confirmation';
@@ -49,6 +51,15 @@ const styles = theme => ({
     image: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
+    },
+    editButton: {
+	color: theme.palette.secondary.main,
+    },
+    edgeMutationsEdit: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	width: '100%',
     },
     edgeMutations: {
 	display: 'flex',
@@ -152,28 +163,48 @@ class News extends Component {
 		  </Typography>
 		  <CustomMarkdown safe source={node.description} />
 		  <div className={classes.action}>
-		    <div className={classes.edgeMutations}>
-		      <SimpleEdgeMutation
-			  variant={LikeVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasLiked.edges.length === 1}
-		          countCallback={likeCallback}
-		      />
-		      <SimpleEdgeMutation
-			  variant={BookmarkVal}
-			  user={context.userID}
-			  target={node.id}
-			  initial={node.hasBookmarked.edges.length === 1}
-		      />
-		      <div className={classes.personDialogWrapper}>
-			<UserDialogList
-			    variant={DialogLikeVal}
-			    count={likeCount}
-			    node={node.id}
-			/>
-		      </div>
-		    </div>
+		    {context.userID === node.user.id ? (
+			<div className={classes.edgeMutationsEdit}>
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogLikeVal}
+				count={likeCount}
+				node={node.id}
+			    />
+			  </div>
+			  <IconButton
+			      component={Link}
+			      to={`NewsMutate?id=${node.id}`}
+			      className={classes.editButton}
+			    >
+			    <EditIcon/>
+			  </IconButton>
+			</div>
+
+		    ):(
+			<div className={classes.edgeMutations}>
+			  <SimpleEdgeMutation
+			      variant={LikeVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasLiked.edges.length === 1}
+		              countCallback={likeCallback}
+			  />
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogLikeVal}
+				count={likeCount}
+				node={node.id}
+			    />
+			  </div>
+			</div>
+		    )}
 		  </div>
 		</Grid>
 		<Grid item xs={12}>
