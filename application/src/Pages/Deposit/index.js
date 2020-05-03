@@ -432,7 +432,7 @@ class Deposit extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		<Dialog
 		    open={!!dialog}
-		    onClose={() => location.reload()}
+		    onClose={() => window.location.reload()}
 		>
 		  <div className={classes.dialogInner}>
 		    <CustomMarkdown noLink source={dialog}/>
