@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
 
 import CustomMarkdown from '../CustomMarkdown';
 

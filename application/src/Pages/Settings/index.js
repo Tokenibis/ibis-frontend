@@ -17,10 +17,15 @@ import IconButton from '@material-ui/core/IconButton';
 import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
 import PublicIcon from '@material-ui/icons/Public';
 import FollowingIcon from '@material-ui/icons/People';
+import FollowIcon from '@material-ui/icons/HowToReg';
+import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import CommentIcon from '@material-ui/icons/Comment';
+import DepositIcon from '@material-ui/icons/LocalAtm';
 import MeIcon from '@material-ui/icons/PersonOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
 import Radio from '@material-ui/core/Radio';
+import Switch from '@material-ui/core/Switch';
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
@@ -342,6 +347,92 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
+		<List
+		    subheader={
+			<ListSubheader disableSticky className={classes.subheader}>
+			  Email Notifications
+			</ListSubheader>
+		    }
+		    className={classes.root}
+		>
+		  <CustomDivider />
+		  <ListItem>
+		    <ListItemIcon>
+		      <FollowIcon />
+		    </ListItemIcon>
+		    <ListItemText className={classes.text} primary="Follows" />
+		    <ListItemSecondaryAction>
+		      <Switch
+			  edge="end"
+			  checked={data.ibisUser.notifier.emailFollow}
+			  onChange={() => (this.updateSetting(
+			      notifier_mutation,
+			      refetch,
+			      'emailFollow',
+			      !data.ibisUser.notifier.emailFollow,
+			  ))}
+		      />
+		    </ListItemSecondaryAction>
+		  </ListItem>
+		  <CustomDivider />
+		  <ListItem>
+		    <ListItemIcon>
+		      <TransactionIcon />
+		    </ListItemIcon>
+		    <ListItemText className={classes.text} primary="Transactions" />
+		    <ListItemSecondaryAction>
+		      <Switch
+			  edge="end"
+			  checked={data.ibisUser.notifier.emailTransaction}
+			  onChange={() => (this.updateSetting(
+			      notifier_mutation,
+			      refetch,
+			      'emailTransaction',
+			      !data.ibisUser.notifier.emailTransaction,
+			  ))}
+		      />
+		    </ListItemSecondaryAction>
+		  </ListItem>
+		  <CustomDivider />
+		  <ListItem>
+		    <ListItemIcon>
+		      <CommentIcon />
+		    </ListItemIcon>
+		    <ListItemText className={classes.text} primary="Comments" />
+		    <ListItemSecondaryAction>
+		      <Switch
+			  edge="end"
+			  checked={data.ibisUser.notifier.emailComment}
+			  onChange={() => (this.updateSetting(
+			      notifier_mutation,
+			      refetch,
+			      'emailComment',
+			      !data.ibisUser.notifier.emailComment,
+			  ))}
+		      />
+		    </ListItemSecondaryAction>
+		  </ListItem>
+		  <CustomDivider />
+		  <CustomDivider />
+		  <ListItem>
+		    <ListItemIcon>
+		      <DepositIcon />
+		    </ListItemIcon>
+		    <ListItemText className={classes.text} primary="Deposits" />
+		    <ListItemSecondaryAction>
+		      <Switch
+			  edge="end"
+			  checked={data.ibisUser.notifier.emailDeposit}
+			  onChange={() => (this.updateSetting(
+			      notifier_mutation,
+			      refetch,
+			      'emailDeposit',
+			      !data.ibisUser.notifier.emailDeposit,
+			  ))}
+		      />
+		    </ListItemSecondaryAction>
+		  </ListItem>
+		</List>
 	      </List>
 	    </div>
 	);
@@ -353,9 +444,9 @@ class Settings extends Component {
 
 	return (
 	    <Query
-	      fetchPolicy="no-cache"
-	      query={query}
-	      variables={{ id: context.userID }}
+		fetchPolicy="no-cache"
+		query={query}
+		variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
@@ -363,15 +454,15 @@ class Settings extends Component {
 		  return (
 		      <Mutation
 			  mutation={
-			      context.userType == 'person' ?
-			      person_mutation :
-			      nonprofit_mutation
+			  context.userType === 'person' ?
+			  person_mutation :
+			  nonprofit_mutation
 			  }
 			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation
-				mutation={notifier_mutation}
-				variables={{ id: data.ibisUser.notifier.id}}
+			      mutation={notifier_mutation}
+			      variables={{ id: data.ibisUser.notifier.id}}
 				>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, user_mutation, notifier_mutation)
@@ -388,89 +479,3 @@ class Settings extends Component {
 
 export default withStyles(styles)(Settings);
 
-/* <List
-   subheader={
-   <ListSubheader disableSticky className={classes.subheader}>
-   Email Notifications
-   </ListSubheader>
-   }
-   className={classes.root}
-   >
-   <CustomDivider />
-   <ListItem>
-   <ListItemIcon>
-   <FollowIcon />
-   </ListItemIcon>
-   <ListItemText className={classes.text} primary="Follows" />
-   <ListItemSecondaryAction>
-   <Switch
-   edge="end"
-   checked={data.person.notifier.emailFollow}
-   onChange={() => (this.updateSetting(
-   notifier_mutation,
-   refetch,
-   'emailFollow',
-   !data.person.notifier.emailFollow,
-   ))}
-   />
-   </ListItemSecondaryAction>
-   </ListItem>
-   <CustomDivider />
-   <ListItem>
-   <ListItemIcon>
-   <TransactionIcon />
-   </ListItemIcon>
-   <ListItemText className={classes.text} primary="Transactions" />
-   <ListItemSecondaryAction>
-   <Switch
-   edge="end"
-   checked={data.person.notifier.emailTransaction}
-   onChange={() => (this.updateSetting(
-   notifier_mutation,
-   refetch,
-   'emailTransaction',
-   !data.person.notifier.emailTransaction,
-   ))}
-   />
-   </ListItemSecondaryAction>
-   </ListItem>
-   <CustomDivider />
-   <ListItem>
-   <ListItemIcon>
-   <TransactionIcon />
-   </ListItemIcon>
-   <ListItemText className={classes.text} primary="Comments" />
-   <ListItemSecondaryAction>
-   <Switch
-   edge="end"
-   checked={data.person.notifier.emailComment}
-   onChange={() => (this.updateSetting(
-   notifier_mutation,
-   refetch,
-   'emailComment',
-   !data.person.notifier.emailComment,
-   ))}
-   />
-   </ListItemSecondaryAction>
-   </ListItem>
-   <CustomDivider />
-   <ListItem>
-   <ListItemIcon>
-   <LikeIcon />
-   </ListItemIcon>
-   <ListItemText className={classes.text} primary="Likes" />
-   <ListItemSecondaryAction>
-   <Switch
-   edge="end"
-   checked={data.person.notifier.emailLike}
-   onChange={() => (this.updateSetting(
-   notifier_mutation,
-   refetch,
-   'emailLike',
-   !data.person.notifier.emailLike,
-   ))}
-   />
-   </ListItemSecondaryAction>
-   </ListItem>
-   <CustomDivider />
-   </List> */

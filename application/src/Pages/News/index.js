@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
@@ -106,7 +105,6 @@ class News extends Component {
 	    this.setState({ likeCount: node.likeCount });
 	}
 
-	console.log(node.link)
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid container className={classes.content}>
@@ -140,7 +138,7 @@ class News extends Component {
   		  <CardMedia
   		      title={node.title}
   		  >
-		    <img className={classes.img} src={node.image} />
+		    <img alt="News" className={classes.img} src={node.image} />
 		  </CardMedia>
 		  <Typography variant="body2" className={classes.link}>
 		    {node.link && 

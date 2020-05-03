@@ -12,6 +12,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Dialog from '@material-ui/core/Dialog';
+import GiftIcon from '@material-ui/icons/CakeOutlined';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from "axios";
 
@@ -199,10 +200,13 @@ class DepositList extends Component {
 
     makeImage = (node) => {
 	let { classes } = this.props;
-	if (node.paymentId.split(':')[0] === 'paypal') {
-	    return <PaypalIcon className={classes.icon} />
-	} else {
-	    return <IbisIcon className={classes.icon} />
+	switch (node.category.title) {
+	    case 'paypal':
+		return <PaypalIcon className={classes.icon} />
+	    case 'ubp':
+		return <GiftIcon className={classes.icon} />
+	    default:
+		return <IbisIcon className={classes.icon} />
 	}
     };
 

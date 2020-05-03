@@ -151,12 +151,9 @@ class Event extends Component {
 	    this.setState({ likeCount: node.likeCount, rsvpCount: node.rsvpCount });
 	}
 
-	let imageHeight = Math.floor(Math.min(window.innerWidth, context.maxWindowWidth)
-	    * context.displayRatio);
-
 	window.addEventListener('resize', this.resizeMap);
 
-	let searchAddress = node.address.replace('/\./g', '').replace(/\s+/g, '+')
+	let searchAddress = node.address.replace(/\./g, '').replace(/\s+/g, '+')
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -191,7 +188,7 @@ class Event extends Component {
   		  <CardMedia
   		      title={node.title}
   		  >
-		    <img className={classes.img} src={node.image} />
+		    <img alt="Event" className={classes.img} src={node.image} />
 		  </CardMedia>
 		</Grid>
 		<Grid item xs={12}>

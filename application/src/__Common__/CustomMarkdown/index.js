@@ -81,7 +81,7 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
 		      />
 		  ),
 		  image: props => (
-		      <img className={classes.image} src={props.src} />
+		      <img alt="Imported" className={classes.image} src={props.src} />
 		  ),
 	      }}
 	  {...other}

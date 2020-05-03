@@ -126,7 +126,7 @@ class Home extends Component {
     }
 
     render() {
-	let { classes, context } = this.props;
+	let { classes  } = this.props;
 	let { expanded, person_id, nonprofit_id, avatar, username, name, balance } = this.state;
 
 	return (

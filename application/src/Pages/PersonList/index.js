@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 
 import Link from '../../__Common__/CustomLink';
-import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import Filter from '../../__Common__/Filter';
@@ -91,7 +90,7 @@ class PersonList extends Component {
 		  user={context.userID}
 		  target={node.id}
 		  initial={node.isFollowing.edges.length === 1}
-		  hide={context.userID === node.ibisuserPtr.id || context.userType != 'person'}
+		  hide={context.userID === node.ibisuserPtr.id || context.userType !== 'person'}
 	      />
 	      <Typography
 		  component={Link}

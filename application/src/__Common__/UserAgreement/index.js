@@ -1,6 +1,5 @@
 import React from 'react';
 
-import CustomMarkdown from '../CustomMarkdown';
 import Popup from '../../__Common__/Popup';
 
 let agreement = `# USER AGREEMENT

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomMarkdown from '../CustomMarkdown';
-import CustomDivider from '../CustomDivider';
 
 const styles = theme => ({
     progress: {

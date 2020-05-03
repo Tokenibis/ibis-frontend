@@ -9,17 +9,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AnnouncementIcon from '@material-ui/icons/AnnouncementOutlined';
+import DepositIcon from '@material-ui/icons/LocalAtm';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
+import GiftIcon from '@material-ui/icons/CakeOutlined';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import QueryHelper from '../../__Common__/QueryHelper';
-import UBPIcon from '../../__Common__/IbisIcon';
 import CustomDate, { LongVal } from '../../__Common__/CustomDate';
 
 const styles = theme => ({
@@ -55,7 +56,8 @@ const seen_mutation = loader('../../Static/graphql/operations/NotifierSeen.gql')
 
 const CATEGORIES = {
     GA: <AnnouncementIcon color="secondary"/>,
-    UD: <UBPIcon color="secondary"/>,
+    UD: <GiftIcon color="secondary"/>,
+    SD: <DepositIcon color="secondary"/>,
     RF: <FollowIcon color="secondary"/>,
     RT: <SendIcon color="secondary"/>,
     RC: <CommentIcon color="secondary"/>,
@@ -86,7 +88,6 @@ class NotificationList extends Component {
 	let { history } = this.props;
 
 	mutation({ variables: { id }});
-	console.log(reference)
 	history.push(LINKS[reference.split(':')[0]](reference.split(':')[1]))
     };
 

@@ -109,7 +109,7 @@ class IbisUserList extends Component {
     }
 
     render() {
-	let { context, minimal, filterValue } = this.props;
+	let { context, filterValue } = this.props;
 	let make, variables;
 
 	make = (data) => (
