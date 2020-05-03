@@ -426,7 +426,7 @@ class Deposit extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		<Dialog
 		    open={!!dialog}
-		    onClose={() => this.setState({ dialog: ''})}
+		    onClose={() => location.reload()}
 		>
 		  <div className={classes.dialogInner}>
 		    <CustomMarkdown noLink source={dialog}/>
