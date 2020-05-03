@@ -244,7 +244,7 @@ class PostList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && 
+	      {!minimal && context.userType === 'person' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
