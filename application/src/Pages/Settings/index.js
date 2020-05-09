@@ -15,6 +15,8 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
+import EmailIcon from '@material-ui/icons/EmailOutlined';
+import PasswordIcon from '@material-ui/icons/LockOutlined';
 import PublicIcon from '@material-ui/icons/Public';
 import FollowingIcon from '@material-ui/icons/People';
 import FollowIcon from '@material-ui/icons/HowToReg';
@@ -24,8 +26,10 @@ import DepositIcon from '@material-ui/icons/LocalAtm';
 import MeIcon from '@material-ui/icons/PersonOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
+import CancelIcon from '@material-ui/icons/Close';
 import Radio from '@material-ui/core/Radio';
 import Switch from '@material-ui/core/Switch';
+import axios from "axios";
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
@@ -61,7 +65,7 @@ const styles = theme => ({
 	pointerEvents: 'none',
 	opacity: '50%',
     },
-    usernameEdit: {
+    edit: {
 	paddingRight: theme.spacing(2),
     },
     textField: {
@@ -100,21 +104,32 @@ class Settings extends Component {
     state = {
 	dialog: '',
 	username: null,
-	editUsername: false,
-	canSubmitUsername: false,
+	email: null,
+	editField: '',
+	canSubmit: false,
     };
 
     updateUsername = (mutation, refetch) => {
 	let username = document.getElementById('edit_username').value;
 	mutation({ variables: { username } }).then(response => {
 	    refetch();
-	    this.setState({ editUsername: false });
+	    this.setState({ editField: '' });
 	}).catch(error => {
 	    if (error.toString().includes('UNIQUE constraint failed')) {
 		this.setState({ dialog: `Sorry, that username is already taken. Please pick another one, or consider sending a bribe to __@${username}__ for naming rights (ibis tokens only, of course...)` })
 	    } else {
 		alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
 	    }
+	});
+    }
+
+    updateEmail = (mutation, refetch) => {
+	let email = document.getElementById('edit_email').value;
+	mutation({ variables: { email } }).then(response => {
+	    refetch();
+	    this.setState({ editField: '' });
+	}).catch(error => {
+	    alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
 	});
     }
 
@@ -129,28 +144,64 @@ class Settings extends Component {
 	});
     }
 
-    handleInput(current) {
+    handleUsernameInput(current) {
 	let username = document.getElementById('edit_username').value.toString()
 	username = username.replace(/[^a-z0-9_]/g, '').slice(0, MAX_USERNAME_LEN)
 
-	let canSubmitUsername = username !== current && username.length >= MIN_USERNAME_LEN;
-	this.setState({ username, canSubmitUsername });
+	let canSubmit = username !== current && username.length >= MIN_USERNAME_LEN;
+	this.setState({ username, canSubmit });
     }
 
-    handleChangeUsername(event, current) {
+    handleEmailInput(current) {
+	let email = document.getElementById('edit_email').value.toString()
+	let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	let canSubmit = email !== current && re.test(email.toLowerCase());
+	this.setState({ email, canSubmit });
+    }
 
-	let value = document.getElementById('edit_username').value;
-	
-	let canSubmitUsername = value !== current &&
-				value.length >= MIN_USERNAME_LEN &&
-				value.length <= MAX_USERNAME_LEN;
-	this.setState({ canSubmitUsername });
+    handlePasswordInput(current) {
+	let password_old = document.getElementById('password_old').value.toString()
+	let password_new = document.getElementById('password_new').value.toString()
+	let password_confirm = document.getElementById('password_confirm').value.toString()
+	this.setState({
+	    canSubmit: password_old &&
+		       password_new &&
+		       password_confirm &&
+		       password_old !== password_new &&
+		       password_new === password_confirm
+	});
+    }
+
+    updatePassword() {
+	let password_old = document.getElementById('password_old').value.toString()
+	let password_new = document.getElementById('password_new').value.toString()
+
+	axios('/ibis/change-pass/', {
+	    method: 'post',
+	    withCredentials: true,
+	    data: { password_old, password_new },
+	}).then(response => {
+	    if (response.data.success) {
+		this.setState({ editField: '' });
+	    }
+	    alert(response.data.message);
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	    alert('Hmm... an unexpected error. Please report this bug at info@tokenibis.org')
+	})
     }
 
     inner(data, refetch, user_mutation, notifier_mutation) {
 
-	let { classes } = this.props;
-	let { dialog, username, editUsername, canSubmitUsername } = this.state;
+	let { classes, context } = this.props;
+	let {
+	    dialog,
+	    username,
+	    email,
+	    editField,
+	    canSubmit,
+	} = this.state;
 
 	return (
 	    <div className={classes.root}>
@@ -165,7 +216,7 @@ class Settings extends Component {
 	      <List
 		  subheader={
 		      <ListSubheader disableSticky className={classes.subheader}>
-			Personal Info
+			{context.userType === 'person' ? 'Personal Info' : 'Organizational Info'}
 		      </ListSubheader>
 		  }
 	      >
@@ -174,9 +225,9 @@ class Settings extends Component {
 		  <ListItemIcon>
 		    <UsernameIcon />
 		  </ListItemIcon>
-		  {editUsername ? (
+		  {editField === 'username' ? (
 		      <div>
-			<ListItemText className={classes.usernameEdit} primary={
+			<ListItemText className={classes.edit} primary={
 			    <TextField
 				id="edit_username"
 				    autoFocus
@@ -186,7 +237,7 @@ class Settings extends Component {
 				    variant="outlined"
 				    fullWidth
 				    value={username !== null ? username: data.ibisUser.username}
-			            onInput={() => this.handleInput(data.ibisUser.username)}
+				    onInput={() => this.handleUsernameInput(data.ibisUser.username)}
 				    InputProps={{
 					startAdornment: (
 					    <InputAdornment position="start">@</InputAdornment>
@@ -198,27 +249,154 @@ class Settings extends Component {
 			</Typography>
 		      </div>
 		  ):(
-		      <ListItemText className={classes.text} primary={`@${data.ibisUser.username}`} />
+		      <ListItemText className={classes.text} primary="Change Username" />
 		  )}
 		  <ListItemSecondaryAction>
-		    {editUsername ? (
+		    {editField === 'username' ? (
 			<IconButton
-			    className={canSubmitUsername ? classes.button : classes.disabledButton}
+			    className={canSubmit ? classes.button : classes.disabledButton}
 			    onClick={() => {this.updateUsername(user_mutation, refetch)}}
 			    >
 			  <SubmitIcon />
 			</IconButton>
 		    ):(
 			<IconButton
-			    onClick={() => {this.setState({ editUsername: true })}}
+			    onClick={() => {this.setState({ editField: 'username' })}}
 			    >
 			  <EditIcon color="secondary" />
 			</IconButton>
 		    )}
 		  </ListItemSecondaryAction>
 		</ListItem>
+		{context.userType === 'nonprofit' &&
+		 <div>
+		   <CustomDivider />
+		   <ListItem>
+		     <ListItemIcon>
+		       <EmailIcon />
+		     </ListItemIcon>
+		     {editField === 'email' ? (
+			 <div>
+			   <ListItemText className={classes.edit} primary={
+			       <TextField
+				   id="edit_email"
+				       autoFocus
+				       required
+				       className={classes.textField}
+				       margin="normal"
+				       variant="outlined"
+				       fullWidth
+				       value={email !== null ? email: data.ibisUser.email}
+			               onInput={() => this.handleEmailInput(data.ibisUser.email)}
+			       />
+			   }/>
+			   <Typography variant="body2" className={classes.fine}>
+			     This change will take effect on your next notification
+			   </Typography>
+			 </div>
+		     ):(
+			 <ListItemText className={classes.text} primary="Change Email" />
+		     )}
+		     <ListItemSecondaryAction>
+		       {editField === 'email' ? (
+			   <IconButton
+			       className={canSubmit ? classes.button : classes.disabledButton}
+			       onClick={() => {this.updateEmail(user_mutation, refetch)}}
+			       >
+			     <SubmitIcon />
+			   </IconButton>
+		       ):(
+			   <IconButton
+			       onClick={() => {this.setState({ editField: 'email' })}}
+			       >
+			     <EditIcon color="secondary" />
+			   </IconButton>
+		       )}
+		     </ListItemSecondaryAction>
+		   </ListItem>
+		   <CustomDivider />
+		   <ListItem>
+		     <ListItemIcon>
+		       <PasswordIcon />
+		     </ListItemIcon>
+		     {editField === 'password' ? (
+			 <div>
+			   <ListItemText className={classes.edit} primary={
+			       <TextField
+				   id="password_old"
+				   type="password"
+				   autoFocus
+				   required
+				   className={classes.textField}
+				   margin="normal"
+				   variant="outlined"
+				   fullWidth
+				   label="Old Password"
+			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			       />
+			   }/>
+			   <ListItemText className={classes.edit} primary={
+			       <TextField
+				   id="password_new"
+				   type="password"
+				   required
+				   className={classes.textField}
+				   margin="normal"
+				   variant="outlined"
+				   fullWidth
+				   label="New Password"
+			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			       />
+			   }/>
+			   <ListItemText className={classes.edit} primary={
+			       <TextField
+				   id="password_confirm"
+				   type="password"
+				   required
+				   className={classes.textField}
+				   margin="normal"
+				   variant="outlined"
+				   fullWidth
+				   label="Confirm Password"
+			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			       />
+			   }/>
+			 </div>
+		     ):(
+			 <ListItemText className={classes.text} primary="Change Password" />
+		     )}
+		     <ListItemSecondaryAction>
+		       {editField === 'password' ? (
+			   <div>
+			     <div>
+			     <IconButton
+				 className={canSubmit ? classes.button : classes.disabledButton}
+				 onClick={() => {this.updatePassword(user_mutation, refetch)}}
+			       >
+			       <SubmitIcon />
+			     </IconButton>
+			     </div>
+			     <div>
+			     <IconButton
+				 className={classes.button}
+				 onClick={() => this.setState({ editField: '' })}
+			       >
+			       <CancelIcon />
+			     </IconButton>
+			     </div>
+			   </div>
+		       ):(
+			   <IconButton
+			       onClick={() => {this.setState({ editField: 'password' })}}
+			       >
+			     <EditIcon color="secondary" />
+			   </IconButton>
+		       )}
+		     </ListItemSecondaryAction>
+		   </ListItem>
+		 </div>
+		}
 	      </List>
-	      <CustomDivider />
 	      <List
 		  subheader={
 		      <ListSubheader disableSticky className={classes.subheader}>
@@ -285,7 +463,6 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
 		    <DepositIcon />
@@ -315,9 +492,9 @@ class Settings extends Component {
 
 	return (
 	    <Query
-		fetchPolicy="no-cache"
-		query={query}
-		variables={{ id: context.userID }}
+	      fetchPolicy="no-cache"
+	      query={query}
+	      variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
@@ -332,8 +509,8 @@ class Settings extends Component {
 			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation
-			      mutation={notifier_mutation}
-			      variables={{ id: data.ibisUser.notifier.id}}
+				mutation={notifier_mutation}
+				variables={{ id: data.ibisUser.notifier.id}}
 				>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, user_mutation, notifier_mutation)

@@ -16,6 +16,9 @@ import Truncated from '../../__Common__/Truncated';
 import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
 
 const styles = theme => ({
+    root: {
+	width: '100%',
+    },
     avatar: {
  	borderStyle: 'solid',
   	borderWidth: '2px',

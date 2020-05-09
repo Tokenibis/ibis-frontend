@@ -36,6 +36,8 @@ import Grid from '@material-ui/core/Grid';
 import { GoogleLoginButton } from "react-social-login-buttons";
 import { FacebookLoginButton } from "react-social-login-buttons";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import axios from "axios";
 
 import { IbisProvider } from '../Context'
@@ -45,6 +47,17 @@ import IbisIcon from '../__Common__/IbisIcon';
 import UserAgreement from '../__Common__/UserAgreement'
 
 const styles = theme => ({
+    img: {
+	width: '100%',
+	minHeight: '100%',
+	margin: '0 auto',
+	filter: "brightness(60%)",
+	position: 'fixed',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	zIndex: -2,
+    },
     icon: {
 	color: 'white',
 	height: 60,
@@ -72,6 +85,24 @@ const styles = theme => ({
 	color: 'white',
 	position: 'fixed',
 	bottom: '5%',
+	zIndex: -1,
+    },
+    agreementNonprofit: {
+	textAlign: 'center',
+	color: 'white',
+	position: 'fixed',
+	top: '5%',
+    },
+    textField: {
+	backgroundColor: 'white',
+	width: '90%',
+    },
+    login: {
+	width: '90%',
+	color: 'white',
+	backgroundColor: '#84ab3f',
+	borderColor: theme.palette.secondary.main,
+	marginTop: theme.spacing(2),
     },
 });
 
@@ -83,7 +114,9 @@ class Authenticator extends Component {
 	    userID: null,
 	    userType: '',
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
-	    anonClicks: 0,
+	    nonprofitClicks: 0,
+	    nonprofitLogin: new URL(window.location.href)['hash'] === '#/__nonprofit_login__',
+	    loginEnabled: false,
 	};
     };
 
@@ -121,28 +154,37 @@ class Authenticator extends Component {
 	})
     }
 
-    anonLogin = () => {
-	let { anonClicks } = this.state;
+    nonprofitRedirect = () => {
+	let { nonprofitClicks, nonprofitLogin } = this.state;
 
-	if (anonClicks >= 2) {
-	    this.setState({ anonClicks: 0 })
-	    axios('/ibis/login-anon/', {
-		method: 'post',
-		withCredentials: true
-	    }).then(response => {
-		if ('user_id' in response.data) {
-		    this.setState({
-			userID: response.data.user_id,
-			userType: response.data.user_type,
-		    });
-		} else {
-		    console.error('Did not receive ibis user id in login response');
-		    console.error(response);
-		}
-	    })
+	if (nonprofitClicks >= 2) {
+	    this.setState({ nonprofitClicks: 0, nonprofitLogin: !nonprofitLogin });
 	} else {
-	    this.setState({ anonClicks: anonClicks + 1 });
+	    this.setState({ nonprofitClicks: nonprofitClicks + 1 });
 	}
+    }
+
+    passLogin = () => {
+	let { nonprofitClicks } = this.state;
+
+	axios('/ibis/login-pass/', {
+	    method: 'post',
+	    withCredentials: true,
+	    data: {
+		username: document.getElementById(`form_username`).value,
+		password: document.getElementById(`form_password`).value,
+	    },
+	}).then(response => {
+	    if ('user_id' in response.data && response.data.user_id) {
+		this.setState({
+		    userID: response.data.user_id,
+		    userType: response.data.user_type,
+		});
+	    } else {
+		alert('Username or password not found');
+		console.error(response);
+	    }
+	})
     }
 
     /* flag app the user as unauthenticated and clear the token */
@@ -217,7 +259,7 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, userType, width  } = this.state;
+	let { userID, userType, width, nonprofitLogin, loginEnabled  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
@@ -240,16 +282,7 @@ class Authenticator extends Component {
 	    return (
   		<Grid container direction="column" justify="center" alignItems="center" >
 		  <img
-		      style={{
-			  width: '100%',
-			  minHeight: '100%',
-			  margin: '0 auto',
-			  filter: "brightness(60%)",
-			  position: 'fixed',
-			  top: '50%',
-			  left: '50%',
-			  transform: 'translate(-50%, -50%)',
-		      }}
+		  className={classes.img}
 		      alt="construction"
 		      src={require('../Static/Images/splash.jpg')}
 		  />
@@ -264,26 +297,72 @@ class Authenticator extends Component {
 		      }}
 		      className={classes.content}
 		  >
-  		    <Grid container direction="column" justify="center" alignItems="center" >
-		      <IbisIcon
-			  className={classes.icon}
-		          onClick={() => this.anonLogin()}
-		      />
-		      <Typography variant="body2" className={classes.welcome}>
-			Welcome to ibis
-		      </Typography>
-		      <FacebookLoginButton className={classes.facebook} onClick={this.facebookLogin}/>
-		      <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
-		    </Grid>
+		    {nonprofitLogin ? (
+  			<Grid container direction="column" justify="center" alignItems="center" >
+			  <IbisIcon
+			      className={classes.icon}
+		              onClick={() => this.nonprofitRedirect()}
+			  />
+			  <TextField
+			      id="form_username"
+			      autoFocus
+			      required
+			      defaultValue=""
+ 			      className={classes.textField}
+			      margin="normal"
+			      variant="filled"
+			      fullWidth
+			      label="Username"
+			      onChange={() => this.setState({
+				  loginEnabled: document.getElementById(`form_username`).value &&
+						document.getElementById(`form_password`).value
+			      })}
+			  />
+			  <TextField
+			      id="form_password"
+			      type="password"
+			      required
+			      defaultValue=""
+ 			      className={classes.textField}
+			      margin="normal"
+			      variant="filled"
+			      fullWidth
+			      label="Password"
+			      onChange={() => this.setState({
+				  loginEnabled: document.getElementById(`form_username`).value &&
+						document.getElementById(`form_password`).value
+			      })}
+			  />
+			  <Button
+			      className={classes.login}
+			      onClick={() => this.passLogin()}
+			      disabled={!loginEnabled}
+			    >
+			    Nonprofit Login
+			  </Button>
+			</Grid>
+		    ):(
+  			<Grid container direction="column" justify="center" alignItems="center" >
+			  <IbisIcon
+			      className={classes.icon}
+			      onClick={() => this.nonprofitRedirect()}
+			  />
+			  <Typography variant="body2" className={classes.welcome}>
+			    Welcome to ibis
+			  </Typography>
+			  <FacebookLoginButton className={classes.facebook} onClick={this.facebookLogin}/>
+			  <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
+			</Grid>
+		    )}
 		  </div>
 		  <Typography 
-		    variant="body2"
-		    style={{ width: width * 0.7 }}
-		    className={classes.agreement}
+		      variant="body2"
+		      style={{ width: width * 0.7 }}
+		      className={classes.agreement}
 		  >
 		    <UserAgreement/>
 		  </Typography>
-		</Grid>
+			</Grid>
 	    );
 	} else {
 	    // app is between api calls

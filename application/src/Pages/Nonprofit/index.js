@@ -15,7 +15,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '../../__Common__/CustomLink';
 import Confirmation from '../../__Common__/Confirmation';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
-import UserDialogList, { FollowerVal } from '../../__Common__/UserDialogList';
+import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
@@ -51,8 +51,9 @@ const styles = theme => ({
 	textDecoration: 'none',
 	fontWeight: 'bold',
     },
-    endWrapper: {
+    followStatWrapper: {
 	textAlign: 'center',
+	display: 'flex',
     },
     edgeMutations: {
 	display: 'flex',
@@ -115,6 +116,7 @@ const styles = theme => ({
     bottom: {
 	height: theme.spacing(5),
     },
+    none: {},
 });
 
 const query = loader('../../Static/graphql/operations/Nonprofit.gql')
@@ -123,6 +125,7 @@ class Nonprofit extends Component {
     
     state = {
 	expanded: false,
+	followingCount: null,
 	followerCount: null,
     }
     
@@ -144,7 +147,7 @@ class Nonprofit extends Component {
     
     createPage(node) {
 	let { classes, context, id } = this.props;
-	let { expanded, followerCount } = this.state;
+	let { expanded, following, followerCount } = this.state;
 
 	let followerCallback = (change) => {
 	    this.setState({ followerCount: node.followerCount + change });
@@ -176,7 +179,7 @@ class Nonprofit extends Component {
 		      expanded ? (
 			  <div>
 			    <CustomMarkdown safe source={node.description} />
-			    <div className={classes.endWrapper}>
+  			    <Grid container direction="column" justify="center" alignItems="center" >
 			      <Confirmation
 				  onClick={() => {window.location = node.link}}
 				  autoconfirm
@@ -187,15 +190,22 @@ class Nonprofit extends Component {
 				  </Typography>
 				</Button>
 			      </Confirmation>
-			      <UserDialogList
-				  variant={FollowerVal}
-				  count={followerCount}
-				  node={node.id}
-			      />
+			      <div className={classes.followStatWrapper}>
+				<UserDialogList
+				    variant={FollowingVal}
+				    count={node.followingCount}
+				    node={node.id}
+				/>
+				<UserDialogList
+				    variant={FollowerVal}
+				    count={followerCount}
+				    node={node.id}
+				/>
+			      </div>
 			      <Typography variant="body2" className={classes.fundraised}>
 				<Amount amount={node.fundraised} label="Fundraised"/>
 			      </Typography>
-			    </div>
+			    </Grid>
 			  </div>
 		      ):(
 			  <Typography variant="body2" className={classes.description}>
@@ -218,7 +228,6 @@ class Nonprofit extends Component {
 			      target={node.id}
 			      initial={node.isFollowing.edges.length === 1}
 		              countCallback={followerCallback}
-			      hide={context.userType !== 'person'}
 			  />
 		      }
 		      </div>
@@ -245,7 +254,7 @@ class Nonprofit extends Component {
 			    <Button
 				component={Link}
 				to="/_/Deposit"
-				className={classes.actionPay}
+				className={classes.actionDonate}
 				>
 			      Deposit
 			    </Button>
@@ -260,7 +269,7 @@ class Nonprofit extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.newsCount === 0 && classes.hide}
+		    className={node.newsCount === 0 ? classes.hide : classes.none}
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Recent News
@@ -286,7 +295,7 @@ class Nonprofit extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.eventCount === 0 && classes.hide}
+		    className={node.eventCount === 0 ? classes.hide : classes.none}
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Upcoming Events
@@ -312,7 +321,11 @@ class Nonprofit extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.donationFromCount === 0 && classes.hide}
+		    className={
+		        (node.donationToCount + node.donationFromCount) === 0 ?
+		        classes.hide :
+		        classes.none
+		    }
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Donation History

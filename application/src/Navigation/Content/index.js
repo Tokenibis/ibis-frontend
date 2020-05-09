@@ -95,8 +95,12 @@ function ContentLoader({ match, location }) {
 
     let nav;
     let pageName = match.params.page;
+    let mode = match.params.mode;
+    if (mode.slice(0, 2) === '__' && mode.slice(-2) === '__') {
+	mode = '_';
+    }
 
-    switch (match.params.mode) {
+    switch (mode) {
 	case '_':
 	    nav = (
 		<div>

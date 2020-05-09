@@ -110,6 +110,7 @@ const styles = theme => ({
     bottom: {
 	height: theme.spacing(5),
     },
+    none: {},
 })
 
 const query = loader('../../Static/graphql/operations/Person.gql')
@@ -199,7 +200,6 @@ class Person extends Component {
 			      target={node.id}
 			      initial={node.isFollowing.edges.length === 1}
 		              countCallback={followerCallback}
-			      hide={context.userType !== 'person'}
 			  />
 		      }
 		    </div>
@@ -232,7 +232,7 @@ class Person extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.postCount === 0 && classes.hide}
+		    className={node.postCount === 0 ? classes.hide : classes.none}
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Post History
@@ -258,7 +258,7 @@ class Person extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.donationToCount === 0 && classes.hide}
+		    className={node.donationToCount === 0 ? classes.hide : classes.none}
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Donation History
@@ -285,7 +285,9 @@ class Person extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.transactionToCount + node.transactionFromCount)=== 0 && classes.hide
+		        (node.transactionToCount + node.transactionFromCount) === 0 ?
+		        classes.hide :
+		        classes.none
 		    }
 		>
 		  <Typography variant="button" className={classes.heading} >

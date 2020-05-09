@@ -17,6 +17,9 @@ import CustomDate from '../../__Common__/CustomDate';
 import { IbisConsumer } from '../../Context';
 
 const styles = theme => ({
+    root: {
+	width: '100%',
+    },
     avatar: {
  	borderStyle: 'solid',
   	borderWidth: '2px',
