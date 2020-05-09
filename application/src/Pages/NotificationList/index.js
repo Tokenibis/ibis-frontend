@@ -11,7 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AnnouncementIcon from '@material-ui/icons/AnnouncementOutlined';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import FollowIcon from '@material-ui/icons/HowToReg';
-import SendIcon from '@material-ui/icons/SendOutlined';
+import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
+import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import GiftIcon from '@material-ui/icons/CakeOutlined';
@@ -59,7 +60,8 @@ const CATEGORIES = {
     UD: <GiftIcon color="secondary"/>,
     SD: <DepositIcon color="secondary"/>,
     RF: <FollowIcon color="secondary"/>,
-    RT: <SendIcon color="secondary"/>,
+    RD: <DonationIcon color="secondary"/>,
+    RT: <TransactionIcon color="secondary"/>,
     RC: <CommentIcon color="secondary"/>,
     RL: <LikeIcon color="secondary"/>,
     FN: <NewsIcon color="secondary"/>,

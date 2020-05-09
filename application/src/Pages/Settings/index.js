@@ -20,6 +20,7 @@ import PasswordIcon from '@material-ui/icons/LockOutlined';
 import PublicIcon from '@material-ui/icons/Public';
 import FollowingIcon from '@material-ui/icons/People';
 import FollowIcon from '@material-ui/icons/HowToReg';
+import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import DepositIcon from '@material-ui/icons/LocalAtm';
@@ -425,24 +426,45 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <TransactionIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Transactions" />
-		  <ListItemSecondaryAction>
-		    <Switch
-			edge="end"
-			checked={data.ibisUser.notifier.emailTransaction}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailTransaction',
-			    !data.ibisUser.notifier.emailTransaction,
-			))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
+		{context.userType === 'person' ? (
+		    <ListItem>
+		      <ListItemIcon>
+			<TransactionIcon />
+		      </ListItemIcon>
+		      <ListItemText className={classes.text} primary="Transactions" />
+		      <ListItemSecondaryAction>
+			<Switch
+			    edge="end"
+			    checked={data.ibisUser.notifier.emailTransaction}
+			    onChange={() => (this.updateSetting(
+				notifier_mutation,
+				refetch,
+				'emailTransaction',
+				!data.ibisUser.notifier.emailTransaction,
+			    ))}
+			/>
+		      </ListItemSecondaryAction>
+		    </ListItem>
+		):(
+		    <ListItem>
+		      <ListItemIcon>
+			<DonationIcon />
+		      </ListItemIcon>
+		      <ListItemText className={classes.text} primary="Donations" />
+		      <ListItemSecondaryAction>
+			<Switch
+			    edge="end"
+			    checked={data.ibisUser.notifier.emailDonation}
+			    onChange={() => (this.updateSetting(
+				notifier_mutation,
+				refetch,
+				'emailDonation',
+				!data.ibisUser.notifier.emailDonation,
+			    ))}
+			/>
+		      </ListItemSecondaryAction>
+		    </ListItem>
+		)}
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
