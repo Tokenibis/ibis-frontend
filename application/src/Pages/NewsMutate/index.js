@@ -114,11 +114,6 @@ class NewsCreate extends Component {
     handleMutate(mutation) {
 	let { context, client, history, id } = this.props;
 
-	let title = document.getElementById(`news_title`).value;
-	let image = document.getElementById(`news_image`).value;
-	let link = document.getElementById(`news_link`).value;
-	let description = document.getElementById(`news_description`).value;
-
 	let variables = {
 	    user: context.userID,
 	    title: document.getElementById(`news_title`).value,

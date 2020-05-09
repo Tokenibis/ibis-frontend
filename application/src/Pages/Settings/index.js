@@ -17,18 +17,14 @@ import IconButton from '@material-ui/core/IconButton';
 import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
 import EmailIcon from '@material-ui/icons/EmailOutlined';
 import PasswordIcon from '@material-ui/icons/LockOutlined';
-import PublicIcon from '@material-ui/icons/Public';
-import FollowingIcon from '@material-ui/icons/People';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import DepositIcon from '@material-ui/icons/LocalAtm';
-import MeIcon from '@material-ui/icons/PersonOutlined';
 import EditIcon from '@material-ui/icons/Edit';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
 import CancelIcon from '@material-ui/icons/Close';
-import Radio from '@material-ui/core/Radio';
 import Switch from '@material-ui/core/Switch';
 import axios from "axios";
 

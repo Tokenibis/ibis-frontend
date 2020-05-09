@@ -147,7 +147,7 @@ class Nonprofit extends Component {
     
     createPage(node) {
 	let { classes, context, id } = this.props;
-	let { expanded, following, followerCount } = this.state;
+	let { expanded, followerCount } = this.state;
 
 	let followerCallback = (change) => {
 	    this.setState({ followerCount: node.followerCount + change });

@@ -28,6 +28,7 @@ import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import DepositIcon from '@material-ui/icons/LocalAtm';
+import WithdrawalIcon from '@material-ui/icons/LocalAtm';
 import InfoIcon from '@material-ui/icons/HelpOutline';
 
 import Link from '../../__Common__/CustomLink';
@@ -255,6 +256,16 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
+	      {context.userType === 'nonprofit' &&
+	       <Link to="/_/Withdrawal">
+		 <SublistItem
+		     label="Withdrawal"
+		     classes={classes}
+		     icon={<WithdrawalIcon />}
+		     onClick={(e) => this.toggleDrawer(false)}
+		 />
+	       </Link>
+	      }
 	      <Link to="/_/Settings">
 		<SublistItem
 		    label="Settings"

@@ -165,8 +165,6 @@ class Authenticator extends Component {
     }
 
     passLogin = () => {
-	let { nonprofitClicks } = this.state;
-
 	axios('/ibis/login-pass/', {
 	    method: 'post',
 	    withCredentials: true,

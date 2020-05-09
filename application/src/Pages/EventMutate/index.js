@@ -130,14 +130,6 @@ class EventCreate extends Component {
     handleMutate(mutation) {
 	let { context, client, history, id } = this.props;
 
-	let title = document.getElementById(`event_title`).value;
-	let image = document.getElementById(`event_image`).value;
-	let link = document.getElementById(`event_link`).value;
-	let description = document.getElementById(`event_description`).value;
-	let date = document.getElementById(`event_date`).value;
-	let duration = document.getElementById(`event_duration`).value;
-	let address = document.getElementById(`event_address`).value;
-
 	let variables = {
 	    user: context.userID,
 	    title: document.getElementById(`event_title`).value,

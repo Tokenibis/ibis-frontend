@@ -27,6 +27,9 @@ import PaypalIcon from '../../__Common__/PaypalIcon';
 const config = require('../../config.json');
 
 const styles = theme => ({
+    root: {
+	width: '100%',
+    },
     content: {
 	paddingTop: theme.spacing(2),
 	paddingBottom: theme.spacing(2),
@@ -160,7 +163,7 @@ const MIN_AMOUNT = 1000;
 
 const query = loader('../../Static/graphql/operations/DepositList.gql')
 
-const query_balance = loader('../../Static/graphql/operations/Deposit.gql')
+const query_balance = loader('../../Static/graphql/operations/Balance.gql')
 
 const message = `## Payment Guide
 
@@ -180,7 +183,7 @@ safe making this payment as long as you trust them.
 
 The details will not appear on app, but by making a donation
 here, you are agreeing to be recognized on various Token Ibis
-donor gratitude materials
+donor gratitude materials.
 
 ### What is this fee?
 
@@ -235,7 +238,7 @@ class DepositList extends Component {
     };
 
     render() {
-	let { context, count } = this.props;
+	let { classes, context, count } = this.props;
 
 	count = count ? count: DEFAULT_COUNT
 
@@ -254,12 +257,14 @@ class DepositList extends Component {
 	}
 
 	return (
-	    <QueryHelper
-		query={query}
-		variables={variables}
-		make={make}
-		infiniteScroll={true}
-	    />
+	    <div className={classes.root}>
+	      <QueryHelper
+		  query={query}
+		  variables={variables}
+		  make={make}
+		  infiniteScroll={true}
+	      />
+	    </div>
 	);
     };
 };
@@ -469,8 +474,7 @@ class Deposit extends Component {
 			       if (loading) return (
 				   <CircularProgress size={10} className={classes.balanceProgress}/>
 			       )
-			       if (error) return `Error! ${error.message}`;
-			       return (
+			       if (error) return `Error! ${error.message}`; return (
 				   <Typography variant="body2" className={classes.balance}>
 				     ${(data.ibisUser.balance/100).toFixed(2)}
 				   </Typography>
