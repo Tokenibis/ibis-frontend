@@ -50,6 +50,11 @@ const styles = theme => ({
     editButton: {
 	color: theme.palette.secondary.main,
     },
+    edited: {
+	paddingTop: theme.spacing(),
+	color: theme.palette.tertiary.main,
+	fontStyle: 'italic',
+    },
     edgeMutationsEdit: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -271,6 +276,11 @@ class Event extends Component {
 		      allowFullScreen
 		  >
 		  </iframe>
+		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&
+  		   <Typography variant="body2" className={classes.edited}>
+  		     (Edited on <CustomDate variant="precise" date={node.modified} />)
+  		   </Typography>
+		  }
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
 			<div className={classes.edgeMutationsEdit}>
