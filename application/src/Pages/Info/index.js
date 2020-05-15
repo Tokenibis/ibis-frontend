@@ -102,6 +102,12 @@ page. For instance, typing \\*\\*I am bold\\*\\* will turn into **I am
 bold**. For more tips, checkout this [Markdown
 Cheatsheet](https://www.markdownguide.org/cheat-sheet/).
 
+In addition to the standard Markdown standard, Token Ibis also allows
+you to embedd videos from standard video players including YouTube,
+Facebook, SoundCloud, Streamable, Vidme, Vimeo, Wistia, Twitch,
+DailyMotion, and Vidyard. Simply link the _video_ URL using Markdown
+_image_ syntax.
+
 ## Troubleshooting
 
 Since Ibis is in Beta mode, we do expect that things will break

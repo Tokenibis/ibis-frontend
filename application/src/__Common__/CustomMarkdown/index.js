@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import ReactMarkdown from 'react-markdown';
+import ReactPlayer from 'react-player';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Confirmation from '../Confirmation';
 
@@ -22,6 +25,15 @@ const styles = theme => ({
     },
     image: {
 	maxWidth: '100%',
+    },
+    videoWrapper: {
+	position: 'relative',
+	paddingTop: '56.25%',
+    },
+    video: {
+	position: 'absolute',
+	top: 0,
+	left: 0,
     },
 });
 
@@ -56,6 +68,49 @@ function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
     );
 };
 
+class CustomMarkdownImage extends Component {
+    state = {
+	tryVideo: false,
+	videoReady: false,
+    };
+
+    render() {
+	let { classes, src, alt } = this.props;
+	let { tryVideo, videoReady } = this.state;
+
+	if (!tryVideo) {
+	    return (
+		<img
+		    className={classes.image}
+		    src={src}
+		    alt={alt}
+		    onError={() => this.setState({ tryVideo: true })}
+		/>
+	    );
+	} else {
+	    return (
+		<div className={classes.videoWrapper}>
+		  {!videoReady &&
+  		   <Grid
+		       style={{height: '100%', position: 'absolute', top: 0 }}
+		       container direction="column" justify="center" alignItems="center" >
+		     <CircularProgress/>
+		   </Grid>
+		  }
+		  <ReactPlayer
+		      className={classes.video}
+		      onReady={() => this.setState({ videoReady: true })}
+		      controls
+		      url={src}
+		      width="100%"
+		      height="100%"
+		  />
+		</div>
+	    );
+	}
+    };
+};
+
 function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
     return (
 	<Typography variant="body2" className={classes.message}>
@@ -81,7 +136,11 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
 		      />
 		  ),
 		  image: props => (
-		      <img alt="Imported" className={classes.image} src={props.src} />
+		      <CustomMarkdownImage
+			  classes={classes}
+		          src={props.src}
+		          alt={props.alt}
+		      />
 		  ),
 	      }}
 	  {...other}
