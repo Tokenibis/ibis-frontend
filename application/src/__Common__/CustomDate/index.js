@@ -4,18 +4,39 @@ function CustomDate({ date, variant, duration }) {
     let now = new Date()
 
     if (duration) {
-	return time.toLocaleDateString('en-us', {
-	    weekday: 'long',
-	    month: 'short',
-	    day: 'numeric',
-	    year: 'numeric',
-	}) + '\n' + time.toLocaleString('en-us', {
-	    hour: 'numeric',
-	    minute: 'numeric',
-	}) + ' to ' + new Date((time.getTime() + (duration * 60 * 1000))).toLocaleString('en-us', {
-	    hour: 'numeric',
-	    minute: 'numeric',
-	});
+	let end = new Date(time.getTime());
+	end.setMinutes(time.getMinutes() + duration);
+
+	if (time.getDate() === end.getDate()) {
+	    return time.toLocaleDateString('en-us', {
+		weekday: 'long',
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric',
+	    }) + '\n' + time.toLocaleString('en-us', {
+		hour: 'numeric',
+		minute: 'numeric',
+	    }) + ' to ' + new Date((time.getTime() + (duration * 60 * 1000))).toLocaleString('en-us', {
+		hour: 'numeric',
+		minute: 'numeric',
+	    });
+	} else {
+	    return time.toLocaleDateString('en-us', {
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric',
+	    }) + ' ' + time.toLocaleString('en-us', {
+		hour: 'numeric',
+		minute: 'numeric',
+	    }) + ' to\n' + end.toLocaleString('en-us', {
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric',
+	    }) + ' ' + end.toLocaleString('en-us', {
+		hour: 'numeric',
+		minute: 'numeric',
+	    })
+	}
     } else if (variant === 'long') { 
 	return time.toLocaleDateString('en-us', {
 	    weekday: 'long',

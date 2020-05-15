@@ -28,7 +28,7 @@ import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import DepositIcon from '@material-ui/icons/LocalAtm';
-import WithdrawalIcon from '@material-ui/icons/LocalAtm';
+import WithdrawalIcon from '@material-ui/icons/Atm';
 import InfoIcon from '@material-ui/icons/HelpOutline';
 
 import Link from '../../__Common__/CustomLink';

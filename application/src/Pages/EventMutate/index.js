@@ -176,7 +176,7 @@ class EventCreate extends Component {
 	    date,
 	    duration,
 	    address,
-	    enableEvent: title && image && description && date && duration && address,
+	    enableEvent: title && image && description && date && duration,
 	});
     }
 
@@ -219,19 +219,6 @@ class EventCreate extends Component {
 		  </Grid>
 		  <Grid item xs={12}>
 		    <TextField
-			id="event_link"
-			defaultValue=""
- 			className={classes.textField}
-			margin="normal"
-			variant="outlined"
-			fullWidth
-			label="Link"
-		        value={link}
-			onChange={() => this.handleChange()}
-		    />
-		  </Grid>
-		  <Grid item xs={12}>
-		    <TextField
 			id="event_description"
 			required
 			defaultValue=""
@@ -241,7 +228,7 @@ class EventCreate extends Component {
 			fullWidth
 			multiline
 			rows={5}
-			label="Content"
+			label="Description"
 		        value={description}
 			onChange={() => this.handleChange()}
 		    />
@@ -249,7 +236,6 @@ class EventCreate extends Component {
 		  <Grid item xs={12}>
 		    <TextField
 			id="event_address"
-			required
 			defaultValue=""
  			className={classes.textField}
 			margin="normal"
@@ -259,6 +245,19 @@ class EventCreate extends Component {
 			rows={3}
 			label="Address"
 		        value={address}
+			onChange={() => this.handleChange()}
+		    />
+		  </Grid>
+		  <Grid item xs={12}>
+		    <TextField
+			id="event_link"
+			defaultValue=""
+ 			className={classes.textField}
+			margin="normal"
+			variant="outlined"
+			fullWidth
+			label="Link"
+		        value={link}
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>

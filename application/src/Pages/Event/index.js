@@ -50,6 +50,11 @@ const styles = theme => ({
     editButton: {
 	color: theme.palette.secondary.main,
     },
+    edited: {
+	paddingTop: theme.spacing(),
+	color: theme.palette.tertiary.main,
+	fontStyle: 'italic',
+    },
     edgeMutationsEdit: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -252,25 +257,36 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.infoRight} item xs={9}>
   		  <Typography variant="body2" className={classes.info}>
-		    {node.address.split('\n').map((item, key) => (
-			<span key={key}>{item}<br/></span>
-		    ))}
+		    {node.address ? (
+			node.address.split('\n').map((item, key) => (
+			    <span key={key}>{item}<br/></span>
+			))
+		    ):(
+			'Please see description'
+		    )}
 		  </Typography>
 		</Grid>
 		<Grid className={classes.content} item xs={12}>
 		  <div style={{ height: 20 }}/>
-		  <iframe
-		      title="google_map"
-		      style={{
-			  width: width,
-			  height: height, 
-			  padding: 0,
-			  margin: 0,
-		      }}
-		      src={`https://www.google.com/maps/embed/v1/search?q=${searchAddress}&key=${config.maps.google.key}&zoom=11`}
-		      allowFullScreen
-		  >
-		  </iframe>
+		  {node.address && 
+		   <iframe
+		       title="google_map"
+		       style={{
+			   width: width,
+			   height: height, 
+			   padding: 0,
+			   margin: 0,
+		       }}
+		       src={`https://www.google.com/maps/embed/v1/search?q=${searchAddress}&key=${config.maps.google.key}&zoom=11`}
+		       allowFullScreen
+		       >
+		   </iframe>
+		  }
+		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&
+  		   <Typography variant="body2" className={classes.edited}>
+  		     (Edited on <CustomDate variant="precise" date={node.modified} />)
+  		   </Typography>
+		  }
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
 			<div className={classes.edgeMutationsEdit}>
