@@ -33,8 +33,12 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { GoogleLoginButton } from "react-social-login-buttons";
-import { FacebookLoginButton } from "react-social-login-buttons";
+import {
+    GoogleLoginButton,
+    FacebookLoginButton,
+    MicrosoftLoginButton,
+    createButton,
+} from "react-social-login-buttons";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -44,6 +48,7 @@ import { IbisProvider } from '../Context'
 import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
+import UnmIcon from '../__Common__/UnmIcon';
 import UserAgreement from '../__Common__/UserAgreement'
 
 const styles = theme => ({
@@ -69,10 +74,7 @@ const styles = theme => ({
 	color: 'white',
 	paddingBottom: theme.spacing(1),
     },
-    facebook: {
-	width: '80%',
-    },
-    google: {
+    button: {
 	width: '80%',
     },
     progressWrapper: {
@@ -105,6 +107,15 @@ const styles = theme => ({
 	marginTop: theme.spacing(2),
     },
 });
+
+const unmConfig = {
+    activeStyle: { background: "rgb(149, 6, 27)" },
+    icon: UnmIcon,
+    style: { background: "rgb(186, 10, 38)" },
+    text: "Login with UNM",
+};
+
+const UnmLoginButton = createButton(unmConfig);
 
 class Authenticator extends Component {
 
@@ -151,6 +162,20 @@ class Authenticator extends Component {
 	}).catch(error => {
 	    console.log(error);
 	    console.log(error.response);
+	})
+    }
+
+    /* retrieve the google oauth request url and redirect */
+    microsoftLogin = () => {
+	axios('/auth/social/microsoft/auth-server/', {
+	    method: 'post',
+	    withCredentials: true
+	}).then(response => {
+	    window.location.href = response.data.url;
+	}).catch(error => {
+	    console.log(error);
+	    console.log(error.response);
+	    alert(error.response);
 	})
     }
 
@@ -236,8 +261,8 @@ class Authenticator extends Component {
 		    console.error(response);
 		}
 	    }).catch(error => {
-		console.error(error);
-		console.error(error.response);
+		alert(error.response.data.detail);
+		this.setState({ userID: '', userType: '' });
 	    })
 	} else {
 	    axios('/ibis/identify/', {
@@ -289,7 +314,7 @@ class Authenticator extends Component {
 			  width: width,
 			  margin: '0 auto',
 			  position: 'fixed',
-			  top: `${window.innerHeight < 460 ? 40 : Math.min(60, Math.round(window.innerWidth/window.innerHeight*100))}%`,
+			  top: `${window.innerHeight < 500 ? 40 : Math.min(60, Math.round(window.innerWidth/window.innerHeight*100))}%`,
 			  left: '50%',
 			  transform: 'translate(-50%, -50%)',
 		      }}
@@ -348,8 +373,9 @@ class Authenticator extends Component {
 			  <Typography variant="body2" className={classes.welcome}>
 			    Welcome to ibis
 			  </Typography>
-			  <FacebookLoginButton className={classes.facebook} onClick={this.facebookLogin}/>
-			  <GoogleLoginButton className={classes.google} onClick={this.googleLogin}/>
+			  <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
+			  <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
+			  <UnmLoginButton className={classes.button} onClick={this.microsoftLogin}/>
 			</Grid>
 		    )}
 		  </div>
