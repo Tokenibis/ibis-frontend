@@ -74,7 +74,7 @@ const VARIANTS = {
 }
 
 
-const query = loader('../../Static/graphql/operations/IbisUserList.gql')
+const query = loader('../../Static/graphql/app/IbisUserList.gql')
 
 class IbisUserList extends Component {
 

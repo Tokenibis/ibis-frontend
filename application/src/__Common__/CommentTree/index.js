@@ -123,9 +123,9 @@ const styles = theme => ({
     },
 })
 
-const query = loader('../../Static/graphql/operations/CommentTree.gql')
+const query = loader('../../Static/graphql/app/CommentList.gql')
 
-const create_mutation = loader('../../Static/graphql/operations/CommentCreate.gql')
+const create_mutation = loader('../../Static/graphql/app/CommentCreate.gql')
 
 
 class CommentTree extends Component {

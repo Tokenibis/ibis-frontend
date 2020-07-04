@@ -270,9 +270,9 @@ class Transfer extends Component {
 	let query;
 
 	if (variant === 'donation') {
-	    query = loader('../../Static/graphql/operations/Donation.gql')
+	    query = loader('../../Static/graphql/app/Donation.gql')
 	} else {
-	    query = loader('../../Static/graphql/operations/Transaction.gql')
+	    query = loader('../../Static/graphql/app/Transaction.gql')
 	}
 
 	return (

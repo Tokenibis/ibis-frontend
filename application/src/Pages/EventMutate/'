@@ -75,11 +75,11 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/operations/Event.gql')
+const query = loader('../../Static/graphql/app/Event.gql')
 
-const create_mutation = loader('../../Static/graphql/operations/EventCreate.gql')
+const create_mutation = loader('../../Static/graphql/app/EventCreate.gql')
 
-const update_mutation = loader('../../Static/graphql/operations/EventUpdate.gql')
+const update_mutation = loader('../../Static/graphql/app/EventUpdate.gql')
 
 class EventCreate extends Component {
 

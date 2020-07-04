@@ -119,7 +119,7 @@ const styles = theme => ({
     none: {},
 });
 
-const query = loader('../../Static/graphql/operations/Nonprofit.gql')
+const query = loader('../../Static/graphql/app/Nonprofit.gql')
 
 class Nonprofit extends Component {
     

@@ -88,13 +88,13 @@ const MIN_USERNAME_LEN = 3
 
 const MAX_USERNAME_LEN = 15
 
-const query = loader('../../Static/graphql/operations/Settings.gql')
+const query = loader('../../Static/graphql/app/Settings.gql')
 
-const person_mutation = loader('../../Static/graphql/operations/PersonSettingsUpdate.gql')
+const person_mutation = loader('../../Static/graphql/app/PersonUpdate.gql')
 
-const nonprofit_mutation = loader('../../Static/graphql/operations/NonprofitSettingsUpdate.gql')
+const nonprofit_mutation = loader('../../Static/graphql/app/NonprofitUpdate.gql')
 
-const notifier_mutation = loader('../../Static/graphql/operations/NotifierSettingsUpdate.gql')
+const notifier_mutation = loader('../../Static/graphql/app/NotifierUpdate.gql')
 
 class Settings extends Component {
 

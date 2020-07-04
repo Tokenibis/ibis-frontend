@@ -68,7 +68,7 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/operations/SideMenu.gql')
+const query = loader('../../Static/graphql/app/SideMenu.gql')
 
 class SideMenu extends Component {
 

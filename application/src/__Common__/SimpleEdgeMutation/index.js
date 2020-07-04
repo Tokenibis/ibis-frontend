@@ -42,8 +42,8 @@ const styles = theme => ({
 
 const VARIANTS = {
     follow: {
-	createMutation: loader('../../Static/graphql/operations/FollowCreate.gql'),
-	deleteMutation: loader('../../Static/graphql/operations/FollowDelete.gql'),
+	createMutation: loader('../../Static/graphql/app/FollowCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/app/FollowDelete.gql'),
 	trueIcon: <FollowFilledIcon color="secondary" />,
 	falseIcon: <FollowOutlinedIcon color="secondary" />,
 	autoconfirm: false,
@@ -51,22 +51,22 @@ const VARIANTS = {
 	messageDelete: 'Are you sure you want to __unfollow__ this user?',
     },
     like: {
-	createMutation: loader('../../Static/graphql/operations/LikeCreate.gql'),
-	deleteMutation: loader('../../Static/graphql/operations/LikeDelete.gql'),
+	createMutation: loader('../../Static/graphql/app/LikeCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/app/LikeDelete.gql'),
 	trueIcon: <LikeFilledIcon color="secondary" />,
 	falseIcon: <LikeOutlinedIcon color="secondary" />,
 	autoconfirm: true,
     },
     bookmark: {
-	createMutation: loader('../../Static/graphql/operations/BookmarkCreate.gql'),
-	deleteMutation: loader('../../Static/graphql/operations/BookmarkDelete.gql'),
+	createMutation: loader('../../Static/graphql/app/BookmarkCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/app/BookmarkDelete.gql'),
 	trueIcon: <BookmarkFilledIcon color="secondary" />,
 	falseIcon: <BookmarkOutlinedIcon color="secondary" />,
 	autoconfirm: true,
     },
     rsvp: {
-	createMutation: loader('../../Static/graphql/operations/RsvpCreate.gql'),
-	deleteMutation: loader('../../Static/graphql/operations/RsvpDelete.gql'),
+	createMutation: loader('../../Static/graphql/app/RsvpCreate.gql'),
+	deleteMutation: loader('../../Static/graphql/app/RsvpDelete.gql'),
 	trueIcon: <RsvpFilledIcon color="secondary" />,
 	falseIcon: <RsvpOutlinedIcon color="secondary" />,
 	autoconfirm: false,

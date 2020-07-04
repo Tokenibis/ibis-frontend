@@ -102,7 +102,7 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/operations/News.gql')
+const query = loader('../../Static/graphql/app/News.gql')
 
 class News extends Component {
 

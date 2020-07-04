@@ -161,9 +161,9 @@ const MAX_AMOUNT = 100000;
 
 const MIN_AMOUNT = 1000;
 
-const query = loader('../../Static/graphql/operations/DepositList.gql')
+const query = loader('../../Static/graphql/app/DepositList.gql')
 
-const query_balance = loader('../../Static/graphql/operations/Balance.gql')
+const query_balance = loader('../../Static/graphql/app/Balance.gql')
 
 const message = `## Payment Guide
 

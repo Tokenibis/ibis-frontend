@@ -43,7 +43,7 @@ const styles = theme => ({
     }
 });
 
-const query = loader('../../Static/graphql/operations/NonprofitList.gql')
+const query = loader('../../Static/graphql/app/NonprofitList.gql')
 
 const DEFAULT_COUNT = 25;
 

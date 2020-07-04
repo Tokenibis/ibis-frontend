@@ -73,11 +73,11 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/operations/News.gql')
+const query = loader('../../Static/graphql/app/News.gql')
 
-const create_mutation = loader('../../Static/graphql/operations/NewsCreate.gql')
+const create_mutation = loader('../../Static/graphql/app/NewsCreate.gql')
 
-const update_mutation = loader('../../Static/graphql/operations/NewsUpdate.gql')
+const update_mutation = loader('../../Static/graphql/app/NewsUpdate.gql')
 
 class NewsCreate extends Component {
 

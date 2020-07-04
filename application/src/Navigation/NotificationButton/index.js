@@ -22,7 +22,7 @@ const styles = theme => ({
     },
 })
 
-const query = loader('../../Static/graphql/operations/Notifier.gql')
+const query = loader('../../Static/graphql/app/Notifier.gql')
 
 class NotificationButton extends Component {
 

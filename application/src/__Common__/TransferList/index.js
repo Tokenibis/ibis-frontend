@@ -132,9 +132,9 @@ class TransferList extends Component {
 	let query;
 
 	if (variant === 'donation') {
-	    query = loader('../../Static/graphql/operations/DonationList.gql')
+	    query = loader('../../Static/graphql/app/DonationList.gql')
 	} else {
-	    query = loader('../../Static/graphql/operations/TransactionList.gql')
+	    query = loader('../../Static/graphql/app/TransactionList.gql')
 	}
 
 	// variant does not affect the content, only the visually displayed information

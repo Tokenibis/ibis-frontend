@@ -64,7 +64,7 @@ const styles = theme => ({
     },
 });
 
-const create_mutation = loader('../../Static/graphql/operations/PostCreate.gql')
+const create_mutation = loader('../../Static/graphql/app/PostCreate.gql')
 
 class PostCreate extends Component {
 

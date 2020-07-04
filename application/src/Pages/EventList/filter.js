@@ -51,7 +51,7 @@ const eventStyle = `
 const nonprofit_options = ['Mine', 'All', 'Following', 'Bookmarked', 'Going'];
 const options = ['All', 'Following', 'Bookmarked', 'Going'];
 
-const query = loader('../../Static/graphql/operations/EventListFilter.gql')
+const query = loader('../../Static/graphql/app/EventListFilter.gql')
 
 class EventFilter extends Component {
 
