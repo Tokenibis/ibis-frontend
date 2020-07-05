@@ -14,6 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
+import DescriptionIcon from '@material-ui/icons/Subject';
 import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
 import EmailIcon from '@material-ui/icons/EmailOutlined';
 import PasswordIcon from '@material-ui/icons/LockOutlined';
@@ -30,6 +31,7 @@ import axios from "axios";
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
+import Confirmation from '../../__Common__/Confirmation';
 
 
 const styles = theme => ({
@@ -54,6 +56,9 @@ const styles = theme => ({
 	padding: theme.spacing(2),
 	textAlign: 'center',
     },
+    descriptionSubmitWrapper: {
+	textAlign: 'right',
+    },
     button: {
 	color: theme.palette.secondary.main,
     },
@@ -64,6 +69,9 @@ const styles = theme => ({
     },
     edit: {
 	paddingRight: theme.spacing(2),
+    },
+    descriptionEdit: {
+	width: '100%',
     },
     textField: {
 	'& .MuiOutlinedInput-root': {
@@ -101,6 +109,7 @@ class Settings extends Component {
     state = {
 	dialog: '',
 	username: null,
+	description: null,
 	email: null,
 	editField: '',
 	canSubmit: false,
@@ -117,6 +126,16 @@ class Settings extends Component {
 	    } else {
 		alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
 	    }
+	});
+    }
+
+    updateDescription = (mutation, refetch) => {
+	let description = document.getElementById('edit_description').value;
+	mutation({ variables: { description } }).then(response => {
+	    refetch();
+	    this.setState({ editField: '' });
+	}).catch(error => {
+	    alert('Oops, something went wrong');
 	});
     }
 
@@ -147,6 +166,13 @@ class Settings extends Component {
 
 	let canSubmit = username !== current && username.length >= MIN_USERNAME_LEN;
 	this.setState({ username, canSubmit });
+    }
+
+    handleDescriptionInput(current) {
+	let description = document.getElementById('edit_description').value.toString()
+
+	let canSubmit = description !== current;
+	this.setState({ description, canSubmit });
     }
 
     handleEmailInput(current) {
@@ -195,6 +221,7 @@ class Settings extends Component {
 	let {
 	    dialog,
 	    username,
+	    description,
 	    email,
 	    editField,
 	    canSubmit,
@@ -227,18 +254,18 @@ class Settings extends Component {
 			<ListItemText className={classes.edit} primary={
 			    <TextField
 				id="edit_username"
-				    autoFocus
-				    required
-				    className={classes.textField}
-				    margin="normal"
-				    variant="outlined"
-				    fullWidth
-				    value={username !== null ? username: data.ibisUser.username}
-				    onInput={() => this.handleUsernameInput(data.ibisUser.username)}
-				    InputProps={{
-					startAdornment: (
-					    <InputAdornment position="start">@</InputAdornment>
-					),}}
+				autoFocus
+				required
+				className={classes.textField}
+				margin="normal"
+				variant="outlined"
+				fullWidth
+				value={username !== null ? username: data.ibisUser.username}
+				onInput={() => this.handleUsernameInput(data.ibisUser.username)}
+				InputProps={{
+				    startAdornment: (
+					<InputAdornment position="start">@</InputAdornment>
+				    ),}}
 			    />
 			}/>
 			<Typography variant="body2" className={classes.fine}>
@@ -264,6 +291,54 @@ class Settings extends Component {
 			</IconButton>
 		    )}
 		  </ListItemSecondaryAction>
+		</ListItem>
+		<CustomDivider />
+		<ListItem>
+		  <ListItemIcon>
+		    <DescriptionIcon />
+		  </ListItemIcon>
+		  {editField === 'description' ? (
+		      <div className={classes.descriptionEdit}>
+			<ListItemText className={classes.descriptionEdit} primary={
+			    <TextField
+				id="edit_description"
+				autoFocus
+				required
+				value={description !== null ? description: data.ibisUser.description}
+ 				className={classes.textField}
+				margin="normal"
+				variant="outlined"
+				fullWidth
+				multiline
+				onInput={() => this.handleDescriptionInput(data.ibisUser.description)}
+			    />
+			}/>
+			<div className={classes.descriptionSubmitWrapper}>
+			  <Confirmation
+			    onClick={() => this.updateDescription(user_mutation, refetch)}
+			    message="Are you sure you want to change your bio to the following?"
+			    preview={() => (description !== null ? description: data.ibisUser.description)}
+			  >
+			    <IconButton
+				className={canSubmit ? classes.button : classes.disabledButton}
+			    >
+			      <SubmitIcon />
+			    </IconButton>
+			  </Confirmation>
+			</div>
+		      </div>
+		  ):(
+		      <ListItemText className={classes.text} primary="Edit Bio" />
+		  )}
+		  {
+		      editField !== 'description' && (
+			<IconButton
+			    onClick={() => {this.setState({ editField: 'description' })}}
+			    >
+			  <EditIcon color="secondary" />
+			</IconButton>
+		      )
+		  }
 		</ListItem>
 		{context.userType === 'nonprofit' &&
 		 <div>

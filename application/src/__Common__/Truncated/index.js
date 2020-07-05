@@ -30,3 +30,4 @@ Truncated.propTypes = {
 
 
 export default Truncated;
+export const DEFAULT_TRUNCATE_LENGTH = DEFAULT_LENGTH;

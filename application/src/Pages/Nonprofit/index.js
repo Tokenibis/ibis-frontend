@@ -20,7 +20,7 @@ import DonationList from '../DonationList';
 import NewsList from '../NewsList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
-import Truncated from '../../__Common__/Truncated';
+import Truncated, { DEFAULT_TRUNCATE_LENGTH } from '../../__Common__/Truncated';
 import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
@@ -30,20 +30,22 @@ const styles = theme => ({
     titleWrapper: {
 	textAlign: 'center',
     },
-    title: {
+    name: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    subtitle: {
+    username: {
 	color: theme.palette.tertiary.main,
+	paddingBottom: theme.spacing(2),
     },
     description: {
 	paddingTop: theme.spacing(1.8),
 	color: theme.palette.tertiary.main,
     },
-    descriptionToggle: {
-	color: theme.palette.secondary.main,
-	textAlign: 'right',
+    fundraised: {
+	paddingTop: theme.spacing(1),
+	color: theme.palette.tertiary.main,
+	textDecoration: 'none',
     },
     link: {
 	color: theme.palette.secondary.main,
@@ -61,7 +63,6 @@ const styles = theme => ({
     fundraised: {
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
-	paddingTop: theme.spacing(1),
     },
     progress: {
 	marginTop: theme.spacing(-0.5),
@@ -86,6 +87,7 @@ const styles = theme => ({
 	marginBottom: theme.spacing(1),
     },
     website: {
+	paddingTop: theme.spacing(1),
 	textTransform: 'none',
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
@@ -167,54 +169,56 @@ class Nonprofit extends Component {
     		    image={node.banner}
 		/>
 		<CardContent>
-		  <div className={classes.titleWrapper}>
-		    <Typography variant="h6" className={classes.title}>
-		      {node.name}
+  		  <Grid container direction="column" justify="center" alignItems="center" >
+		    <div className={classes.titleWrapper}>
+		      <Typography variant="h6" className={classes.name}>
+			{node.name}
+		      </Typography>
+		      <Typography variant="body2" className={classes.username}>
+			@{node.username}
+		      </Typography>
+		    </div>
+		    <Typography
+			variant="body2"
+			className={classes.fundraised}
+		    >
+		      <Amount amount={node.fundraised} label="Fundraised"/>
 		    </Typography>
-		    <Typography variant="body2" className={classes.subtitle}>
-		      @{node.username}
-		    </Typography>
-		  </div>
-  		  {
-		      expanded ? (
-			  <div>
+		    <div className={classes.followStatWrapper}>
+		      <UserDialogList
+		      variant={FollowingVal}
+		      count={node.followingCount}
+		      node={node.id}
+		      />
+		      <UserDialogList
+		      variant={FollowerVal}
+		      count={followerCount}
+		      node={node.id}
+		      />
+		    </div>
+  		    {
+			expanded ? (
 			    <CustomMarkdown safe source={node.description} />
-  			    <Grid container direction="column" justify="center" alignItems="center" >
-			      <Confirmation
-				  onClick={() => {window.location = node.link}}
-				  autoconfirm
-			      >
-				<Button>
-				  <Typography variant="body2" className={classes.website}>
-				    Go to website
-				  </Typography>
-				</Button>
-			      </Confirmation>
-			      <div className={classes.followStatWrapper}>
-				<UserDialogList
-				    variant={FollowingVal}
-				    count={node.followingCount}
-				    node={node.id}
-				/>
-				<UserDialogList
-				    variant={FollowerVal}
-				    count={followerCount}
-				    node={node.id}
-				/>
-			      </div>
-			      <Typography variant="body2" className={classes.fundraised}>
-				<Amount amount={node.fundraised} label="Fundraised"/>
-			      </Typography>
-			    </Grid>
-			  </div>
-		      ):(
-			  <Typography variant="body2" className={classes.description}>
-			    <Truncated
-				text={node.description}
-			    />
-			  </Typography>
-		      )
-		  }
+			):(
+			    <Typography variant="body2" className={classes.description}>
+			      <Truncated
+				  text={node.description}
+				  length={DEFAULT_TRUNCATE_LENGTH}
+			      />
+			    </Typography>
+			)
+		    }
+		    <Confirmation
+			onClick={() => {window.location = node.link}}
+			autoconfirm
+		    >
+		      <Button>
+			<Typography variant="body2" className={classes.website}>
+			  Go to website
+			</Typography>
+		      </Button>
+		    </Confirmation>
+		  </Grid>
 		</CardContent>
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
@@ -231,14 +235,18 @@ class Nonprofit extends Component {
 			  />
 		      }
 		      </div>
-		      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
-			<Typography
-			    variant="body2"
-			    className={classes.seeMore}
-			>
-			  {expanded ? 'See Less' : 'See More'}
-			</Typography>
-		      </Button>
+		      {
+			  node.description && node.description.length > DEFAULT_TRUNCATE_LENGTH && (
+			      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
+				<Typography
+				  variant="body2"
+				  className={classes.seeMore}
+				  >
+				  {expanded ? 'See Less' : 'See More'}
+				</Typography>
+			      </Button>
+			  )
+		      }
 		    </div>
 		    { 
 			node.ibisuserPtr.id !== context.userID ? (

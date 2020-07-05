@@ -9,15 +9,19 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
+import Confirmation from '../../__Common__/Confirmation';
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import PostList from '../PostList';
 import DonationList from '../DonationList';
 import TransactionList from '../TransactionList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated, { DEFAULT_TRUNCATE_LENGTH } from '../../__Common__/Truncated';
 import Amount from '../../__Common__/Amount';
 
 
@@ -32,14 +36,12 @@ const styles = theme => ({
     name: {
 	color: theme.palette.primary.main,
     },
+    description: {
+	paddingTop: theme.spacing(1.8),
+	color: theme.palette.tertiary.main,
+    },
     donated: {
 	paddingTop: theme.spacing(1),
-	color: theme.palette.tertiary.main,
-	textDecoration: 'none',
-    },
-    dateJoined: {
-	paddingTop: theme.spacing(1),
-	paddingBottom: theme.spacing(1),
 	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
     },
@@ -82,12 +84,13 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
     },
-    readMore: {
-	marginLeft: 'auto',
-	marginRight: theme.spacing(2),
+    edgeMutations: {
+	display: 'flex',
+    },
+    seeMore: {
+	textTransform: 'none',
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
-	float: 'right',
     },
     heading: {
 	fontSize: '18px',
@@ -118,7 +121,12 @@ const query = loader('../../Static/graphql/app/Person.gql')
 class Person extends Component {
 
     state = {
+	expanded: false,
 	followerCount: null,
+    }
+
+    toggleExpand() {
+	this.setState({ expanded: !this.state.expanded });
     }
     
     processDonations(data) {
@@ -135,7 +143,7 @@ class Person extends Component {
     
     createPage(node) {
 	let { classes, context, id } = this.props;
-	let { followerCount } = this.state;
+	let { expanded, followerCount } = this.state;
 
 	let followerCallback = (change) => {
 	    this.setState({ followerCount: node.followerCount + change });
@@ -147,60 +155,77 @@ class Person extends Component {
 	return (
 	    <div className={classes.root}>
 	      <Card raised className={classes.card}>
-  		<Grid container direction="column" justify="center" alignItems="center" >
-  		  <Avatar 
-  		      alt="Ibis"
-    		      src={node.avatar}
-  		      className={classes.avatar}
-		  />
-		  <Typography variant="h6" className={classes.name}>
-		    {node.name}
-		  </Typography>
-		  <Typography variant="body2" className={classes.username}>
-		    @{node.username}
-		  </Typography>
-		  <Typography
-		      variant="body2"
-		      className={classes.dateJoined}
-		  >
-		    {'Since: '}
-		    {new Date(node.dateJoined).toLocaleDateString('en-us', {
-			month: 'short',
-			day: 'numeric',
-			year: 'numeric',
-		    })}
-		  </Typography>
-		  <Typography
-		      variant="body2"
-		      className={classes.donated}
-		  >
-		    <Amount amount={node.donated} label="Donated"/>
-		  </Typography>
-		  <div className={classes.followStatWrapper}>
-		    <UserDialogList
-			variant={FollowingVal}
-			count={node.followingCount}
-			node={node.id}
+		<CardContent>
+  		  <Grid container direction="column" justify="center" alignItems="center" >
+  		    <Avatar 
+  			alt="Ibis"
+    			src={node.avatar}
+  			className={classes.avatar}
 		    />
-		    <UserDialogList
-			variant={FollowerVal}
-			count={followerCount}
-			node={node.id}
-		    />
-		  </div>
-		</Grid>
+		    <Typography variant="h6" className={classes.name}>
+		      {node.name}
+		    </Typography>
+		    <Typography variant="body2" className={classes.username}>
+		      @{node.username}
+		    </Typography>
+		    <Typography
+			variant="body2"
+			className={classes.donated}
+		    >
+		      <Amount amount={node.donated} label="Donated"/>
+		    </Typography>
+		    <div className={classes.followStatWrapper}>
+		      <UserDialogList
+		      variant={FollowingVal}
+		      count={node.followingCount}
+		      node={node.id}
+		      />
+		      <UserDialogList
+		      variant={FollowerVal}
+		      count={followerCount}
+		      node={node.id}
+		      />
+		    </div>
+  		    {
+			expanded ? (
+			    <CustomMarkdown safe source={node.description} />
+			):(
+			    <Typography variant="body2" className={classes.description}>
+			      <Truncated
+				  text={node.description}
+				  length={DEFAULT_TRUNCATE_LENGTH}
+			      />
+			    </Typography>
+			)
+		    }
+		  </Grid>
+		</CardContent>
 		<CardActions>
   		  <Grid container direction="column" justify="center" alignItems="center" >
 		    <div className={classes.action}>
+		      <div className={classes.edgeMutations}>
+			{
+			    node.ibisuserPtr.id !== context.userID &&
+			    <SimpleEdgeMutation
+				variant={FollowVal}
+				user={context.userID}
+				target={node.id}
+				initial={node.isFollowing.edges.length === 1}
+				countCallback={followerCallback}
+			    />
+			}
+		      </div>
 		      {
-			  node.ibisuserPtr.id !== context.userID &&
-			  <SimpleEdgeMutation
-			      variant={FollowVal}
-			      user={context.userID}
-			      target={node.id}
-			      initial={node.isFollowing.edges.length === 1}
-		              countCallback={followerCallback}
-			  />
+			  node.description && node.description.length > DEFAULT_TRUNCATE_LENGTH && (
+			      <Button onClick={() => {this.setState({ expanded: !expanded })}}>
+				<Typography
+				  variant="body2"
+				  className={classes.seeMore}
+				  >
+				  {expanded ? 'See Less' : 'See More'}
+				</Typography>
+			      </Button>
+			  )
 		      }
 		    </div>
 		    { 
