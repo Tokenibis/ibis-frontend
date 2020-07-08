@@ -124,7 +124,15 @@ class Post extends Component {
 			}
 		    />
 		  </ListItem>
-		  <CustomMarkdown source={node.description} />
+		  <CustomMarkdown
+		      source={node.description}
+		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
+			  x.node.username,
+			  x.node.nonprofit ?
+			  [x.node.nonprofit.id, 'nonprofit'] :
+			  [x.node.person.id, 'person'],
+		      ]))}
+		  />
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
 			<div className={classes.personDialogWrapper}>

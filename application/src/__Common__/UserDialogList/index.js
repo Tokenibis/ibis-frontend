@@ -76,11 +76,18 @@ const VARIANTS = {
 
 const query = loader('../../Static/graphql/app/IbisUserList.gql')
 
-class IbisUserList extends Component {
+class IbisUserList_ extends Component {
 
     makeImage = (node) => {
-	let { classes  } = this.props;
-	return (
+	let { classes, onClick } = this.props;
+	return onClick ? (
+    	    <Avatar
+  		alt="Ibis"
+    		src={node.avatar}
+    		className={classes.avatar}
+	        onClick={() => onClick(node)}
+	    />
+	):(
     	    <Avatar
 		component={Link}
 		prefix={1}
@@ -95,9 +102,9 @@ class IbisUserList extends Component {
     };
 
     makeLabel = (node) => {
-	let { classes } = this.props;
+	let { classes, onClick } = this.props;
 	return (
-	    <div>
+	    <div onClick={() => onClick(node)}>
   	      <Typography variant="body2" className={classes.title}>
   		{`${node.name}`}
   	      </Typography>
@@ -187,7 +194,7 @@ class IbisUserList extends Component {
 };
 
 
-IbisUserList.propTypes = {
+IbisUserList_.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
@@ -218,7 +225,7 @@ class UserDialogList extends Component {
 	      >
 		<IbisConsumer>
 		  {context => (
-		      <IbisUserList
+		      <IbisUserList_
 			  classes={classes}
 			  context={context}
 			  filterValue={`${VARIANTS[variant].filter}:${node}`}
@@ -247,4 +254,5 @@ export const FollowingVal = 'following';
 export const FollowerVal = 'follower';
 export const LikeVal = 'like';
 export const RsvpVal = 'rsvp';
+export const IbisUserList = withStyles(styles)(IbisUserList_);
 export default withStyles(styles)(UserDialogList);

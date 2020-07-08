@@ -166,7 +166,15 @@ class News extends Component {
 		     </Confirmation>
 		    }
 		  </Typography>
-		  <CustomMarkdown safe source={node.description} />
+		  <CustomMarkdown
+		      safe source={node.description}
+		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
+			  x.node.username,
+			  x.node.nonprofit ?
+			  [x.node.nonprofit.id, 'nonprofit'] :
+			  [x.node.person.id, 'person'],
+		      ]))}
+		  />
 		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&
   		   <Typography variant="body2" className={classes.edited}>
   		     (Edited on <CustomDate variant="precise" date={node.modified} />)

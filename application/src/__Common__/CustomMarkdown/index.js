@@ -111,7 +111,17 @@ class CustomMarkdownImage extends Component {
     };
 };
 
-function CustomMarkdown({ classes, source, safe, noLink, noClick, ...other }) {
+function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...other }) {
+    if (mention) {
+	Object.keys(mention).forEach((x) => {
+	    source = ` ${source} `.replace(
+		new RegExp(`(\\W)(@${x})(\\W)`),
+		`$1[$2](#/${mention[x][1] === 'nonprofit' ? 'Nonprofit/Nonprofit' : 'Person/Person'}?id=${mention[x][0]})$3`
+	    ).slice(1, -1)
+	});
+    }
+    console.log(source)
+
     return (
 	<Typography variant="body2" className={classes.message}>
 	  <ReactMarkdown

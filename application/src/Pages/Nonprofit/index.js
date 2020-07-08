@@ -42,11 +42,6 @@ const styles = theme => ({
 	paddingTop: theme.spacing(1.8),
 	color: theme.palette.tertiary.main,
     },
-    fundraised: {
-	paddingTop: theme.spacing(1),
-	color: theme.palette.tertiary.main,
-	textDecoration: 'none',
-    },
     link: {
 	color: theme.palette.secondary.main,
 	paddingTop: theme.spacing(1),

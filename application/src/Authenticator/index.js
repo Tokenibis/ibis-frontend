@@ -36,7 +36,6 @@ import Grid from '@material-ui/core/Grid';
 import {
     GoogleLoginButton,
     FacebookLoginButton,
-    MicrosoftLoginButton,
     createButton,
 } from "react-social-login-buttons";
 import CircularProgress from '@material-ui/core/CircularProgress';

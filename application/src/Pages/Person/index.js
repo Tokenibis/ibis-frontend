@@ -13,7 +13,6 @@ import CardContent from '@material-ui/core/CardContent';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import Link from '../../__Common__/CustomLink';
-import Confirmation from '../../__Common__/Confirmation';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import PostList from '../PostList';

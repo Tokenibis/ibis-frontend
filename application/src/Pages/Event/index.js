@@ -220,7 +220,15 @@ class Event extends Component {
 		  }
 		</Grid>
 		<Grid item xs={12} className={classes.description}>
-		  <CustomMarkdown safe source={node.description} />
+		  <CustomMarkdown
+		      safe source={node.description}
+		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
+			  x.node.username,
+			  x.node.nonprofit ?
+			  [x.node.nonprofit.id, 'nonprofit'] :
+			  [x.node.person.id, 'person'],
+		      ]))}
+		  />
 		</Grid>
 		<Grid className={classes.infoLeft} item xs={3}>
   		  <Typography variant="body2" className={classes.label}>

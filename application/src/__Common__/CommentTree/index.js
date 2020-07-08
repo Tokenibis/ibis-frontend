@@ -13,7 +13,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import TextField from '@material-ui/core/TextField';
 
 import Link from '../CustomLink';
 import CustomMarkdown from '../CustomMarkdown';
@@ -22,6 +21,7 @@ import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Confirmation from '../Confirmation';
 import CustomDate from '../CustomDate';
+import EntryTextField from '../../__Common__/EntryTextField';
 
 const MAX_DEPTH = 3;
 
@@ -136,6 +136,7 @@ class CommentTree extends Component {
 	    seeMoreState: false,
 	    showReplyChild: new Set(),
 	    enableSubmit: false,
+	    mention: [],
 	}
     }
 
@@ -162,7 +163,7 @@ class CommentTree extends Component {
     renderReplyForm(depth, refetch) {
 
 	let { classes, client, context, parent, onSubmitRoot, replyFocused } = this.props;
-	let { enableSubmit } = this.state;
+	let { enableSubmit, mention } = this.state;
 
 	let submit = () => {
 	    let description = document.getElementById(`reply_form_${parent}`).value
@@ -206,7 +207,7 @@ class CommentTree extends Component {
 		  ))
 	      }
 	      <Grid item xs={12 - depth}>
-		<TextField
+		<EntryTextField
 		    id={`reply_form_${parent}`}
 		    required
 		    defaultValue=""
@@ -218,6 +219,7 @@ class CommentTree extends Component {
 		    multiline
 		    autoFocus={replyFocused}
 		    placeholder="Leave a reply"
+		    addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
 		/>
 		<Grid container direction="column">
 		  <div className={classes.confirmationWrapper}>
@@ -226,6 +228,7 @@ class CommentTree extends Component {
 			onClick={() => submit()}
 			message="Are you sure you want to __submit__ this comment?"
 			preview={() => (document.getElementById(`reply_form_${parent}`).value)}
+			mention={mention}
 		    >
 		      <Button>
 			<Typography
@@ -289,7 +292,15 @@ class CommentTree extends Component {
 		      } 
 		  />
 		</ListItem>
-		<CustomMarkdown source={node.description} />
+		<CustomMarkdown
+		    source={node.description}
+		    mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
+			x.node.username,
+			x.node.nonprofit ?
+			[x.node.nonprofit.id, 'nonprofit'] :
+			[x.node.person.id, 'person'],
+		    ]))}
+		/>
 	      </Grid>
 	      {
 		  [...Array(depth).keys()].map((i) => (

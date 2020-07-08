@@ -227,7 +227,15 @@ class Transfer extends Component {
 
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
-		  <CustomMarkdown source={node.description} />
+		  <CustomMarkdown
+		      source={node.description}
+		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
+			  x.node.username,
+			  x.node.nonprofit ?
+			  [x.node.nonprofit.id, 'nonprofit'] :
+			  [x.node.person.id, 'person'],
+		      ]))}
+		  />
 		</Grid>
 		<Grid item xs={2}></Grid>
 

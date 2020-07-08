@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 
 import Confirmation from '../../__Common__/Confirmation';
+import EntryTextField from '../../__Common__/EntryTextField';
 
 const styles = theme => ({
     content: {
@@ -87,6 +88,7 @@ class NewsCreate extends Component {
 	image: '',
 	link: '',
 	description: '',
+	mention: [],
     };
 
     componentDidMount() {
@@ -157,7 +159,7 @@ class NewsCreate extends Component {
 
     render() {
 	let { classes } = this.props;
-	let { enableNews, title, image, link, description } = this.state;
+	let { enableNews, title, image, link, description, mention } = this.state;
 
 	return (
 	    <div>
@@ -206,7 +208,7 @@ class NewsCreate extends Component {
 		    />
 		  </Grid>
 		  <Grid item xs={12}>
-		    <TextField
+		    <EntryTextField
 			id="news_description"
 			required
 			defaultValue=""
@@ -219,6 +221,7 @@ class NewsCreate extends Component {
 			label="Content"
 		        value={description}
 			onChange={() => this.handleChange()}
+			addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
 		    />
 		  </Grid>
 		  <Grid item xs={6} className={classes.buttonWrapper}>
@@ -227,6 +230,7 @@ class NewsCreate extends Component {
 			onClick={() => this.handleMutate()}
 			message="Are you sure you want to __submit__ this news?"
 			preview={() => (document.getElementById('news_description').value)}
+			mention={mention}
 		    >
 		      <Button
 			  disabled={!enableNews}

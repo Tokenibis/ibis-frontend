@@ -12,6 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
 
 import Confirmation from '../Confirmation';
+import EntryTextField from '../../__Common__/EntryTextField';
 
 const styles = theme => ({
     content: {
@@ -88,6 +89,7 @@ class TransferCreate extends Component {
     state = {
 	amount: '0.00',
 	enableTransfer: false,
+	mention: [],
     };
 
     handleTransfer(mutation) {
@@ -155,7 +157,7 @@ class TransferCreate extends Component {
 
     render() {
 	let { classes, context, target, variant } = this.props;
-	let { enableTransfer, amount } = this.state;
+	let { enableTransfer, amount, mention } = this.state;
 
 	let amount_final = Math.floor(amount * 100)
 
@@ -230,7 +232,7 @@ class TransferCreate extends Component {
 			    </Typography>
 			  </Grid>
 			  <Grid item xs={8}>
-			    <TextField
+			    <EntryTextField
 				id="transfer_description"
 				required
 				defaultValue=""
@@ -241,6 +243,7 @@ class TransferCreate extends Component {
 				multiline
 				placeholder="Words"
 				onChange={() => this.handleChangeDescription()}
+			        addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
 			    />
 			  </Grid>
 			  <Grid item xs={12} className={classes.buttonWrapper}>
@@ -248,6 +251,8 @@ class TransferCreate extends Component {
 			      disabled={!enableTransfer}
 			      onClick={() => this.handleTransfer()}
 			      message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
+			      preview={() => (document.getElementById('transfer_description').value)}
+			      mention={mention}
 			    >
 			      <Button
 				  disabled={!enableTransfer}

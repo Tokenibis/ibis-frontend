@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 
 import Confirmation from '../../__Common__/Confirmation';
+import EntryTextField from '../../__Common__/EntryTextField';
 
 const styles = theme => ({
     content: {
@@ -92,6 +93,7 @@ class EventCreate extends Component {
 	date: '',
 	duration: '',
 	address: '',
+	mention: [],
     };
 
     componentDidMount() {
@@ -182,7 +184,17 @@ class EventCreate extends Component {
 
     render() {
 	let { classes } = this.props;
-	let { enableEvent, title, image, link, description, date, duration, address } = this.state;
+	let {
+	    enableEvent,
+	    title,
+	    image,
+	    link,
+	    description,
+	    date,
+	    duration,
+	    address,
+	    mention,
+	} = this.state;
 	
 	return (
 	    <div>
@@ -218,7 +230,7 @@ class EventCreate extends Component {
 		    />
 		  </Grid>
 		  <Grid item xs={12}>
-		    <TextField
+		    <EntryTextField
 			id="event_description"
 			required
 			defaultValue=""
@@ -231,6 +243,7 @@ class EventCreate extends Component {
 			label="Description"
 		        value={description}
 			onChange={() => this.handleChange()}
+			addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
 		    />
 		  </Grid>
 		  <Grid item xs={12}>
@@ -297,6 +310,7 @@ class EventCreate extends Component {
 			onClick={() => this.handleMutate()}
 			message="Are you sure you want to __submit__ this event?"
 			preview={() => (document.getElementById('event_description').value)}
+			mention={mention}
 		    >
 		      <Button
 			  disabled={!enableEvent}

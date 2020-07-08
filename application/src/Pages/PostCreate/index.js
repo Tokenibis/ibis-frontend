@@ -9,6 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 
 import Confirmation from '../../__Common__/Confirmation';
+import EntryTextField from '../../__Common__/EntryTextField';
 
 const styles = theme => ({
     content: {
@@ -70,6 +71,7 @@ class PostCreate extends Component {
 
     state = {
 	enablePost: false,
+	mention: {},
     };
 
     handlePost(mutation) {
@@ -103,7 +105,7 @@ class PostCreate extends Component {
 
     render() {
 	let { classes } = this.props;
-	let { enablePost } = this.state;
+	let { enablePost, mention } = this.state;
 
 	return (
 	    <div>
@@ -124,7 +126,7 @@ class PostCreate extends Component {
 		    />
 		  </Grid>
 		  <Grid item xs={12}>
-		    <TextField
+		    <EntryTextField
 			id="post_description"
 			required
 			defaultValue=""
@@ -136,6 +138,7 @@ class PostCreate extends Component {
 			rows={5}
 			label="Post"
 			onChange={() => this.handleChange()}
+			addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
 		    />
 		  </Grid>
 		  <Grid item xs={12} className={classes.buttonWrapper}>
@@ -144,6 +147,7 @@ class PostCreate extends Component {
 			onClick={() => this.handlePost()}
 			message="Are you sure you want to __submit__ this post?"
 			preview={() => (document.getElementById('post_description').value)}
+			mention={mention}
 		    >
 		      <Button
 			  disabled={!enablePost}

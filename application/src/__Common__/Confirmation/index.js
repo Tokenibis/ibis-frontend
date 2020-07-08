@@ -95,7 +95,17 @@ class Confirmation extends Component {
     };
 
     render() {
-	let { classes, children, autoconfirm, message, progress, preview, disabled } = this.props;
+	let {
+	    classes,
+	    children,
+	    autoconfirm,
+	    message,
+	    progress,
+	    preview,
+	    disabled,
+	    mention,
+	} = this.props;
+
 	let { opened, confirmed } = this.state;
 	
 	if (disabled) {
@@ -136,7 +146,11 @@ class Confirmation extends Component {
 		  <CustomMarkdown className={classes.message} noLink source={message}/>
 		  {preview && (
 		      <div className={classes.previewWrapper}>
-			<CustomMarkdown className={classes.preview} noClick source={preview()}/>
+			<CustomMarkdown
+			    className={classes.preview}
+			    noClick source={preview()}
+			    mention={mention}
+			/>
 		      </div>
 		  )}
 		  <div className={classes.buttonsWrapper}>
