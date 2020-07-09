@@ -2,7 +2,7 @@ import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
+import { createUploadLink } from 'apollo-upload-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import axios from "axios";
 
@@ -17,7 +17,7 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 const client = new ApolloClient({
-    link: new HttpLink({
+    link: new createUploadLink({
 	uri: `${config.ibis.api}/graphql/`,
 	credentials: 'include',
 	headers: {

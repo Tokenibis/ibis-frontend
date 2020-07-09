@@ -1,8 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component, useCallback } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from "react-apollo";
 import { loader } from 'graphql.macro';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
@@ -24,15 +28,16 @@ import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import EditIcon from '@material-ui/icons/Edit';
+import AvatarIcon from '@material-ui/icons/Portrait';
+import BannerIcon from '@material-ui/icons/Wallpaper';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
-import CancelIcon from '@material-ui/icons/Close';
 import Switch from '@material-ui/core/Switch';
+import { useDropzone } from 'react-dropzone'
 import axios from "axios";
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Confirmation from '../../__Common__/Confirmation';
-
 
 const styles = theme => ({
     root: {
@@ -51,6 +56,9 @@ const styles = theme => ({
     fine: {
 	fontSize: '12px',
 	color: theme.palette.tertiary.main,
+	marginTop: theme.spacing(-1),
+	paddingLeft: theme.spacing(10),
+	paddingBottom: theme.spacing(),
     },
     dialogInner: {
 	padding: theme.spacing(2),
@@ -59,19 +67,41 @@ const styles = theme => ({
     descriptionSubmitWrapper: {
 	textAlign: 'right',
     },
+    progressWrapper: {
+	textAlign: 'center',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	paddingRight: theme.spacing(2),
+    },
     button: {
+	zIndex: 10,
 	color: theme.palette.secondary.main,
+	paddingRight: theme.spacing(2),
     },
     disabledButton: {
+	zIndex: 10,
 	color: theme.palette.secondary,
 	pointerEvents: 'none',
 	opacity: '50%',
-    },
-    edit: {
 	paddingRight: theme.spacing(2),
     },
-    descriptionEdit: {
+    edit: {
+	paddingLeft: theme.spacing(9),
+    },
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
 	width: '100%',
+	width: '100%',
+    },
+    descriptionEdit: {
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(2),
+    },
+    file: {
+	paddingLeft: theme.spacing(9),
     },
     textField: {
 	'& .MuiOutlinedInput-root': {
@@ -113,40 +143,74 @@ class Settings extends Component {
 	email: null,
 	editField: '',
 	canSubmit: false,
+	loading: false,
     };
 
     updateUsername = (mutation, refetch) => {
 	let username = document.getElementById('edit_username').value;
 	mutation({ variables: { username } }).then(response => {
 	    refetch();
-	    this.setState({ editField: '' });
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
 	}).catch(error => {
 	    if (error.toString().includes('UNIQUE constraint failed')) {
 		this.setState({ dialog: `Sorry, that username is already taken. Please pick another one, or consider sending a bribe to __@${username}__ for naming rights (ibis tokens only, of course...)` })
 	    } else {
 		alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
 	    }
+	    this.setState({ loading: false });
 	});
+	this.setState({ loading: true });
+    }
+
+    updateAvatar = (mutation, refetch) => {
+	let avatar = document.getElementById('upload_avatar').files[0];
+	console.log(avatar)
+	mutation({ variables: { avatar } }).then(response => {
+	    refetch();
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
+	}).catch(error => {
+	    alert('Oops, something went wrong');
+	    this.setState({ loading: false });
+	});
+	this.setState({ loading: true });
     }
 
     updateDescription = (mutation, refetch) => {
 	let description = document.getElementById('edit_description').value;
 	mutation({ variables: { description } }).then(response => {
 	    refetch();
-	    this.setState({ editField: '' });
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
 	}).catch(error => {
 	    alert('Oops, something went wrong');
+	    this.setState({ loading: false });
 	});
+	this.setState({ loading: true });
     }
 
     updateEmail = (mutation, refetch) => {
 	let email = document.getElementById('edit_email').value;
 	mutation({ variables: { email } }).then(response => {
 	    refetch();
-	    this.setState({ editField: '' });
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
 	}).catch(error => {
 	    alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
+	    this.setState({ loading: false });
 	});
+	this.setState({ loading: true });
+    }
+
+
+    updateBanner = (mutation, refetch) => {
+	let banner = document.getElementById('upload_banner').files[0];
+	console.log(banner)
+	mutation({ variables: { banner } }).then(response => {
+	    refetch();
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
+	}).catch(error => {
+	    alert('Oops, something went wrong');
+	    this.setState({ loading: false });
+	});
+	this.setState({ loading: true });
     }
 
     updateSetting = (mutation, refetch, key, value) => {
@@ -168,6 +232,14 @@ class Settings extends Component {
 	this.setState({ username, canSubmit });
     }
 
+    handleAvatarInput = (e) => {
+	if (document.getElementById('upload_avatar').files.length > 1) {
+	    alert('You can only upload one profile avatar');
+	    document.getElementById('upload_avatar').value = null;
+	}
+	this.setState({ canSubmit: document.getElementById('upload_avatar').files.length === 1 });
+    }
+
     handleDescriptionInput(current) {
 	let description = document.getElementById('edit_description').value.toString()
 
@@ -180,6 +252,14 @@ class Settings extends Component {
 	let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	let canSubmit = email !== current && re.test(email.toLowerCase());
 	this.setState({ email, canSubmit });
+    }
+
+    handleBannerInput = (e) => {
+	if (document.getElementById('upload_banner').files.length > 1) {
+	    alert('You can only upload one profile banner');
+	    document.getElementById('upload_banner').value = null;
+	}
+	this.setState({ canSubmit: document.getElementById('upload_banner').files.length === 1 });
     }
 
     handlePasswordInput(current) {
@@ -225,6 +305,7 @@ class Settings extends Component {
 	    email,
 	    editField,
 	    canSubmit,
+	    loading,
 	} = this.state;
 
 	return (
@@ -245,227 +326,314 @@ class Settings extends Component {
 		  }
 	      >
 		<CustomDivider />
-		<ListItem>
+		<ListItem
+		    button
+		    onClick={(e) => {
+			this.setState({ editField: editField !== 'username' ? 'username': '' })
+		    }}
+		>
 		  <ListItemIcon>
 		    <UsernameIcon />
 		  </ListItemIcon>
-		  {editField === 'username' ? (
-		      <div>
-			<ListItemText className={classes.edit} primary={
-			    <TextField
-				id="edit_username"
-				autoFocus
-				required
-				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				fullWidth
-				value={username !== null ? username: data.ibisUser.username}
-				onInput={() => this.handleUsernameInput(data.ibisUser.username)}
-				InputProps={{
-				    startAdornment: (
-					<InputAdornment position="start">@</InputAdornment>
-				    ),}}
-			    />
-			}/>
-			<Typography variant="body2" className={classes.fine}>
-			  3-15 characters; a-z, 0-9, and _ only
-			</Typography>
-		      </div>
-		  ):(
-		      <ListItemText className={classes.text} primary="Change Username" />
-		  )}
-		  <ListItemSecondaryAction>
-		    {editField === 'username' ? (
+		  <ListItemText className={classes.text} primary="Change Username" />
+		  {editField === 'username' ? 
+		   <ExpandLess color="secondary"/> :
+		   <ExpandMore color="secondary"/>}
+		</ListItem>
+		<Collapse in={editField === 'username'} timeout="auto" unmountOnExit>
+		  <div className={classes.action}>
+		    <div>
+		      <ListItemText className={classes.edit} primary={
+			  <TextField
+			  id="edit_username"
+			  autoFocus
+			  required
+			  className={classes.textField}
+			  margin="normal"
+			  variant="outlined"
+			  fullWidth
+			  value={username !== null ? username: data.ibisUser.username}
+			  onInput={() => this.handleUsernameInput(data.ibisUser.username)}
+			  InputProps={{
+			      startAdornment: (
+				  <InputAdornment position="start">@</InputAdornment>
+			      ),}}
+			  />
+		      }/>
+		      <Typography variant="body2" className={classes.fine}>
+			3-15 characters; a-z, 0-9, and _ only
+		      </Typography>
+		    </div>
+		    {loading ? (
+			<span className={classes.progressWrapper}>
+			  <CircularProgress size={24} className={classes.progress}/>
+			</span>
+		    ):(
 			<IconButton
-			    className={canSubmit ? classes.button : classes.disabledButton}
-			    onClick={() => {this.updateUsername(user_mutation, refetch)}}
+			  className={canSubmit ? classes.button : classes.disabledButton}
+			  onClick={() => {this.updateUsername(user_mutation, refetch)}}
 			    >
 			  <SubmitIcon />
 			</IconButton>
-		    ):(
-			<IconButton
-			    onClick={() => {this.setState({ editField: 'username' })}}
-			    >
-			  <EditIcon color="secondary" />
-			</IconButton>
 		    )}
-		  </ListItemSecondaryAction>
-		</ListItem>
+		  </div>
+		</Collapse>
 		<CustomDivider />
-		<ListItem>
+		<ListItem
+		    button
+		    onClick={(e) => {
+			this.setState({ editField: editField !== 'description' ? 'description': '' })
+		    }}
+		>
 		  <ListItemIcon>
 		    <DescriptionIcon />
 		  </ListItemIcon>
-		  {editField === 'description' ? (
-		      <div className={classes.descriptionEdit}>
-			<ListItemText className={classes.descriptionEdit} primary={
-			    <TextField
-				id="edit_description"
-				autoFocus
-				required
-				value={description !== null ? description: data.ibisUser.description}
- 				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				fullWidth
-				multiline
-				onInput={() => this.handleDescriptionInput(data.ibisUser.description)}
-			    />
-			}/>
-			<div className={classes.descriptionSubmitWrapper}>
-			  <Confirmation
-			    onClick={() => this.updateDescription(user_mutation, refetch)}
-			    message="Are you sure you want to change your bio to the following?"
-			    preview={() => (description !== null ? description: data.ibisUser.description)}
-			  >
-			    <IconButton
-				className={canSubmit ? classes.button : classes.disabledButton}
-			    >
-			      <SubmitIcon />
-			    </IconButton>
-			  </Confirmation>
-			</div>
-		      </div>
-		  ):(
-		      <ListItemText className={classes.text} primary="Edit Bio" />
-		  )}
-		  {
-		      editField !== 'description' && (
-			<IconButton
-			    onClick={() => {this.setState({ editField: 'description' })}}
-			    >
-			  <EditIcon color="secondary" />
-			</IconButton>
-		      )
-		  }
+		  <ListItemText className={classes.text} primary="Edit Bio" />
+		  {editField === 'description' ? 
+		   <ExpandLess color="secondary"/> :
+		   <ExpandMore color="secondary"/>}
 		</ListItem>
+		<Collapse in={editField === 'description'} timeout="auto" unmountOnExit>
+		  <ListItemText className={classes.descriptionEdit} primary={
+		      <TextField
+		      id="edit_description"
+		      autoFocus
+		      required
+		      value={description !== null ? description: data.ibisUser.description}
+ 		      className={classes.textField}
+		      margin="normal"
+		      variant="outlined"
+		      fullWidth
+		      multiline
+		      onInput={() => this.handleDescriptionInput(data.ibisUser.description)}
+		      />
+		  }/>
+		  <div className={classes.descriptionSubmitWrapper}>
+		    <Confirmation
+			onClick={() => this.updateDescription(user_mutation, refetch)}
+			message="Are you sure you want to change your bio to the following?"
+			preview={() => (description !== null ? description: data.ibisUser.description)}
+		    >
+		      {loading ? (
+			  <span className={classes.progressWrapper}>
+			    <CircularProgress size={24} className={classes.progress}/>
+			  </span>
+		      ):(
+			  <IconButton
+			      className={canSubmit ? classes.button : classes.disabledButton}
+			      onClick={() => {this.updateDescription(user_mutation, refetch)}}
+			      >
+			    <SubmitIcon />
+			  </IconButton>
+		      )}
+		    </Confirmation>
+		  </div>
+		</Collapse>
+		<CustomDivider />
+		<ListItem
+		    button
+		    onClick={(e) => {
+			this.setState({ editField: editField !== 'avatar' ? 'avatar': '' })
+		    }}
+		>
+		  <ListItemIcon>
+		    <AvatarIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Change Avatar" />
+		  {editField === 'avatar' ? 
+		   <ExpandLess color="secondary"/> :
+		   <ExpandMore color="secondary"/>}
+		</ListItem>
+		<Collapse in={editField === 'avatar'} timeout="auto" unmountOnExit>
+		  <div className={classes.action}>
+		    <div>
+		      <input
+			  accept="image/*"
+			  className={classes.file}
+			  id="upload_avatar"
+			  multiple
+			  type="file"
+		          onChange={(e) => this.handleAvatarInput(e)}
+		      />
+		    </div>
+		    {loading ? (
+			<span className={classes.progressWrapper}>
+			  <CircularProgress size={24} className={classes.progress}/>
+			</span>
+		    ):(
+			<IconButton
+			  className={canSubmit ? classes.button : classes.disabledButton}
+			  onClick={() => {this.updateAvatar(user_mutation, refetch)}}
+			    >
+			  <SubmitIcon />
+			</IconButton>
+		    )}
+		  </div>
+		</Collapse>
 		{context.userType === 'nonprofit' &&
 		 <div>
-		   <CustomDivider />
-		   <ListItem>
+		   <ListItem
+		       button
+		       onClick={(e) => {
+			   this.setState({ editField: editField !== 'email' ? 'email': '' })
+		       }}
+		     >
 		     <ListItemIcon>
 		       <EmailIcon />
 		     </ListItemIcon>
-		     {editField === 'email' ? (
-			 <div>
-			   <ListItemText className={classes.edit} primary={
-			       <TextField
-				   id="edit_email"
-				       autoFocus
-				       required
-				       className={classes.textField}
-				       margin="normal"
-				       variant="outlined"
-				       fullWidth
-				       value={email !== null ? email: data.ibisUser.email}
-			               onInput={() => this.handleEmailInput(data.ibisUser.email)}
-			       />
-			   }/>
-			   <Typography variant="body2" className={classes.fine}>
-			     This change will take effect on your next notification
-			   </Typography>
-			 </div>
-		     ):(
-			 <ListItemText className={classes.text} primary="Change Email" />
-		     )}
-		     <ListItemSecondaryAction>
-		       {editField === 'email' ? (
+		     <ListItemText className={classes.text} primary="Change Email" />
+		     {editField === 'email' ? 
+		      <ExpandLess color="secondary"/> :
+		      <ExpandMore color="secondary"/>}
+		   </ListItem>
+		   <Collapse in={editField === 'email'} timeout="auto" unmountOnExit>
+		     <div className={classes.action}>
+		       <div>
+			 <ListItemText className={classes.edit} primary={
+			     <TextField
+				 id="edit_email"
+				     autoFocus
+				     required
+				     className={classes.textField}
+				     margin="normal"
+				     variant="outlined"
+				     fullWidth
+				     value={email !== null ? email: data.ibisUser.email}
+			             onInput={() => this.handleEmailInput(data.ibisUser.email)}
+			     />
+			 }/>
+			 <Typography variant="body2" className={classes.fine}>
+			   This change will take effect on your next notification
+			 </Typography>
+		       </div>
+		       {loading ? (
+			   <span className={classes.progressWrapper}>
+			     <CircularProgress size={24} className={classes.progress}/>
+			   </span>
+		       ):(
 			   <IconButton
 			       className={canSubmit ? classes.button : classes.disabledButton}
 			       onClick={() => {this.updateEmail(user_mutation, refetch)}}
 			       >
 			     <SubmitIcon />
 			   </IconButton>
-		       ):(
-			   <IconButton
-			       onClick={() => {this.setState({ editField: 'email' })}}
-			       >
-			     <EditIcon color="secondary" />
-			   </IconButton>
 		       )}
-		     </ListItemSecondaryAction>
-		   </ListItem>
+		     </div>
+		   </Collapse>
 		   <CustomDivider />
-		   <ListItem>
+		   <ListItem
+		       button
+		       onClick={(e) => {
+			   this.setState({ editField: editField !== 'password' ? 'password': '' })
+		       }}
+		     >
 		     <ListItemIcon>
 		       <PasswordIcon />
 		     </ListItemIcon>
-		     {editField === 'password' ? (
-			 <div>
-			   <ListItemText className={classes.edit} primary={
-			       <TextField
-				   id="password_old"
-				   type="password"
-				   autoFocus
-				   required
-				   className={classes.textField}
-				   margin="normal"
-				   variant="outlined"
-				   fullWidth
-				   label="Old Password"
-			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
-			       />
-			   }/>
-			   <ListItemText className={classes.edit} primary={
-			       <TextField
-				   id="password_new"
-				   type="password"
-				   required
-				   className={classes.textField}
-				   margin="normal"
-				   variant="outlined"
-				   fullWidth
-				   label="New Password"
-			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
-			       />
-			   }/>
-			   <ListItemText className={classes.edit} primary={
-			       <TextField
-				   id="password_confirm"
-				   type="password"
-				   required
-				   className={classes.textField}
-				   margin="normal"
-				   variant="outlined"
-				   fullWidth
-				   label="Confirm Password"
-			           onInput={() => this.handlePasswordInput(data.ibisUser.password)}
-			       />
-			   }/>
-			 </div>
-		     ):(
-			 <ListItemText className={classes.text} primary="Change Password" />
-		     )}
-		     <ListItemSecondaryAction>
-		       {editField === 'password' ? (
-			   <div>
-			     <div>
-			     <IconButton
-				 className={canSubmit ? classes.button : classes.disabledButton}
-				 onClick={() => {this.updatePassword(user_mutation, refetch)}}
-			       >
-			       <SubmitIcon />
-			     </IconButton>
-			     </div>
-			     <div>
-			     <IconButton
-				 className={classes.button}
-				 onClick={() => this.setState({ editField: '' })}
-			       >
-			       <CancelIcon />
-			     </IconButton>
-			     </div>
-			   </div>
+		     <ListItemText className={classes.text} primary="Change Password" />
+		     {editField === 'password' ? 
+		      <ExpandLess color="secondary"/> :
+		      <ExpandMore color="secondary"/>}
+		   </ListItem>
+		   <Collapse in={editField === 'password'} timeout="auto" unmountOnExit>
+		     <div className={classes.action}>
+		       <div>
+			 <ListItemText className={classes.edit} primary={
+			     <TextField
+				 id="password_old"
+				     type="password"
+				     autoFocus
+				     required
+				     className={classes.textField}
+				     margin="normal"
+				     variant="outlined"
+				     fullWidth
+				     label="Old Password"
+			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			     />
+			 }/>
+			 <ListItemText className={classes.edit} primary={
+			     <TextField
+				 id="password_new"
+				     type="password"
+				     required
+				     className={classes.textField}
+				     margin="normal"
+				     variant="outlined"
+				     fullWidth
+				     label="New Password"
+			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			     />
+			 }/>
+			 <ListItemText className={classes.edit} primary={
+			     <TextField
+				 id="password_confirm"
+				     type="password"
+				     required
+				     className={classes.textField}
+				     margin="normal"
+				     variant="outlined"
+				     fullWidth
+				     label="Confirm Password"
+			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			     />
+			 }/>
+		       </div>
+		       {loading ? (
+			   <span className={classes.progressWrapper}>
+			     <CircularProgress size={24} className={classes.progress}/>
+			   </span>
 		       ):(
 			   <IconButton
-			       onClick={() => {this.setState({ editField: 'password' })}}
+			       className={canSubmit ? classes.button : classes.disabledButton}
+			       onClick={() => {this.updatePassword(user_mutation, refetch)}}
 			       >
-			     <EditIcon color="secondary" />
+			     <SubmitIcon />
 			   </IconButton>
 		       )}
-		     </ListItemSecondaryAction>
+		     </div>
+		   </Collapse>
+		   <CustomDivider />
+		   <ListItem
+		       button
+		       onClick={(e) => {
+			   this.setState({ editField: editField !== 'banner' ? 'banner': '' })
+		       }}
+		     >
+		     <ListItemIcon>
+		       <BannerIcon />
+		     </ListItemIcon>
+		     <ListItemText className={classes.text} primary="Change Banner" />
+		     {editField === 'banner' ? 
+		      <ExpandLess color="secondary"/> :
+		      <ExpandMore color="secondary"/>}
 		   </ListItem>
+		   <Collapse in={editField === 'banner'} timeout="auto" unmountOnExit>
+		     <div className={classes.action}>
+		       <div>
+			 <input
+			     accept="image/*"
+			     className={classes.file}
+			     id="upload_banner"
+			     multiple
+			     type="file"
+		             onChange={(e) => this.handleBannerInput(e)}
+			 />
+		       </div>
+		       {loading ? (
+			   <span className={classes.progressWrapper}>
+			     <CircularProgress size={24} className={classes.progress}/>
+			   </span>
+		       ):(
+			   <IconButton
+			       className={canSubmit ? classes.button : classes.disabledButton}
+			       onClick={() => {this.updateBanner(user_mutation, refetch)}}
+			       >
+			     <SubmitIcon />
+			   </IconButton>
+		       )}
+		     </div>
+		   </Collapse>
 		 </div>
 		}
 	      </List>
@@ -619,4 +787,3 @@ class Settings extends Component {
 };
 
 export default withStyles(styles)(Settings);
-
