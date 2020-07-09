@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
-import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
 const styles = theme => ({
@@ -40,6 +40,9 @@ const styles = theme => ({
     amount: {
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
+    },
+    likeBookmark: {
+	display: 'flex',
     },
     details: {
 	fontWeight: 'bold',
@@ -105,13 +108,21 @@ class TransferList extends Component {
 	let { classes, context, variant } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={LikeVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.hasLiked.edges.length === 1}
-		  hide={context.userID === node.user.id}
-	      />
+	      <div className={classes.likeBookmark}>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
+		    hide={context.userID === node.user.id}
+		/>
+	      </div>
 	      <Typography
 		  component={Link}
 		  prefix={1}

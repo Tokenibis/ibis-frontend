@@ -299,6 +299,12 @@ class Event extends Component {
 		    {context.userID === node.user.id ? (
 			<div className={classes.edgeMutationsEdit}>
 			  <div className={classes.edgeMutations}>
+			    <SimpleEdgeMutation
+				variant={BookmarkVal}
+				user={context.userID}
+				target={node.id}
+				initial={node.hasBookmarked.edges.length === 1}
+			    />
 			    <div className={classes.personDialogWrapper}>
 			      <UserDialogList
 			      variant={DialogLikeVal}
@@ -326,13 +332,6 @@ class Event extends Component {
 		    ):(
 			<div className={classes.edgeMutations}>
 			  <SimpleEdgeMutation
-			      variant={LikeVal}
-			      user={context.userID}
-			      target={node.id}
-			      initial={node.hasLiked.edges.length === 1}
-		              countCallback={likeCallback}
-			  />
-			  <SimpleEdgeMutation
 			      variant={RsvpVal}
 			      user={context.userID}
 			      target={node.id}
@@ -344,6 +343,13 @@ class Event extends Component {
 			      user={context.userID}
 			      target={node.id}
 			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <SimpleEdgeMutation
+			      variant={LikeVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasLiked.edges.length === 1}
+		              countCallback={likeCallback}
 			  />
 			  <div className={classes.personDialogWrapper}>
 			    <UserDialogList

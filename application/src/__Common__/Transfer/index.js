@@ -13,7 +13,7 @@ import CustomDivider from '../CustomDivider';
 import CustomMarkdown from '../CustomMarkdown';
 import Link from '../CustomLink';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
-import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../SimpleEdgeMutation';
 import CommentTree from '../CommentTree';
 import CustomDate from '../CustomDate';
 import Amount from '../Amount';
@@ -65,6 +65,12 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
 	paddingTop: theme.spacing(1),
+    },
+    personDialogWrapper: {
+	marginTop: theme.spacing(1),
+    },
+    likeBookmark: {
+	display: 'flex',
     },
     info: {
 	color: theme.palette.tertiary.main,
@@ -242,18 +248,36 @@ class Transfer extends Component {
 		<Grid item xs={12} className={classes.divider}>
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
-			<UserDialogList
-			variant={DialogLikeVal}
-			count={node.likeCount}
-			node={node.id}
-			/>
+			<div className={classes.likeBookmark}>
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogLikeVal}
+				count={node.likeCount}
+				node={node.id}
+			    />
+			  </div>
+			</div>
 		    ):(
-			<SimpleEdgeMutation
-			variant={LikeVal}
-			user={context.userID}
-			target={node.id}
-			initial={node.hasLiked.edges.length === 1}
-			/>
+			<div className={classes.likeBookmark}>
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <SimpleEdgeMutation
+			      variant={LikeVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasLiked.edges.length === 1}
+			  />
+			</div>
 		    )}
 		  </div>
 		</Grid>

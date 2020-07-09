@@ -135,27 +135,35 @@ class Post extends Component {
 		  />
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
-			<div className={classes.personDialogWrapper}>
-			  <UserDialogList
-			      variant={DialogLikeVal}
-			      count={likeCount}
-			      node={node.id}
+			<div className={classes.likeBookmark}>
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
 			  />
+			  <div className={classes.personDialogWrapper}>
+			    <UserDialogList
+				variant={DialogLikeVal}
+				count={likeCount}
+				node={node.id}
+			    />
+			  </div>
 			</div>
 		    ):(
 			<div className={classes.likeBookmark}>
+			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
 			  <SimpleEdgeMutation
 			      variant={LikeVal}
 			      user={context.userID}
 			      target={node.id}
 			      initial={node.hasLiked.edges.length === 1}
 		              countCallback={likeCallback}
-			  />
-			  <SimpleEdgeMutation
-			      variant={BookmarkVal}
-			      user={context.userID}
-			      target={node.id}
-			      initial={node.hasBookmarked.edges.length === 1}
 			  />
 			  <div className={classes.personDialogWrapper}>
 			    <UserDialogList

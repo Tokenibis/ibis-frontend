@@ -132,12 +132,6 @@ class EventList extends Component {
 	    <div className={classes.action}>
 	      <div className={classes.edgeMutations}>
 		<SimpleEdgeMutation
-		    variant={LikeVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
-		/>
-		<SimpleEdgeMutation
 		    variant={RsvpVal}
 		    user={context.userID}
 		    target={node.id}
@@ -148,6 +142,12 @@ class EventList extends Component {
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
 		/>
 	      </div>
 	      <Link prefix={1} to={`Event?id=${node.id}`}>
