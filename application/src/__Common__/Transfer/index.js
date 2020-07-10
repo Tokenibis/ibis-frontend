@@ -87,16 +87,6 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	fontWeight: 'bold',
     },
-    commentCount: {
-	color: theme.palette.tertiary.main,
-	fontSize: 14,
-    },
-    commentCountIcon: {
-	fontSize: 20,
-	marginBottom: -7,
-	paddingRight: theme.spacing(0.5),
-	color: theme.palette.tertiary.main,
-    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',

@@ -49,16 +49,6 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
     },
-    commentCount: {
-	color: theme.palette.tertiary.main,
-	fontSize: 14,
-    },
-    commentCountIcon: {
-	fontSize: 20,
-	marginBottom: -7,
-	paddingRight: theme.spacing(0.5),
-	color: theme.palette.tertiary.main,
-    },
 });
 
 const DEFAULT_COUNT = 25;
