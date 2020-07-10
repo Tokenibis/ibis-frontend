@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
+import Dialog from '@material-ui/core/Dialog';
+import CustomMarkdown from '../CustomMarkdown';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -35,6 +37,10 @@ const styles = theme => ({
     },
     subtitle: {
 	color: theme.palette.tertiary.main,
+    },
+    dialogInner: {
+	padding: theme.spacing(2),
+	textAlign: 'center',
     },
     label: {
 	paddingTop: theme.spacing(2),
@@ -90,6 +96,8 @@ class TransferCreate extends Component {
 	amount: '0.00',
 	enableTransfer: false,
 	mention: [],
+	destination: '',
+	thanks: false,
     };
 
     handleTransfer(mutation) {
@@ -112,7 +120,16 @@ class TransferCreate extends Component {
 	    let path = url.hash.split('/').slice(1);
 	    let page = variant === 'donation' ? 'Donation' : 'Transaction';
 	    let result = response.data[Object.keys(response.data)[0]];
-	    history.push(`/${path[0]}/${page}?id=${result[Object.keys(result)[0]].id}`)
+	    let destination = `/${path[0]}/${page}?id=${result[Object.keys(result)[0]].id}`
+
+	    if (variant === 'donation') {
+		this.setState({
+		    thanks: true,
+		    destination,
+		})
+	    } else {
+		history.push(destination);
+	    }
 	}).catch(error => {
 	    console.log(error);
 	});
@@ -156,117 +173,129 @@ class TransferCreate extends Component {
     }
 
     render() {
-	let { classes, context, target, variant } = this.props;
-	let { enableTransfer, amount, mention } = this.state;
+	let { classes, context, target, variant, history } = this.props;
+	let { enableTransfer, amount, mention, thanks, destination } = this.state;
 
 	let amount_final = Math.floor(amount * 100)
 
 	return (
-	    <Query
-	      fetchPolicy="no-cache"
-	      query={VARIANTS[variant].query}
-	      variables={{ id: context.userID, target }}
-	    >
-	      {({ loading, error, data, refetch }) => {
-		  if (loading) return <LinearProgress className={classes.progress} />;
-		  if (error) return `Error! ${error.message}`;
+	    <div>
+	      <Query
+		  fetchPolicy="no-cache"
+		  query={VARIANTS[variant].query}
+		  variables={{ id: context.userID, target }}
+	      >
+		{({ loading, error, data, refetch }) => {
+		    if (loading) return <LinearProgress className={classes.progress} />;
+		    if (error) return `Error! ${error.message}`;
 
-		  return (
-  		      <Grid container direction="column" justify="center" alignItems="center" >
-			<Grid container className={classes.content}>
-			  <Grid item xs={4}>
-			    <Typography variant="body2" className={classes.label}>
-			      Recipient
-			    </Typography>
-			  </Grid>
-			  <Grid item xs={8}>
-			    <Typography variant="body2" className={classes.title}>
-			      {data.target.name}
-			    </Typography>
-			    <Typography variant="body2" className={classes.subtitle}>
-			      @{data.target.username}
-			    </Typography>
-			  </Grid>
-			  <Grid item xs={4}>
-			    <Typography variant="body2" className={classes.label}>
-			      Balance
-			    </Typography>
-			  </Grid>
-			  <Grid item xs={8}>
-			    {data.user.balance > 0.0 ? (
-				<Typography variant="body2" className={classes.balance}>
-				  ${(data.user.balance/100).toFixed(2)}
-				</Typography>
-			    ):(
-				<Typography variant="body2" className={classes.zeroBalance}>
-				  $0.00 - No funds remaining
-				</Typography>
-			    )}
-			  </Grid>
-			  <Grid item xs={4}>
-			    <Typography variant="body2" className={classes.label}>
-			      Amount
-			    </Typography>
-			  </Grid>
-			  <Grid item xs={8}>
-			    <TextField
-				id="transfer_amount"
-				autoFocus
-				required
- 				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				fullWidth
-				value={amount}
-				onKeyPress={(e) => this.handleKeyPressAmount(e)}
-				onChange={() => this.handleChangeAmount(data.user.balance)}
-				type="number"
-				InputProps={{
-				    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-				}}
-			    />
-			  </Grid>
-			  <Grid item xs={4}>
-			    <Typography variant="body2" className={classes.label}>
-			      Description
-			    </Typography>
-			  </Grid>
-			  <Grid item xs={8}>
-			    <EntryTextField
-				id="transfer_description"
-				required
-				defaultValue=""
- 				className={classes.textField}
-				margin="normal"
-				variant="outlined"
-				fullWidth
-				multiline
-				placeholder="Words"
-				onChange={() => this.handleChangeDescription()}
-			        addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
-			    />
-			  </Grid>
-			  <Grid item xs={12} className={classes.buttonWrapper}>
-			    <Confirmation
-			      disabled={!enableTransfer}
-			      onClick={() => this.handleTransfer()}
-			      message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
-			      preview={() => (document.getElementById('transfer_description').value)}
-			      mention={mention}
-			    >
-			      <Button
+		    return (
+  			<Grid container direction="column" justify="center" alignItems="center" >
+			  {data.message && (
+			      <Dialog
+				  open={thanks}
+				  onClose={() => {history.push(destination)}}
+				  >
+				<div className={classes.dialogInner}>
+				  <CustomMarkdown source={data.message.edges[0].node.description}/>
+				</div>
+			      </Dialog>
+			  )}
+			  <Grid container className={classes.content}>
+			    <Grid item xs={4}>
+			      <Typography variant="body2" className={classes.label}>
+				Recipient
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={8}>
+			      <Typography variant="body2" className={classes.title}>
+				{data.target.name}
+			      </Typography>
+			      <Typography variant="body2" className={classes.subtitle}>
+				@{data.target.username}
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={4}>
+			      <Typography variant="body2" className={classes.label}>
+				Balance
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={8}>
+			      {data.user.balance > 0.0 ? (
+				  <Typography variant="body2" className={classes.balance}>
+				    ${(data.user.balance/100).toFixed(2)}
+				  </Typography>
+			      ):(
+				  <Typography variant="body2" className={classes.zeroBalance}>
+				    $0.00 - No funds remaining
+				  </Typography>
+			      )}
+			    </Grid>
+			    <Grid item xs={4}>
+			      <Typography variant="body2" className={classes.label}>
+				Amount
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={8}>
+			      <TextField
+			      id="transfer_amount"
+			      autoFocus
+			      required
+ 			      className={classes.textField}
+			      margin="normal"
+			      variant="outlined"
+			      fullWidth
+			      value={amount}
+			      onKeyPress={(e) => this.handleKeyPressAmount(e)}
+			      onChange={() => this.handleChangeAmount(data.user.balance)}
+			      type="number"
+			      InputProps={{
+				  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+			      }}
+			      />
+			    </Grid>
+			    <Grid item xs={4}>
+			      <Typography variant="body2" className={classes.label}>
+				Description
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={8}>
+			      <EntryTextField
+				  id="transfer_description"
+				  required
+				  defaultValue=""
+ 				  className={classes.textField}
+				  margin="normal"
+				  variant="outlined"
+				  fullWidth
+				  multiline
+				  placeholder="Words"
+				  onChange={() => this.handleChangeDescription()}
+			          addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
+			      />
+			    </Grid>
+			    <Grid item xs={12} className={classes.buttonWrapper}>
+			      <Confirmation
 				  disabled={!enableTransfer}
-				  className={classes.actionTransfer}
+				  onClick={() => this.handleTransfer()}
+				  message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
+				  preview={() => (document.getElementById('transfer_description').value)}
+				  mention={mention}
 			      >
-				{variant === 'donation' ? 'Donate' : 'Pay'}
-			      </Button>
-			    </Confirmation>
+				<Button
+				    disabled={!enableTransfer}
+				    className={classes.actionTransfer}
+				>
+				  {variant === 'donation' ? 'Donate' : 'Pay'}
+				</Button>
+			      </Confirmation>
+			    </Grid>
 			  </Grid>
 			</Grid>
-		      </Grid>
-		  );
-	      }}
-	    </Query>
+		    );
+		}}
+	      </Query>
+	    </div>
 	);
     };
 };
