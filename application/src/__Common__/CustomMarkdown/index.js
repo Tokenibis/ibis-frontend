@@ -120,7 +120,6 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...ot
 	    ).slice(1, -1)
 	});
     }
-    console.log(source)
 
     return (
 	<Typography variant="body2" className={classes.message}>

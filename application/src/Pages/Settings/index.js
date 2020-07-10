@@ -26,6 +26,7 @@ import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
+import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import EditIcon from '@material-ui/icons/Edit';
 import AvatarIcon from '@material-ui/icons/Portrait';
@@ -719,6 +720,25 @@ class Settings extends Component {
 			    refetch,
 			    'emailComment',
 			    !data.ibisUser.notifier.emailComment,
+			))}
+		    />
+		  </ListItemSecondaryAction>
+		</ListItem>
+		<CustomDivider />
+		<ListItem>
+		  <ListItemIcon>
+		    <MentionIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Mentions" />
+		  <ListItemSecondaryAction>
+		    <Switch
+			edge="end"
+			checked={data.ibisUser.notifier.emailMention}
+			onChange={() => (this.updateSetting(
+			    notifier_mutation,
+			    refetch,
+			    'emailMention',
+			    !data.ibisUser.notifier.emailMention,
 			))}
 		    />
 		  </ListItemSecondaryAction>
