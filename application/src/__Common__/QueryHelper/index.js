@@ -24,10 +24,8 @@ const styles = theme => ({
     progress: {
 	margin: theme.spacing(-0.5),
     },
-    infiniteScroll:  {
-	height: '80px',
-    },
     loader: {
+	height: '80px',
 	marginTop: theme.spacing(2),
 	margin: '0 auto',
 	fontWeight: 'bold',
@@ -41,6 +39,7 @@ const styles = theme => ({
 	textAlign: 'center',
     },
     manualWrapper: {
+	height: '80px',
 	marginTop: theme.spacing(2),
 	margin: '0 auto',
 	textAlign: 'center',
