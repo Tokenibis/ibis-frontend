@@ -15,6 +15,7 @@ import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
+import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import UbpIcon from '@material-ui/icons/CakeOutlined';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
@@ -79,6 +80,7 @@ const CATEGORIES = {
     donation: <DonationIcon color="secondary"/>,
     transaction: <TransactionIcon color="secondary"/>,
     comment: <CommentIcon color="secondary"/>,
+    mention: <MentionIcon color="secondary"/>,
     like: <LikeIcon color="secondary"/>,
     news: <NewsIcon color="secondary"/>,
     event: <EventIcon color="secondary"/>,
