@@ -271,7 +271,7 @@ class NewsList extends Component {
 		  query={query}
 		  variables={variables}
 		  make={make}
-		  infiniteScroll={infiniteScroll}
+	          scroll={infiniteScroll ? 'infinite' : 'manual'}
 	      />
 	    </div>
 	);

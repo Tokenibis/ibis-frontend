@@ -7,14 +7,15 @@
 
    - query: a graphql query (formatted in gql) make:
    - make: a render prop function which takes the returned data and
-     renders React Component
+   renders React Component
 
-*/
+ */
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Query } from "react-apollo";
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -39,7 +40,16 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	textAlign: 'center',
     },
-
+    manualWrapper: {
+	marginTop: theme.spacing(2),
+	margin: '0 auto',
+	textAlign: 'center',
+    },
+    manual: {
+	textTransform: 'none',
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+    },
 })
 
 class QueryHelper extends Component {
@@ -70,10 +80,10 @@ class QueryHelper extends Component {
     }
 
     render() {
-	let { variables, classes, query, make, infiniteScroll } = this.props;
+	let { variables, classes, query, make, scroll } = this.props;
 	let { dataOld } = this.state;
 
-	if (infiniteScroll) {
+	if (scroll) {
 	    return (
 		<div>
 		  {dataOld && make(dataOld)}
@@ -94,17 +104,32 @@ class QueryHelper extends Component {
 			      <InfiniteScroll
 				  pageStart={0}
 				  className={classes.infiniteScroll}
-				  loadMore={() => this.paginate(dataCurrent)}
+				  loadMore={(!dataOld.length || scroll === 'infinite') ? (
+				      () => this.paginate(dataCurrent)
+				  ):(
+				      () => {}
+				  )}
 				  hasMore={(dataCurrent.length > dataOld.length) || data[Object.keys(data)[0]].pageInfo.hasNextPage}
-				  loader={
+				  loader={scroll === 'infinite' ? (
 				      <Typography
 					  key={dataCurrent.length}
 					  type="body2" className={classes.loader}
-					  >
+				      >
 					Loading more results...
 				      </Typography>
-				  }
-			      >
+				  ):(
+				      <div className={classes.manualWrapper}>
+					<Button onClick={() => this.paginate(dataCurrent)} >
+					  <Typography
+					    variant="body2"
+				            className={classes.manual}
+					  >
+					    Load more results
+					  </Typography>
+				      </Button>
+				      </div>
+				  )}
+				>
 				<div key={0}></div>
 			      </InfiniteScroll>
 			      {

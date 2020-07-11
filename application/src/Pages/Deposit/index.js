@@ -262,7 +262,7 @@ class DepositList extends Component {
 		  query={query}
 		  variables={variables}
 		  make={make}
-		  infiniteScroll={true}
+		  scroll="infinite"
 	      />
 	    </div>
 	);

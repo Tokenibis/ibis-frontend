@@ -37,6 +37,8 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
     },
     dialogPaper: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
 	width: '70%',
     },
     dialogInner: {
@@ -219,7 +221,7 @@ class UserDialogList extends Component {
 	return (
 	    <div>
 	      <Dialog
-		  PaperProps={{id: "dialog_box", className: classes.dialogPaper}}
+		  PaperProps={{ className: classes.dialogPaper }}
 		  open={opened && count > 0}
 		  onClose={() => this.handleClose()}
 	      >

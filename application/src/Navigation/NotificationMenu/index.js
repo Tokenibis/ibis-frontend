@@ -104,7 +104,6 @@ const LINKS = {
 function NotificationPoll({ children, refetch }) {
     useEffect(() => {
 	const interval = setInterval(() => {
-	    console.log('refetching?')
 	    refetch();
 	}, POLL);
 	return () => clearInterval(interval);
@@ -257,7 +256,7 @@ class NotificationMenu extends Component {
 				    first: DEFAULT_COUNT,
 				}}
 				make={this.make}
-				infiniteScroll={true}
+				scroll={'manual'}
 			    />
 			  </div>
 			</SwipeableDrawer>
