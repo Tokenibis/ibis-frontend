@@ -1,4 +1,4 @@
-import React, { Component, useCallback } from 'react';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Query, Mutation } from "react-apollo";
 import { loader } from 'graphql.macro';
@@ -28,12 +28,10 @@ import TransactionIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import DepositIcon from '@material-ui/icons/LocalAtm';
-import EditIcon from '@material-ui/icons/Edit';
 import AvatarIcon from '@material-ui/icons/Portrait';
 import BannerIcon from '@material-ui/icons/Wallpaper';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
 import Switch from '@material-ui/core/Switch';
-import { useDropzone } from 'react-dropzone'
 import axios from "axios";
 
 import CustomDivider from '../../__Common__/CustomDivider';
@@ -94,7 +92,6 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
-	width: '100%',
 	width: '100%',
     },
     descriptionEdit: {

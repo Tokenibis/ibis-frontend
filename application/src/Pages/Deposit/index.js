@@ -163,7 +163,7 @@ const MIN_AMOUNT = 1000;
 
 const query = loader('../../Static/graphql/app/DepositList.gql')
 
-const query_balance = loader('../../Static/graphql/app/Balance.gql')
+const query_balance = loader('../../Static/graphql/app/Finance.gql')
 
 const message = `## Payment Guide
 

@@ -40,6 +40,10 @@ const styles = theme => ({
 	paddingRight: theme.spacing(3),
 	paddingBottom: theme.spacing(1),
     },
+    messageLeft: {
+	padding: theme.spacing(2),
+	textAlign: 'left',
+    },
     buttonsWrapper: {
     },
     dialogButton: {
@@ -143,7 +147,10 @@ class Confirmation extends Component {
 		  onClose={(e) => this.handleClose()}
 	      >
 		<div className={classes.dialogInner}>
-		  <CustomMarkdown className={classes.message} noLink source={message}/>
+		  <CustomMarkdown className={
+		  (message && message.length > 160) ?
+		  classes.messageLeft : classes.message
+		  } noLink source={message}/>
 		  {preview && (
 		      <div className={classes.previewWrapper}>
 			<CustomMarkdown

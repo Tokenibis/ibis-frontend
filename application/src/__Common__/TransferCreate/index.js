@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Confirmation from '../Confirmation';
 import EntryTextField from '../../__Common__/EntryTextField';
@@ -54,6 +55,14 @@ const styles = theme => ({
     zeroBalance: {
 	paddingTop: theme.spacing(2),
 	color: 'red',
+    },
+    checkBox: {
+	paddingTop: theme.spacing(2),
+    },
+    fine: {
+	paddingTop: theme.spacing(2),
+	fontSize: '12px',
+	color: theme.palette.tertiary.main,
     },
     buttonWrapper: {
 	paddingTop: theme.spacing(2),
@@ -98,6 +107,7 @@ class TransferCreate extends Component {
 	mention: [],
 	destination: '',
 	thanks: false,
+	checked: null,
     };
 
     handleTransfer(mutation) {
@@ -174,7 +184,7 @@ class TransferCreate extends Component {
 
     render() {
 	let { classes, context, target, variant, history } = this.props;
-	let { enableTransfer, amount, mention, thanks, destination } = this.state;
+	let { enableTransfer, amount, mention, thanks, destination, checked } = this.state;
 
 	let amount_final = Math.floor(amount * 100)
 
@@ -188,6 +198,16 @@ class TransferCreate extends Component {
 		{({ loading, error, data, refetch }) => {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;
+
+		    let display_checked = checked !== null ? (
+			checked
+		    ):(
+			variant === 'donation' ? (
+			    data.user.privacyDonation || data.target.privacyDonation
+			):(
+			    data.user.privacyTransaction || data.target.privacyTransaction
+			)
+		    )
 
 		    return (
   			<Grid container direction="column" justify="center" alignItems="center" >
@@ -230,6 +250,34 @@ class TransferCreate extends Component {
 				    $0.00 - No funds remaining
 				  </Typography>
 			      )}
+			    </Grid>
+			    <Grid item xs={4}>
+			      <Typography variant="body2" className={classes.label}>
+				Hide
+			      </Typography>
+			    </Grid>
+			    <Grid item xs={2}>
+			      <Confirmation
+				  onClick={() => {
+				      this.setState({ checked: !display_checked });
+				      return Promise.resolve();
+				  }}
+				  autoconfirm={display_checked}
+				  message={`Are you sure you want hide this ${variant} from other users? Please remember that Token Ibis does not guarantee any privacy of your data. "Hidden" interactions will still likely be viewed by several impressionable researchers, so please don't write anything too weird.`}
+			      >
+				<Checkbox
+				    className={classes.checkBox}
+				    color="secondary"
+				    checked={display_checked}
+				    value="primary"
+				    inputProps={{ 'aria-label': 'primary checkbox' }}
+				/>
+			      </Confirmation>
+			    </Grid>
+			    <Grid item xs={6}>
+			      <Typography variant="body2" className={classes.fine}>
+				{`Only you and @${data.target.username} will be able to see this ${variant}.`}
+			      </Typography>
 			    </Grid>
 			    <Grid item xs={4}>
 			      <Typography variant="body2" className={classes.label}>
