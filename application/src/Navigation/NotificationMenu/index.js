@@ -194,45 +194,52 @@ class NotificationMenu extends Component {
 	      variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
-		  if (loading) return <CircularProgress className={classes.progress} />;
-		  if (error) return `Error! ${error.message}`;
-
+		  if (loading) return ''
 		  return (
 		      <div>
-			<NotificationPoll refetch={refetch}>
-			  <Mutation mutation={seen_mutation}>
-			    {mutation => (
-			    data.ibisUser.notifier.unseenCount > 0 ? (
-			    <div className={classes.unseenWrapper}>
-			      <IconButton
-				className={classes.hasUnseen}
-				onClick={() => this.handleOpen(
-				mutation,
-				refetch,
-				data.ibisUser.notifier.id,
-				)}
-			      >
-				<NotificationIconYes/>
-				<div className={classes.stat}>
-				  {data.ibisUser.notifier.unseenCount}
-				</div>
-			      </IconButton>
-			    </div>
+			{error ? (
+			    <IconButton
+			      color="inherit"
+			      onClick={() => this.setState({ drawer: true })}
+			    >
+			      <NotificationIconNo />
+			    </IconButton>
 			    ):(
-				<IconButton
-				    color="inherit"
-				    onClick={() => this.handleOpen(
-					mutation,
-					refetch,
-					data.ibisUser.notifier.id,
+				<NotificationPoll refetch={refetch}>
+				  <Mutation mutation={seen_mutation}>
+				    {mutation => (
+					data.ibisUser.notifier.unseenCount > 0 ? (
+					    <div className={classes.unseenWrapper}>
+					      <IconButton
+						className={classes.hasUnseen}
+						onClick={() => this.handleOpen(
+						    mutation,
+						    refetch,
+						    data.ibisUser.notifier.id,
+						)}
+						>
+						<NotificationIconYes/>
+						<div className={classes.stat}>
+						  {data.ibisUser.notifier.unseenCount}
+						</div>
+					      </IconButton>
+					    </div>
+					):(
+					    <IconButton
+						color="inherit"
+						onClick={() => this.handleOpen(
+						    mutation,
+						    refetch,
+						    data.ibisUser.notifier.id,
+						)}
+						>
+					      <NotificationIconNo />
+					    </IconButton>
+					)
 				    )}
-				>
-				  <NotificationIconNo />
-				</IconButton>
-			    )
-			    )}
-			  </Mutation>
-			</NotificationPoll>
+				  </Mutation>
+				</NotificationPoll>
+			)}
 			<SwipeableDrawer
 			    open={drawer}
 			    anchor="right"
