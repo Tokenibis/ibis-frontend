@@ -33,6 +33,8 @@ const styles = theme => ({
 	textAlign: 'center',
     },
     empty: {
+	paddingTop: theme.spacing(4),
+	paddingBottom: theme.spacing(4),
 	margin: '0 auto',
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,

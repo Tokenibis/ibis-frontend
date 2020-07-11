@@ -227,7 +227,7 @@ class Settings extends Component {
 
     handleUsernameInput(current) {
 	let username = document.getElementById('edit_username').value.toString()
-	username = username.replace(/[^a-z0-9_]/g, '').slice(0, MAX_USERNAME_LEN)
+	username = username.replace(/\W/g, '').slice(0, MAX_USERNAME_LEN).toLowerCase();
 
 	let canSubmit = username !== current && username.length >= MIN_USERNAME_LEN;
 	this.setState({ username, canSubmit });
@@ -422,7 +422,6 @@ class Settings extends Component {
 		      ):(
 			  <IconButton
 			      className={canSubmit ? classes.button : classes.disabledButton}
-			      onClick={() => {this.updateDescription(user_mutation, refetch)}}
 			      >
 			    <SubmitIcon />
 			  </IconButton>

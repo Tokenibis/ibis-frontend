@@ -128,7 +128,7 @@ class NonprofitList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
-		    scroll={this.infiniteScroll ? 'infinite' : 'manual'}
+		    scroll={this.infiniteScroll ? 'infinite' : null}
 		    makeImage={this.makeImage}
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
@@ -194,7 +194,7 @@ class NonprofitList extends Component {
 		query={query}
 		variables={variables}
 		make={make}
-		scroll={infiniteScroll ? 'infinite' : 'manual'}
+		scroll={infiniteScroll ? 'infinite' : null}
 	    />
 	);
     };

@@ -102,6 +102,7 @@ const styles = theme => ({
 	display: 'none',
     },
     viewAll: {
+	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	width: '90%',
 	textAlign: 'right',

@@ -294,7 +294,7 @@ class EventList extends Component {
 		  query={query}
 		  variables={variables}
 		  make={make}
-		  scroll={infiniteScroll ? 'infinite' : 'manual'}
+		  scroll={infiniteScroll ? 'infinite' : null}
 	      />
 	    </div>
 	);
