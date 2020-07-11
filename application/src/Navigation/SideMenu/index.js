@@ -87,10 +87,6 @@ class SideMenu extends Component {
 	this.setState({ drawer, expanded: null });
     };
 
-    handleOpen = (event) => {
-	this.setState({ anchorEl: event.currentTarget });
-    };
-
     handleExpand(expanded) {
 	this.state.expanded === expanded ?
 	this.setState({ expanded: false }) :

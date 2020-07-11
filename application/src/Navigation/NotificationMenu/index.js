@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from "react-router-dom";
@@ -60,6 +60,8 @@ const styles = theme => ({
     },
 });
 
+const POLL = 4000;
+
 const DEFAULT_COUNT = 25;
 
 const notifications_query = loader('../../Static/graphql/app/NotificationList.gql')
@@ -97,6 +99,19 @@ const LINKS = {
     Deposit: (id) => ('/_/Deposit?id='),
 };
 
+function NotificationPoll({ children, refetch }) {
+    useEffect(() => {
+	const interval = setInterval(() => {
+	    console.log('refetching?')
+	    refetch();
+	}, POLL);
+	return () => clearInterval(interval);
+    }, []);
+
+    return children
+}
+
+
 class NotificationMenu extends Component {
 
     state = {
@@ -104,7 +119,6 @@ class NotificationMenu extends Component {
     }
 
     handleOpen(mutation, refetch, notifier_id) {
-	console.log('here')
 	mutation({ variables: {  id: notifier_id, lastSeen: new Date() } }).then(response => {
 	    refetch();
 	}).catch(error => {
@@ -154,7 +168,7 @@ class NotificationMenu extends Component {
 				      {`${item.node.description}`}
 				    </Typography>
 				    <Typography variant="body2" className={classes.subtitle}>
-  				      <CustomDate variant={LongVal} date={item.node.created} />
+  				      <CustomDate date={item.node.created} />
 				    </Typography>
 				  </div>
 			      } />
@@ -185,53 +199,58 @@ class NotificationMenu extends Component {
 
 		  return (
 		      <div>
-			<Mutation mutation={seen_mutation}>
-			  {mutation => (
-			      data.ibisUser.notifier.unseenCount > 0 ? (
-				  <div className={classes.unseenWrapper}>
-				    <IconButton
-					className={classes.hasUnseen}
-					onClick={() => this.handleOpen(
-					    mutation,
-					    refetch,
-					    data.ibisUser.notifier.id,
-					)}
-				      >
-				      <NotificationIconYes/>
-				      <div className={classes.stat}>
-					{data.ibisUser.notifier.unseenCount}
-				      </div>
-				    </IconButton>
-				  </div>
-			      ):(
-				  <IconButton
-				      color="inherit"
-				      onClick={() => this.handleOpen(
-					  mutation,
-					  refetch,
-					  data.ibisUser.notifier.id,
-				      )}
-				      >
-				    <NotificationIconNo />
-				  </IconButton>
-			      )
-			  )}
-			</Mutation>
+			<NotificationPoll refetch={refetch}>
+			  <Mutation mutation={seen_mutation}>
+			    {mutation => (
+			    data.ibisUser.notifier.unseenCount > 0 ? (
+			    <div className={classes.unseenWrapper}>
+			      <IconButton
+				className={classes.hasUnseen}
+				onClick={() => this.handleOpen(
+				mutation,
+				refetch,
+				data.ibisUser.notifier.id,
+				)}
+			      >
+				<NotificationIconYes/>
+				<div className={classes.stat}>
+				  {data.ibisUser.notifier.unseenCount}
+				</div>
+			      </IconButton>
+			    </div>
+			    ):(
+				<IconButton
+				    color="inherit"
+				    onClick={() => this.handleOpen(
+					mutation,
+					refetch,
+					data.ibisUser.notifier.id,
+				    )}
+				>
+				  <NotificationIconNo />
+				</IconButton>
+			    )
+			    )}
+			  </Mutation>
+			</NotificationPoll>
 			<SwipeableDrawer
 			    open={drawer}
 			    anchor="right"
 			    onClose={(e) => this.setState({ drawer: false })}
 			    onOpen={(e) => this.setState({ anchorEl: e.currentTarget })}
 			>
-			  <QueryHelper
-			      query={notifications_query}
-			      variables={{
-				  forUser: context.userID,
-				  first: DEFAULT_COUNT,
-			      }}
-			      make={this.make}
-			      infiniteScroll={true}
-			  />
+			  <div style={{ width: Math.min(400, window.innerWidth * 0.8) }} />
+			  <div style={{ width: Math.min(400, window.innerWidth * 0.8) }}>
+			    <QueryHelper
+				query={notifications_query}
+				variables={{
+				    forUser: context.userID,
+				    first: DEFAULT_COUNT,
+				}}
+				make={this.make}
+				infiniteScroll={true}
+			    />
+			  </div>
 			</SwipeableDrawer>
 		      </div>
 		  )			      
