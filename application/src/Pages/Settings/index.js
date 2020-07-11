@@ -98,6 +98,9 @@ const styles = theme => ({
 	paddingRight: theme.spacing(2),
 	paddingLeft: theme.spacing(2),
     },
+    fileWrapper: {
+	overflow: 'hidden',
+    },
     file: {
 	paddingLeft: theme.spacing(9),
     },
@@ -444,7 +447,7 @@ class Settings extends Component {
 		</ListItem>
 		<Collapse in={editField === 'avatar'} timeout="auto" unmountOnExit>
 		  <div className={classes.action}>
-		    <div>
+		    <div className={classes.fileWrapper}>
 		      <input
 			  accept="image/*"
 			  className={classes.file}
@@ -608,7 +611,7 @@ class Settings extends Component {
 		   </ListItem>
 		   <Collapse in={editField === 'banner'} timeout="auto" unmountOnExit>
 		     <div className={classes.action}>
-		       <div>
+		       <div className={classes.fileWrapper}>
 			 <input
 			     accept="image/*"
 			     className={classes.file}
