@@ -287,7 +287,7 @@ function NewsFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      context.userType === 'nonprofit' ?
-	      <Filter options={['Mine', 'All', 'Following', 'Bookmarked']} {...props} /> :
+	      <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} /> :
 	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
 	  )}
 	</IbisConsumer> 

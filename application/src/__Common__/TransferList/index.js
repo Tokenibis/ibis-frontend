@@ -190,6 +190,13 @@ class TransferList extends Component {
 		    first: count,
 		}
 		break;
+	    case 'Bookmarked':
+		variables = {
+		    bookmarkBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
+		break;
 	    case '_Search':
 		variables = {
 		    search: filterValue.split(':')[1],

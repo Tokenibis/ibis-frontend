@@ -75,6 +75,7 @@ const VARIANTS = {
     },
 }
 
+const DEFAULT_COUNT = 25;
 
 const query = loader('../../Static/graphql/app/IbisUserList.gql')
 
@@ -118,7 +119,7 @@ class IbisUserList_ extends Component {
     }
 
     render() {
-	let { context, filterValue } = this.props;
+	let { context, filterValue, count } = this.props;
 	let make, variables;
 
 	make = (data) => (
@@ -131,54 +132,63 @@ class IbisUserList_ extends Component {
 
 	// set default values if needed
 	filterValue = filterValue ? filterValue : 'All'
+	count = count ? count: DEFAULT_COUNT
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
 		variables = {
 		    orderBy: '-date_joined',
+		    first: count,
 		}
 		break;
 	    case 'Following':
 		variables = {
 		    followedBy: context.userID,
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case 'Followers':
 		variables = {
 		    followerOf: context.userID,
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case '_Following':
 		variables = {
 		    followedBy: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case '_Followers':
 		variables = {
 		    followerOf: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case '_LikeFor':
 		variables = {
 		    likeFor: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case '_RsvpFor':
 		variables = {
 		    rsvpFor: filterValue.split(':')[1],
 		    orderBy: "first_name,last_name",
+		    first: count,
 		}
 		break;
 	    case '_Search':
 		variables = {
 		    search: filterValue.split(':')[1],
 		    orderBy: "firstname,lastname",
+		    first: count,
 		}
 		break;
 	    default:
@@ -190,6 +200,7 @@ class IbisUserList_ extends Component {
 		query={query}
 		variables={variables}
 		make={make}
+	        scroll={'manual'}
 	    />
 	);
     };

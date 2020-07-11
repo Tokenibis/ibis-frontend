@@ -48,7 +48,7 @@ const eventStyle = `
 `;
 
 
-const nonprofit_options = ['Mine', 'All', 'Following', 'Bookmarked', 'Going'];
+const nonprofit_options = ['All', 'Following', 'Mine', 'Bookmarked', 'Going'];
 const options = ['All', 'Following', 'Bookmarked', 'Going'];
 
 const query = loader('../../Static/graphql/app/EventListFilter.gql')

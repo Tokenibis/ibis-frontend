@@ -23,11 +23,10 @@ import PostIcon from '@material-ui/icons/ForumOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import NotificationIconYes from '@material-ui/icons/NotificationsActive';
 import NotificationIconNo from '@material-ui/icons/Notifications';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import QueryHelper from '../../__Common__/QueryHelper';
-import CustomDate, { LongVal } from '../../__Common__/CustomDate';
+import CustomDate from '../../__Common__/CustomDate';
 
 const styles = theme => ({
     unseenWrapper: {
@@ -186,7 +185,7 @@ class NotificationMenu extends Component {
 
     render() {
 	let { drawer } = this.state;
-	let { classes, context, client, history } = this.props;
+	let { classes, context } = this.props;
 
 	return (
 	    <Query

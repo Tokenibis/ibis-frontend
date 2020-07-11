@@ -277,7 +277,7 @@ function PostFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      context.userType === 'person' ?
-	      <Filter options={['Mine', 'All', 'Following', 'Bookmarked']} {...props} />:
+	      <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} />:
 	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
 	  )}
 	</IbisConsumer> 

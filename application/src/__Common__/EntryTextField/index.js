@@ -18,7 +18,6 @@ const styles = theme => ({
 class EntryTextField extends Component {
 
     state = {
-	preDialog: false,
 	dialog: false,
 	search: '',
 	selectionStart: -1,
@@ -26,7 +25,7 @@ class EntryTextField extends Component {
     };
 
     handleClose() {
-	this.setState({ preDialog: false, dialog: false, search: '', selectionStart: -1});
+	this.setState({ dialog: false, search: '', selectionStart: -1});
     };
 
     handleSelect(node) {
@@ -49,7 +48,7 @@ class EntryTextField extends Component {
 	    addMention(mention);
 	}
 
-	this.setState({ preDialog: false, dialog: false, search: '', selectionStart: -1 });
+	this.setState({ dialog: false, search: '', selectionStart: -1 });
     }
 
     entryOnKeyPress(e) {
@@ -69,7 +68,7 @@ class EntryTextField extends Component {
 
     render() {
 	let { id, setMention, onChange, classes, ...other } = this.props;
-	let { preDialog, dialog, search } = this.state;
+	let { dialog, search } = this.state;
 
 	return (
 	    <div>
