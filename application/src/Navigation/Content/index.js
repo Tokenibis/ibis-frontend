@@ -81,7 +81,7 @@ const engageOptions = [
 function HomeLoader()  {
    return ( 
        <div>
-	 <MainBar cycle={StandardVal} hideHome />
+	 <MainBar cycle={StandardVal} />
 	 <IbisConsumer>
 	   {context => (
 	       <Home context={context}/>
@@ -104,7 +104,7 @@ function ContentLoader({ match, location }) {
 	case '_':
 	    nav = (
 		<div>
-		  <MainBar cycle={StandardVal} />
+		  <MainBar cycle={StandardVal} showHome />
 		</div>
 	    );
 	    if (pageName === undefined) {

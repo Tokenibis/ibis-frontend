@@ -3,8 +3,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { withRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { loader } from 'graphql.macro';
-import { Mutation, withApollo } from "react-apollo";
+import { Query, Mutation, withApollo } from "react-apollo";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -18,12 +19,27 @@ import UbpIcon from '@material-ui/icons/CakeOutlined';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
+import IconButton from '@material-ui/core/IconButton';
+import NotificationIconYes from '@material-ui/icons/NotificationsActive';
+import NotificationIconNo from '@material-ui/icons/Notifications';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomDivider from '../../__Common__/CustomDivider';
 import QueryHelper from '../../__Common__/QueryHelper';
 import CustomDate, { LongVal } from '../../__Common__/CustomDate';
 
 const styles = theme => ({
+    unseenWrapper: {
+	display: 'flex',
+    },
+    hasUnseen: {
+	color: "#ffcfcf",
+    },
+    stat: {
+	fontSize: 12,
+	fontWeight: 'bold',
+	marginTop: theme.spacing(-2),
+    },
     clicked: {
 	width: '90%',
 	opacity: 0.5,
@@ -81,12 +97,27 @@ const LINKS = {
     Deposit: (id) => ('/_/Deposit?id='),
 };
 
-class NotificationList extends Component {
+class NotificationMenu extends Component {
+
+    state = {
+	drawer: false,
+    }
+
+    handleOpen(mutation, refetch, notifier_id) {
+	console.log('here')
+	mutation({ variables: {  id: notifier_id, lastSeen: new Date() } }).then(response => {
+	    refetch();
+	}).catch(error => {
+	    alert('Oops, something went wrong');
+	});
+	this.setState({ drawer: true })
+    }
 
     handleClick(mutation, id, reference) {
 	let { history } = this.props;
 
 	mutation({ variables: { id }});
+	this.setState({ drawer: false })
 	history.push(LINKS[reference.split(':')[0]](reference.split(':')[1]))
     };
 
@@ -138,41 +169,77 @@ class NotificationList extends Component {
 	);
     };
 
-    componentDidMount() {
-	let { context, client } = this.props;
-
-	client.query({
-	    query: notifier_query,
-	    variables: { id: context.userID },
-	    fetchPolicy: "no-cache",
-	}).then(results => {
-	    client.mutate({
-		mutation: seen_mutation,
-		variables: { id: results.data.ibisUser.notifier.id, lastSeen: new Date() }
-	    }).catch(error => {
-		console.log(error);
-	    });
-	}).catch(error => {
-	    console.log(error);
-	});
-
-    };
-
     render() {
-	let { context } = this.props;
+	let { drawer } = this.state;
+	let { classes, context, client, history } = this.props;
 
 	return (
-	    <QueryHelper
-		query={notifications_query}
-		variables={{
-		    forUser: context.userID,
-		    first: DEFAULT_COUNT,
-		}}
-		make={this.make}
-		infiniteScroll={true}
-	    />
+	    <Query
+	      fetchPolicy="no-cache"
+	      query={notifier_query}
+	      variables={{ id: context.userID }}
+	    >
+	      {({ loading, error, data, refetch }) => {
+		  if (loading) return <CircularProgress className={classes.progress} />;
+		  if (error) return `Error! ${error.message}`;
+
+		  return (
+		      <div>
+			<Mutation mutation={seen_mutation}>
+			  {mutation => (
+			      data.ibisUser.notifier.unseenCount > 0 ? (
+				  <div className={classes.unseenWrapper}>
+				    <IconButton
+					className={classes.hasUnseen}
+					onClick={() => this.handleOpen(
+					    mutation,
+					    refetch,
+					    data.ibisUser.notifier.id,
+					)}
+				      >
+				      <NotificationIconYes/>
+				      <div className={classes.stat}>
+					{data.ibisUser.notifier.unseenCount}
+				      </div>
+				    </IconButton>
+				  </div>
+			      ):(
+				  <IconButton
+				      color="inherit"
+				      onClick={() => this.handleOpen(
+					  mutation,
+					  refetch,
+					  data.ibisUser.notifier.id,
+				      )}
+				      >
+				    <NotificationIconNo />
+				  </IconButton>
+			      )
+			  )}
+			</Mutation>
+			<SwipeableDrawer
+			    open={drawer}
+			    anchor="right"
+			    onClose={(e) => this.setState({ drawer: false })}
+			    onOpen={(e) => this.setState({ anchorEl: e.currentTarget })}
+			>
+			  <QueryHelper
+			      query={notifications_query}
+			      variables={{
+				  forUser: context.userID,
+				  first: DEFAULT_COUNT,
+			      }}
+			      make={this.make}
+			      infiniteScroll={true}
+			  />
+			</SwipeableDrawer>
+		      </div>
+		  )			      
+	      }}
+	    </Query>
 	);
     };
+    
 };
 
-export default withRouter(withApollo(withStyles(styles)(NotificationList)));
+export default withRouter(withApollo(withStyles(styles)(NotificationMenu)));

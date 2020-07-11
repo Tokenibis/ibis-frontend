@@ -19,7 +19,7 @@ import { IbisConsumer } from '../../Context';
 import Link from '../../__Common__/CustomLink';
 import Cycler from '../Cycler'
 import SideMenu from '../SideMenu';
-import NotificationButton from '../NotificationButton';
+import NotificationMenu from '../NotificationMenu';
 
 const styles = {
     root: {
@@ -35,7 +35,7 @@ const styles = {
     },
 };
 
-function MainBar({ classes, context, cycle, hideHome }) {
+function MainBar({ classes, context, cycle, showHome }) {
 
     return (
 	<AppBar color="primary" position="static">
@@ -50,14 +50,14 @@ function MainBar({ classes, context, cycle, hideHome }) {
 	    </Typography>
 	    <IbisConsumer>
 	      {context => (
-		  hideHome ? (
-		      <NotificationButton context={context}/>
-		  ):(
+		  showHome ? (
 		      <Link to="/">
 			<IconButton color="inherit">
 			  <HomeIcon />
 			</IconButton>
 		      </Link>
+		  ):(
+		      <NotificationMenu context={context}/>
 		  )
 	      )}
 	    </IbisConsumer> 
