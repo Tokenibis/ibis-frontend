@@ -232,7 +232,7 @@ class Person extends Component {
 			node.ibisuserPtr.id !== context.userID ? (
 			    <Button
 				component={Link}
-				to={`/Transaction//TransactionCreate?target=${id}`}
+				to={`/Transaction/TransactionCreate?target=${id}`}
 				className={classes.actionPay}
 				>
 			      Pay
@@ -323,7 +323,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Transaction//TransactionList?filterValue=_User:${id}`}
+		      to={`/Transaction/TransactionList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
