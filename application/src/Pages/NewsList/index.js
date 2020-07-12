@@ -78,8 +78,7 @@ class NewsList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		prefix={1}
-		to={`Nonprofit?id=${node.user.nonprofit.id}`}
+		to={`/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -110,8 +109,7 @@ class NewsList extends Component {
 	return (
   	    <CardMedia
 		component={Link}
-		prefix={1}
-		to={`News?id=${node.id}`}
+		to={`/News/News?id=${node.id}`}
 	        style={{ height: imageHeight }}
     		image={node.image}
   		title={node.title}
@@ -145,7 +143,7 @@ class NewsList extends Component {
 		    initial={node.hasBookmarked.edges.length === 1}
 		/>
 	      </div>
-	      <Link prefix={1} to={`News?id=${node.id}`}>
+	      <Link to={`/News/News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Go to page
 		</Typography>
@@ -259,8 +257,7 @@ class NewsList extends Component {
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
-		     prefix={1}
-		     to={`NewsMutate`}
+		     to={`/News/NewsMutate`}
 		     className={classes.newButton}
 		   >
 		   New Article

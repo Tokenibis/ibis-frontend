@@ -89,8 +89,7 @@ class PostList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		prefix={1}
-		to={`Person?id=${node.user.person.id}`}
+		to={`/Person/Person?id=${node.user.person.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -142,8 +141,7 @@ class PostList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  prefix={1}
-		  to={`Post?id=${node.id}`}
+		  to={`/Post/Post?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
@@ -248,8 +246,7 @@ class PostList extends Component {
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
-		     prefix={1}
-		     to={`PostCreate`}
+		     to={`/Post/PostCreate`}
 		     className={classes.postButton}
 		   >
 		   New Post

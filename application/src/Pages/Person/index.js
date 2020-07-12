@@ -232,8 +232,7 @@ class Person extends Component {
 			node.ibisuserPtr.id !== context.userID ? (
 			    <Button
 				component={Link}
-				prefix={1}
-				to={`TransactionCreate?target=${id}`}
+				to={`/Transaction//TransactionCreate?target=${id}`}
 				className={classes.actionPay}
 				>
 			      Pay
@@ -270,8 +269,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`PostList?filterValue=_User:${id}`}
+		      to={`/Post/PostList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -296,8 +294,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`DonationList?filterValue=_User:${id}`}
+		      to={`/Donation/DonationList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -326,8 +323,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`TransactionList?filterValue=_User:${id}`}
+		      to={`/Transaction//TransactionList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -352,8 +348,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`EventList?filterValue=_Going:${id}`}
+		      to={`/Event/EventList?filterValue=_Going:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >

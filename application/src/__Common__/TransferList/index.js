@@ -61,10 +61,9 @@ class TransferList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		prefix={1}
 		to={node.user.person ?
-		    `Person?id=${node.user.person.id}` :
-		    `Nonprofit?id=${node.user.nonprofit.id}`}
+		    `/Person/Person?id=${node.user.person.id}` :
+		    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -115,8 +114,7 @@ class TransferList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  prefix={1}
-		  to={`${variant === 'donation' ? 'Donation' : 'Transaction'}?id=${node.id}`}
+		  to={`${variant === 'donation' ? '/Donation/Donation' : '/Transaction/Transaction'}?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >

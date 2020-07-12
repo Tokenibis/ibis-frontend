@@ -54,8 +54,7 @@ class NonprofitList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		prefix={1}
-		to={`Nonprofit?id=${node.id}`}
+		to={`/Nonprofit/Nonprofit?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -98,8 +97,7 @@ class NonprofitList extends Component {
 	      />
 	      <Typography
 		  component={Link}
-		  prefix={1}
-		  to={`Nonprofit?id=${node.id}`}
+		  to={`/Nonprofit/Nonprofit?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >

@@ -118,10 +118,9 @@ class Transfer extends Component {
 		  <div className={classes.avatarContainer}>
     		    <Avatar
 			component={Link}
-			prefix={1}
 			to={node.user.person ?
-			    `Person?id=${node.user.person.id}` :
-			    `Nonprofit?id=${node.user.nonprofit.id}`}
+			    `/Person/Person?id=${node.user.person.id}` :
+			    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -149,10 +148,9 @@ class Transfer extends Component {
 		  <div className={classes.userLinkWrapper}>
 		    <Typography
 			component={Link}
-			prefix={1}
 			to={node.user.person ?
-			    `Person?id=${node.user.person.id}` :
-			    `Nonprofit?id=${node.user.nonprofit.id}`}
+			    `/Person/Person?id=${node.user.person.id}` :
+			    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
 			variant="body2"
 			className={classes.userLink}
 		    >
@@ -172,11 +170,10 @@ class Transfer extends Component {
 		  <div className={classes.userLinkWrapper}>
 		    <Typography
 			component={Link}
-			prefix={1}
 			to={variant === 'donation' ? (
-			    `Nonprofit?id=${node.target.id}`
+			    `/Nonprofit/Nonprofit?id=${node.target.id}`
 			):(
-			    `Person?id=${node.target.id}`
+			    `/Person/Person?id=${node.target.id}`
 			)}
 			variant="body2"
 			className={classes.userLink}

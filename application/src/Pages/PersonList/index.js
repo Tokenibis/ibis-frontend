@@ -58,8 +58,7 @@ class PersonList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		prefix={1}
-		to={`Person?id=${node.id}`}
+		to={`/Person/Person?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -94,8 +93,7 @@ class PersonList extends Component {
 	      />
 	      <Typography
 		  component={Link}
-		  prefix={1}
-		  to={`Person?id=${node.id}`}
+		  to={`/Person/Person?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >

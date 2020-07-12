@@ -104,8 +104,7 @@ class Post extends Component {
 		    <ListItemIcon>
     		      <Avatar
 		      component={Link}
-		      prefix={1}
-		      to={`Person?id=${node.user.person.id}`}
+		      to={`/Person/Person?id=${node.user.person.id}`}
   		      alt="Ibis"
     		      src={node.user.avatar}
     		      className={classes.avatar}

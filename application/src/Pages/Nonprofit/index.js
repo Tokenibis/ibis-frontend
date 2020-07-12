@@ -248,8 +248,7 @@ class Nonprofit extends Component {
 			node.ibisuserPtr.id !== context.userID ? (
 			    <Button
 			      component={Link}
-			      prefix={1}
-			      to={`DonationCreate?target=${id}`}
+			      to={`/Donation/DonationCreate?target=${id}`}
 			      className={classes.actionDonate}
 				>
 			      Donate
@@ -286,8 +285,7 @@ class Nonprofit extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`NewsList?filterValue=_Author:${id}`}
+		      to={`/News/NewsList?filterValue=_Author:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -312,8 +310,7 @@ class Nonprofit extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      prefix={1}
-		      to={`EventList?filterValue=_Host:${id}`}
+		      to={`/Event/EventList?filterValue=_Host:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -342,8 +339,7 @@ class Nonprofit extends Component {
 		  />
 		    <Typography
 			component={Link}
-			prefix={1}
-			to={`DonationList?filterValue=_User:${id}`}
+			to={`/Donation/DonationList?filterValue=_User:${id}`}
 			variant="body2"
 			className={classes.viewAll}
 		    >
