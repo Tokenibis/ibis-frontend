@@ -37,7 +37,7 @@ class EntryTextField extends Component {
 
 	document.getElementById(id).value = value.slice(0, index) + '@' + node.username + value.slice(selectionStart);
 
-	document.getElementById(id).selectionStart = index + 1 + node.username.length;
+	document.getElementById(id).selectionStart = index + 1 + node.username.length + 1;
 	document.getElementById(id).selectionEnd = document.getElementById(id).selectionStart;
 
 	if (addMention) {
@@ -52,6 +52,8 @@ class EntryTextField extends Component {
     }
 
     entryOnKeyPress(e) {
+	let { onChange } = this.props;
+
 	let key = e.target.value[e.target.selectionStart - 1]
 	if (key === 'Enter' || /^\W$/.test(key)) {
 	    let previous = e.target.value.slice(0, e.target.selectionStart)
@@ -64,6 +66,7 @@ class EntryTextField extends Component {
 		});
 	    }
 	}
+	onChange(e);
     };
 
     render() {

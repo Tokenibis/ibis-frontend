@@ -472,6 +472,7 @@ class Settings extends Component {
 		</Collapse>
 		{context.userType === 'nonprofit' &&
 		 <div>
+		   <CustomDivider />
 		   <ListItem
 		       button
 		       onClick={(e) => {

@@ -281,7 +281,7 @@ class Person extends Component {
 		    direction="column"
 		    justify="center"
 		    alignItems="center"
-		    className={node.donationToCount === 0 ? classes.hide : classes.none}
+		    className={node.donationWithCount === 0 ? classes.hide : classes.none}
 		>
 		  <Typography variant="button" className={classes.heading} >
 		    Donation History
@@ -307,7 +307,7 @@ class Person extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.transactionToCount + node.transactionFromCount) === 0 ?
+		        (node.transactionWithCount) === 0 ?
 		        classes.hide :
 		        classes.none
 		    }

@@ -112,6 +112,7 @@ class TransferCreate extends Component {
 
     handleTransfer(mutation) {
 	let { context, client, target, history, variant } = this.props;
+	let { checked } = this.state;
 
 	let description = document.getElementById(`transfer_description`).value
 	let amount_str = document.getElementById(`transfer_amount`).value
@@ -124,6 +125,7 @@ class TransferCreate extends Component {
 		target,
 		amount,
 		description,
+		['private']: !!checked,
 	    },
 	}).then(response => {
 	    let url = new URL(window.location.href);
@@ -253,7 +255,7 @@ class TransferCreate extends Component {
 			    </Grid>
 			    <Grid item xs={4}>
 			      <Typography variant="body2" className={classes.label}>
-				Hide
+				Hidden
 			      </Typography>
 			    </Grid>
 			    <Grid item xs={2}>

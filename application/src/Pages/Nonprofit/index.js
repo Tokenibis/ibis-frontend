@@ -323,7 +323,7 @@ class Nonprofit extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.donationToCount + node.donationFromCount) === 0 ?
+		        (node.donationWithCount) === 0 ?
 		        classes.hide :
 		        classes.none
 		    }

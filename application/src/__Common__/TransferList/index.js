@@ -170,7 +170,7 @@ class TransferList extends Component {
 	switch (filterValue.split(':')[0]) {
 	    case 'Mine':
 		variables = {
-		    byUser: context.userID,
+		    withUser: context.userID,
 		    orderBy: "-created",
 		    first: count,
 		}
@@ -204,7 +204,7 @@ class TransferList extends Component {
 		break;
 	    case '_User':
 		variables = {
-		    byUser: filterValue.split(':')[1],
+		    withUser: filterValue.split(':')[1],
 		    orderBy: "-created",
 		    first: count,
 		}
