@@ -131,16 +131,16 @@ class NewsList extends Component {
 	    <div className={classes.action}>
 	      <div className={classes.edgeMutations}>
 		<SimpleEdgeMutation
-		    variant={LikeVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
-		/>
-		<SimpleEdgeMutation
 		    variant={BookmarkVal}
 		    user={context.userID}
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
+		/>
+		<SimpleEdgeMutation
+		    variant={LikeVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasLiked.edges.length === 1}
 		/>
 	      </div>
 	      <Link to={`/News/News?id=${node.id}`}>

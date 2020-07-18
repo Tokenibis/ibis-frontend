@@ -201,17 +201,17 @@ class News extends Component {
 		    ):(
 			<div className={classes.edgeMutations}>
 			  <SimpleEdgeMutation
+			      variant={BookmarkVal}
+			      user={context.userID}
+			      target={node.id}
+			      initial={node.hasBookmarked.edges.length === 1}
+			  />
+			  <SimpleEdgeMutation
 			      variant={LikeVal}
 			      user={context.userID}
 			      target={node.id}
 			      initial={node.hasLiked.edges.length === 1}
 		              countCallback={likeCallback}
-			  />
-			  <SimpleEdgeMutation
-			      variant={BookmarkVal}
-			      user={context.userID}
-			      target={node.id}
-			      initial={node.hasBookmarked.edges.length === 1}
 			  />
 			  <div className={classes.personDialogWrapper}>
 			    <UserDialogList
