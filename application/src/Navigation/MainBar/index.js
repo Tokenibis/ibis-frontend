@@ -35,7 +35,7 @@ const styles = {
     },
 };
 
-function MainBar({ classes, context, cycle, showHome }) {
+function MainBar({ classes, context, cycle }) {
 
     return (
 	<AppBar color="primary" position="static">
@@ -50,15 +50,7 @@ function MainBar({ classes, context, cycle, showHome }) {
 	    </Typography>
 	    <IbisConsumer>
 	      {context => (
-		  showHome ? (
-		      <Link to="/">
-			<IconButton color="inherit">
-			  <HomeIcon />
-			</IconButton>
-		      </Link>
-		  ):(
-		      <NotificationMenu context={context}/>
-		  )
+		  <NotificationMenu context={context}/>
 	      )}
 	    </IbisConsumer> 
           </Toolbar>

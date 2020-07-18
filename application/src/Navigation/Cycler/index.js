@@ -22,7 +22,7 @@ const styles = theme => ({
 });
 
 const cycleMap = {
-    '': '',
+    '': null,
     'Give': 'Nonprofit',
     'Send': 'Person',
     'Engage': 'News',
@@ -46,8 +46,8 @@ class Cycler extends Component {
     render() {
 	let { title } = this.state;
 	let { classes, value } = this.props;
-	let prevVal = mod(value - 1, Object.keys(cycleMap).length);
-	let nextVal = mod(value + 1, Object.keys(cycleMap).length);
+	let prevVal = mod(value - 1 - 1, Object.keys(cycleMap).length - 1) + 1;
+	let nextVal = mod(value - 1 + 1, Object.keys(cycleMap).length - 1) + 1;
 
 	return (
 	    <div>

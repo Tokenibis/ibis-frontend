@@ -194,7 +194,13 @@ class NotificationMenu extends Component {
 	      variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
-		  if (loading) return ''
+		  if (loading) return (
+		      <IconButton
+			  color="inherit"
+			  >
+			<NotificationIconNo />
+		      </IconButton>
+		  )
 		  return (
 		      <div>
 			{error ? (
@@ -246,8 +252,8 @@ class NotificationMenu extends Component {
 			    onClose={(e) => this.setState({ drawer: false })}
 			    onOpen={(e) => this.setState({ anchorEl: e.currentTarget })}
 			>
-			  <div style={{ width: Math.min(400, window.innerWidth * 0.8) }} />
-			  <div style={{ width: Math.min(400, window.innerWidth * 0.8) }}>
+			  <div style={{ width: Math.min(400, window.innerWidth * 0.75) }} />
+			  <div style={{ width: Math.min(400, window.innerWidth * 0.75) }}>
 			    <QueryHelper
 				query={notifications_query}
 				variables={{

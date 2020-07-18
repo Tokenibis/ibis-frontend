@@ -13,7 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
@@ -29,6 +28,7 @@ import PostIcon from '@material-ui/icons/ForumOutlined';
 import SettingsIcon from '@material-ui/icons/SettingsOutlined';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import WithdrawalIcon from '@material-ui/icons/Atm';
+import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/HelpOutline';
 
 import Link from '../../__Common__/CustomLink';
@@ -37,25 +37,17 @@ import SublistItem from '../../__Common__/SublistItem';
 import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
-    sideMenu: {
-	minWidth: 220,
-    },
-    avatar: {
-	margin: 10,
-	width: 80,
-	height: 80,
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: theme.palette.secondary.main,
-    },
     username: {
 	color: theme.palette.secondary.main,
 	fontWeight: 'bold',
 	textDecoration: 'none',
-	paddingTop: theme.spacing(1),
     },
     name: {
 	color: theme.palette.primary.main,
+    },
+    home: {
+	marginTop: theme.spacing(2),
+	color: theme.palette.secondary.main,
     },
     balance: {
 	fontWeight: 'bold',
@@ -77,7 +69,6 @@ class SideMenu extends Component {
 	expanded: null,
 	person_id: '',
 	nonprofit_id: '',
-	avatar: '',
 	username: '.',
 	name: '.',
 	balance: 0,
@@ -105,7 +96,6 @@ class SideMenu extends Component {
 			   results.data.ibisUser.person.id : '',
 		nonprofit_id: results.data.ibisUser.nonprofit ?
 			      results.data.ibisUser.nonprofit.id : '',
-		avatar: results.data.ibisUser.avatar,
 		username: results.data.ibisUser.username,
 		name: results.data.ibisUser.name,
 		balance: results.data.ibisUser.balance,
@@ -123,26 +113,20 @@ class SideMenu extends Component {
 	    expanded,
 	    person_id,
 	    nonprofit_id,
-	    avatar,
 	    username,
 	    name,
 	    balance,
 	} = this.state;
 
 	let sideMenu = (
-	    <div className={classes.sideMenu}>
+	    <div>
   	      <Grid container direction="column" justify="center" alignItems="center">
   		<Grid container direction="column" justify="center" alignItems="center" >
-  		  <Avatar
-		      component={Link}
-		      to={context.userType === 'person' ?
-			  `/_/Person?id=${person_id}`:
-			  `/_/Nonprofit?id=${nonprofit_id}`}
-		      alt="Ibis"
-		      src={avatar}
-		      className={classes.avatar}
-		      onClick={(e) => this.toggleDrawer(false)}
-		  />
+		  <Link to="/">
+		    <IconButton className={classes.home} onClick={() => this.toggleDrawer(false)}>
+		      <HomeIcon fontSize="large" />
+		    </IconButton>
+		  </Link>
 		  <Typography
 		      component={Link}
 		      to={context.userType === 'person' ?
@@ -298,7 +282,9 @@ class SideMenu extends Component {
 		  onClose={(e) => this.toggleDrawer(false)}
 		  onOpen={(e) => this.toggleDrawer(true)}
               >
-		{sideMenu}
+		<div style={{ width: Math.min(400, window.innerWidth * 0.75) }}>
+		  {sideMenu}
+		</div>
               </SwipeableDrawer>
 	    </div>
 	);

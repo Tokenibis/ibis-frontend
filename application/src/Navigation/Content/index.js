@@ -104,7 +104,7 @@ function ContentLoader({ match, location }) {
 	case '_':
 	    nav = (
 		<div>
-		  <MainBar cycle={StandardVal} showHome />
+		  <MainBar cycle={StandardVal} />
 		</div>
 	    );
 	    if (pageName === undefined) {
