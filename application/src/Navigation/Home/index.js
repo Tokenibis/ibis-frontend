@@ -110,14 +110,14 @@ class Home extends Component {
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
-		person_id: results.data.ibisUser.person ?
-			   results.data.ibisUser.person.id : '',
-		organization_id: results.data.ibisUser.organization ?
-			      results.data.ibisUser.organization.id : '',
-		avatar: results.data.ibisUser.avatar,
-		username: results.data.ibisUser.username,
-		name: results.data.ibisUser.name,
-		balance: results.data.ibisUser.balance,
+		person_id: results.data.user.person ?
+			   results.data.user.person.id : '',
+		organization_id: results.data.user.organization ?
+			      results.data.user.organization.id : '',
+		avatar: results.data.user.avatar,
+		username: results.data.user.username,
+		name: results.data.user.name,
+		balance: results.data.user.balance,
 	    })
 	}).catch(error => {
 	    console.log(error);

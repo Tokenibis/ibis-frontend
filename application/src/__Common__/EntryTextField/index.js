@@ -4,7 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import TextField from '@material-ui/core/TextField';
 
 import { IbisConsumer } from '../../Context';
-import { IbisUserList } from '../UserDialogList';
+import { UserList } from '../UserDialogList';
 
 const styles = theme => ({
     dialogPaper: {
@@ -82,7 +82,7 @@ class EntryTextField extends Component {
 	      >
 		<IbisConsumer>
 		  {context => (
-		      <IbisUserList
+		      <UserList
 			  context={context}
 			  filterValue={`_Search:${search}`}
 		          onClick={(node) => this.handleSelect(node)}

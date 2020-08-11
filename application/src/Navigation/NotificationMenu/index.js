@@ -214,19 +214,19 @@ class NotificationMenu extends Component {
 				<NotificationPoll refetch={refetch}>
 				  <Mutation mutation={seen_mutation}>
 				    {mutation => (
-					data.ibisUser.notifier.unseenCount > 0 ? (
+					data.user.notifier.unseenCount > 0 ? (
 					    <div className={classes.unseenWrapper}>
 					      <IconButton
 						className={classes.hasUnseen}
 						onClick={() => this.handleOpen(
 						    mutation,
 						    refetch,
-						    data.ibisUser.notifier.id,
+						    data.user.notifier.id,
 						)}
 						>
 						<NotificationIconYes/>
 						<div className={classes.stat}>
-						  {data.ibisUser.notifier.unseenCount}
+						  {data.user.notifier.unseenCount}
 						</div>
 					      </IconButton>
 					    </div>
@@ -236,7 +236,7 @@ class NotificationMenu extends Component {
 						onClick={() => this.handleOpen(
 						    mutation,
 						    refetch,
-						    data.ibisUser.notifier.id,
+						    data.user.notifier.id,
 						)}
 						>
 					      <NotificationIconNo />

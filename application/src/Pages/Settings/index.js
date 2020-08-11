@@ -353,8 +353,8 @@ class Settings extends Component {
 			  margin="normal"
 			  variant="outlined"
 			  fullWidth
-			  value={username !== null ? username: data.ibisUser.username}
-			  onInput={() => this.handleUsernameInput(data.ibisUser.username)}
+			  value={username !== null ? username: data.user.username}
+			  onInput={() => this.handleUsernameInput(data.user.username)}
 			  InputProps={{
 			      startAdornment: (
 				  <InputAdornment position="start">@</InputAdornment>
@@ -400,20 +400,20 @@ class Settings extends Component {
 		      id="edit_description"
 		      autoFocus
 		      required
-		      value={description !== null ? description: data.ibisUser.description}
+		      value={description !== null ? description: data.user.description}
  		      className={classes.textField}
 		      margin="normal"
 		      variant="outlined"
 		      fullWidth
 		      multiline
-		      onInput={() => this.handleDescriptionInput(data.ibisUser.description)}
+		      onInput={() => this.handleDescriptionInput(data.user.description)}
 		      />
 		  }/>
 		  <div className={classes.descriptionSubmitWrapper}>
 		    <Confirmation
 			onClick={() => this.updateDescription(user_mutation, refetch)}
 			message="Are you sure you want to change your bio to the following?"
-			preview={() => (description !== null ? description: data.ibisUser.description)}
+			preview={() => (description !== null ? description: data.user.description)}
 		    >
 		      {loading ? (
 			  <span className={classes.progressWrapper}>
@@ -499,8 +499,8 @@ class Settings extends Component {
 				     margin="normal"
 				     variant="outlined"
 				     fullWidth
-				     value={email !== null ? email: data.ibisUser.email}
-			             onInput={() => this.handleEmailInput(data.ibisUser.email)}
+				     value={email !== null ? email: data.user.email}
+			             onInput={() => this.handleEmailInput(data.user.email)}
 			     />
 			 }/>
 			 <Typography variant="body2" className={classes.fine}>
@@ -550,7 +550,7 @@ class Settings extends Component {
 				     variant="outlined"
 				     fullWidth
 				     label="Old Password"
-			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			             onInput={() => this.handlePasswordInput(data.user.password)}
 			     />
 			 }/>
 			 <ListItemText className={classes.edit} primary={
@@ -563,7 +563,7 @@ class Settings extends Component {
 				     variant="outlined"
 				     fullWidth
 				     label="New Password"
-			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			             onInput={() => this.handlePasswordInput(data.user.password)}
 			     />
 			 }/>
 			 <ListItemText className={classes.edit} primary={
@@ -576,7 +576,7 @@ class Settings extends Component {
 				     variant="outlined"
 				     fullWidth
 				     label="Confirm Password"
-			             onInput={() => this.handlePasswordInput(data.ibisUser.password)}
+			             onInput={() => this.handlePasswordInput(data.user.password)}
 			     />
 			 }/>
 		       </div>
@@ -655,12 +655,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.ibisUser.notifier.emailFollow}
+			checked={data.user.notifier.emailFollow}
 			onChange={() => (this.updateSetting(
 			    notifier_mutation,
 			    refetch,
 			    'emailFollow',
-			    !data.ibisUser.notifier.emailFollow,
+			    !data.user.notifier.emailFollow,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -675,12 +675,12 @@ class Settings extends Component {
 		      <ListItemSecondaryAction>
 			<Switch
 			    edge="end"
-			    checked={data.ibisUser.notifier.emailReward}
+			    checked={data.user.notifier.emailReward}
 			    onChange={() => (this.updateSetting(
 				notifier_mutation,
 				refetch,
 				'emailReward',
-				!data.ibisUser.notifier.emailReward,
+				!data.user.notifier.emailReward,
 			    ))}
 			/>
 		      </ListItemSecondaryAction>
@@ -694,12 +694,12 @@ class Settings extends Component {
 		      <ListItemSecondaryAction>
 			<Switch
 			    edge="end"
-			    checked={data.ibisUser.notifier.emailDonation}
+			    checked={data.user.notifier.emailDonation}
 			    onChange={() => (this.updateSetting(
 				notifier_mutation,
 				refetch,
 				'emailDonation',
-				!data.ibisUser.notifier.emailDonation,
+				!data.user.notifier.emailDonation,
 			    ))}
 			/>
 		      </ListItemSecondaryAction>
@@ -714,12 +714,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.ibisUser.notifier.emailComment}
+			checked={data.user.notifier.emailComment}
 			onChange={() => (this.updateSetting(
 			    notifier_mutation,
 			    refetch,
 			    'emailComment',
-			    !data.ibisUser.notifier.emailComment,
+			    !data.user.notifier.emailComment,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -733,12 +733,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.ibisUser.notifier.emailMention}
+			checked={data.user.notifier.emailMention}
 			onChange={() => (this.updateSetting(
 			    notifier_mutation,
 			    refetch,
 			    'emailMention',
-			    !data.ibisUser.notifier.emailMention,
+			    !data.user.notifier.emailMention,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -752,12 +752,12 @@ class Settings extends Component {
 		  <ListItemSecondaryAction>
 		    <Switch
 			edge="end"
-			checked={data.ibisUser.notifier.emailDeposit}
+			checked={data.user.notifier.emailDeposit}
 			onChange={() => (this.updateSetting(
 			    notifier_mutation,
 			    refetch,
 			    'emailDeposit',
-			    !data.ibisUser.notifier.emailDeposit,
+			    !data.user.notifier.emailDeposit,
 			))}
 		    />
 		  </ListItemSecondaryAction>
@@ -791,7 +791,7 @@ class Settings extends Component {
 			{user_mutation => (
 			    <Mutation
 				mutation={notifier_mutation}
-				variables={{ id: data.ibisUser.notifier.id}}
+				variables={{ id: data.user.notifier.id}}
 				>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, user_mutation, notifier_mutation)

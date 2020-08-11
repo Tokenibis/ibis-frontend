@@ -476,7 +476,7 @@ class Deposit extends Component {
 			       )
 			       if (error) return `Error! ${error.message}`; return (
 				   <Typography variant="body2" className={classes.balance}>
-				     ${(data.ibisUser.balance/100).toFixed(2)}
+				     ${(data.user.balance/100).toFixed(2)}
 				   </Typography>
 			       )
 			   }}

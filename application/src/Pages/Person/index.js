@@ -205,7 +205,7 @@ class Person extends Component {
 		    <div className={classes.action}>
 		      <div className={classes.edgeMutations}>
 			{
-			    node.ibisuserPtr.id !== context.userID &&
+			    node.userPtr.id !== context.userID &&
 			    <SimpleEdgeMutation
 				variant={FollowVal}
 				user={context.userID}
@@ -229,7 +229,7 @@ class Person extends Component {
 		      }
 		    </div>
 		    { 
-			node.ibisuserPtr.id !== context.userID ? (
+			node.userPtr.id !== context.userID ? (
 			    <Button
 				component={Link}
 				to={`/Reward/RewardCreate?target=${id}`}

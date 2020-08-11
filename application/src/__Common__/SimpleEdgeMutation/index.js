@@ -3,7 +3,7 @@
    Helper component for rendering interactive Simple Edge Mutation
    Icons. Simple edge mutations currently consist of follow, like,
    bookmark, and rsvp actions. These are simple true/false edges
-   between an ibisUser (props.user) and some other ibis model object
+   between an user (props.user) and some other ibis model object
    (props.target). The React component provides a hard-coded
    toggleable icon for each variant and graphql mutation functionality
    to interactively update the value of the edge to the remote server.
