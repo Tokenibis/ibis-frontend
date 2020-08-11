@@ -68,6 +68,7 @@ const styles = theme => ({
     },
     avatar: {
 	marginTop: - theme.spacing(3),
+	backgroundColor: 'white',
 	width: 100,
 	height: 100,
 	borderStyle: 'solid',

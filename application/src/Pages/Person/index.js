@@ -60,6 +60,7 @@ const styles = theme => ({
 	marginBottom: theme.spacing(3),
     },
     avatar: {
+	backgroundColor: 'white',
 	marginTop: theme.spacing(3),
 	width: 100,
 	height: 100,
@@ -228,25 +229,15 @@ class Person extends Component {
 			  )
 		      }
 		    </div>
-		    { 
-			node.id !== context.userID ? (
-			    <Button
-				component={Link}
-				to={`/Reward/RewardCreate?target=${id}`}
-				className={classes.actionPay}
-				>
-			      Pay
-			    </Button>
-			):(
-			    <Button
-				component={Link}
-				to="/_/Deposit"
-				className={classes.actionPay}
-				>
-			      Deposit
-			    </Button>
-			)
-		    }
+		    {context.userType === 'Bot' && (
+			<Button
+			    component={Link}
+			    to={`/Reward/RewardCreate?target=${id}`}
+			    className={classes.actionPay}
+			    >
+			  Reward
+			</Button>
+		    )}
 		  </Grid>
 		</CardActions>
 	      </Card>

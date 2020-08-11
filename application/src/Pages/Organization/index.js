@@ -244,25 +244,15 @@ class Organization extends Component {
 			  )
 		      }
 		    </div>
-		    { 
-			node.id !== context.userID ? (
-			    <Button
-			      component={Link}
-			      to={`/Donation/DonationCreate?target=${id}`}
-			      className={classes.actionDonate}
-				>
-			      Donate
-			    </Button>
-			):(
-			    <Button
-				component={Link}
-				to="/_/Deposit"
-				className={classes.actionDonate}
-				>
-			      Deposit
-			    </Button>
-			)
-		    }
+		    {context.userType === 'Person' && (
+			<Button
+			    component={Link}
+			    to={`/Donation/DonationCreate?target=${id}`}
+			    className={classes.actionDonate}
+			    >
+			  Donate
+			</Button>
+		    )}
 		  </Grid>
 		</CardActions>
 	      </Card>

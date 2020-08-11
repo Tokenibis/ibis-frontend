@@ -39,7 +39,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing(1.8),
 	color: theme.palette.tertiary.main,
     },
-    donated: {
+    rewarded: {
 	paddingTop: theme.spacing(1),
 	color: theme.palette.tertiary.main,
 	textDecoration: 'none',
@@ -60,6 +60,7 @@ const styles = theme => ({
 	marginBottom: theme.spacing(3),
     },
     avatar: {
+	backgroundColor: 'white',
 	marginTop: theme.spacing(3),
 	width: 100,
 	height: 100,
@@ -170,11 +171,16 @@ class Bot extends Component {
 		    </Typography>
 		    <Typography
 			variant="body2"
-			className={classes.donated}
+			className={classes.rewarded}
 		    >
-		      <Amount amount={node.donated} label="Donated"/>
+		      <Amount amount={node.rewarded} label="Rewarded"/>
 		    </Typography>
 		    <div className={classes.followStatWrapper}>
+		      <UserDialogList
+		      variant={FollowingVal}
+		      count={node.followingCount}
+		      node={node.id}
+		      />
 		      <UserDialogList
 		      variant={FollowerVal}
 		      count={followerCount}

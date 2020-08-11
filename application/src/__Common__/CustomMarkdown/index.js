@@ -113,7 +113,6 @@ class CustomMarkdownImage extends Component {
 
 function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...other }) {
     if (mention) {
-	console.log(mention)
 	Object.keys(mention).forEach((x) => {
 	    source = ` ${source} `.replace(
 		new RegExp(`(\\W)(@${x})(\\W)`),

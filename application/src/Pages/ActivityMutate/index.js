@@ -7,6 +7,8 @@ import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Checkbox from '@material-ui/core/Checkbox';
 import { withRouter } from "react-router-dom";
 
 import Confirmation from '../../__Common__/Confirmation';
@@ -17,7 +19,7 @@ const styles = theme => ({
 	paddingTop: theme.spacing(2),
 	width: '90%',
     },
-    actionEvent: {
+    actionActivity: {
 	width: '100%',
 	color: theme.palette.secondary.main,
 	backgroundColor: 'white',
@@ -43,9 +45,20 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
+    checkBox: {
+	paddingTop: theme.spacing(2),
+    },
     label: {
 	paddingTop: theme.spacing(2),
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(2),
 	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    expected: {
+	paddingLeft: theme.spacing(1),
+	paddingRight: theme.spacing(1),
+	paddingTop: theme.spacing(2),
 	color: theme.palette.tertiary.main,
     },
     buttonWrapper: {
@@ -76,24 +89,22 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/app/Event.gql')
+const query = loader('../../Static/graphql/app/Activity.gql')
 
-const create_mutation = loader('../../Static/graphql/app/EventCreate.gql')
+const create_mutation = loader('../../Static/graphql/app/ActivityCreate.gql')
 
-const update_mutation = loader('../../Static/graphql/app/EventUpdate.gql')
+const update_mutation = loader('../../Static/graphql/app/ActivityUpdate.gql')
 
-class EventCreate extends Component {
+class ActivityCreate extends Component {
 
     state = {
-	enableEvent: false,
+	enableActivity: false,
 	title: '',
-	image: '',
-	link: '',
 	description: '',
-	date: '',
-	duration: '',
-	address: '',
-	mention: {}
+	active: true,
+	rewardMin: '0.00',
+	rewardMax: '0.00',
+	mention: {},
     };
 
     componentDidMount() {
@@ -105,7 +116,7 @@ class EventCreate extends Component {
 		variables: { id, self: context.userID },
 		fetchPolicy: "no-cache",
 	    }).then(results => {
-		let d = new Date(results.data.event.date);
+		let d = new Date(results.data.activity.date);
 		console.log(d)
 		let date_str = ('0000' + d.getFullYear()).slice(-4) + '-' +
 			       ('00' + (d.getMonth() + 1)).slice(-2) + '-' +
@@ -114,14 +125,12 @@ class EventCreate extends Component {
 			       ('00' + d.getMinutes()).slice(-2)
 		console.log(date_str)
 		this.setState({
-		    title: results.data.event.title,
-		    image: results.data.event.image,
-		    link: results.data.event.link,
-		    description: results.data.event.description,
-		    date: date_str,
-		    duration: results.data.event.duration,
-		    address: results.data.event.address,
-		    enableEvent: true,
+		    title: results.data.activity.title,
+		    description: results.data.activity.description,
+		    active: results.data.activity.active,
+		    rewardMin: parseFloat(results.data.activity.rewardMin/100).toFixed(2),
+		    rewardMax: parseFloat((results.data.activity.rewardMin + results.data.activity.rewardRange)/100).toFixed(2),
+		    enableActivity: true,
 		});
 	    }).catch(error => {
 		console.log(error);
@@ -132,16 +141,16 @@ class EventCreate extends Component {
 
     handleMutate(mutation) {
 	let { context, client, history, id } = this.props;
+	let { active } = this.state;
 
 	let variables = {
 	    user: context.userID,
-	    title: document.getElementById(`event_title`).value,
-	    image: document.getElementById(`event_image`).value,
-	    link: document.getElementById(`event_link`).value,
-	    description: document.getElementById(`event_description`).value,
-	    date: document.getElementById(`event_date`).value,
-	    duration: document.getElementById(`event_duration`).value,
-	    address: document.getElementById(`event_address`).value,
+	    title: document.getElementById(`activity_title`).value,
+	    description: document.getElementById(`activity_description`).value,
+	    active: active,
+	    rewardMin: document.getElementById(`reward_min`).value,
+	    rewardRange: document.getElementById(`reward_max`).value - document.getElementById(`reward_min`).value,
+
 	}
 
 	if (id) {
@@ -154,56 +163,87 @@ class EventCreate extends Component {
 	}).then(response => {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
-	    let event_id = response.data[Object.keys(response.data, 0)].event.id
+	    let activity_id = response.data[Object.keys(response.data, 0)].activity.id
 	    console.log('here!')
-	    history.push(`/${path[0]}/Event?id=${event_id}`)
+	    history.push(`/${path[0]}/Activity?id=${activity_id}`)
 	}).catch(error => {
 	    console.log(error);
 	});
     };
 
     handleChange() {
-	let title = document.getElementById('event_title').value
-	let image = document.getElementById('event_image').value
-	let link = document.getElementById('event_link').value
-	let description = document.getElementById('event_description').value
-	let date = document.getElementById('event_date').value
-	let duration = document.getElementById('event_duration').value
-	let address = document.getElementById('event_address').value
+	let title = document.getElementById('activity_title').value
+	let description = document.getElementById('activity_description').value
+	let rewardMin = document.getElementById('reward_min').value
+	let rewardMax = document.getElementById('reward_max').value
+
+	// handle negatives 
+	if (!isNaN(rewardMin) && Number(rewardMin) <= 0) {
+	    rewardMin = '0';
+	}
+
+	// reformat anything that isn't a positive integer
+	if (!/^\d+$/.test(rewardMin)) {
+	    rewardMin = (rewardMin.replace(/[^\d]/g, '')/100);
+	}
+
+	// handle negatives 
+	if (!isNaN(rewardMax) && Number(rewardMax) <= 0) {
+	    rewardMax = '0';
+	}
+
+	// reformat anything that isn't a positive integer
+	if (!/^\d+$/.test(rewardMax)) {
+	    rewardMax = (rewardMax.replace(/[^\d]/g, '')/100);
+	}
 
 	this.setState({
 	    title,
-	    image,
-	    link,
 	    description,
-	    date,
-	    duration,
-	    address,
-	    enableEvent: title && image && description && date && duration,
+	    rewardMin: parseFloat(rewardMin).toFixed(2),
+	    rewardMax: parseFloat(rewardMax).toFixed(2),
+	    enableActivity: title && description && rewardMin <= rewardMax,
 	});
+    }
+
+    handleKeyPressAmount(event) {
+	if (!/^\d+$/.test(event.key)) {
+	    event.preventDefault();
+	}
     }
 
     render() {
 	let { classes } = this.props;
 	let {
-	    enableEvent,
+	    enableActivity,
 	    title,
-	    image,
-	    link,
 	    description,
-	    date,
-	    duration,
-	    address,
+	    active,
+	    rewardMin,
+	    rewardMax,
 	    mention,
 	} = this.state;
-	
+
+	let reward_str
+	let minVal = parseFloat(rewardMin);
+	let maxVal = parseFloat(rewardMax);
+	if (minVal === 0 && maxVal === 0) {
+	    reward_str = 'None';
+	} else if (minVal === maxVal) {
+	    reward_str = `$${rewardMin}`;
+	} else if (minVal < maxVal) {
+	    reward_str = `$${rewardMin} to $${rewardMax}`;
+	} else {
+	    reward_str = 'Max reward must be greater than min reward';
+	}
+
 	return (
 	    <div>
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		<Grid container className={classes.content}>
 		  <Grid item xs={12}>
 		    <TextField
-			id="event_title"
+			id="activity_title"
 			autoFocus
 			required
 			defaultValue=""
@@ -217,22 +257,8 @@ class EventCreate extends Component {
 		    />
 		  </Grid>
 		  <Grid item xs={12}>
-		    <TextField
-			id="event_image"
-			required
-			defaultValue=""
- 			className={classes.textField}
-			margin="normal"
-			variant="outlined"
-			fullWidth
-			label="Image"
-		        value={image}
-			onChange={() => this.handleChange()}
-		    />
-		  </Grid>
-		  <Grid item xs={12}>
 		    <EntryTextField
-			id="event_description"
+			id="activity_description"
 			required
 			defaultValue=""
  			className={classes.textField}
@@ -250,75 +276,85 @@ class EventCreate extends Component {
 			}}
 		    />
 		  </Grid>
-		  <Grid item xs={12}>
+		  <Grid item xs={6}>
+		    <Typography variant="body2" className={classes.label}>
+		      Active
+		    </Typography>
+		  </Grid>
+		  <Grid item xs={6}>
+		    <Checkbox
+			className={classes.checkBox}
+			color="secondary"
+			checked={active}
+			value="primary"
+			onClick={() => this.setState({ active: !active })}
+			inputProps={{ 'aria-label': 'primary checkbox' }}
+		    />
+		  </Grid>
+		  <Grid item xs={6}>
+		    <Typography variant="body2" className={classes.label}>
+		      Expected Min Reward
+		    </Typography>
+		  </Grid>
+		  <Grid item xs={6}>
 		    <TextField
-			id="event_address"
-			defaultValue=""
+			id="reward_min"
+			autoFocus
+			required
  			className={classes.textField}
 			margin="normal"
 			variant="outlined"
 			fullWidth
-			multiline
-			rows={3}
-			label="Address"
-		        value={address}
+			value={rewardMin}
+			onKeyPress={(e) => this.handleKeyPressAmount(e)}
 			onChange={() => this.handleChange()}
-		    />
-		  </Grid>
-		  <Grid item xs={12}>
-		    <TextField
-			id="event_link"
-			defaultValue=""
- 			className={classes.textField}
-			margin="normal"
-			variant="outlined"
-			fullWidth
-			label="Link"
-		        value={link}
-			onChange={() => this.handleChange()}
-		    />
-		  </Grid>
-		  <Grid item xs={4}>
-		    <Typography variant="body2" className={classes.label}>
-		      Start Time *
-		    </Typography>
-		  </Grid>
-		  <Grid item xs={8}>
-		    <TextField
-			id="event_date"
-			type="datetime-local"
-			value={date}
-			className={classes.textField}
-			onChange={() => this.handleChange()}
-		    />
-		  </Grid>
-		  <Grid item xs={4}>
-		    <Typography variant="body2" className={classes.label}>
-		      Duration *
-		    </Typography>
-		  </Grid>
-		  <Grid item xs={8}>
-		    <TextField
-			id="event_duration"
 			type="number"
-			value={duration}
-			placeholder="minutes"
-			className={classes.textField}
-			InputProps={{ inputProps: { min: 0 } }}
-			onChange={() => this.handleChange()}
+			InputProps={{
+			    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+			}}
 		    />
+		  </Grid>
+		  <Grid item xs={6}>
+		    <Typography variant="body2" className={classes.label}>
+		      Expected Max Reward
+		    </Typography>
+		  </Grid>
+		  <Grid item xs={6}>
+		    <TextField
+			id="reward_max"
+			autoFocus
+			required
+ 			className={classes.textField}
+			margin="normal"
+			variant="outlined"
+			fullWidth
+			value={rewardMax}
+			onKeyPress={(e) => this.handleKeyPressAmount(e)}
+			onChange={() => this.handleChange()}
+			type="number"
+			InputProps={{
+			    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+			}}
+		    />
+		  </Grid>
+		  <Grid item xs={6}>
+		  </Grid>
+		  <Grid item xs={6}>
+		    <Typography variant="body2" className={classes.expected}>
+		      {reward_str}
+		    </Typography>
 		  </Grid>
 		  <Grid item xs={6} className={classes.buttonWrapper}>
 		    <Confirmation
-			disabled={!enableEvent}
+			disabled={!enableActivity}
 			onClick={() => this.handleMutate()}
-			message="Are you sure you want to __submit__ this event?"
-			preview={() => (document.getElementById('event_description').value)}
+			message="Are you sure you want to __submit__ this activity?"
+			preview={() => (document.getElementById('activity_description').value)}
 			mention={mention}
 		    >
 		      <Button
-			  disabled={!enableEvent}
-			  className={classes.actionEvent}
+			  disabled={!enableActivity}
+			  className={classes.actionActivity}
 		      >
 			Save
 		      </Button>
@@ -339,7 +375,7 @@ class EventCreate extends Component {
     };
 };
 
-EventCreate.propTypes = {
+ActivityCreate.propTypes = {
     classes: PropTypes.object.isRequired,
     context: PropTypes.object.isRequired,
     history: PropTypes.object.isRequired,
@@ -348,4 +384,4 @@ EventCreate.propTypes = {
 export const DonationVal = 'donation';
 export const RewardVal = 'reward';
 
-export default withRouter(withApollo(withStyles(styles)(EventCreate)));
+export default withRouter(withApollo(withStyles(styles)(ActivityCreate)));

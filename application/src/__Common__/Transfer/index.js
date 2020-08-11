@@ -46,6 +46,7 @@ const styles = theme => ({
 	justifyContent: 'center',
     },
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
@@ -95,6 +96,12 @@ const styles = theme => ({
     reply: {
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
+	paddingRight: theme.spacing(1),
+    },
+    details: {
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+	textDecoration: 'none',
 	paddingRight: theme.spacing(1),
     },
     bottom: {
@@ -263,6 +270,16 @@ class Transfer extends Component {
 			      initial={node.hasLiked.edges.length === 1}
 			  />
 			</div>
+		    )}
+		    {variant !== 'donation' && node.relatedActivity && (
+			<Typography
+			    component={Link}
+			    to={`/Activity/Activity?id=${node.relatedActivity.id}`}
+			    variant="body2"
+			    className={classes.details}
+			    >
+			 Go to Activity
+			</Typography>
 		    )}
 		  </div>
 		</Grid>

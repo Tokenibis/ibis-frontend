@@ -26,6 +26,7 @@ const styles = theme => ({
 	width: '90%',
     },
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
@@ -144,7 +145,7 @@ class News extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.subtitle}>
-  				@{node.user.username} - <CustomDate date={node.created} />
+  				@{node.user.username} — <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}
@@ -180,12 +181,20 @@ class News extends Component {
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
 			<div className={classes.edgeMutationsEdit}>
-			  <div className={classes.personDialogWrapper}>
-			    <UserDialogList
-				variant={DialogLikeVal}
-				count={likeCount}
-				node={node.id}
+			  <div className={classes.likeBookmark}>
+			    <SimpleEdgeMutation
+				variant={BookmarkVal}
+				user={context.userID}
+				target={node.id}
+				initial={node.hasBookmarked.edges.length === 1}
 			    />
+			    <div className={classes.personDialogWrapper}>
+			      <UserDialogList
+				  variant={DialogLikeVal}
+				  count={likeCount}
+				  node={node.id}
+			      />
+			    </div>
 			  </div>
 			  <IconButton
 			      component={Link}

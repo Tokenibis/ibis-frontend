@@ -22,6 +22,7 @@ const styles = theme => ({
 	width: '90%',
     },
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
@@ -117,7 +118,7 @@ class Post extends Component {
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.subtitle}>
-  				@{node.user.username} - <CustomDate date={node.created} />
+  				@{node.user.username} — <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}

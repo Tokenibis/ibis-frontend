@@ -9,6 +9,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
 
 import Link from '../../__Common__/CustomLink';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
@@ -22,6 +24,7 @@ const styles = theme => ({
 	width: '90%',
     },
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
@@ -33,6 +36,10 @@ const styles = theme => ({
 	color: theme.palette.tertiary.main,
 	fontSize: 20,
 	marginBottom: -4,
+    },
+    reward: {
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
     },
     title: {
 	fontWeight: 'bold',
@@ -67,6 +74,20 @@ const styles = theme => ({
 	paddingRight: theme.spacing(0.5),
 	color: theme.palette.secondary.main,
     },
+    editButton: {
+	color: theme.palette.secondary.main,
+    },
+    edited: {
+	paddingTop: theme.spacing(),
+	color: theme.palette.tertiary.main,
+	fontStyle: 'italic',
+    },
+    edgeMutationsEdit: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	width: '100%',
+    },
     divider: {
 	width: '100%',
     },
@@ -94,6 +115,16 @@ class Activity extends Component {
 	    this.setState({ likeCount: node.likeCount });
 	}
 
+	let reward_str = node.active ? (
+	    Math.round(node.rewardMin/100) === Math.round((node.rewardMin + node.rewardRange)/100) ? (
+		`Reward: $${Math.round(node.rewardMin/100)}.`
+	    ):(
+		`Reward: $${Math.round(node.rewardMin/100)}-${Math.round((node.rewardMin + node.rewardRange)/100)}.`
+	    )
+	):(
+	    'Activity Finished.'
+	)
+
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <Grid className={classes.content} item xs={12}>
@@ -113,16 +144,22 @@ class Activity extends Component {
 		    <ListItemText
 			primary={
 			    <div>
-  			      <Typography variant="body2" className={classes.title}>
+  			      <Typography
+				variant="body2"
+				className={classes.title}
+				>
   				{node.title}
   			      </Typography>
   			      <Typography variant="body2" className={classes.subtitle}>
-  				@{node.user.username} - <CustomDate date={node.created} />
+  				@{node.user.username} — <CustomDate date={node.created} />
   			      </Typography>
 			    </div>
 			}
 		    />
 		  </ListItem>
+		  <Typography variant="body2">
+  		    <span className={classes.reward}>{reward_str} </span>
+		  </Typography>
 		  <CustomMarkdown
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
@@ -130,22 +167,36 @@ class Activity extends Component {
 			  [x.node.id, x.node.userType],
 		      ]))}
 		  />
+		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&
+  		   <Typography variant="body2" className={classes.edited}>
+  		     (Edited on <CustomDate variant="precise" date={node.modified} />)
+  		   </Typography>
+		  }
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
-			<div className={classes.likeBookmark}>
-			  <SimpleEdgeMutation
-			      variant={BookmarkVal}
-			      user={context.userID}
-			      target={node.id}
-			      initial={node.hasBookmarked.edges.length === 1}
-			  />
-			  <div className={classes.botDialogWrapper}>
-			    <UserDialogList
-				variant={DialogLikeVal}
-				count={likeCount}
-				node={node.id}
+			<div className={classes.edgeMutationsEdit}>
+			  <div className={classes.likeBookmark}>
+			    <SimpleEdgeMutation
+				variant={BookmarkVal}
+				user={context.userID}
+				target={node.id}
+				initial={node.hasBookmarked.edges.length === 1}
 			    />
+			    <div className={classes.botDialogWrapper}>
+			      <UserDialogList
+				  variant={DialogLikeVal}
+				  count={likeCount}
+				  node={node.id}
+			      />
+			    </div>
 			  </div>
+			  <IconButton
+			      component={Link}
+			      to={`ActivityMutate?id=${node.id}`}
+			      className={classes.editButton}
+			    >
+			    <EditIcon/>
+			  </IconButton>
 			</div>
 		    ):(
 			<div className={classes.likeBookmark}>

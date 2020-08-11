@@ -56,9 +56,6 @@ const styles = theme => ({
 	paddingTop: theme.spacing(2),
 	color: 'red',
     },
-    checkBox: {
-	paddingTop: theme.spacing(2),
-    },
     fine: {
 	paddingTop: theme.spacing(2),
 	fontSize: '12px',
@@ -107,12 +104,10 @@ class TransferCreate extends Component {
 	mention: [],
 	destination: '',
 	thanks: false,
-	checked: null,
     };
 
     handleTransfer(mutation) {
 	let { context, client, target, history, variant } = this.props;
-	let { checked } = this.state;
 
 	let description = document.getElementById(`transfer_description`).value
 	let amount_str = document.getElementById(`transfer_amount`).value
@@ -125,7 +120,6 @@ class TransferCreate extends Component {
 		target,
 		amount,
 		description,
-		['private']: !!checked,
 	    },
 	}).then(response => {
 	    let url = new URL(window.location.href);
@@ -186,7 +180,7 @@ class TransferCreate extends Component {
 
     render() {
 	let { classes, context, target, variant, history } = this.props;
-	let { enableTransfer, amount, mention, thanks, destination, checked } = this.state;
+	let { enableTransfer, amount, mention, thanks, destination } = this.state;
 
 	let amount_final = Math.floor(amount * 100)
 

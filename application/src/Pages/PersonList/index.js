@@ -13,6 +13,7 @@ import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutati
 
 const styles = theme => ({
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,

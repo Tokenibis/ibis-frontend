@@ -31,6 +31,7 @@ const styles = theme => ({
 	alignItems: 'center',
     },
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,

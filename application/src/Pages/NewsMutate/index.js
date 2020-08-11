@@ -88,7 +88,7 @@ class NewsCreate extends Component {
 	image: '',
 	link: '',
 	description: '',
-	mention: [],
+	mention: {},
     };
 
     componentDidMount() {
@@ -105,6 +105,7 @@ class NewsCreate extends Component {
 		    image: results.data.news.image,
 		    link: results.data.news.link,
 		    description: results.data.news.description,
+		    enableNews: true,
 		});
 	    }).catch(error => {
 		console.log(error);
@@ -160,6 +161,7 @@ class NewsCreate extends Component {
     render() {
 	let { classes } = this.props;
 	let { enableNews, title, image, link, description, mention } = this.state;
+	console.log(mention)
 
 	return (
 	    <div>
@@ -221,7 +223,10 @@ class NewsCreate extends Component {
 			label="Content"
 		        value={description}
 			onChange={() => this.handleChange()}
-			addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}
+			addMention={(x) => {
+			    this.setState({ mention: Object.assign({}, mention, x)});
+			    this.handleChange();
+			}}
 		    />
 		  </Grid>
 		  <Grid item xs={6} className={classes.buttonWrapper}>

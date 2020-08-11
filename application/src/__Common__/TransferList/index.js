@@ -14,6 +14,7 @@ import Truncated from '../Truncated';
 
 const styles = theme => ({
     avatar: {
+	backgroundColor: 'white',
  	borderStyle: 'solid',
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
