@@ -48,7 +48,7 @@ const eventStyle = `
 `;
 
 
-const nonprofit_options = ['All', 'Following', 'Mine', 'Bookmarked', 'Going'];
+const organization_options = ['All', 'Following', 'Mine', 'Bookmarked', 'Going'];
 const options = ['All', 'Following', 'Bookmarked', 'Going'];
 
 const query = loader('../../Static/graphql/app/EventListFilter.gql')
@@ -97,7 +97,7 @@ class EventFilter extends Component {
 	    <IbisConsumer>
 	      {context => (
 		  <Filter 
-		      options={context.userType === 'nonprofit' ? nonprofit_options : options}
+		      options={context.userType === 'organization' ? organization_options : options}
 		      custom={(
 			  <div>
 			    <ListItem button onClick={() => this.handleExpand()}>

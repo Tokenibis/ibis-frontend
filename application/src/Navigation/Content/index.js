@@ -19,7 +19,7 @@ import TabBar from '../TabBar';
 import { StandardVal, GiveVal, SendVal, EngageVal } from '../Cycler'
 import MainBar from '../MainBar';
 import Home from '../Home';
-import { NonprofitFilter } from '../../Pages/NonprofitList';
+import { OrganizationFilter } from '../../Pages/OrganizationList';
 import { DonationFilter } from '../../Pages/DonationList';
 import { PersonFilter } from '../../Pages/PersonList';
 import { TransactionFilter } from '../../Pages/TransactionList';
@@ -29,8 +29,8 @@ import { PostFilter } from '../../Pages/PostList';
 
 import { IbisConsumer } from '../../Context';
 
-const makeNonprofitFilter = (i, onClose) => {
-    return <NonprofitFilter key={i} open={true} onClose={onClose} />
+const makeOrganizationFilter = (i, onClose) => {
+    return <OrganizationFilter key={i} open={true} onClose={onClose} />
 }
 
 const makeDonationFilter = (i, onClose) => {
@@ -63,7 +63,7 @@ const makePostFilter = (i, onClose) => {
 */
 
 const giveOptions = [
-    [ 'Nonprofits', makeNonprofitFilter, 'Nonprofit', 'NonprofitList' ],
+    [ 'Organizations', makeOrganizationFilter, 'Organization', 'OrganizationList' ],
     [ 'Donations', makeDonationFilter, 'Donation', 'DonationList' ],
 ]
 
@@ -111,14 +111,14 @@ function ContentLoader({ match, location }) {
 		return <HomeLoader />
 	    }
 	    break;
-	case 'Nonprofit':
+	case 'Organization':
 	    nav = (
 		<div>
 		  <MainBar cycle={GiveVal} />
 		  <TabBar options={giveOptions} value={0} />
 		</div>
 	    );
-	    pageName = pageName ? pageName : 'NonprofitList';
+	    pageName = pageName ? pageName : 'OrganizationList';
 	    break;
 	case 'Donation':
 	    nav = (

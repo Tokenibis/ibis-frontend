@@ -46,15 +46,15 @@ recycled back for a future user base.
 ## Using the App
 
 Ibis is your one-stop shop to donate, engage with our listed
-partnering nonprofits, and send money to people who might be
+partnering organizations, and send money to people who might be
 interested. Here is a general list of general features we currently
 support:
 
-* Donate to nonprofits
+* Donate to organizations
 * Send money to people
-* Browse news and events from local nonprofits
+* Browse news and events from local organizations
 * Post or comment with your thoughts
-* Follow people and nonprofits
+* Follow people and organizations
 * Like, bookmark, and RSVP on other activity
 * View in-app notifications (upper right corner of the home screen)
 * Set privacy on donations and transactions

@@ -117,9 +117,9 @@ const styles = theme => ({
     none: {},
 });
 
-const query = loader('../../Static/graphql/app/Nonprofit.gql')
+const query = loader('../../Static/graphql/app/Organization.gql')
 
-class Nonprofit extends Component {
+class Organization extends Component {
     
     state = {
 	expanded: false,
@@ -364,15 +364,15 @@ class Nonprofit extends Component {
 	      {({ loading, error, data }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
 		  if (error) return `Error! ${error.message}`;
-		  return this.createPage(data.nonprofit);
+		  return this.createPage(data.organization);
 	      }}
 	    </Query>
 	);
     };
 };
 
-Nonprofit.propTypes = {
+Organization.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(Nonprofit);
+export default withStyles(styles)(Organization);

@@ -90,7 +90,7 @@ const CATEGORIES = {
 // This maps the backend reference to the front-end pages. So far, the names are the same,
 // but things could conceivably change
 const LINKS = {
-    Nonprofit: (id) => ('/Nonprofit/Nonprofit?id=' + id),
+    Organization: (id) => ('/Organization/Organization?id=' + id),
     Donation: (id) => ('/Donation/Donation?id=' + id),
     Person: (id) => ('/Person/Person?id=' + id),
     Transaction: (id) => ('/Transaction/Transaction?id=' + id),

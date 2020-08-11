@@ -127,8 +127,8 @@ class Post extends Component {
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  x.node.nonprofit ?
-			  [x.node.nonprofit.id, 'nonprofit'] :
+			  x.node.organization ?
+			  [x.node.organization.id, 'organization'] :
 			  [x.node.person.id, 'person'],
 		      ]))}
 		  />

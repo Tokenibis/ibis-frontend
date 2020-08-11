@@ -20,7 +20,7 @@ Opening an account on the Token Ibis application allows you to do the following:
 
 * Receive Token Ibis from other users.
 
-* Give Token Ibis to vetted Nonprofit organizations.
+* Give Token Ibis to vetted Organization organizations.
 
 * Engage and interact with news and events that are posted in the application.
 
@@ -33,8 +33,8 @@ Opening an account on the Token Ibis application allows you to do the following:
 Once you choose to convert currency to Token Ibis or receive it from
 another source, you may not convert it back to currency. You may only
 send Token Ibis to other users, receive Token Ibis from other users,
-or give it to nonprofits organizations within the application. Only
-vetted nonprofit organizations may convert Token Ibis back that has
+or give it to organizations organizations within the application. Only
+vetted organization organizations may convert Token Ibis back that has
 been given to them back into a currency in order to use it for their
 business operations.
 
@@ -52,7 +52,7 @@ uses within the application.
 Token Ibis is responsible for handling and transferring your money
 (converted to Token Ibis) both safely and securely. Token Ibis also is
 responsible for thoroughly examining and approving each and every
-nonprofit organization that can receive donations within the Token
+organization organization that can receive donations within the Token
 Ibis application to make sure that they are legitimate businesses with
 legitimate causes and positive results.
 
@@ -86,7 +86,7 @@ theory that it aims to support.
 
     * Events including, but not limited to: sending Token Ibis to
       other users, receiving Token Ibis from other users, donations to
-      nonprofits, and user interaction on the Token Ibis forums and
+      organizations, and user interaction on the Token Ibis forums and
       other interactable pages.
 
 Token Ibis promises to protect the personal data that it collects from

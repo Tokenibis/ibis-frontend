@@ -23,7 +23,7 @@ const styles = theme => ({
 
 const cycleMap = {
     '': null,
-    'Give': 'Nonprofit',
+    'Give': 'Organization',
     'Send': 'Person',
     'Engage': 'News',
 };

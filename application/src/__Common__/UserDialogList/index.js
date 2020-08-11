@@ -95,7 +95,7 @@ class IbisUserList_ extends Component {
 		component={Link}
 		to={node.person ?
 		    `/Person/Person?id=${node.person.id}` :
-		    `/Nonprofit/Nonprofit?id=${node.nonprofit.id}`}
+		    `/Organization/Organization?id=${node.organization.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}

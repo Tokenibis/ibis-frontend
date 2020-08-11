@@ -63,7 +63,7 @@ class TransferList extends Component {
 		component={Link}
 		to={node.user.person ?
 		    `/Person/Person?id=${node.user.person.id}` :
-		    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
+		    `/Organization/Organization?id=${node.user.organization.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}

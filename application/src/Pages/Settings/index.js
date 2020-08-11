@@ -131,7 +131,7 @@ const query = loader('../../Static/graphql/app/Settings.gql')
 
 const person_mutation = loader('../../Static/graphql/app/PersonUpdate.gql')
 
-const nonprofit_mutation = loader('../../Static/graphql/app/NonprofitUpdate.gql')
+const organization_mutation = loader('../../Static/graphql/app/OrganizationUpdate.gql')
 
 const notifier_mutation = loader('../../Static/graphql/app/NotifierUpdate.gql')
 
@@ -470,7 +470,7 @@ class Settings extends Component {
 		    )}
 		  </div>
 		</Collapse>
-		{context.userType === 'nonprofit' &&
+		{context.userType === 'organization' &&
 		 <div>
 		   <CustomDivider />
 		   <ListItem
@@ -785,7 +785,7 @@ class Settings extends Component {
 			  mutation={
 			  context.userType === 'person' ?
 			  person_mutation :
-			  nonprofit_mutation
+			  organization_mutation
 			  }
 			  variables={{ id: context.userID}}>
 			{user_mutation => (

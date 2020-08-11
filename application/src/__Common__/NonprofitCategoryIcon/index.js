@@ -9,7 +9,7 @@ import EnvironmentIcon from '@material-ui/icons/TerrainOutlined';
 import HealthIcon from '@material-ui/icons/HealingOutlined';
 import HumanIcon from '@material-ui/icons/GroupOutlined';
 
-function NonprofitCategoryIcon({ id, ...other }){
+function OrganizationCategoryIcon({ id, ...other }){
     switch(id) {
 	case 'Tm9ucHJvZml0Q2F0ZWdvcnlOb2RlOjE=':
 	    return <AnimalIcon {...other}/>;
@@ -32,8 +32,8 @@ function NonprofitCategoryIcon({ id, ...other }){
     }
 };
 
-NonprofitCategoryIcon.propTypes = {
+OrganizationCategoryIcon.propTypes = {
     id: PropTypes.string.isRequired,
 };
 
-export default NonprofitCategoryIcon;
+export default OrganizationCategoryIcon;

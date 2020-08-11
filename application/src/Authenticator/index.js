@@ -88,7 +88,7 @@ const styles = theme => ({
 	bottom: '5%',
 	zIndex: -1,
     },
-    agreementNonprofit: {
+    agreementOrganization: {
 	textAlign: 'center',
 	color: 'white',
 	position: 'fixed',
@@ -124,8 +124,8 @@ class Authenticator extends Component {
 	    userID: null,
 	    userType: '',
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
-	    nonprofitClicks: 0,
-	    nonprofitLogin: new URL(window.location.href)['hash'] === '#/__nonprofit_login__',
+	    organizationClicks: 0,
+	    organizationLogin: new URL(window.location.href)['hash'] === '#/__organization_login__',
 	    loginEnabled: false,
 	};
     };
@@ -178,13 +178,13 @@ class Authenticator extends Component {
 	})
     }
 
-    nonprofitRedirect = () => {
-	let { nonprofitClicks, nonprofitLogin } = this.state;
+    organizationRedirect = () => {
+	let { organizationClicks, organizationLogin } = this.state;
 
-	if (nonprofitClicks >= 2) {
-	    this.setState({ nonprofitClicks: 0, nonprofitLogin: !nonprofitLogin });
+	if (organizationClicks >= 2) {
+	    this.setState({ organizationClicks: 0, organizationLogin: !organizationLogin });
 	} else {
-	    this.setState({ nonprofitClicks: nonprofitClicks + 1 });
+	    this.setState({ organizationClicks: organizationClicks + 1 });
 	}
     }
 
@@ -281,7 +281,7 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, userType, width, nonprofitLogin, loginEnabled  } = this.state;
+	let { userID, userType, width, organizationLogin, loginEnabled  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
@@ -319,11 +319,11 @@ class Authenticator extends Component {
 		      }}
 		      className={classes.content}
 		  >
-		    {nonprofitLogin ? (
+		    {organizationLogin ? (
   			<Grid container direction="column" justify="center" alignItems="center" >
 			  <IbisIcon
 			      className={classes.icon}
-		              onClick={() => this.nonprofitRedirect()}
+		              onClick={() => this.organizationRedirect()}
 			  />
 			  <TextField
 			      id="form_username"
@@ -360,14 +360,14 @@ class Authenticator extends Component {
 			      onClick={() => this.passLogin()}
 			      disabled={!loginEnabled}
 			    >
-			    Nonprofit Login
+			    Organization Login
 			  </Button>
 			</Grid>
 		    ):(
   			<Grid container direction="column" justify="center" alignItems="center" >
 			  <IbisIcon
 			      className={classes.icon}
-			      onClick={() => this.nonprofitRedirect()}
+			      onClick={() => this.organizationRedirect()}
 			  />
 			  <Typography variant="body2" className={classes.welcome}>
 			    Welcome to ibis

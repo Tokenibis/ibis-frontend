@@ -78,7 +78,7 @@ class NewsList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
+		to={`/Organization/Organization?id=${node.user.organization.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -253,7 +253,7 @@ class NewsList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'nonprofit' &&
+	      {!minimal && context.userType === 'organization' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
@@ -283,7 +283,7 @@ function NewsFilter(props) {
     return (
 	<IbisConsumer>
 	  {context => (
-	      context.userType === 'nonprofit' ?
+	      context.userType === 'organization' ?
 	      <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} /> :
 	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
 	  )}

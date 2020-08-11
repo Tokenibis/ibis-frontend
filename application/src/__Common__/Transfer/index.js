@@ -120,7 +120,7 @@ class Transfer extends Component {
 			component={Link}
 			to={node.user.person ?
 			    `/Person/Person?id=${node.user.person.id}` :
-			    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
+			    `/Organization/Organization?id=${node.user.organization.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -150,7 +150,7 @@ class Transfer extends Component {
 			component={Link}
 			to={node.user.person ?
 			    `/Person/Person?id=${node.user.person.id}` :
-			    `/Nonprofit/Nonprofit?id=${node.user.nonprofit.id}`}
+			    `/Organization/Organization?id=${node.user.organization.id}`}
 			variant="body2"
 			className={classes.userLink}
 		    >
@@ -171,7 +171,7 @@ class Transfer extends Component {
 		    <Typography
 			component={Link}
 			to={variant === 'donation' ? (
-			    `/Nonprofit/Nonprofit?id=${node.target.id}`
+			    `/Organization/Organization?id=${node.target.id}`
 			):(
 			    `/Person/Person?id=${node.target.id}`
 			)}
@@ -224,8 +224,8 @@ class Transfer extends Component {
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  x.node.nonprofit ?
-			  [x.node.nonprofit.id, 'nonprofit'] :
+			  x.node.organization ?
+			  [x.node.organization.id, 'organization'] :
 			  [x.node.person.id, 'person'],
 		      ]))}
 		  />

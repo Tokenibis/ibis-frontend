@@ -24,7 +24,7 @@ import List from '@material-ui/core/List';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import EngageIcon from '@material-ui/icons/TransferWithinAStation';
-import NonprofitIcon from '@material-ui/icons/StoreOutlined';
+import OrganizationIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
@@ -88,7 +88,7 @@ class Home extends Component {
     state = {
 	expanded: null,
 	person_id: '',
-	nonprofit_id: '',
+	organization_id: '',
 	avatar: '',
 	username: '',
 	name: '.',
@@ -112,8 +112,8 @@ class Home extends Component {
 	    this.setState({
 		person_id: results.data.ibisUser.person ?
 			   results.data.ibisUser.person.id : '',
-		nonprofit_id: results.data.ibisUser.nonprofit ?
-			      results.data.ibisUser.nonprofit.id : '',
+		organization_id: results.data.ibisUser.organization ?
+			      results.data.ibisUser.organization.id : '',
 		avatar: results.data.ibisUser.avatar,
 		username: results.data.ibisUser.username,
 		name: results.data.ibisUser.name,
@@ -127,7 +127,7 @@ class Home extends Component {
 
     render() {
 	let { classes  } = this.props;
-	let { expanded, person_id, nonprofit_id, avatar, username, name, balance } = this.state;
+	let { expanded, person_id, organization_id, avatar, username, name, balance } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -136,7 +136,7 @@ class Home extends Component {
 		    component={Link}
 		    to={person_id ?
 			`/_/Person?id=${person_id}` :
-			`/_/Nonprofit?id=${nonprofit_id}`}
+			`/_/Organization?id=${organization_id}`}
   		    src={avatar}
   		    className={classes.avatar}
 		/>
@@ -144,7 +144,7 @@ class Home extends Component {
 		    component={Link}
 		    to={person_id ?
 			`/_/Person?id=${person_id}` :
-			`/_/Nonprofit?id=${nonprofit_id}`}
+			`/_/Organization?id=${organization_id}`}
 		    variant="body2"
 		    className={classes.username}
 		>
@@ -170,11 +170,11 @@ class Home extends Component {
 		    icon={<GiveIcon />}
 		    onClick={(e) => {this.handleExpand('Give')}}
 		>
-		  <Link to="/Nonprofit">
+		  <Link to="/Organization">
 		    <SublistItem 
 			onClick={() => {}} 
-			label="Nonprofits" 
-			icon={<NonprofitIcon />} 
+			label="Organizations" 
+			icon={<OrganizationIcon />} 
 		    />
 		  </Link>
 		  <Link to="/Donation">

@@ -43,18 +43,18 @@ const styles = theme => ({
     }
 });
 
-const query = loader('../../Static/graphql/app/NonprofitList.gql')
+const query = loader('../../Static/graphql/app/OrganizationList.gql')
 
 const DEFAULT_COUNT = 25;
 
-class NonprofitList extends Component {
+class OrganizationList extends Component {
 
     makeImage = (node) => {
 	let { classes  } = this.props;
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Nonprofit/Nonprofit?id=${node.id}`}
+		to={`/Organization/Organization?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -97,7 +97,7 @@ class NonprofitList extends Component {
 	      />
 	      <Typography
 		  component={Link}
-		  to={`/Nonprofit/Nonprofit?id=${node.id}`}
+		  to={`/Organization/Organization?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
@@ -198,14 +198,14 @@ class NonprofitList extends Component {
     };
 };
 
-NonprofitList.propTypes = {
+OrganizationList.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-function NonprofitFilter(props) {
+function OrganizationFilter(props) {
     return <Filter options={['Featured', 'Popular', 'Following']} {...props} />;
 }
 
-export { NonprofitFilter };
-export default withStyles(styles)(NonprofitList);
+export { OrganizationFilter };
+export default withStyles(styles)(OrganizationList);
 

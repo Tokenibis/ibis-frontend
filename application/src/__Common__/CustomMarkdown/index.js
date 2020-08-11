@@ -116,7 +116,7 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...ot
 	Object.keys(mention).forEach((x) => {
 	    source = ` ${source} `.replace(
 		new RegExp(`(\\W)(@${x})(\\W)`),
-		`$1[$2](#/${mention[x][1] === 'nonprofit' ? 'Nonprofit/Nonprofit' : 'Person/Person'}?id=${mention[x][0]})$3`
+		`$1[$2](#/${mention[x][1] === 'organization' ? 'Organization/Organization' : 'Person/Person'}?id=${mention[x][0]})$3`
 	    ).slice(1, -1)
 	});
     }

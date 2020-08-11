@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import GiveIcon from '@material-ui/icons/CardGiftcard';
 import SendIcon from '@material-ui/icons/SendOutlined';
 import EngageIcon from '@material-ui/icons/MapOutlined';
-import NonprofitIcon from '@material-ui/icons/StoreOutlined';
+import OrganizationIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
 import TransactionIcon from '@material-ui/icons/SwapHoriz';
@@ -68,7 +68,7 @@ class SideMenu extends Component {
 	drawer: false,
 	expanded: null,
 	person_id: '',
-	nonprofit_id: '',
+	organization_id: '',
 	username: '.',
 	name: '.',
 	balance: 0,
@@ -94,8 +94,8 @@ class SideMenu extends Component {
 	    this.setState({
 		person_id: results.data.ibisUser.person ?
 			   results.data.ibisUser.person.id : '',
-		nonprofit_id: results.data.ibisUser.nonprofit ?
-			      results.data.ibisUser.nonprofit.id : '',
+		organization_id: results.data.ibisUser.organization ?
+			      results.data.ibisUser.organization.id : '',
 		username: results.data.ibisUser.username,
 		name: results.data.ibisUser.name,
 		balance: results.data.ibisUser.balance,
@@ -112,7 +112,7 @@ class SideMenu extends Component {
 	    drawer,
 	    expanded,
 	    person_id,
-	    nonprofit_id,
+	    organization_id,
 	    username,
 	    name,
 	    balance,
@@ -131,7 +131,7 @@ class SideMenu extends Component {
 		      component={Link}
 		      to={context.userType === 'person' ?
 			  `/_/Person?id=${person_id}`:
-			  `/_/Nonprofit?id=${nonprofit_id}`}
+			  `/_/Organization?id=${organization_id}`}
   		      alt="Ibis"
 		      variant="body2"
 		      className={classes.username}
@@ -157,11 +157,11 @@ class SideMenu extends Component {
 		  icon={<GiveIcon />}
 		  onClick={(e) => {this.handleExpand('Give')}}
 	      >
-		<Link to="/Nonprofit">
+		<Link to="/Organization">
 		  <SublistItem
-		      label="Nonprofits"
+		      label="Organizations"
 		      classes={classes}
-		      icon={<NonprofitIcon />}
+		      icon={<OrganizationIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
@@ -236,7 +236,7 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      {context.userType === 'nonprofit' &&
+	      {context.userType === 'organization' &&
 	       <Link to="/_/Withdrawal">
 		 <SublistItem
 		     label="Withdrawal"
