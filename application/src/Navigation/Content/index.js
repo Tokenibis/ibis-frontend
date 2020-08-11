@@ -16,33 +16,23 @@ import React from 'react';
 import { Route, HashRouter as Router } from 'react-router-dom';
 
 import TabBar from '../TabBar';
-import { StandardVal, GiveVal, SendVal, EngageVal } from '../Cycler'
+import { StandardVal, OrganizationVal, PersonVal, BotVal } from '../Cycler'
 import MainBar from '../MainBar';
 import Home from '../Home';
 import { OrganizationFilter } from '../../Pages/OrganizationList';
-import { DonationFilter } from '../../Pages/DonationList';
-import { PersonFilter } from '../../Pages/PersonList';
-import { RewardFilter } from '../../Pages/RewardList';
 import { NewsFilter } from '../../Pages/NewsList';
 import { EventFilter } from '../../Pages/EventList';
+import { PersonFilter } from '../../Pages/PersonList';
+import { DonationFilter } from '../../Pages/DonationList';
 import { PostFilter } from '../../Pages/PostList';
+import { BotFilter } from '../../Pages/BotList';
+import { ActivityFilter } from '../../Pages/ActivityList';
+import { RewardFilter } from '../../Pages/RewardList';
 
 import { IbisConsumer } from '../../Context';
 
 const makeOrganizationFilter = (i, onClose) => {
     return <OrganizationFilter key={i} open={true} onClose={onClose} />
-}
-
-const makeDonationFilter = (i, onClose) => {
-    return <DonationFilter key={i} open={true} onClose={onClose} />
-}
-
-const makePersonFilter = (i, onClose) => {
-    return <PersonFilter key={i} open={true} onClose={onClose} />
-}
-
-const makeRewardFilter = (i, onClose) => {
-    return <RewardFilter key={i} open={true} onClose={onClose} />
 }
 
 const makeNewsFilter = (i, onClose) => {
@@ -53,29 +43,52 @@ const makeEventFilter = (i, onClose) => {
     return <EventFilter key={i} open={true} onClose={onClose} />
 }
 
+const makePersonFilter = (i, onClose) => {
+    return <PersonFilter key={i} open={true} onClose={onClose} />
+}
+
+const makeDonationFilter = (i, onClose) => {
+    return <DonationFilter key={i} open={true} onClose={onClose} />
+}
+
 const makePostFilter = (i, onClose) => {
     return <PostFilter key={i} open={true} onClose={onClose} />
 }
+
+const makeBotFilter = (i, onClose) => {
+    return <BotFilter key={i} open={true} onClose={onClose} />
+}
+
+const makeActivityFilter = (i, onClose) => {
+    return <ActivityFilter key={i} open={true} onClose={onClose} />
+}
+
+const makeRewardFilter = (i, onClose) => {
+    return <RewardFilter key={i} open={true} onClose={onClose} />
+}
+
 
 /*
    Each "option" corresponds to a cycle; the items are laid out in the following schema:
    [ display name, filter component, level-1 route, level-2 route ]
 */
 
-const giveOptions = [
-    [ 'Organizations', makeOrganizationFilter, 'Organization', 'OrganizationList' ],
-    [ 'Donations', makeDonationFilter, 'Donation', 'DonationList' ],
-]
-
-const sendOptions = [
-    [ 'People', makePersonFilter, 'Person', 'PersonList' ],
-    [ 'Reward', makeRewardFilter, 'Reward', 'RewardList' ],
-]
-
-const engageOptions = [
+const organizationOptions = [
+    [ 'Orgs', makeOrganizationFilter, 'Organization', 'OrganizationList' ],
     [ 'News', makeNewsFilter, 'News', 'NewsList' ],
     [ 'Events', makeEventFilter, 'Event', 'EventList' ],
+]
+
+const personOptions = [
+    [ 'People', makePersonFilter, 'Person', 'PersonList' ],
+    [ 'Donations', makeDonationFilter, 'Donation', 'DonationList' ],
     [ 'Posts', makePostFilter, 'Post', 'PostList' ],
+]
+
+const botOptions = [
+    [ 'Bots', makeBotFilter, 'Bot', 'BotList' ],
+    [ 'Rewards', makeRewardFilter, 'Reward', 'RewardList' ],
+    [ 'Activities', makeActivityFilter, 'Activity', 'ActivityList' ],
 ]
 
 function HomeLoader()  {
@@ -114,44 +127,17 @@ function ContentLoader({ match, location }) {
 	case 'Organization':
 	    nav = (
 		<div>
-		  <MainBar cycle={GiveVal} />
-		  <TabBar options={giveOptions} value={0} />
+		  <MainBar cycle={OrganizationVal} />
+		  <TabBar options={organizationOptions} value={0} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'OrganizationList';
 	    break;
-	case 'Donation':
-	    nav = (
-		<div>
-		  <MainBar cycle={GiveVal} />
-		  <TabBar options={giveOptions} value={1} />
-		</div>
-	    );
-	    pageName = pageName ? pageName : 'DonationList';
-	    break;
-	case 'Person':
-	    nav = (
-		<div>
-		  <MainBar cycle={SendVal} />
-		  <TabBar options={sendOptions} value={0} />
-		</div>
-	    );
-	    pageName = pageName ? pageName : 'PersonList';
-	    break;
-	case 'Reward':
-	    nav = (
-		<div>
-		  <MainBar cycle={SendVal} />
-		  <TabBar options={sendOptions} value={1} />
-		</div>
-	    );
-	    pageName = pageName ? pageName : 'RewardList';
-	    break;
 	case 'News':
 	    nav = (
 		<div>
-		  <MainBar cycle={EngageVal} />
-		  <TabBar options={engageOptions} value={0} />
+		  <MainBar cycle={OrganizationVal} />
+		  <TabBar options={organizationOptions} value={1} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'NewsList';
@@ -159,20 +145,65 @@ function ContentLoader({ match, location }) {
 	case 'Event':
 	    nav = (
 		<div>
-		  <MainBar cycle={EngageVal} />
-		  <TabBar options={engageOptions} value={1} />
+		  <MainBar cycle={OrganizationVal} />
+		  <TabBar options={organizationOptions} value={2} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'EventList';
 	    break;
+	case 'Person':
+	    nav = (
+		<div>
+		  <MainBar cycle={PersonVal} />
+		  <TabBar options={personOptions} value={0} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'PersonList';
+	    break;
+	case 'Donation':
+	    nav = (
+		<div>
+		  <MainBar cycle={PersonVal} />
+		  <TabBar options={personOptions} value={1} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'DonationList';
+	    break;
 	case 'Post':
 	    nav = (
 		<div>
-		  <MainBar cycle={EngageVal} />
-		  <TabBar options={engageOptions} value={2} />
+		  <MainBar cycle={PersonVal} />
+		  <TabBar options={personOptions} value={2} />
 		</div>
 	    );
 	    pageName = pageName ? pageName : 'PostList';
+	    break;
+	case 'Bot':
+	    nav = (
+		<div>
+		  <MainBar cycle={BotVal} />
+		  <TabBar options={botOptions} value={0} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'BotList';
+	    break;
+	case 'Reward':
+	    nav = (
+		<div>
+		  <MainBar cycle={BotVal} />
+		  <TabBar options={botOptions} value={1} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'RewardList';
+	    break;
+	case 'Activity':
+	    nav = (
+		<div>
+		  <MainBar cycle={BotVal} />
+		  <TabBar options={botOptions} value={2} />
+		</div>
+	    );
+	    pageName = pageName ? pageName : 'ActivityList';
 	    break;
 	default:
 	    return "Error, Page not Found";

@@ -20,6 +20,7 @@ import UbpIcon from '@material-ui/icons/CakeOutlined';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
+import ActivityIcon from '@material-ui/icons/CasinoOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import NotificationIconYes from '@material-ui/icons/NotificationsActive';
 import NotificationIconNo from '@material-ui/icons/Notifications';
@@ -84,6 +85,7 @@ const CATEGORIES = {
     news: <NewsIcon color="secondary"/>,
     event: <EventIcon color="secondary"/>,
     post: <PostIcon color="secondary"/>,
+    activity: <ActivityIcon color="secondary"/>,
 };
 
 
@@ -97,6 +99,7 @@ const LINKS = {
     News: (id) => ('/News/News?id=' + id),
     Event: (id) => ('/Event/Event?id=' + id),
     Post: (id) => ('/Post/Post?id=' + id),
+    Activity: (id) => ('/Activity/Activity?id=' + id),
     Deposit: (id) => ('/_/Deposit?id='),
 };
 

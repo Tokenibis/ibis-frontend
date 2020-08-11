@@ -23,9 +23,9 @@ const styles = theme => ({
 
 const cycleMap = {
     '': null,
-    'Give': 'Organization',
-    'Send': 'Person',
-    'Engage': 'News',
+    'Organizations': 'Organization',
+    'People': 'Person',
+    'Bots': 'Bot',
 };
 
 
@@ -80,8 +80,8 @@ Cycler.propTypes = {
 };
 
 export const StandardVal = Object.keys(cycleMap).indexOf('');
-export const GiveVal = Object.keys(cycleMap).indexOf('Give');
-export const SendVal = Object.keys(cycleMap).indexOf('Send');
-export const EngageVal = Object.keys(cycleMap).indexOf('Engage');
+export const OrganizationVal = Object.keys(cycleMap).indexOf('Organizations');
+export const PersonVal = Object.keys(cycleMap).indexOf('People');
+export const BotVal = Object.keys(cycleMap).indexOf('Bots');
 
 export default withStyles(styles)(Cycler);

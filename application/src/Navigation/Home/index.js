@@ -21,16 +21,15 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
-import GiveIcon from '@material-ui/icons/CardGiftcard';
-import SendIcon from '@material-ui/icons/SendOutlined';
-import EngageIcon from '@material-ui/icons/TransferWithinAStation';
-import OrganizationIcon from '@material-ui/icons/StoreOutlined';
-import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
-import PersonIcon from '@material-ui/icons/PeopleOutlined';
-import RewardIcon from '@material-ui/icons/SwapHoriz';
+import OrganizationIcon from '@material-ui/icons/Store';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
-import PostIcon from '@material-ui/icons/ForumOutlined';
+import PersonIcon from '@material-ui/icons/People';
+import DonationIcon from '@material-ui/icons/MonetizationOn';
+import PostIcon from '@material-ui/icons/Forum';
+import BotIcon from '@material-ui/icons/Android';
+import ActivityIcon from '@material-ui/icons/Casino';
+import RewardIcon from '@material-ui/icons/EmojiEvents';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../../__Common__/Sublist';
@@ -157,53 +156,18 @@ class Home extends Component {
 		className={classes.list}
 	      >
 		<Sublist
-		    label="Give"
-		    value={expanded === 'Give'}
-		    icon={<GiveIcon />}
-		    onClick={(e) => {this.handleExpand('Give')}}
+		    label="Organizations"
+		    value={expanded === 'Organization'}
+		    icon={<OrganizationIcon />}
+		    onClick={(e) => {this.handleExpand('Organization')}}
 		>
 		  <Link to="/Organization">
 		    <SublistItem 
 			onClick={() => {}} 
-			label="Organizations" 
+			label="Orgs" 
 			icon={<OrganizationIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Donation">
-		    <SublistItem 
-			onClick={() => {}} 
-			label="Donations" 
-			icon={<DonationIcon />} 
-		    />
-		  </Link>
-		</Sublist>
-		<Sublist
-		    label="Send"
-		    value={expanded === 'Send'}
-		    icon={<SendIcon />}
-		    onClick={(e) => {this.handleExpand('Send')}}
-		>
-		  <Link to="/Person">
-		    <SublistItem 
-			onClick={() => {}} 
-			label="People" 
-			icon={<PersonIcon />} 
-		    />
-		  </Link>
-		  <Link to="/Reward">
-		    <SublistItem 
-			onClick={() => {}} 
-			label="Rewards" 
-			icon={<RewardIcon />} 
-		    />
-		  </Link>
-		</Sublist>
-		<Sublist
-		    label="Engage"
-		    value={expanded === 'Engage'}
-		    icon={<EngageIcon />}
-		    onClick={(e) => {this.handleExpand('Engage')}}
-		>
 		  <Link to="/News">
 		    <SublistItem 
 			onClick={() => {}} 
@@ -218,11 +182,60 @@ class Home extends Component {
 			icon={<EventIcon />} 
 		    />
 		  </Link>
+		</Sublist>
+		<Sublist
+		    label="People"
+		    value={expanded === 'Person'}
+		    icon={<PersonIcon />}
+		    onClick={(e) => {this.handleExpand('Person')}}
+		>
+		  <Link to="/Person">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="People" 
+			icon={<PersonIcon />} 
+		    />
+		  </Link>
+		  <Link to="/Donation">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Donations" 
+			icon={<DonationIcon />} 
+		    />
+		  </Link>
 		  <Link to="/Post">
 		    <SublistItem
 			onClick={() => {}}
 			label="Posts"
 			icon={<PostIcon />}
+		    />
+		  </Link>
+		</Sublist>
+		<Sublist
+		    label="Bots"
+		    value={expanded === 'Bot'}
+		    icon={<BotIcon />}
+		    onClick={(e) => {this.handleExpand('Bot')}}
+		>
+		  <Link to="/Bot">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Bots" 
+			icon={<BotIcon />} 
+		    />
+		  </Link>
+		  <Link to="/Reward">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Rewards" 
+			icon={<RewardIcon />} 
+		    />
+		  </Link>
+		  <Link to="/Activity">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Activities" 
+			icon={<ActivityIcon />} 
 		    />
 		  </Link>
 		</Sublist>

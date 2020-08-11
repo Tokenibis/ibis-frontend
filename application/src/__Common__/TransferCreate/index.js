@@ -290,7 +290,7 @@ class TransferCreate extends Component {
 			      <Confirmation
 				  disabled={!enableTransfer}
 				  onClick={() => this.handleTransfer()}
-				  message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'pay'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
+				  message={`Are you sure you want to ${variant === DonationVal ? 'donate' : 'reward'} __$${amount_final ? (amount_final / 100).toFixed(2) : 0.00 }__ to __@${data.target.username}__ (${data.target.name})?`}
 				  preview={() => (document.getElementById('transfer_description').value)}
 				  mention={mention}
 			      >
@@ -298,7 +298,7 @@ class TransferCreate extends Component {
 				    disabled={!enableTransfer}
 				    className={classes.actionTransfer}
 				>
-				  {variant === 'donation' ? 'Donate' : 'Pay'}
+				  {variant === 'donation' ? 'Donate' : 'Reward'}
 				</Button>
 			      </Confirmation>
 			    </Grid>

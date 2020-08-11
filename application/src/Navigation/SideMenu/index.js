@@ -15,21 +15,20 @@ import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
-import GiveIcon from '@material-ui/icons/CardGiftcard';
-import SendIcon from '@material-ui/icons/SendOutlined';
-import EngageIcon from '@material-ui/icons/MapOutlined';
-import OrganizationIcon from '@material-ui/icons/StoreOutlined';
-import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
-import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
-import RewardIcon from '@material-ui/icons/SwapHoriz';
+import OrganizationIcon from '@material-ui/icons/Store';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
-import PostIcon from '@material-ui/icons/ForumOutlined';
-import SettingsIcon from '@material-ui/icons/SettingsOutlined';
+import PersonIcon from '@material-ui/icons/People';
+import DonationIcon from '@material-ui/icons/MonetizationOn';
+import PostIcon from '@material-ui/icons/Forum';
+import BotIcon from '@material-ui/icons/Android';
+import ActivityIcon from '@material-ui/icons/Casino';
+import RewardIcon from '@material-ui/icons/EmojiEvents';
+import SettingsIcon from '@material-ui/icons/Settings';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import WithdrawalIcon from '@material-ui/icons/Atm';
 import HomeIcon from '@material-ui/icons/Home';
-import InfoIcon from '@material-ui/icons/HelpOutline';
+import InfoIcon from '@material-ui/icons/Help';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../../__Common__/Sublist';
@@ -144,57 +143,19 @@ class SideMenu extends Component {
 	      </Grid>
 	      <Divider />
 	      <Sublist
-		  label="Give"
-		  value={expanded === 'Give'}
-		  icon={<GiveIcon />}
-		  onClick={(e) => {this.handleExpand('Give')}}
+		  label="Organization"
+		  value={expanded === 'Organization'}
+		  icon={<OrganizationIcon />}
+		  onClick={(e) => {this.handleExpand('Organization')}}
 	      >
 		<Link to="/Organization">
 		  <SublistItem
-		      label="Organizations"
+		      label="Orgs"
 		      classes={classes}
 		      icon={<OrganizationIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Donation">
-		  <SublistItem
-		      label="Donations"
-		      classes={classes}
-		      icon={<DonationIcon />}
-		      onClick={(e) => this.toggleDrawer(false)}
-		  />
-		</Link>
-	      </Sublist>
-	      <Sublist
-		  label="Send"
-		  value={expanded === 'Send'}
-		  icon={<SendIcon />}
-		  onClick={(e) => {this.handleExpand('Send')}}
-	      >
-		<Link to="/Person">
-		  <SublistItem
-		      label="People"
-		      classes={classes}
-		      icon={<PersonIcon />}
-		      onClick={(e) => this.toggleDrawer(false)}
-		  />
-		</Link>
-		<Link to="/Reward">
-		  <SublistItem
-		      label="Rewards"
-		      classes={classes}
-		      icon={<RewardIcon />}
-		      onClick={(e) => this.toggleDrawer(false)}
-		  />
-		</Link>
-	      </Sublist>
-	      <Sublist
-		  label="Engage"
-		  value={expanded === 'Engage'}
-		  icon={<EngageIcon />}
-		  onClick={(e) => {this.handleExpand('Engage')}}
-	      >
 		<Link to="/News">
 		  <SublistItem
 		      label="News"
@@ -211,11 +172,65 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
+	      </Sublist>
+	      <Sublist
+		  label="Person"
+		  value={expanded === 'Person'}
+		  icon={<PersonIcon />}
+		  onClick={(e) => {this.handleExpand('Person')}}
+	      >
+		<Link to="/Person">
+		  <SublistItem
+		      label="People"
+		      classes={classes}
+		      icon={<PersonIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Donation">
+		  <SublistItem
+		      label="Donations"
+		      classes={classes}
+		      icon={<DonationIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
 		<Link to="/Post">
 		  <SublistItem
 		      label="Posts"
 		      classes={classes}
 		      icon={<PostIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+	      </Sublist>
+	      <Sublist
+		  label="Bot"
+		  value={expanded === 'Bot'}
+		  icon={<BotIcon />}
+		  onClick={(e) => {this.handleExpand('Bot')}}
+	      >
+		<Link to="/Bot">
+		  <SublistItem
+		      label="Bots"
+		      classes={classes}
+		      icon={<BotIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Reward">
+		  <SublistItem
+		      label="Rewards"
+		      classes={classes}
+		      icon={<RewardIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Activity">
+		  <SublistItem
+		      label="Activities"
+		      classes={classes}
+		      icon={<ActivityIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
