@@ -173,6 +173,6 @@ PostCreate.propTypes = {
 };
 
 export const DonationVal = 'donation';
-export const TransactionVal = 'transaction';
+export const RewardVal = 'reward';
 
 export default withRouter(withApollo(withStyles(styles)(PostCreate)));

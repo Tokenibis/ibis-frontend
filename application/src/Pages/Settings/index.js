@@ -24,7 +24,7 @@ import EmailIcon from '@material-ui/icons/EmailOutlined';
 import PasswordIcon from '@material-ui/icons/LockOutlined';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import RewardIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import DepositIcon from '@material-ui/icons/LocalAtm';
@@ -669,18 +669,18 @@ class Settings extends Component {
 		{context.userType === 'person' ? (
 		    <ListItem>
 		      <ListItemIcon>
-			<TransactionIcon />
+			<RewardIcon />
 		      </ListItemIcon>
-		      <ListItemText className={classes.text} primary="Transactions" />
+		      <ListItemText className={classes.text} primary="Rewards" />
 		      <ListItemSecondaryAction>
 			<Switch
 			    edge="end"
-			    checked={data.ibisUser.notifier.emailTransaction}
+			    checked={data.ibisUser.notifier.emailReward}
 			    onChange={() => (this.updateSetting(
 				notifier_mutation,
 				refetch,
-				'emailTransaction',
-				!data.ibisUser.notifier.emailTransaction,
+				'emailReward',
+				!data.ibisUser.notifier.emailReward,
 			    ))}
 			/>
 		      </ListItemSecondaryAction>

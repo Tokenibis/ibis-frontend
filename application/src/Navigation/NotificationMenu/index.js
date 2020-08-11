@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import RewardIcon from '@material-ui/icons/SwapHoriz';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
@@ -77,7 +77,7 @@ const CATEGORIES = {
     deposit: <DepositIcon color="secondary"/>,
     follow: <FollowIcon color="secondary"/>,
     donation: <DonationIcon color="secondary"/>,
-    transaction: <TransactionIcon color="secondary"/>,
+    reward: <RewardIcon color="secondary"/>,
     comment: <CommentIcon color="secondary"/>,
     mention: <MentionIcon color="secondary"/>,
     like: <LikeIcon color="secondary"/>,
@@ -93,7 +93,7 @@ const LINKS = {
     Organization: (id) => ('/Organization/Organization?id=' + id),
     Donation: (id) => ('/Donation/Donation?id=' + id),
     Person: (id) => ('/Person/Person?id=' + id),
-    Transaction: (id) => ('/Transaction/Transaction?id=' + id),
+    Reward: (id) => ('/Reward/Reward?id=' + id),
     News: (id) => ('/News/News?id=' + id),
     Event: (id) => ('/Event/Event?id=' + id),
     Post: (id) => ('/Post/Post?id=' + id),

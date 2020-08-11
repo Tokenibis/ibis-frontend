@@ -21,7 +21,7 @@ import EngageIcon from '@material-ui/icons/MapOutlined';
 import OrganizationIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import PersonIcon from '@material-ui/icons/AccountCircleOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import RewardIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
@@ -188,11 +188,11 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Transaction">
+		<Link to="/Reward">
 		  <SublistItem
-		      label="Transactions"
+		      label="Rewards"
 		      classes={classes}
-		      icon={<TransactionIcon />}
+		      icon={<RewardIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>

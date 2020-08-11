@@ -27,7 +27,7 @@ import EngageIcon from '@material-ui/icons/TransferWithinAStation';
 import OrganizationIcon from '@material-ui/icons/StoreOutlined';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import PersonIcon from '@material-ui/icons/PeopleOutlined';
-import TransactionIcon from '@material-ui/icons/SwapHoriz';
+import RewardIcon from '@material-ui/icons/SwapHoriz';
 import NewsIcon from '@material-ui/icons/ListAlt';
 import EventIcon from '@material-ui/icons/Event';
 import PostIcon from '@material-ui/icons/ForumOutlined';
@@ -198,11 +198,11 @@ class Home extends Component {
 			icon={<PersonIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Transaction">
+		  <Link to="/Reward">
 		    <SublistItem 
 			onClick={() => {}} 
-			label="Transactions" 
-			icon={<TransactionIcon />} 
+			label="Rewards" 
+			icon={<RewardIcon />} 
 		    />
 		  </Link>
 		</Sublist>

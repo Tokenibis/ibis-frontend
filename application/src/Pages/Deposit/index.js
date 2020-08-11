@@ -187,7 +187,7 @@ donor gratitude materials.
 
 ### What is this fee?
 
-Token Ibis collects zero fees. However, all credit card transactions
+Token Ibis collects zero fees. However, all credit card rewards
 have a hidden fee that's usually silently charged to the vendor; in
 this case, the fee goes to _Paypal_. Please note that similar charges
 apply no matter where you make your online donation, so going through

@@ -36,8 +36,8 @@ issue reports and pull request at https://github.com/Tokenibis.
 
 __IMPORTANT!__ At this stage, although we will honor all
 completed donations made on the app, we may have to make changes
-that could affect your balance and transaction history. This
-could be extreme as deleting the entire database of transactions.
+that could affect your balance and reward history. This
+could be extreme as deleting the entire database of rewards.
 If so, we will send out notifications via the email connected to
 your account so you can complete your donations in a timely
 manner. All unspent funds afterwards will be lost to you and
@@ -57,7 +57,7 @@ support:
 * Follow people and organizations
 * Like, bookmark, and RSVP on other activity
 * View in-app notifications (upper right corner of the home screen)
-* Set privacy on donations and transactions
+* Set privacy on donations and rewards
 
 In the coming months, we'll be adding these features and likely many
 more:

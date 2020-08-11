@@ -291,7 +291,7 @@ class Transfer extends Component {
 	if (variant === 'donation') {
 	    query = loader('../../Static/graphql/app/Donation.gql')
 	} else {
-	    query = loader('../../Static/graphql/app/Transaction.gql')
+	    query = loader('../../Static/graphql/app/Reward.gql')
 	}
 
 	return (
@@ -316,6 +316,6 @@ Transfer.propTypes = {
 };
 
 export const DonationVal = 'donation';
-export const TransactionVal = 'transaction';
+export const RewardVal = 'reward';
 
 export default withStyles(styles)(Transfer);

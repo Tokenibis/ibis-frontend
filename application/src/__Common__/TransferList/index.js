@@ -114,7 +114,7 @@ class TransferList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`${variant === 'donation' ? '/Donation/Donation' : '/Transaction/Transaction'}?id=${node.id}`}
+		  to={`${variant === 'donation' ? '/Donation/Donation' : '/Reward/Reward'}?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >
@@ -133,7 +133,7 @@ class TransferList extends Component {
 	if (variant === 'donation') {
 	    query = loader('../../Static/graphql/app/DonationList.gql')
 	} else {
-	    query = loader('../../Static/graphql/app/TransactionList.gql')
+	    query = loader('../../Static/graphql/app/RewardList.gql')
 	}
 
 	// variant does not affect the content, only the visually displayed information
@@ -231,5 +231,5 @@ TransferList.propTypes = {
 };
 
 export const DonationVal = 'donation';
-export const TransactionVal = 'transaction';
+export const RewardVal = 'reward';
 export default withStyles(styles)(TransferList);

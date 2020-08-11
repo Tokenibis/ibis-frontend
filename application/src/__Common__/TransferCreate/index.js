@@ -93,9 +93,9 @@ const VARIANTS = {
 	query: loader('../../Static/graphql/app/DonationForm.gql'),
 	mutation: loader('../../Static/graphql/app/DonationCreate.gql'),
     },
-    transaction: {
-	query: loader('../../Static/graphql/app/TransactionForm.gql'),
-	mutation: loader('../../Static/graphql/app/TransactionCreate.gql'),
+    reward: {
+	query: loader('../../Static/graphql/app/RewardForm.gql'),
+	mutation: loader('../../Static/graphql/app/RewardCreate.gql'),
     },
 };
 
@@ -130,7 +130,7 @@ class TransferCreate extends Component {
 	}).then(response => {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
-	    let page = variant === 'donation' ? 'Donation' : 'Transaction';
+	    let page = variant === 'donation' ? 'Donation' : 'Reward';
 	    let result = response.data[Object.keys(response.data)[0]];
 	    let destination = `/${path[0]}/${page}?id=${result[Object.keys(result)[0]].id}`
 
@@ -207,7 +207,7 @@ class TransferCreate extends Component {
 			variant === 'donation' ? (
 			    data.user.privacyDonation || data.target.privacyDonation
 			):(
-			    data.user.privacyTransaction || data.target.privacyTransaction
+			    data.user.privacyReward || data.target.privacyReward
 			)
 		    )
 
@@ -359,6 +359,6 @@ TransferCreate.propTypes = {
 };
 
 export const DonationVal = 'donation';
-export const TransactionVal = 'transaction';
+export const RewardVal = 'reward';
 
 export default withRouter(withApollo(withStyles(styles)(TransferCreate)));

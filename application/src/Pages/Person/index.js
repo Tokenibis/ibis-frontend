@@ -17,7 +17,7 @@ import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/UserDialogList';
 import PostList from '../PostList';
 import DonationList from '../DonationList';
-import TransactionList from '../TransactionList';
+import RewardList from '../RewardList';
 import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated, { DEFAULT_TRUNCATE_LENGTH } from '../../__Common__/Truncated';
@@ -133,7 +133,7 @@ class Person extends Component {
 	return data;
     }
 
-    processTransactions(data) {
+    processRewards(data) {
 	return data;
     }
     
@@ -232,7 +232,7 @@ class Person extends Component {
 			node.ibisuserPtr.id !== context.userID ? (
 			    <Button
 				component={Link}
-				to={`/Transaction/TransactionCreate?target=${id}`}
+				to={`/Reward/RewardCreate?target=${id}`}
 				className={classes.actionPay}
 				>
 			      Pay
@@ -307,15 +307,15 @@ class Person extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.transactionWithCount) === 0 ?
+		        (node.rewardWithCount) === 0 ?
 		        classes.hide :
 		        classes.none
 		    }
 		>
 		  <Typography variant="button" className={classes.heading} >
-		    Transaction History
+		    Reward History
 		  </Typography>
-		  <TransactionList
+		  <RewardList
 		      minimal
 		      context={context}
 		      filterValue={`_User:${id}`}
@@ -323,11 +323,11 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Transaction/TransactionList?filterValue=_User:${id}`}
+		      to={`/Reward/RewardList?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
-		    View all transactions
+		    View all rewards
 		  </Typography>
 		</Grid>
   		<Grid

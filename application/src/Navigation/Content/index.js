@@ -22,7 +22,7 @@ import Home from '../Home';
 import { OrganizationFilter } from '../../Pages/OrganizationList';
 import { DonationFilter } from '../../Pages/DonationList';
 import { PersonFilter } from '../../Pages/PersonList';
-import { TransactionFilter } from '../../Pages/TransactionList';
+import { RewardFilter } from '../../Pages/RewardList';
 import { NewsFilter } from '../../Pages/NewsList';
 import { EventFilter } from '../../Pages/EventList';
 import { PostFilter } from '../../Pages/PostList';
@@ -41,8 +41,8 @@ const makePersonFilter = (i, onClose) => {
     return <PersonFilter key={i} open={true} onClose={onClose} />
 }
 
-const makeTransactionFilter = (i, onClose) => {
-    return <TransactionFilter key={i} open={true} onClose={onClose} />
+const makeRewardFilter = (i, onClose) => {
+    return <RewardFilter key={i} open={true} onClose={onClose} />
 }
 
 const makeNewsFilter = (i, onClose) => {
@@ -69,7 +69,7 @@ const giveOptions = [
 
 const sendOptions = [
     [ 'People', makePersonFilter, 'Person', 'PersonList' ],
-    [ 'Transaction', makeTransactionFilter, 'Transaction', 'TransactionList' ],
+    [ 'Reward', makeRewardFilter, 'Reward', 'RewardList' ],
 ]
 
 const engageOptions = [
@@ -138,14 +138,14 @@ function ContentLoader({ match, location }) {
 	    );
 	    pageName = pageName ? pageName : 'PersonList';
 	    break;
-	case 'Transaction':
+	case 'Reward':
 	    nav = (
 		<div>
 		  <MainBar cycle={SendVal} />
 		  <TabBar options={sendOptions} value={1} />
 		</div>
 	    );
-	    pageName = pageName ? pageName : 'TransactionList';
+	    pageName = pageName ? pageName : 'RewardList';
 	    break;
 	case 'News':
 	    nav = (
