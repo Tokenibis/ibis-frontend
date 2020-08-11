@@ -201,16 +201,6 @@ class TransferCreate extends Component {
 		    if (loading) return <LinearProgress className={classes.progress} />;
 		    if (error) return `Error! ${error.message}`;
 
-		    let display_checked = checked !== null ? (
-			checked
-		    ):(
-			variant === 'donation' ? (
-			    data.user.privacyDonation || data.target.privacyDonation
-			):(
-			    data.user.privacyReward || data.target.privacyReward
-			)
-		    )
-
 		    return (
   			<Grid container direction="column" justify="center" alignItems="center" >
 			  {data.message && (
@@ -252,34 +242,6 @@ class TransferCreate extends Component {
 				    $0.00 - No funds remaining
 				  </Typography>
 			      )}
-			    </Grid>
-			    <Grid item xs={4}>
-			      <Typography variant="body2" className={classes.label}>
-				Hidden
-			      </Typography>
-			    </Grid>
-			    <Grid item xs={2}>
-			      <Confirmation
-				  onClick={() => {
-				      this.setState({ checked: !display_checked });
-				      return Promise.resolve();
-				  }}
-				  autoconfirm={display_checked}
-				  message={`Are you sure you want hide this ${variant} from other users? Please remember that Token Ibis does not guarantee any privacy of your data. "Hidden" interactions will still likely be viewed by several impressionable researchers, so please don't write anything too weird.`}
-			      >
-				<Checkbox
-				    className={classes.checkBox}
-				    color="secondary"
-				    checked={display_checked}
-				    value="primary"
-				    inputProps={{ 'aria-label': 'primary checkbox' }}
-				/>
-			      </Confirmation>
-			    </Grid>
-			    <Grid item xs={6}>
-			      <Typography variant="body2" className={classes.fine}>
-				{`Only you and @${data.target.username} will be able to see this ${variant}.`}
-			      </Typography>
 			    </Grid>
 			    <Grid item xs={4}>
 			      <Typography variant="body2" className={classes.label}>

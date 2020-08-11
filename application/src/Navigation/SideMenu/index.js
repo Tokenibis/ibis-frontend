@@ -92,10 +92,6 @@ class SideMenu extends Component {
 	    fetchPolicy: "no-cache",
 	}).then(results => {
 	    this.setState({
-		person_id: results.data.user.person ?
-			   results.data.user.person.id : '',
-		organization_id: results.data.user.organization ?
-			      results.data.user.organization.id : '',
 		username: results.data.user.username,
 		name: results.data.user.name,
 		balance: results.data.user.balance,
@@ -111,8 +107,6 @@ class SideMenu extends Component {
 	let {
 	    drawer,
 	    expanded,
-	    person_id,
-	    organization_id,
 	    username,
 	    name,
 	    balance,
@@ -129,9 +123,7 @@ class SideMenu extends Component {
 		  </Link>
 		  <Typography
 		      component={Link}
-		      to={context.userType === 'person' ?
-			  `/_/Person?id=${person_id}`:
-			  `/_/Organization?id=${organization_id}`}
+		      to={`/_/${context.userType}?id=${context.userID}`}
   		      alt="Ibis"
 		      variant="body2"
 		      className={classes.username}
@@ -236,7 +228,7 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      {context.userType === 'organization' &&
+	      {context.userType !== 'Person' &&
 	       <Link to="/_/Withdrawal">
 		 <SublistItem
 		     label="Withdrawal"

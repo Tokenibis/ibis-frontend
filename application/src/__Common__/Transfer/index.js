@@ -118,9 +118,9 @@ class Transfer extends Component {
 		  <div className={classes.avatarContainer}>
     		    <Avatar
 			component={Link}
-			to={node.user.person ?
-			    `/Person/Person?id=${node.user.person.id}` :
-			    `/Organization/Organization?id=${node.user.organization.id}`}
+			to={variant === 'donation' ?
+			    `/Person/Person?id=${node.user.id}` :
+			    `/Bot/Bot?id=${node.user.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -148,9 +148,9 @@ class Transfer extends Component {
 		  <div className={classes.userLinkWrapper}>
 		    <Typography
 			component={Link}
-			to={node.user.person ?
-			    `/Person/Person?id=${node.user.person.id}` :
-			    `/Organization/Organization?id=${node.user.organization.id}`}
+			to={variant === 'donation' ?
+			    `/Person/Person?id=${node.user.id}` :
+			    `/Bot/Bot?id=${node.user.id}`}
 			variant="body2"
 			className={classes.userLink}
 		    >
@@ -224,9 +224,7 @@ class Transfer extends Component {
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  x.node.organization ?
-			  [x.node.organization.id, 'organization'] :
-			  [x.node.person.id, 'person'],
+			  [node.id, node.userType],
 		      ]))}
 		  />
 		</Grid>

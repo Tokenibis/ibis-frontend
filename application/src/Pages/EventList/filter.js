@@ -97,7 +97,7 @@ class EventFilter extends Component {
 	    <IbisConsumer>
 	      {context => (
 		  <Filter 
-		      options={context.userType === 'organization' ? organization_options : options}
+		      options={context.userType === 'Organization' ? organization_options : options}
 		      custom={(
 			  <div>
 			    <ListItem button onClick={() => this.handleExpand()}>

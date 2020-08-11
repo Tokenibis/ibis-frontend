@@ -77,7 +77,7 @@ class EventList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Organization/Organization?id=${node.user.organization.id}`}
+		to={`/Organization/Organization?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -276,7 +276,7 @@ class EventList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'organization' &&
+	      {!minimal && context.userType === 'Organization' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}

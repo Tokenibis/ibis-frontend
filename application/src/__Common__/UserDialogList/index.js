@@ -82,7 +82,7 @@ const query = loader('../../Static/graphql/app/UserList.gql')
 class UserList_ extends Component {
 
     makeImage = (node) => {
-	let { classes, onClick } = this.props;
+	let { classes, context, onClick } = this.props;
 	return onClick ? (
     	    <Avatar
   		alt="Ibis"
@@ -93,9 +93,7 @@ class UserList_ extends Component {
 	):(
     	    <Avatar
 		component={Link}
-		to={node.person ?
-		    `/Person/Person?id=${node.person.id}` :
-		    `/Organization/Organization?id=${node.organization.id}`}
+		to={`/_/${node.userType}?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}

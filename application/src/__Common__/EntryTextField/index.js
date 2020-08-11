@@ -42,9 +42,7 @@ class EntryTextField extends Component {
 
 	if (addMention) {
 	    let mention = []
-	    mention[node.username] = node.organization ?
-				     [node.organization.id, 'organization'] :
-				     [node.person.id, 'person'];
+	    mention[node.username] = [node.id, node.userType];
 	    addMention(mention);
 	}
 

@@ -56,14 +56,14 @@ const DEFAULT_COUNT = 25;
 class TransferList extends Component {
 
     makeImage = (node) => {
-	let { classes } = this.props;
+	let { classes, variant } = this.props;
 
 	return (
     	    <Avatar
 		component={Link}
-		to={node.user.person ?
-		    `/Person/Person?id=${node.user.person.id}` :
-		    `/Organization/Organization?id=${node.user.organization.id}`}
+		to={variant === 'donation' ?
+		    `/Person/Person?id=${node.user.id}` :
+		    `/Bot/Bot?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}

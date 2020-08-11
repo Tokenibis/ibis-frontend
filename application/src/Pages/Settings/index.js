@@ -129,9 +129,11 @@ const MAX_USERNAME_LEN = 15
 
 const query = loader('../../Static/graphql/app/Settings.gql')
 
-const person_mutation = loader('../../Static/graphql/app/PersonUpdate.gql')
-
-const organization_mutation = loader('../../Static/graphql/app/OrganizationUpdate.gql')
+const user_mutations = {
+    'Person': loader('../../Static/graphql/app/PersonUpdate.gql'),
+    'Organization': loader('../../Static/graphql/app/OrganizationUpdate.gql'),
+    'Bot': loader('../../Static/graphql/app/BotUpdate.gql'),
+}
 
 const notifier_mutation = loader('../../Static/graphql/app/NotifierUpdate.gql')
 
@@ -322,7 +324,7 @@ class Settings extends Component {
 	      <List
 		  subheader={
 		      <ListSubheader disableSticky className={classes.subheader}>
-			{context.userType === 'person' ? 'Personal Info' : 'Organizational Info'}
+			Profile
 		      </ListSubheader>
 		  }
 	      >
@@ -389,7 +391,7 @@ class Settings extends Component {
 		  <ListItemIcon>
 		    <DescriptionIcon />
 		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Edit Bio" />
+		  <ListItemText className={classes.text} primary="Change Bio" />
 		  {editField === 'description' ? 
 		   <ExpandLess color="secondary"/> :
 		   <ExpandMore color="secondary"/>}
@@ -666,7 +668,7 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		{context.userType === 'person' ? (
+		{context.userType === 'Person' ? (
 		    <ListItem>
 		      <ListItemIcon>
 			<RewardIcon />
@@ -782,11 +784,7 @@ class Settings extends Component {
 		  if (error) return `Error! ${error.message}`;
 		  return (
 		      <Mutation
-			  mutation={
-			  context.userType === 'person' ?
-			  person_mutation :
-			  organization_mutation
-			  }
+			  mutation={user_mutations[context.userType]}
 			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation

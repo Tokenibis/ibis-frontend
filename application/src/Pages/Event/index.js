@@ -181,7 +181,7 @@ class Event extends Component {
 		    <ListItemIcon>
     		      <Avatar
 		      component={Link}
-		      to={`/Organization/Organization?id=${node.user.organization.id}`}
+		      to={`/Organization/Organization?id=${node.user.id}`}
   		      alt="Ibis"
     		      src={node.user.avatar}
     		      className={classes.avatar}
@@ -223,9 +223,7 @@ class Event extends Component {
 		      safe source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  x.node.organization ?
-			  [x.node.organization.id, 'organization'] :
-			  [x.node.person.id, 'person'],
+			  [node.id, node.userType],
 		      ]))}
 		  />
 		</Grid>

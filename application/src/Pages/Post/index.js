@@ -104,7 +104,7 @@ class Post extends Component {
 		    <ListItemIcon>
     		      <Avatar
 		      component={Link}
-		      to={`/Person/Person?id=${node.user.person.id}`}
+		      to={`/Person/Person?id=${node.user.id}`}
   		      alt="Ibis"
     		      src={node.user.avatar}
     		      className={classes.avatar}
@@ -127,9 +127,7 @@ class Post extends Component {
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  x.node.organization ?
-			  [x.node.organization.id, 'organization'] :
-			  [x.node.person.id, 'person'],
+			  [node.id, node.userType],
 		      ]))}
 		  />
 		  <div className={classes.action}>

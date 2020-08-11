@@ -110,10 +110,6 @@ class Home extends Component {
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 	    this.setState({
-		person_id: results.data.user.person ?
-			   results.data.user.person.id : '',
-		organization_id: results.data.user.organization ?
-			      results.data.user.organization.id : '',
 		avatar: results.data.user.avatar,
 		username: results.data.user.username,
 		name: results.data.user.name,
@@ -126,25 +122,21 @@ class Home extends Component {
     }
 
     render() {
-	let { classes  } = this.props;
-	let { expanded, person_id, organization_id, avatar, username, name, balance } = this.state;
+	let { classes, context } = this.props;
+	let { expanded, avatar, username, name, balance } = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
   	      <Grid container direction="column" justify="center" alignItems="center" >
   		<Avatar
 		    component={Link}
-		    to={person_id ?
-			`/_/Person?id=${person_id}` :
-			`/_/Organization?id=${organization_id}`}
+		    to={`/_/${context.userType}?id=${context.userID}`}
   		    src={avatar}
   		    className={classes.avatar}
 		/>
 		<Typography
 		    component={Link}
-		    to={person_id ?
-			`/_/Person?id=${person_id}` :
-			`/_/Organization?id=${organization_id}`}
+		    to={`/_/${context.userType}?id=${context.userID}`}
 		    variant="body2"
 		    className={classes.username}
 		>

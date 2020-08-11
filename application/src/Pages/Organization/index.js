@@ -221,7 +221,7 @@ class Organization extends Component {
 		    <div className={classes.action}>
 		      <div className={classes.edgeMutations}>
 		      {
-			  node.userPtr.id !== context.userID &&
+			  node.id !== context.userID &&
 			  <SimpleEdgeMutation
 			      variant={FollowVal}
 			      user={context.userID}
@@ -245,7 +245,7 @@ class Organization extends Component {
 		      }
 		    </div>
 		    { 
-			node.userPtr.id !== context.userID ? (
+			node.id !== context.userID ? (
 			    <Button
 			      component={Link}
 			      to={`/Donation/DonationCreate?target=${id}`}

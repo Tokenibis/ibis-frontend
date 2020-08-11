@@ -267,9 +267,7 @@ class CommentTree extends Component {
 		  <ListItemIcon>
     		    <Avatar
 			component={Link}
-			to={node.user.person ?
-			    `/Person/Person?id=${node.user.person.id}` :
-			    `/Organization/Organization?id=${node.user.organization.id}`}
+			to={`/_/${node.user.userType}?id=${node.user.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -295,9 +293,7 @@ class CommentTree extends Component {
 		    source={node.description}
 		    mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			x.node.username,
-			x.node.organization ?
-			[x.node.organization.id, 'organization'] :
-			[x.node.person.id, 'person'],
+			[node.id, node.userType],
 		    ]))}
 		/>
 	      </Grid>
