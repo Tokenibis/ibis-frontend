@@ -169,7 +169,7 @@ class News extends Component {
 		      safe source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  [node.id, node.userType],
+			  [x.node.id, x.node.userType],
 		      ]))}
 		  />
 		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&

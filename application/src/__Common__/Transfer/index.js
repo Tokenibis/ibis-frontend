@@ -224,7 +224,7 @@ class Transfer extends Component {
 		      source={node.description}
 		      mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
 			  x.node.username,
-			  [node.id, node.userType],
+			  [x.node.id, x.node.userType],
 		      ]))}
 		  />
 		</Grid>
