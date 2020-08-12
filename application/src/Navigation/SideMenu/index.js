@@ -150,7 +150,7 @@ class SideMenu extends Component {
 	      >
 		<Link to="/Organization">
 		  <SublistItem
-		      label="Orgs"
+		      label="Organizations"
 		      classes={classes}
 		      icon={<OrganizationIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}

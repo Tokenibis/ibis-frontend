@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
-import EventFilter from './filter';
+import EventFilter, { DefaultFilter } from './filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
 import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
@@ -191,8 +191,8 @@ class EventList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'All'
-	count = count ? count: DEFAULT_COUNT
+	filterValue = filterValue ? filterValue : DefaultFilter;
+	count = count ? count: DEFAULT_COUNT;
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {

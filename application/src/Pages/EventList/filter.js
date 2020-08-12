@@ -47,6 +47,7 @@ const eventStyle = `
 }
 `;
 
+const DEFAULT_FILTER = 'All';
 
 const organization_options = ['All', 'Following', 'Mine', 'Bookmarked', 'Going'];
 const options = ['All', 'Following', 'Bookmarked', 'Going'];
@@ -97,6 +98,7 @@ class EventFilter extends Component {
 	    <IbisConsumer>
 	      {context => (
 		  <Filter 
+		      defaultVal={DEFAULT_FILTER}
 		      options={context.userType === 'Organization' ? organization_options : options}
 		      custom={(
 			  <div>
@@ -153,4 +155,5 @@ class EventFilter extends Component {
     };
 };
 
+export const DefaultFilter = DEFAULT_FILTER;
 export default withStyles(styles)(EventFilter);

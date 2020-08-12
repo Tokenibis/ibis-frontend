@@ -1,7 +1,8 @@
 import React from 'react';
 import Filter from '../../__Common__/Filter';
 
-import TransferList, { RewardVal } from '../../__Common__/TransferList';
+import TransferList, { RewardVal, DefaultFilter } from '../../__Common__/TransferList';
+import { IbisConsumer } from '../../Context';
 
 function RewardList(props) {
     return (
@@ -10,7 +11,20 @@ function RewardList(props) {
 };
 
 function RewardFilter(props) {
-    return <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} />;
+    return (
+	<IbisConsumer>
+	  {context => (
+	      <Filter
+		  options={context.userType === 'Bot' ?
+			   ['All', 'Following', 'Mine', 'Bookmarked'] :
+			   ['All', 'Following', 'Bookmarked']
+		  }
+		  defaultVal={DefaultFilter}
+	      {...props}
+	      />
+	  )}
+	</IbisConsumer> 
+    )
 }
 
 export { RewardFilter };

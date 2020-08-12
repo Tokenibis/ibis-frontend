@@ -165,7 +165,7 @@ class Home extends Component {
 		  <Link to="/Organization">
 		    <SublistItem 
 			onClick={() => {}} 
-			label="Orgs" 
+			label="Organizations" 
 			icon={<OrganizationIcon />} 
 		    />
 		  </Link>

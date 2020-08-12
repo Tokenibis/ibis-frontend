@@ -10,11 +10,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
+import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import IconButton from '@material-ui/core/IconButton';
 
-import FilterIcon from '@material-ui/icons/FilterList';
+import FilterIcon from '../../__Common__/FilterIcon';
+import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme => ({
     root: {
@@ -27,9 +30,19 @@ const styles = theme => ({
 	alignItems: 'center',
     },
     filterButton: {
-	margin: theme.spacing(-1, -1, -2, -2),
-	padding: theme.spacing(2),
-	zIndex: 100,
+	paddingLeft: theme.spacing(3.5),
+	paddingRight: theme.spacing(1),
+	justifyContent: 'center',
+	alignItems: 'center',
+	display: 'flex',
+	borderColor: theme.palette.secondary.main,
+    },
+    bottom: {
+	position: 'fixed',
+	bottom: '0%',
+	width: '100%',
+	zIndex: 10,
+	backgroundColor: '#f5f5f5',
     },
 });
 
@@ -67,8 +80,9 @@ class TabBar extends Component {
     };
 
     render() {
-	let { classes, value, options } = this.props;
-	let { openedFilter } = this.state;
+	let { classes, value, options, } = this.props;
+	let { openedFilter, filterValue } = this.state;
+	console.log(filterValue)
 
 	return (
 	    <div className={classes.root}>
@@ -76,30 +90,30 @@ class TabBar extends Component {
 		<Tabs
 		    indicatorColor="primary"
 		    variant="fullWidth"
-		    value={value}
+		    value={value + 1}
 		>
+		  <IconButton
+		      className={classes.filterButton}
+		      onClick={(e) => this.handleFilterOpen(e, value)}
+		  >
+		    <FilterIcon />
+		  </IconButton>
 		  {options.map((opt, i) => (
 		      <Tab
 			  key={i}
 			  onClick={(e) => this.handleTabClick(i)}
 			  label={
 			      <div className={classes.tabButtons}>
-				<div
-				  className={classes.filterButton}
-				    onClick={(e) => this.handleFilterOpen(e, i)}
-				  >
-				  <FilterIcon />
-				</div>
-				<div>
-				  {opt[0]}
-				</div>
+				{opt[0]}
 			      </div>
 			  }
 		      />
 		  ))}
 		</Tabs>
 		{options.map((opt, i) => (
-		    openedFilter === i && options[i][1](i, (e, v) => this.handleFilterClose(e, i, v))
+		    openedFilter === i && options[i][1](
+			filterValue, i, (e, v) => this.handleFilterClose(e, i, v)
+		    )
 		))}
 	      </AppBar>
 	    </div>

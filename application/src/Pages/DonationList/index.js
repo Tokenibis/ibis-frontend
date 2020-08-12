@@ -1,7 +1,8 @@
 import React from 'react';
-import Filter from '../../__Common__/Filter';
 
-import TransferList, { DonationVal } from '../../__Common__/TransferList';
+import Filter from '../../__Common__/Filter';
+import TransferList, { DonationVal, DefaultFilter } from '../../__Common__/TransferList';
+import { IbisConsumer } from '../../Context';
 
 function DonationList(props) {
     return (
@@ -10,7 +11,20 @@ function DonationList(props) {
 };
 
 function DonationFilter(props) {
-    return <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} />;
+    return (
+	<IbisConsumer>
+	  {context => (
+	      <Filter
+		  options={context.userType === 'Person' ?
+			   ['All', 'Following', 'Mine', 'Bookmarked'] :
+			   ['All', 'Following', 'Bookmarked']
+		  }
+		  defaultVal={DefaultFilter}
+	      {...props}
+	      />
+	  )}
+	</IbisConsumer> 
+    )
 }
 
 export { DonationFilter };

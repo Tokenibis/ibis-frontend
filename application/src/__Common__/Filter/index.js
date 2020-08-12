@@ -80,7 +80,7 @@ const styles = theme => ({
     },
 });
 
-function Filter({ classes, options, custom, onClose, ...other}) {
+function Filter({ classes, options, custom, value, onClose, defaultVal, ...other}) {
 
     let onSearch = (event) => {
 	event.stopPropagation();
@@ -101,7 +101,10 @@ function Filter({ classes, options, custom, onClose, ...other}) {
 		  <ListItem button onClick={(e) => onClose(e, opt)} key={opt}>
 		    <ListItemText primary={
 			<Typography variant="button" className={classes.item}>
-			  {opt}
+			  {opt === value || (!value && opt === defaultVal) ?
+			   `> ${opt} <` :
+			   opt
+			  }
 			</Typography>
 		    } />
 		  </ListItem>

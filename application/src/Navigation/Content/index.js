@@ -31,40 +31,40 @@ import { RewardFilter } from '../../Pages/RewardList';
 
 import { IbisConsumer } from '../../Context';
 
-const makeOrganizationFilter = (i, onClose) => {
-    return <OrganizationFilter key={i} open={true} onClose={onClose} />
+const makeOrganizationFilter = (filterValue, i, onClose) => {
+    return <OrganizationFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeNewsFilter = (i, onClose) => {
-    return <NewsFilter key={i} open={true} onClose={onClose} />
+const makeNewsFilter = (filterValue, i, onClose) => {
+    return <NewsFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeEventFilter = (i, onClose) => {
-    return <EventFilter key={i} open={true} onClose={onClose} />
+const makeEventFilter = (filterValue, i, onClose) => {
+    return <EventFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makePersonFilter = (i, onClose) => {
-    return <PersonFilter key={i} open={true} onClose={onClose} />
+const makePersonFilter = (filterValue, i, onClose) => {
+    return <PersonFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeDonationFilter = (i, onClose) => {
-    return <DonationFilter key={i} open={true} onClose={onClose} />
+const makeDonationFilter = (filterValue, i, onClose) => {
+    return <DonationFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makePostFilter = (i, onClose) => {
-    return <PostFilter key={i} open={true} onClose={onClose} />
+const makePostFilter = (filterValue, i, onClose) => {
+    return <PostFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeBotFilter = (i, onClose) => {
-    return <BotFilter key={i} open={true} onClose={onClose} />
+const makeBotFilter = (filterValue, i, onClose) => {
+    return <BotFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeActivityFilter = (i, onClose) => {
-    return <ActivityFilter key={i} open={true} onClose={onClose} />
+const makeActivityFilter = (filterValue, i, onClose) => {
+    return <ActivityFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
-const makeRewardFilter = (i, onClose) => {
-    return <RewardFilter key={i} open={true} onClose={onClose} />
+const makeRewardFilter = (filterValue, i, onClose) => {
+    return <RewardFilter value={filterValue} key={i} open={true} onClose={onClose} />
 }
 
 

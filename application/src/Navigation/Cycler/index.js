@@ -23,7 +23,7 @@ const styles = theme => ({
 
 const cycleMap = {
     '': null,
-    'Organizations': 'Organization',
+    'Orgs': 'Organization',
     'People': 'Person',
     'Bots': 'Bot',
 };
@@ -80,7 +80,7 @@ Cycler.propTypes = {
 };
 
 export const StandardVal = Object.keys(cycleMap).indexOf('');
-export const OrganizationVal = Object.keys(cycleMap).indexOf('Organizations');
+export const OrganizationVal = Object.keys(cycleMap).indexOf('Orgs');
 export const PersonVal = Object.keys(cycleMap).indexOf('People');
 export const BotVal = Object.keys(cycleMap).indexOf('Bots');
 

@@ -80,6 +80,7 @@ const styles = theme => ({
 });
 
 const DEFAULT_COUNT = 25;
+const DEFAULT_FILTER = 'All';
 
 const query = loader('../../Static/graphql/app/PostList.gql')
 
@@ -183,8 +184,8 @@ class PostList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'All'
-	count = count ? count: DEFAULT_COUNT
+	filterValue = filterValue ? filterValue : DEFAULT_FILTER;
+	count = count ? count: DEFAULT_COUNT;
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
@@ -274,9 +275,14 @@ function PostFilter(props) {
     return (
 	<IbisConsumer>
 	  {context => (
-	      context.userType === 'Person' ?
-	      <Filter options={['All', 'Following', 'Mine', 'Bookmarked']} {...props} />:
-	      <Filter options={['All', 'Following', 'Bookmarked']} {...props} />
+	      <Filter
+		  options={context.userType === 'Person' ?
+			   ['All', 'Following', 'Mine', 'Bookmarked'] :
+			   ['All', 'Following', 'Bookmarked']
+		  }
+		  defaultVal={DEFAULT_FILTER}
+	      {...props}
+	      />
 	  )}
 	</IbisConsumer> 
     )

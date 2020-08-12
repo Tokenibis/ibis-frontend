@@ -10,7 +10,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
@@ -21,9 +20,18 @@ import Cycler from '../Cycler'
 import SideMenu from '../SideMenu';
 import NotificationMenu from '../NotificationMenu';
 
-const styles = {
+const styles = theme => ({
     root: {
 	flexGrow: 1,
+    },
+    flex: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingTop: theme.spacing(0.5),
+	paddingBottom: theme.spacing(0.5),
+	paddingRight: theme.spacing(2),
+	paddingLeft: theme.spacing(2),
     },
     grow: {
 	flexGrow: 1,
@@ -33,13 +41,13 @@ const styles = {
 	marginLeft: -12,
 	marginRight: 20,
     },
-};
+});
 
 function MainBar({ classes, context, cycle }) {
 
     return (
 	<AppBar color="primary" position="static">
-	  <Toolbar>
+	  <div className={classes.flex}>
 	    <IbisConsumer>
 	      {context => (
 		  <SideMenu context={context}/>
@@ -53,7 +61,7 @@ function MainBar({ classes, context, cycle }) {
 		  <NotificationMenu context={context}/>
 	      )}
 	    </IbisConsumer> 
-          </Toolbar>
+	  </div>
 	</AppBar>
     );
 };

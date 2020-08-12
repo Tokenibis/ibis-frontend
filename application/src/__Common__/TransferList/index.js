@@ -53,6 +53,7 @@ const styles = theme => ({
 });
 
 const DEFAULT_COUNT = 25;
+const DEFAULT_FILTER = 'All';
 
 class TransferList extends Component {
 
@@ -164,8 +165,8 @@ class TransferList extends Component {
 	};
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'All'
-	count = count ? count: DEFAULT_COUNT
+	filterValue = filterValue ? filterValue : DEFAULT_FILTER;
+	count = count ? count: DEFAULT_COUNT;
 
 	// the filterValue option determines the content of the data that gets fetched
 	switch (filterValue.split(':')[0]) {
@@ -233,4 +234,5 @@ TransferList.propTypes = {
 
 export const DonationVal = 'donation';
 export const RewardVal = 'reward';
+export const DefaultFilter = 'All';
 export default withStyles(styles)(TransferList);
