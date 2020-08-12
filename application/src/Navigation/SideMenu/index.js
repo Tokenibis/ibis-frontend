@@ -143,7 +143,7 @@ class SideMenu extends Component {
 	      </Grid>
 	      <Divider />
 	      <Sublist
-		  label="Organization"
+		  label="Organizations"
 		  value={expanded === 'Organization'}
 		  icon={<OrganizationIcon />}
 		  onClick={(e) => {this.handleExpand('Organization')}}
@@ -174,7 +174,7 @@ class SideMenu extends Component {
 		</Link>
 	      </Sublist>
 	      <Sublist
-		  label="Person"
+		  label="People"
 		  value={expanded === 'Person'}
 		  icon={<PersonIcon />}
 		  onClick={(e) => {this.handleExpand('Person')}}
@@ -205,7 +205,7 @@ class SideMenu extends Component {
 		</Link>
 	      </Sublist>
 	      <Sublist
-		  label="Bot"
+		  label="Bots"
 		  value={expanded === 'Bot'}
 		  icon={<BotIcon />}
 		  onClick={(e) => {this.handleExpand('Bot')}}
