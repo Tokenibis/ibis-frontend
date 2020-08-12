@@ -198,10 +198,7 @@ class Authenticator extends Component {
 	    },
 	}).then(response => {
 	    if ('user_id' in response.data && response.data.user_id) {
-		this.setState({
-		    userID: response.data.user_id,
-		    userType: response.data.user_type,
-		});
+		window.location.reload()
 	    } else {
 		alert('Username or password not found');
 		console.error(response);
