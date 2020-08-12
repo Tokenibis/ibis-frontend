@@ -111,10 +111,6 @@ const styles = theme => ({
 
 class Transfer extends Component {
 
-    onSubmit() {
-	console.log('submitted')
-    }
-
     createPage(node) {
 	let { classes, context, variant, id } = this.props;
 
@@ -289,7 +285,6 @@ class Transfer extends Component {
 		      showReplyRoot
 		      parent={id}
 		      context={context}
-		      onSubmitParent={() => this.onSubmit()}
 		  />
 		</Grid>
 		<Grid item xs={12}><div className={classes.bottom} /></Grid>
