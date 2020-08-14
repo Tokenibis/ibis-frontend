@@ -194,7 +194,7 @@ class NewsList extends Component {
 	switch (filterValue.split(':')[0]) {
 	    case 'Mine':
 		variables = {
-		    byUser: context.userID,
+		    user: context.userID,
 		    orderBy: "-created",
 		    first: count,
 		}
@@ -241,7 +241,7 @@ class NewsList extends Component {
 		break;
 	    case '_Author':
 		variables = {
-		    byUser: filterValue.split(':')[1],
+		    user: filterValue.split(':')[1],
 		    orderBy: "-created",
 		    first: count,
 		}

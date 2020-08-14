@@ -464,7 +464,7 @@ class CommentTree extends Component {
 	    <Query
 	      fetchPolicy="no-cache"
 	      query={query} 
-	      variables={{ hasParent: parent, self: context.userID }}
+	      variables={{ parent: parent, self: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;

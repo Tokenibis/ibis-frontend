@@ -198,7 +198,7 @@ class EventList extends Component {
 	switch (filterValue.split(':')[0]) {
 	    case 'Mine':
 		variables = {
-		    byUser: context.userID,
+		    user: context.userID,
 		    orderBy: "-created",
 		    first: count,
 		}
@@ -245,7 +245,7 @@ class EventList extends Component {
 		break;
 	    case '_Host':
 		variables = {
-		    byUser: filterValue.split(':')[1],
+		    user: filterValue.split(':')[1],
 		    orderBy: "date",
 		    first: count,
 		}

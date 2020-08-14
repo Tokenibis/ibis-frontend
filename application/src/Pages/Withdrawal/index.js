@@ -183,7 +183,7 @@ class WithdrawalList extends Component {
 	);
 
 	let variables = {
-	    byUser: context.userID,
+	    user: context.userID,
 	    orderBy: "-created",
 	    first: count,
 	}
