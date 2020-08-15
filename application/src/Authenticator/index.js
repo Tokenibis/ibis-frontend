@@ -125,7 +125,7 @@ class Authenticator extends Component {
 	    userType: '',
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
 	    organizationClicks: 0,
-	    organizationLogin: new URL(window.location.href)['hash'] === '#/__organization_login__',
+	    organizationLogin: new URL(window.location.href)['hash'] === '#/__nonprofit_login__',
 	    loginEnabled: false,
 	};
     };

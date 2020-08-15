@@ -167,7 +167,6 @@ class Settings extends Component {
 
     updateAvatar = (mutation, refetch) => {
 	let avatar = document.getElementById('upload_avatar').files[0];
-	console.log(avatar)
 	mutation({ variables: { avatar } }).then(response => {
 	    refetch();
 	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
@@ -205,7 +204,6 @@ class Settings extends Component {
 
     updateBanner = (mutation, refetch) => {
 	let banner = document.getElementById('upload_banner').files[0];
-	console.log(banner)
 	mutation({ variables: { banner } }).then(response => {
 	    refetch();
 	    this.setState({ editField: '', loading: false, dialog: 'Success!' });

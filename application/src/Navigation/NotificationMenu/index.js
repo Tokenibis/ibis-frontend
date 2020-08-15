@@ -260,7 +260,7 @@ class NotificationMenu extends Component {
 			    <QueryHelper
 				query={notifications_query}
 				variables={{
-				    forUser: context.userID,
+				    user: context.userID,
 				    first: DEFAULT_COUNT,
 				}}
 				make={this.make}

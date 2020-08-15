@@ -117,13 +117,11 @@ class ActivityCreate extends Component {
 		fetchPolicy: "no-cache",
 	    }).then(results => {
 		let d = new Date(results.data.activity.date);
-		console.log(d)
 		let date_str = ('0000' + d.getFullYear()).slice(-4) + '-' +
 			       ('00' + (d.getMonth() + 1)).slice(-2) + '-' +
 			       ('00' + d.getDate()).slice(-2) + 'T' +
 			       ('00' + d.getHours()).slice(-2) + ':' +
 			       ('00' + d.getMinutes()).slice(-2)
-		console.log(date_str)
 		this.setState({
 		    title: results.data.activity.title,
 		    description: results.data.activity.description,
@@ -164,7 +162,6 @@ class ActivityCreate extends Component {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let activity_id = response.data[Object.keys(response.data, 0)].activity.id
-	    console.log('here!')
 	    history.push(`/${path[0]}/Activity?id=${activity_id}`)
 	}).catch(error => {
 	    console.log(error);

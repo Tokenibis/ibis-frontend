@@ -129,8 +129,6 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/app/Event.gql')
-
 class Event extends Component {
 
     constructor ({ context }) {
@@ -378,6 +376,8 @@ class Event extends Component {
 
     render() {
 	let { classes, context, id } = this.props
+
+	let query = loader('../../Static/graphql/app/Event.gql')
 
 	return (
 	    <Query

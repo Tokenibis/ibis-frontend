@@ -161,10 +161,6 @@ const MAX_AMOUNT = 100000;
 
 const MIN_AMOUNT = 1000;
 
-const query = loader('../../Static/graphql/app/DepositList.gql')
-
-const query_balance = loader('../../Static/graphql/app/Finance.gql')
-
 const message = `## Payment Guide
 
 ### Where is my money going?
@@ -239,6 +235,8 @@ class DepositList extends Component {
 
     render() {
 	let { classes, context, count } = this.props;
+
+	const query = loader('../../Static/graphql/app/DepositList.gql')
 
 	count = count ? count: DEFAULT_COUNT
 
@@ -378,6 +376,8 @@ class Deposit extends Component {
 	    dialog,
 	    checked
 	} = this.state;
+
+	let query_balance = loader('../../Static/graphql/app/Finance.gql')
 
 	let amount_final = amount;
 	if (checked) {

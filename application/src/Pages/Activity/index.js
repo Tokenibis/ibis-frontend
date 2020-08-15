@@ -18,6 +18,7 @@ import UserDialogList, { LikeVal as DialogLikeVal} from '../../__Common__/UserDi
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
 import CommentTree from '../../__Common__/CommentTree';
 import CustomDate from '../../__Common__/CustomDate';
+import Amount from '../../__Common__/Amount';
 
 const styles = theme => ({
     content: {
@@ -61,6 +62,14 @@ const styles = theme => ({
 	alignItems: 'center',
 	width: '100%',
     },
+    rewardWrapper: {
+	display: 'flex',
+    },
+    rewardSpan: {
+	color: theme.palette.tertiary.main,
+	paddingLeft: theme.spacing(),
+	paddingRight: theme.spacing(),
+    },
     likeBookmark: {
 	display: 'flex',
     },
@@ -96,8 +105,6 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/app/Activity.gql')
-
 class Activity extends Component {
 
     state = {
@@ -115,14 +122,24 @@ class Activity extends Component {
 	    this.setState({ likeCount: node.likeCount });
 	}
 
-	let reward_str = node.active ? (
+	let reward_display = node.active ? (
 	    Math.round(node.rewardMin/100) === Math.round((node.rewardMin + node.rewardRange)/100) ? (
-		`Reward: $${Math.round(node.rewardMin/100)}.`
+		<Typography variant="body2" className={classes.balance}	>
+		  <Amount amount={node.rewardMin} label="Reward"/>
+		</Typography>
 	    ):(
-		`Reward: $${Math.round(node.rewardMin/100)}-${Math.round((node.rewardMin + node.rewardRange)/100)}.`
+		<div className={classes.rewardWrapper}>
+		  <Typography variant="body2" className={classes.balance}	>
+		    <Amount amount={node.rewardMin} label="Min Reward"/>
+		  </Typography>
+		  <span className={classes.rewardSpan}> {' | '} </span>
+		  <Typography variant="body2" className={classes.balance}	>
+		    <Amount amount={node.rewardMin + node.rewardRange} label="Max Reward"/>
+		  </Typography>
+		</div>
 	    )
 	):(
-	    'Activity Finished.'
+  	    <span className={classes.reward}>Activity Finished</span>
 	)
 
 	return (
@@ -158,7 +175,7 @@ class Activity extends Component {
 		    />
 		  </ListItem>
 		  <Typography variant="body2">
-  		    <span className={classes.reward}>{reward_str} </span>
+		    {reward_display}
 		  </Typography>
 		  <CustomMarkdown
 		      source={node.description}
@@ -235,6 +252,8 @@ class Activity extends Component {
 
     render() {
 	let { classes, context, id } = this.props
+
+	let query = loader('../../Static/graphql/app/Activity.gql')
 
 	return (
 	    <Query

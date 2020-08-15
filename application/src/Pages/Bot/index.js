@@ -264,7 +264,7 @@ class Bot extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.rewardWithCount) === 0 ?
+		        (node.rewardCount) === 0 ?
 		        classes.hide :
 		        classes.none
 		    }
@@ -285,31 +285,6 @@ class Bot extends Component {
 		      className={classes.viewAll}
 		  >
 		    View all rewards
-		  </Typography>
-		</Grid>
-  		<Grid
-		    container
-		    direction="column"
-		    justify="center"
-		    alignItems="center"
-		    className={node.eventRsvpCount === 0 && classes.hide}
-		>
-		  <Typography variant="button" className={classes.heading} >
-		    Events Going
-		  </Typography>
-		  <EventList
-		      minimal
-		      context={context}
-		      filterValue={`_Going:${id}`}
-		      count={3}
-		  />
-		  <Typography
-		      component={Link}
-		      to={`/Event/EventList?filterValue=_Going:${id}`}
-		      variant="body2"
-		      className={classes.viewAll}
-		  >
-		    View all events
 		  </Typography>
 		</Grid>
 		<Grid item xs={12}><div className={classes.bottom} /></Grid>

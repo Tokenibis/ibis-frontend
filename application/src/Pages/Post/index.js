@@ -76,8 +76,6 @@ const styles = theme => ({
     },
 });
 
-const query = loader('../../Static/graphql/app/Post.gql')
-
 class Post extends Component {
 
     state = {
@@ -185,6 +183,8 @@ class Post extends Component {
 
     render() {
 	let { classes, context, id } = this.props
+
+	let query = loader('../../Static/graphql/app/Post.gql')
 
 	return (
 	    <Query

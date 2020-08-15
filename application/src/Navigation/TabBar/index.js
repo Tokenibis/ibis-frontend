@@ -82,7 +82,6 @@ class TabBar extends Component {
     render() {
 	let { classes, value, options, } = this.props;
 	let { openedFilter, filterValue } = this.state;
-	console.log(filterValue)
 
 	return (
 	    <div className={classes.root}>

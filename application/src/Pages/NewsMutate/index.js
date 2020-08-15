@@ -136,7 +136,6 @@ class NewsCreate extends Component {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let news_id = response.data[Object.keys(response.data, 0)].news.id
-	    console.log('here!')
 	    history.push(`/${path[0]}/News?id=${news_id}`)
 	}).catch(error => {
 	    console.log(error);

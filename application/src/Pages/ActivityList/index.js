@@ -213,47 +213,47 @@ class ActivityList extends Component {
 	    case 'Mine':
 		variables = {
 		    user: context.userID,
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
 	    case 'Following':
 		variables = {
 		    byFollowing: context.userID,
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
 	    case 'All':
 		variables = {
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
 	    case 'Bookmarked':
 		variables = {
 		    bookmarkBy: context.userID,
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
 	    case 'Classic':
 		variables = {
-		    orderBy: "-like_count",
+		    orderBy: "-active,-like_count",
 		    first: count,
 		}
 		break;
 	    case '_Search':
 		variables = {
 		    search: filterValue.split(':')[1],
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
 	    case '_User':
 		variables = {
 		    user: filterValue.split(':')[1],
-		    orderBy: "-created",
+		    orderBy: "-active,-created",
 		    first: count,
 		}
 		break;
