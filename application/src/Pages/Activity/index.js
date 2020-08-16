@@ -132,11 +132,11 @@ class Activity extends Component {
 	    ):(
 		<div className={classes.rewardWrapper}>
 		  <Typography variant="body2" className={classes.balance}	>
-		    <Amount amount={node.rewardMin} label="Min Reward"/>
+		    <Amount amount={node.rewardMin} label="Min"/>
 		  </Typography>
 		  <span className={classes.rewardSpan}> {' | '} </span>
 		  <Typography variant="body2" className={classes.balance}	>
-		    <Amount amount={node.rewardMin + node.rewardRange} label="Max Reward"/>
+		    <Amount amount={node.rewardMin + node.rewardRange} label="Max"/>
 		  </Typography>
 		</div>
 	    )

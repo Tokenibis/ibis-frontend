@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import CopyIcon from '@material-ui/icons/FileCopyOutlined';
 
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
+
+const config = require('../../config.json');
 
 const styles = theme => ({
     avatar: {
@@ -45,14 +52,112 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
-    }
+    },
+    buttonWrapper: {
+	width: '100%',
+	textAlign: 'center',
+	paddingTop: theme.spacing(2),
+    },
+    newButton: {
+	width: '90%',
+	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
+	borderStyle: 'solid',
+	borderWidth: '1px',
+	borderColor: theme.palette.secondary.main,
+	marginBottom: theme.spacing(1),
+    },
+    dialogInner: {
+	padding: theme.spacing(2),
+	textAlign: 'center',
+	display: 'flex',
+	marginRight: 'auto',
+	marginLeft: 'auto',
+    },
+    paperProps: {
+	width: '70%',
+	margin: theme.spacing(1),
+    },
 })
 
 const DEFAULT_COUNT = 25;
 
 const query = loader('../../Static/graphql/app/PersonList.gql')
 
+class Invite extends Component {
+    state = {
+	dialog: false,
+	copied: false,
+	sharing: false,
+    }
+
+    invite = (link) => {
+	if (navigator.share) {
+	    this.setState({ sharing: true });
+	    navigator.share({
+		title: 'Token Ibis Link',
+		text: 'Albuquerque\'s least profitable pyramid scheme:',
+		url: link,
+	    }).then(() => {
+		alert('Success!')
+		this.setState({ sharing: false });
+	    }).catch((error) => {
+		alert('Darn, something went wrong')
+		this.setState({ sharing: false });
+	    });
+	} else {
+	    this.setState({ dialog: true });
+	}
+    };
+
+    render() {
+	let { classes, context } = this.props;
+	let { dialog, copied, sharing } = this.state;
+
+	let link = `${config.ibis.app}`;
+
+	return (
+	    <div>
+	      <Dialog
+		  open={dialog}
+		  onClose={() => this.setState({ dialog: false, copied: false })}
+		  PaperProps={{ className: classes.paperProps}}
+	      >
+		<div className={classes.dialogInner}>
+		  <CustomMarkdown noLink source={
+		  copied ? 'Copied to clipboard' : `Referal link: ${link}`
+		  } />
+		  <IconButton
+		      color="secondary"
+		      onClick={() => {
+			  navigator.clipboard.writeText(link);
+			  this.setState({ copied: true });
+		      }}
+		  >
+		    <CopyIcon/>
+		  </IconButton>
+		</div>
+	      </Dialog>
+	      <div className={classes.buttonWrapper}>
+		<Button
+		    className={classes.newButton}
+		    onClick={() => this.invite(link)}
+		    disabled={sharing}
+		>
+		  Invite New User
+		</Button>
+	      </div>
+	    </div>
+	);
+    }
+
+}
+
 class PersonList extends Component {
+
+    state = {
+	dialog: false,
+    }
 
     makeImage = (node) => {
 	let { classes  } = this.props;
@@ -105,7 +210,8 @@ class PersonList extends Component {
     };
 
     render() {
-	let { context, minimal, filterValue, count } = this.props;
+	let { classes, context, minimal, filterValue, count } = this.props;
+
 	let infiniteScroll, make, variables;
 
 	if (minimal) {
@@ -200,12 +306,15 @@ class PersonList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <QueryHelper
-		query={query}
-		variables={variables}
-		make={make}
-		scroll={infiniteScroll ? 'infinite' : null}
-	    />
+	    <div>
+	      <Invite classes={classes} context={context}/>
+	      <QueryHelper
+		  query={query}
+		  variables={variables}
+		  make={make}
+		  scroll={infiniteScroll ? 'infinite' : null}
+	      />
+	    </div>
 	);
     };
 };

@@ -5,6 +5,7 @@ import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 
 import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
@@ -49,6 +50,20 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
+    },
+    buttonWrapper: {
+	width: '100%',
+	textAlign: 'center',
+	paddingTop: theme.spacing(2),
+    },
+    newButton: {
+	width: '90%',
+	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
+	borderStyle: 'solid',
+	borderWidth: '1px',
+	borderColor: theme.palette.secondary.main,
+	marginBottom: theme.spacing(1),
     },
 });
 
@@ -127,7 +142,7 @@ class TransferList extends Component {
     };
 
     render() {
-	let { context, minimal, variant, filterValue, count } = this.props;
+	let { classes, context, minimal, variant, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
 
 	let query;
@@ -218,12 +233,27 @@ class TransferList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <QueryHelper
-		query={query}
-		variables={variables}
-		make={make}
-		scroll={infiniteScroll ? 'infinite' : null}
-	    />
+	    <div>
+	      {!minimal && ((context.userType === 'Person' && variant === 'donation') ||
+			    (context.userType === 'Bot' && variant === 'reward')) && (
+		  <div className={classes.buttonWrapper}>
+		    <Button
+			component={Link}
+			to={variant === 'donation' ? '/Organization/OrganizationList':
+			    '/Person/PersonList'}
+			className={classes.newButton}
+		      >
+		      {variant === 'donation' ? 'New Donation' : 'New Reward'}
+		    </Button>
+		  </div>
+	      )}
+	      <QueryHelper
+		  query={query}
+		  variables={variables}
+		  make={make}
+		  scroll={infiniteScroll ? 'infinite' : null}
+	      />
+	    </div>
 	);
     };
 };
