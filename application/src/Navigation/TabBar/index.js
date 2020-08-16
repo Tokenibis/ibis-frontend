@@ -24,14 +24,11 @@ const styles = theme => ({
 	flexGrow: 1,
 	backgroundColor: theme.palette.primary
     },
-    tabButtons: {
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
+    tabs: {
+	paddingRight: theme.spacing(2),
     },
     filterButton: {
 	paddingLeft: theme.spacing(3.5),
-	paddingRight: theme.spacing(1),
 	justifyContent: 'center',
 	alignItems: 'center',
 	display: 'flex',
@@ -90,6 +87,7 @@ class TabBar extends Component {
 		    indicatorColor="primary"
 		    variant="fullWidth"
 		    value={value + 1}
+		    className={classes.tabs}
 		>
 		  <IconButton
 		      className={classes.filterButton}
@@ -101,11 +99,7 @@ class TabBar extends Component {
 		      <Tab
 			  key={i}
 			  onClick={(e) => this.handleTabClick(i)}
-			  label={
-			      <div className={classes.tabButtons}>
-				{opt[0]}
-			      </div>
-			  }
+			  label={opt[0]}
 		      />
 		  ))}
 		</Tabs>
