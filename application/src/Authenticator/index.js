@@ -40,14 +40,18 @@ import {
 } from "react-social-login-buttons";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
+import BackIcon from '@material-ui/icons/KeyboardBackspace';
+import StudentIcon from '@material-ui/icons/School';
+import OrganizationIcon from '@material-ui/icons/StoreOutlined';
+import PersonIcon from '@material-ui/icons/PeopleOutlined';
 import axios from "axios";
 
 import { IbisProvider } from '../Context'
 import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
-import UnmIcon from '../__Common__/UnmIcon';
 import UserAgreement from '../__Common__/UserAgreement'
 
 const styles = theme => ({
@@ -55,7 +59,7 @@ const styles = theme => ({
 	width: '100%',
 	minHeight: '100%',
 	margin: '0 auto',
-	filter: "brightness(60%)",
+	filter: "brightness(50%)",
 	position: 'fixed',
 	top: '50%',
 	left: '50%',
@@ -68,13 +72,27 @@ const styles = theme => ({
 	width: 60,
 	paddingBottom: theme.spacing(1),
     },
+    back: {
+	color: 'white',
+	height: 60,
+	width: 60,
+    },
     welcome: {
-	fontSize: 32,
+	fontSize: 26,
 	color: 'white',
 	paddingBottom: theme.spacing(1),
     },
+    disclaimer: {
+	fontSize: 16,
+	color: 'white',
+	paddingTop: theme.spacing(1),
+	width: '80%',
+    },
     button: {
 	width: '80%',
+    },
+    orgSpacer: {
+	height: theme.spacing(2),
     },
     progressWrapper: {
 	paddingTop: theme.spacing(10),
@@ -98,23 +116,77 @@ const styles = theme => ({
 	backgroundColor: 'white',
 	width: '90%',
     },
-    login: {
-	width: '90%',
-	color: 'white',
-	backgroundColor: '#84ab3f',
-	borderColor: theme.palette.secondary.main,
-	marginTop: theme.spacing(2),
+});
+
+
+const StudentSelectButton = createButton({
+    icon: StudentIcon,
+    text: "Student",
+    activeStyle: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: 'white',
+	background: "#84ab3f"
+    },
+    style: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: '#84ab3f',
+	background: '#84ab3f',
     },
 });
 
-const unmConfig = {
+const OrganizationSelectButton = createButton({
+    icon: OrganizationIcon,
+    text: "Organization/Bot",
+    activeStyle: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: '#84ab3f',
+    },
+    style: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: 'white',
+    },
+});
+
+const OtherSelectButton = createButton({
+    icon: PersonIcon,
+    text: "Other",
+    activeStyle: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: '#84ab3f',
+    },
+    style: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: 'white',
+    },
+});
+
+const UnmLoginButton = createButton({
+    icon: StudentIcon,
     activeStyle: { background: "rgb(149, 6, 27)" },
-    icon: UnmIcon,
     style: { background: "rgb(186, 10, 38)" },
     text: "Login with UNM",
-};
+});
 
-const UnmLoginButton = createButton(unmConfig);
+const OrganizationLoginButton = createButton({
+    icon: OrganizationIcon,
+    text: "Login",
+    activeStyle: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: '#84ab3f',
+    },
+    style: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: 'white',
+    },
+});
 
 class Authenticator extends Component {
 
@@ -125,8 +197,8 @@ class Authenticator extends Component {
 	    userType: '',
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
 	    organizationClicks: 0,
-	    organizationLogin: new URL(window.location.href)['hash'] === '#/__nonprofit_login__',
 	    loginEnabled: false,
+	    loginMode: '',
 	};
     };
 
@@ -176,16 +248,6 @@ class Authenticator extends Component {
 	    console.log(error.response);
 	    alert(error.response);
 	})
-    }
-
-    organizationRedirect = () => {
-	let { organizationClicks, organizationLogin } = this.state;
-
-	if (organizationClicks >= 2) {
-	    this.setState({ organizationClicks: 0, organizationLogin: !organizationLogin });
-	} else {
-	    this.setState({ organizationClicks: organizationClicks + 1 });
-	}
     }
 
     passLogin = () => {
@@ -278,10 +340,102 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, userType, width, organizationLogin, loginEnabled  } = this.state;
+	let { userID, userType, width, loginMode, loginEnabled  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
+
+	let loginSelect = (
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <IbisIcon className={classes.icon} />
+	      <Typography variant="body2" className={classes.welcome}>
+		Welcome to Token Ibis
+	      </Typography>
+	      <StudentSelectButton
+		  Button
+		  className={classes.button}
+		  onClick={() => this.setState({ loginMode: 'student'})}
+		/>
+	      <OrganizationSelectButton
+		  Button
+		  className={classes.button}
+		  onClick={() => this.setState({ loginMode: 'organization'})}
+		/>
+	      <OtherSelectButton
+		  Button
+		  className={classes.button}
+		  onClick={() => this.setState({ loginMode: 'other'})}
+		/>
+	    </Grid>
+	);
+
+	let loginStudent = (
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <UnmLoginButton className={classes.button} onClick={this.microsoftLogin}/>
+	      <Typography variant="body2" className={classes.disclaimer}>
+		Token Ibis Inc. is not affiliated with UNM in anyway.
+		Logging in with your NetID just lets us authenticate
+		you and give you more free money.
+	      </Typography>
+	      <IconButton>
+		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
+	      </IconButton>
+	    </Grid>
+	);
+
+	let loginOrganization  = (
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <TextField
+		  id="form_username"
+		  required
+		  defaultValue=""
+ 		  className={classes.textField}
+		  margin="normal"
+		  variant="filled"
+		  fullWidth
+		  label="Username"
+		  onChange={() => this.setState({
+		      loginEnabled: document.getElementById(`form_username`).value &&
+				    document.getElementById(`form_password`).value
+		  })}
+	      />
+	      <TextField
+		  id="form_password"
+		  type="password"
+		  required
+		  defaultValue=""
+ 		  className={classes.textField}
+		  margin="normal"
+		  variant="filled"
+		  fullWidth
+		  label="Password"
+		  onChange={() => this.setState({
+		      loginEnabled: document.getElementById(`form_username`).value &&
+				    document.getElementById(`form_password`).value
+		  })}
+	      />
+	      <div className={classes.orgSpacer}/>
+	      <OrganizationLoginButton className={classes.button} onClick={this.passLogin}/>
+	      <IconButton>
+		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
+	      </IconButton>
+	    </Grid>
+	);
+
+	let loginOther = (
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
+	      <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
+	      <Typography variant="body2" className={classes.disclaimer}>
+		If you are a (UNM) student, please go back and login
+		with your NetID. By logging in with Facebook or Google,
+		you will not receive the full weekly UBP payout.
+	      </Typography>
+	      <IconButton>
+		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
+	      </IconButton>
+	    </Grid>
+	);
 
 	if (userID) {
 	    // app has successfully authenticated
@@ -316,73 +470,30 @@ class Authenticator extends Component {
 		      }}
 		      className={classes.content}
 		  >
-		    {organizationLogin ? (
-  			<Grid container direction="column" justify="center" alignItems="center" >
-			  <IbisIcon
-			      className={classes.icon}
-		              onClick={() => this.organizationRedirect()}
-			  />
-			  <TextField
-			      id="form_username"
-			      autoFocus
-			      required
-			      defaultValue=""
- 			      className={classes.textField}
-			      margin="normal"
-			      variant="filled"
-			      fullWidth
-			      label="Username"
-			      onChange={() => this.setState({
-				  loginEnabled: document.getElementById(`form_username`).value &&
-						document.getElementById(`form_password`).value
-			      })}
-			  />
-			  <TextField
-			      id="form_password"
-			      type="password"
-			      required
-			      defaultValue=""
- 			      className={classes.textField}
-			      margin="normal"
-			      variant="filled"
-			      fullWidth
-			      label="Password"
-			      onChange={() => this.setState({
-				  loginEnabled: document.getElementById(`form_username`).value &&
-						document.getElementById(`form_password`).value
-			      })}
-			  />
-			  <Button
-			      className={classes.login}
-			      onClick={() => this.passLogin()}
-			      disabled={!loginEnabled}
-			    >
-			    Organization Login
-			  </Button>
-			</Grid>
+		    {loginMode === '' ? (
+			loginSelect
 		    ):(
-  			<Grid container direction="column" justify="center" alignItems="center" >
-			  <IbisIcon
-			      className={classes.icon}
-			      onClick={() => this.organizationRedirect()}
-			  />
-			  <Typography variant="body2" className={classes.welcome}>
-			    Welcome to ibis
-			  </Typography>
-			  <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
-			  <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
-			  <UnmLoginButton className={classes.button} onClick={this.microsoftLogin}/>
-			</Grid>
+			loginMode === 'student' ? (
+			    loginStudent
+			):(
+			    loginMode === 'organization' ? (
+				loginOrganization
+			    ):(
+				loginOther
+			    )
+			)
 		    )}
 		  </div>
-		  <Typography 
-		      variant="body2"
-		      style={{ width: width * 0.7 }}
-		      className={classes.agreement}
-		  >
-		    <UserAgreement/>
-		  </Typography>
-			</Grid>
+		  {loginMode !== '' && (
+		      <Typography 
+			  variant="body2"
+			  style={{ width: width * 0.7 }}
+			  className={classes.agreement}
+			  >
+			<UserAgreement/>
+		      </Typography>
+		  )}
+		</Grid>
 	    );
 	} else {
 	    // app is between api calls
