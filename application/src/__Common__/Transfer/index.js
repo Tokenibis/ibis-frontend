@@ -109,6 +109,11 @@ const styles = theme => ({
     },
 });
 
+const query_donation = loader('../../Static/graphql/app/Donation.gql')
+
+const query_reward = loader('../../Static/graphql/app/Reward.gql')
+
+
 class Transfer extends Component {
 
     createPage(node) {
@@ -292,18 +297,10 @@ class Transfer extends Component {
     render() {
 	let { classes, context, variant, id } = this.props
 
-	let query;
-
-	if (variant === 'donation') {
-	    query = loader('../../Static/graphql/app/Donation.gql')
-	} else {
-	    query = loader('../../Static/graphql/app/Reward.gql')
-	}
-
 	return (
 	    <Query
 		fetchPolicy="no-cache"
-		query={query} 
+		query={variant === 'donation' ? query_donation : query_reward} 
 		variables={{ id, self: context.userID }}
 	    >
 	    {({ loading, error, data }) => {

@@ -218,7 +218,7 @@ function ContentLoader({ match, location }) {
 	  <IbisConsumer>
 	    {context => (
 		<div style={{ margin: '0 auto', maxWidth: context.maxWindowWidth }}>
-		  <Page context={context} {...urlParams} />
+		  <Page context={context} {...urlParams} key={Math.random()}/>
 		</div>
 	    )}
 	  </IbisConsumer> 
