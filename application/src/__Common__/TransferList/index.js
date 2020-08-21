@@ -14,6 +14,9 @@ import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../SimpleEdgeMutation'
 import Truncated from '../Truncated';
 
 const styles = theme => ({
+    root: {
+	width: '100%',
+    },
     avatar: {
 	backgroundColor: 'white',
  	borderStyle: 'solid',
@@ -233,7 +236,7 @@ class TransferList extends Component {
 	variables.self = context.userID
 
 	return (
-	    <div>
+	    <div className={classes.root}>
 	      {!minimal && ((context.userType === 'Person' && variant === 'donation') ||
 			    (context.userType === 'Bot' && variant === 'reward')) && (
 		  <div className={classes.buttonWrapper}>

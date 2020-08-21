@@ -470,7 +470,7 @@ class Settings extends Component {
 		    )}
 		  </div>
 		</Collapse>
-		{context.userType === 'organization' &&
+		{context.userType === 'Organization' &&
 		 <div>
 		   <CustomDivider />
 		   <ListItem
