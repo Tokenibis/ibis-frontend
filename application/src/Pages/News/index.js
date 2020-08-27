@@ -181,7 +181,7 @@ class News extends Component {
 		  <div className={classes.action}>
 		    {context.userID === node.user.id ? (
 			<div className={classes.edgeMutationsEdit}>
-			  <div className={classes.likeBookmark}>
+			  <div className={classes.edgeMutations}>
 			    <SimpleEdgeMutation
 				variant={BookmarkVal}
 				user={context.userID}

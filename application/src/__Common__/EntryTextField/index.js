@@ -14,6 +14,7 @@ const styles = theme => ({
     },
 });
 
+const USERNAME_LENGTH = 15;
 
 class EntryTextField extends Component {
 
@@ -56,7 +57,7 @@ class EntryTextField extends Component {
 	if (key === 'Enter' || /^\W$/.test(key)) {
 	    let previous = e.target.value.slice(0, e.target.selectionStart)
 	    let username = ` ${previous}`.split(/\W@/).slice(-1)[0].slice(0, -1)
-	    if (/^\w+$/.test(username) && username.length < 15) {
+	    if (/^\w+$/.test(username) && username.length <= USERNAME_LENGTH) {
 		this.setState({
 		    dialog: true,
 		    search: username,

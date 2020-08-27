@@ -298,7 +298,7 @@ class Person extends Component {
 		    justify="center"
 		    alignItems="center"
 		    className={
-		        (node.rewardWithCount) === 0 ?
+		        (node.rewardReceivedCount) === 0 ?
 		        classes.hide :
 		        classes.none
 		    }
