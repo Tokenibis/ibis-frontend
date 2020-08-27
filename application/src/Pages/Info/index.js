@@ -22,27 +22,6 @@ if you want to show your support, follow us on social media on
 [instagram](https://www.instagram.com/tokenibis/), or
 [twitter](https://twitter.com/tokenibis).
 
-## Beta Testing
-
-This code is in _Beta Testing_, which means that we're still working
-out some kinks. If you find one yourself, the most helpful thing you
-can do is to email us at __info@tokenibis.org__ to let us know. If
-you're the first one to find it, we might even send a few extra ibis
-dollars your way. 
-
-All Token Ibis software is 100% free and open source. If you're a
-developer yourself and see some areas for improvement, we also welcome
-issue reports and pull request at https://github.com/Tokenibis.
-
-__IMPORTANT!__ At this stage, although we will honor all
-completed donations made on the app, we may have to make changes
-that could affect your balance and reward history. This
-could be extreme as deleting the entire database of rewards.
-If so, we will send out notifications via the email connected to
-your account so you can complete your donations in a timely
-manner. All unspent funds afterwards will be lost to you and
-recycled back for a future user base.
-
 ## Using the App
 
 Ibis is your one-stop shop to donate, engage with our listed
