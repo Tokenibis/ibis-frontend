@@ -247,10 +247,11 @@ class Organization extends Component {
 		    {context.userType === 'Person' && (
 			<Button
 			    component={Link}
-			    to={`/Donation/DonationCreate?target=${id}`}
+			    to={`/Organization/DonationCreate?target=${id}`}
 			    className={classes.actionDonate}
+			    disabled={!node.isActive}
 			    >
-			  Donate
+			  {node.isActive ? 'Donate' : 'Inactive'}
 			</Button>
 		    )}
 		  </Grid>
