@@ -146,8 +146,8 @@ class ActivityCreate extends Component {
 	    title: document.getElementById(`activity_title`).value,
 	    description: document.getElementById(`activity_description`).value,
 	    active: active,
-	    rewardMin: document.getElementById(`reward_min`).value,
-	    rewardRange: document.getElementById(`reward_max`).value - document.getElementById(`reward_min`).value,
+	    rewardMin: Math.floor(Number(document.getElementById(`reward_min`).value) * 100),
+	    rewardRange: Math.floor(Number(document.getElementById(`reward_max`).value - document.getElementById(`reward_min`).value) * 100),
 
 	}
 
