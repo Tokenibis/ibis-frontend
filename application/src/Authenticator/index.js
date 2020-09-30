@@ -153,7 +153,7 @@ const OrganizationSelectButton = createButton({
 
 const OtherSelectButton = createButton({
     icon: PersonIcon,
-    text: "Other",
+    text: "Non-Student",
     activeStyle: {
 	borderStyle: 'solid',
 	borderWidth: '2px',
@@ -356,15 +356,15 @@ class Authenticator extends Component {
 		  className={classes.button}
 		  onClick={() => this.setState({ loginMode: 'student'})}
 		/>
-	      <OrganizationSelectButton
-		  Button
-		  className={classes.button}
-		  onClick={() => this.setState({ loginMode: 'organization'})}
-		/>
 	      <OtherSelectButton
 		  Button
 		  className={classes.button}
 		  onClick={() => this.setState({ loginMode: 'other'})}
+		/>
+	      <OrganizationSelectButton
+		  Button
+		  className={classes.button}
+		  onClick={() => this.setState({ loginMode: 'organization'})}
 		/>
 	    </Grid>
 	);
