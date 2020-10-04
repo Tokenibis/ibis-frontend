@@ -137,7 +137,7 @@ class ActivityList extends Component {
 	return (
 	    <Typography variant="body2">
   	      <span className={classes.reward}>{reward_str}</span>
-	      <Truncated text={node.description}/>
+	      {node.active && <Truncated text={node.description}/>}
 	    </Typography>
 	);
     }
