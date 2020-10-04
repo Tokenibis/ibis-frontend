@@ -54,6 +54,7 @@ const styles = theme => ({
     },
     seeMore: {
 	fontWeight: 'bold',
+	cursor: 'pointer',
 	width: '100%',
 	color: theme.palette.secondary.main,
 	paddingTop: theme.spacing(2),
@@ -138,6 +139,7 @@ class CommentTree extends Component {
 	    showReplyChild: new Set(),
 	    enableSubmit: false,
 	    mention: [],
+	    data: null,
 	}
     }
 
@@ -158,10 +160,19 @@ class CommentTree extends Component {
 	} else {
 	    showReplyChild.add(id)
 	}
+
 	this.setState({ showReplyChild })
     };
 
-    renderReplyForm(depth, refetch) {
+    onSubmitBottom(id) {
+	let { parent, depth } = this.props;
+
+	this.onSubmitChild(id)
+	this.setState({ data: null });
+	this.fetchComments(parent);
+    }
+
+    renderReplyForm(depth) {
 
 	let { classes, client, context, parent, onSubmitRoot, replyFocused } = this.props;
 	let { enableSubmit, mention } = this.state;
@@ -180,8 +191,10 @@ class CommentTree extends Component {
 	    }).then(response => {
 		onSubmitRoot && onSubmitRoot();
 		this.onSubmitSelf();
-		this.setState({ enableSubmit: false });
-		refetch();
+		if (depth < MAX_DEPTH) {
+		    this.setState({ enableSubmit: false, data: null });
+		    this.fetchComments(parent);
+		}
 	    }).catch(error => {
 		console.log(error);
 	    });
@@ -248,7 +261,7 @@ class CommentTree extends Component {
     };
 
     renderComment(node, depth) {
-	let { classes, context  } = this.props;
+	let { classes, context, onSubmitRoot } = this.props;
 	let { showReplyChild } = this.state;
 
 	return (
@@ -290,6 +303,11 @@ class CommentTree extends Component {
 		      } 
 		  />
 		</ListItem>
+		{depth === MAX_DEPTH && (
+		    <CustomMarkdown
+			source={`___@${node.parent.comment.user.username}:___\n`}
+		    />
+		)}
 		<CustomMarkdown
 		    source={node.description}
 		    mention={node.mention && Object.fromEntries(node.mention.edges.map(x => [
@@ -339,12 +357,12 @@ class CommentTree extends Component {
 	)
     };
 
-    renderCommentTree(depth, data) {
-	let { classes, client, context } = this.props;
-	let { showReplyChild } = this.state;
+    renderCommentTree(depth) {
+	let { classes, client, context, parent } = this.props;
+	let { data, showReplyChild } = this.state;
 
 	return (
-	    data[Object.keys(data)[0]].edges.map((item) => (
+	    data.map((item) => (
 		<div>
 		  {this.renderComment(item.node, depth)}
 		  <CommentTree
@@ -352,7 +370,11 @@ class CommentTree extends Component {
 		      depth={depth + 1}
 		      parent={item.node.id}
 		      showReplyRoot={showReplyChild.has(item.node.id)}
-		      onSubmitRoot={() => this.onSubmitChild(item.node.id)}
+		      onSubmitRoot={() => depth === MAX_DEPTH ? (
+			  this.onSubmitBottom(item.node.id)
+		      ):(
+			  this.onSubmitChild(item.node.id)
+		      )}
 		      replyFocused={true}
 		      context={context}
 		      classes={classes}
@@ -366,71 +388,6 @@ class CommentTree extends Component {
 	let { classes } = this.props;
 	let { seeMore } = this.state;
 
-	let seeMoreButton = (
-	    <Grid item xs={12 - depth}>
-	      <Typography
-		  variant="body2"
-		  className={classes.seeMore}
-		  onClick={(e) => {this.toggleSeeMore()}}
-	      >
-		See more replies
-	      </Typography>
-	    </Grid>
-	);
-
-	let expandedReplies = (
-	    <Grid container>
-	      <Grid item xs={12}>
-		<div className={classes.spacer}/>
-	      </Grid>
-	      <Grid item xs={12}>
-		<CustomDivider/>
-		<div className={classes.action}>
-		  <Typography
-		      variant="body2"
-		      className={classes.expandedReplyHeader}
-		  >
-		    Replies
-		  </Typography>
-		  <Typography
-		      variant="body2"
-		      className={classes.hideReplies}
-		      onClick={(e) => {this.toggleSeeMore()}}
-		  >
-		    Hide replies
-		  </Typography>
-		</div>
-		<CustomDivider/>
-	      </Grid>
-	      <Grid item xs={12}>
-		{this.renderCommentTree(0, data)}
-	      </Grid>
-	      <Grid item xs={12}>
-		<div className={classes.spacer}/>
-	      </Grid>
-	      <Grid item xs={12}>
-		<CustomDivider/>
-		<div className={classes.action}>
-		  <Typography
-		      variant="body2"
-		      className={classes.expandedReplyHeader}
-		  >
-		    Replies
-		  </Typography>
-		  <Typography
-		      variant="body2"
-		      className={classes.hideReplies}
-		      onClick={(e) => {this.toggleSeeMore()}}
-		  >
-		    Hide replies
-		  </Typography>
-		</div>
-		<CustomDivider/>
-		<div className={classes.spacer}/>
-	      </Grid>
-	    </Grid>
-	);
-
 	return (
 	    <Grid container>
 	      {
@@ -442,52 +399,87 @@ class CommentTree extends Component {
 	      }
 	      <Grid item xs={12 - depth}>
 		<Collapse className={classes.collapse} in={!seeMore} timeout="auto" unmountOnExit>
-		  {seeMoreButton}
+		  <Grid item xs={12 - depth}>
+		    <Typography
+			variant="body2"
+			className={classes.seeMore}
+			onClick={(e) => {this.toggleSeeMore()}}
+		    >
+		      See more replies
+		    </Typography>
+		  </Grid>
 		</Collapse>
 	      </Grid>
 	      <Collapse className={classes.collapse} in={seeMore} timeout="auto" unmountOnExit>
-		{expandedReplies}
+		{this.renderCommentTree(depth, seeMore)}
 	      </Collapse>
 	    </Grid>
 	);
     };
+
+    fetchComments(node) {
+	let { client, context, depth } = this.props;
+
+	if (depth > MAX_DEPTH) {
+	    this.setState({ data: []});
+	    return
+	}
+
+	client.query({
+	    fetchPolicy: "no-cache",
+	    query: query,
+	    variables: { parent: node, self: context.userID },
+	}).then(response => {
+	    if (depth === MAX_DEPTH) {
+		let { data } = this.state;
+		if (data === null) {
+		    data = [];
+		}
+		let new_data = response.data[Object.keys(response.data)[0]].edges;
+		data = data.concat(new_data);
+		data.sort((a, b) => {
+		    if (new Date(a.node.created) > new Date(b.node.created)) {
+			return 1;
+		    } else if (new Date(a.node.created) < new Date(b.node.created)) {
+			return -1;
+		    } else {
+			return 0
+		    }
+		});
+		this.setState({ data });
+		new_data.forEach(child => { this.fetchComments(child.node.id) })
+	    } else {
+		this.setState({ data: response.data[Object.keys(response.data)[0]].edges });
+	    }
+	});
+    }
+
+    componentDidMount() {
+	let { parent } = this.props;
+	this.fetchComments(parent);
+    }
 	    
     render() {
-	let { classes, context, parent, depth, showReplyRoot } = this.props;
+	let { classes, context, parent, depth, showReplyRoot, show } = this.props;
+	let { data } = this.state;
 
 	// depth will typically be undefined when calling CommentTree externally
 	if (!depth) {
 	    depth = 0;
 	}
 
-	return (
-	    <Query
-	      fetchPolicy="no-cache"
-	      query={query} 
-	      variables={{ parent: parent, self: context.userID }}
-	    >
-	      {({ loading, error, data, refetch }) => {
-		  if (loading) return <LinearProgress className={classes.progress} />;
-		  if (error) return `Error! ${error.message}`;
-		  
-		  return (
-		      <div>
-			<Collapse in={showReplyRoot} timeout="auto" unmountOnExit>
-			  {this.renderReplyForm(depth, refetch)}
-			</Collapse>
-			{
-			    depth < MAX_DEPTH ? (
-				this.renderCommentTree(depth, data)
-			    ):(
-				data[Object.keys(data)[0]].edges.length > 0 &&
-				this.renderSeeMore(depth, data)
-			    )
-			}
-		      </div>
-		  );
-	      }}
-	    </Query>
-	);
+	if (!data) {
+	    return <LinearProgress className={classes.progress} />;
+	} else {
+	    return (
+		<div>
+		  <Collapse in={showReplyRoot} timeout="auto" unmountOnExit>
+		    {this.renderReplyForm(depth)}
+		  </Collapse>
+		  {depth <= MAX_DEPTH && this.renderCommentTree(depth)}
+		</div>
+	    );
+	}
     };
 };
 
