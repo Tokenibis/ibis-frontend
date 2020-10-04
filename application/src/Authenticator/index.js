@@ -426,11 +426,6 @@ class Authenticator extends Component {
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
 	      <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
-	      <Typography variant="body2" className={classes.disclaimer}>
-		If you are a (UNM) student, please go back and login
-		with your NetID. By logging in with Facebook or Google,
-		you will not receive the full weekly UBP payout.
-	      </Typography>
 	      <IconButton>
 		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
 	      </IconButton>
