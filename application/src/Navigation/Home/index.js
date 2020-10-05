@@ -58,6 +58,12 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
     },
+    metrics: {
+	fontWeight: 'bold',
+	marginTop: theme.spacing(-2),
+	color: theme.palette.tertiary.main,
+	paddingBottom: theme.spacing(2),
+    },
     notificationIcon: {
 	color: theme.palette.secondary.main,
 	fontSize: 14,
@@ -93,7 +99,8 @@ class Home extends Component {
 	username: '',
 	name: '.',
 	balance: 0,
-
+	hasRecentEntry: null,
+	recentResponseRate: null,
     };
 
     handleExpand(expanded) {
@@ -109,11 +116,19 @@ class Home extends Component {
 	    variables: { id: context.userID },
 	    fetchPolicy:"no-cache",
 	}).then(results => {
+	    let hasRecentEntry = context.userType ?
+				 results.data.user.organization.hasRecentEntry :
+				 null
+	    let recentResponseRate = context.userType ?
+				 results.data.user.organization.recentResponseRate :
+				 null
 	    this.setState({
 		avatar: results.data.user.avatar,
 		username: results.data.user.username,
 		name: results.data.user.name,
 		balance: results.data.user.balance,
+		hasRecentEntry,
+		recentResponseRate,
 	    })
 	}).catch(error => {
 	    console.log(error);
@@ -123,7 +138,15 @@ class Home extends Component {
 
     render() {
 	let { classes, context } = this.props;
-	let { expanded, avatar, username, name, balance } = this.state;
+	let {
+	    expanded,
+	    avatar,
+	    username,
+	    name,
+	    balance,
+	    hasRecentEntry,
+	    recentResponseRate,
+	} = this.state;
 
 	return (
   	    <Grid container direction="column" justify="center" alignItems="center" >
@@ -151,6 +174,14 @@ class Home extends Component {
 		>
 		  <Amount amount={balance} label="Balance"/>
 		</Typography>
+		{context.userType === 'Organization' && (
+		    <Typography
+			variant="body2"
+			className={classes.metrics}
+			>
+		      {`Outreach: ${hasRecentEntry ? '✓' : '✗'} | Response: ${Math.round(recentResponseRate * 100)}%`}
+		    </Typography>
+		)}
 	      </Grid>
 	      <List
 		component="nav"

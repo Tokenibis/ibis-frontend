@@ -54,9 +54,6 @@ const styles = theme => ({
 	paddingLeft: theme.spacing(2),
 	paddingRight: theme.spacing(2),
     },
-    nested: {
-	paddingLeft: theme.spacing(4),
-    },
 });
 
 const query = loader('../../Static/graphql/app/SideMenu.gql')
@@ -66,8 +63,6 @@ class SideMenu extends Component {
     state = {
 	drawer: false,
 	expanded: null,
-	person_id: '',
-	organization_id: '',
 	username: '.',
 	name: '.',
 	balance: 0,
