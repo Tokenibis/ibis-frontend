@@ -52,6 +52,11 @@ const styles = theme => ({
 	textAlign: 'center',
 	display: 'flex',
     },
+    response: {
+	fontWeight: 'bold',
+	paddingTop: theme.spacing(1),
+	color: theme.palette.tertiary.main,
+    },
     edgeMutations: {
 	display: 'flex',
     },
@@ -180,16 +185,22 @@ class Organization extends Component {
 		    >
 		      <Amount amount={node.fundraised} label="Fundraised"/>
 		    </Typography>
+		    <Typography
+			variant="body2"
+			className={classes.response}
+		    >
+		      {`Response Rate: ${Math.round(node.recentResponseRate * 100)}%`}
+		    </Typography>
 		    <div className={classes.followStatWrapper}>
 		      <UserDialogList
-		      variant={FollowingVal}
-		      count={node.followingCount}
-		      node={node.id}
+			  variant={FollowingVal}
+			  count={node.followingCount}
+			  node={node.id}
 		      />
 		      <UserDialogList
-		      variant={FollowerVal}
-		      count={followerCount}
-		      node={node.id}
+			  variant={FollowerVal}
+			  count={followerCount}
+			  node={node.id}
 		      />
 		    </div>
   		    {

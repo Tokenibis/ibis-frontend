@@ -246,7 +246,7 @@ class PersonList extends Component {
 	switch (filterValue.split(':')[0]) {
 	    case 'All':
 		variables = {
-		    orderBy: '-date_joined',
+		    orderBy: '-score',
 		    first: count,
 		}
 		break;
