@@ -36,6 +36,7 @@ import Sublist from '../../__Common__/Sublist';
 import SublistItem from '../../__Common__/SublistItem';
 import Quote from './Quote'
 import Amount from '../../__Common__/Amount';
+import Popup from '../../__Common__/Popup';
 
 const styles = theme => ({
     list: {
@@ -61,7 +62,7 @@ const styles = theme => ({
     metrics: {
 	fontWeight: 'bold',
 	marginTop: theme.spacing(-2),
-	color: theme.palette.tertiary.main,
+	color: theme.palette.secondary.main,
 	paddingBottom: theme.spacing(2),
     },
     notificationIcon: {
@@ -90,6 +91,47 @@ const styles = theme => ({
 
 const query = loader('../../Static/graphql/app/Home.gql')
 
+const message = `
+## What are these indicators?
+
+In order to recognize and promote engagement, Token Ibis automatically
+sorts the "featured" list of organizations. Here are the current
+factors that the algorithm considers from most important to least
+important:
+
+1. __New Organizations:__ Organizations that have just been added will
+get priority placement for 2 weeks.
+
+2. __News/Events Outreach:__ If your organization posted at least one
+news article or event within the last 4 weeks, you will get priority
+over all of the ones that did not (post more is not better at this
+point).
+
+3. __Donation Response Rate:__ This is the percentage of donations
+that you comment on OR like within the last 8 weeks. From a donor
+relationship standpoint, I would highly encourage you to comment
+whenever you can, especially for new donors. However, I know that can
+be tedious to do it all the time, so the algorithm just cares that you
+did something to acknowledge the donation, even if it's just a simple
+"like".
+
+4. __Recently Fundraised:__ All else being equal, organizations will
+be sorted in descending over based on the total dollar amount
+fundraised over the last 8 weeks.
+
+The _outreach/response_ text on the homescreen provides immediate
+feedback for __2__ and __3__, which are both entirely in your
+control. Please note that the list refreshes every hour and that
+the _response rate_ is visible to users as well. Finally, we will
+probably make occasional tweaks to the algorithm (prioritizing
+engagement above everything else) but will do our best to
+communicate any major changes.
+
+Thank you!
+
+_Last updated: 2020.10.13_
+`
+
 class Home extends Component {
     state = {
 	expanded: null,
@@ -116,10 +158,10 @@ class Home extends Component {
 	    variables: { id: context.userID },
 	    fetchPolicy:"no-cache",
 	}).then(results => {
-	    let hasRecentEntry = context.userType ?
+	    let hasRecentEntry = context.userType === 'Organization' ?
 				 results.data.user.organization.hasRecentEntry :
 				 null
-	    let recentResponseRate = context.userType ?
+	    let recentResponseRate = context.userType === 'Organization' ?
 				 results.data.user.organization.recentResponseRate :
 				 null
 	    this.setState({
@@ -175,12 +217,14 @@ class Home extends Component {
 		  <Amount amount={balance} label="Balance"/>
 		</Typography>
 		{context.userType === 'Organization' && (
-		    <Typography
+		    <Popup wide message={message}>
+		      <Typography
 			variant="body2"
 			className={classes.metrics}
 			>
-		      {`Outreach: ${hasRecentEntry ? '✓' : '✗'} | Response: ${Math.round(recentResponseRate * 100)}%`}
-		    </Typography>
+			{`Outreach: ${hasRecentEntry ? '✓' : '✗'} | Response: ${Math.round(recentResponseRate * 100)}%`}
+		      </Typography>
+		    </Popup>
 		)}
 	      </Grid>
 	      <List
