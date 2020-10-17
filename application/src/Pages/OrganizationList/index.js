@@ -47,6 +47,7 @@ const styles = theme => ({
 const query = loader('../../Static/graphql/app/OrganizationList.gql')
 
 const DEFAULT_COUNT = 25;
+const DEFAULT_FILTER = 'Featured';
 
 class OrganizationList extends Component {
 
@@ -102,7 +103,7 @@ class OrganizationList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Go to page
+		{`Go to page${context.userType === 'Person' ? ' | Donate' : ''}`}
 	      </Typography>
 	    </div>
 	);
@@ -138,7 +139,7 @@ class OrganizationList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'Featured'
+	filterValue = filterValue ? filterValue : DEFAULT_FILTER;
 	count = count ? count: DEFAULT_COUNT
 
 	// the filterValue option determines the content of the data that gets fetched
@@ -204,7 +205,13 @@ OrganizationList.propTypes = {
 };
 
 function OrganizationFilter(props) {
-    return <Filter options={['Featured', 'Popular', 'Following']} {...props} />;
+    return (
+	<Filter
+	    options={['Featured', 'Popular', 'Following']}
+	    defaultVal={DEFAULT_FILTER}
+	{...props}
+	/>
+    );
 }
 
 export { OrganizationFilter };

@@ -10,12 +10,16 @@ import Button from '@material-ui/core/Button';
 import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
-import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../SimpleEdgeMutation';
+import CustomDate from '../../__Common__/CustomDate';
+import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
 const styles = theme => ({
     root: {
 	width: '100%',
+    },
+    bold: {
+	fontWeight: 'bold',
     },
     avatar: {
 	backgroundColor: 'white',
@@ -32,6 +36,9 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
+    subtitle: {
+	color: theme.palette.tertiary.main,
+    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -40,7 +47,6 @@ const styles = theme => ({
     },
     body: {
 	paddingLeft: theme.spacing(6),
-	paddingRight: theme.spacing(6),
     },
     amount: {
 	fontWeight: 'bold',
@@ -119,12 +125,6 @@ class TransferList extends Component {
 	    <div className={classes.action}>
 	      <div className={classes.likeBookmark}>
 		<SimpleEdgeMutation
-		    variant={BookmarkVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasBookmarked.edges.length === 1}
-		/>
-		<SimpleEdgeMutation
 		    variant={LikeVal}
 		    user={context.userID}
 		    target={node.id}
@@ -173,6 +173,7 @@ class TransferList extends Component {
 	    infiniteScroll = true;
 	    make = (data) => (
 		<ListView
+		    expandedAll
 		    makeImage={this.makeImage}
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}

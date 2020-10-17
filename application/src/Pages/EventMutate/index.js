@@ -224,7 +224,7 @@ class EventCreate extends Component {
 			margin="normal"
 			variant="outlined"
 			fullWidth
-			label="Image"
+			label="Image (URL)"
 		        value={image}
 			onChange={() => this.handleChange()}
 		    />

@@ -15,6 +15,7 @@ import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
+import Truncated from '../../__Common__/Truncated';
 
 const config = require('../../config.json');
 
@@ -81,6 +82,7 @@ const styles = theme => ({
 })
 
 const DEFAULT_COUNT = 25;
+const DEFAULT_FILTER = 'All';
 
 const query = loader('../../Static/graphql/app/PersonList.gql')
 
@@ -186,6 +188,14 @@ class PersonList extends Component {
 	);
     }
 
+    makeBody = (node) => {
+	return (
+  	    <Typography variant="body2">
+  	      <Truncated text={node.description}/>
+  	    </Typography>
+	);
+    }
+
     makeActions = (node) => {
 	let { classes, context } = this.props;
 	return (
@@ -203,7 +213,7 @@ class PersonList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Go to page
+		{`Go to page${context.userType === 'Bot' ? ' | Donate' : ''}`}
 	      </Typography>
 	    </div>
 	);
@@ -239,7 +249,7 @@ class PersonList extends Component {
 	}
 
 	// set default values if needed
-	filterValue = filterValue ? filterValue : 'All'
+	filterValue = filterValue ? filterValue : DEFAULT_FILTER;
 	count = count ? count: DEFAULT_COUNT
 
 	// the filterValue option determines the content of the data that gets fetched
@@ -325,7 +335,13 @@ PersonList.propTypes = {
 };
 
 function PersonFilter(props) {
-    return <Filter options={['All', 'Following', 'Followers']} {...props} />;
+    return (
+	<Filter
+	    options={['All', 'Following', 'Followers']}
+	    defaultVal={DEFAULT_FILTER}
+	{...props}
+	/>
+    );
 }
 
 export { PersonFilter };
