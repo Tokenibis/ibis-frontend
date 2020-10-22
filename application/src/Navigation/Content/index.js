@@ -87,8 +87,8 @@ const personOptions = [
 
 const botOptions = [
     [ 'Bots', makeBotFilter, 'Bot', 'BotList' ],
-    [ 'Rewards', makeRewardFilter, 'Reward', 'RewardList' ],
     [ 'Activities', makeActivityFilter, 'Activity', 'ActivityList' ],
+    [ 'Rewards', makeRewardFilter, 'Reward', 'RewardList' ],
 ]
 
 function HomeLoader()  {

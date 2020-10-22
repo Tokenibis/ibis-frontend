@@ -300,18 +300,18 @@ class Home extends Component {
 			icon={<BotIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Reward">
-		    <SublistItem 
-			onClick={() => {}} 
-			label="Rewards" 
-			icon={<RewardIcon />} 
-		    />
-		  </Link>
 		  <Link to="/Activity">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Activities" 
 			icon={<ActivityIcon />} 
+		    />
+		  </Link>
+		  <Link to="/Reward">
+		    <SublistItem 
+			onClick={() => {}} 
+			label="Rewards" 
+			icon={<RewardIcon />} 
 		    />
 		  </Link>
 		</Sublist>

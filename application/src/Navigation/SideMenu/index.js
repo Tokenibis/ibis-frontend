@@ -213,19 +213,19 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Reward">
-		  <SublistItem
-		      label="Rewards"
-		      classes={classes}
-		      icon={<RewardIcon />}
-		      onClick={(e) => this.toggleDrawer(false)}
-		  />
-		</Link>
 		<Link to="/Activity">
 		  <SublistItem
 		      label="Activities"
 		      classes={classes}
 		      icon={<ActivityIcon />}
+		      onClick={(e) => this.toggleDrawer(false)}
+		  />
+		</Link>
+		<Link to="/Reward">
+		  <SublistItem
+		      label="Rewards"
+		      classes={classes}
+		      icon={<RewardIcon />}
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
