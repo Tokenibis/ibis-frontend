@@ -20,6 +20,7 @@ import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import DescriptionIcon from '@material-ui/icons/Subject';
 import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
+import NameIcon from '@material-ui/icons/FontDownloadOutlined';
 import EmailIcon from '@material-ui/icons/EmailOutlined';
 import PasswordIcon from '@material-ui/icons/LockOutlined';
 import FollowIcon from '@material-ui/icons/HowToReg';
@@ -143,6 +144,7 @@ class Settings extends Component {
 	dialog: '',
 	username: null,
 	description: null,
+	name: null,
 	email: null,
 	editField: '',
 	canSubmit: false,
@@ -189,8 +191,21 @@ class Settings extends Component {
 	this.setState({ loading: true });
     }
 
+    updateName = (mutation, refetch) => {
+	let name = document.getElementById('edit_name').value;
+	mutation({ variables: { firstName: name } }).then(response => {
+	    refetch();
+	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
+	}).catch(error => {
+	    alert('Hm... something went wrong, please try again or contact __info@tokenibis.org__ to report this bug')
+	    this.setState({ loading: false });
+	});
+	this.setState({ loading: true });
+    }
+
     updateEmail = (mutation, refetch) => {
 	let email = document.getElementById('edit_email').value;
+	console.log(email)
 	mutation({ variables: { email } }).then(response => {
 	    refetch();
 	    this.setState({ editField: '', loading: false, dialog: 'Success!' });
@@ -248,6 +263,12 @@ class Settings extends Component {
 	this.setState({ description, canSubmit });
     }
 
+    handleNameInput(current) {
+	let name = document.getElementById('edit_name').value.toString()
+	let canSubmit = name && name !== current
+	this.setState({ name, canSubmit });
+    }
+
     handleEmailInput(current) {
 	let email = document.getElementById('edit_email').value.toString()
 	let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -303,6 +324,7 @@ class Settings extends Component {
 	    dialog,
 	    username,
 	    description,
+	    name,
 	    email,
 	    editField,
 	    canSubmit,
@@ -472,6 +494,55 @@ class Settings extends Component {
 		</Collapse>
 		{context.userType === 'Organization' &&
 		 <div>
+		   <CustomDivider />
+		   <ListItem
+		       button
+		       onClick={(e) => {
+			   this.setState({ editField: editField !== 'name' ? 'name': '' })
+		       }}
+		     >
+		     <ListItemIcon>
+		       <NameIcon />
+		     </ListItemIcon>
+		     <ListItemText className={classes.text} primary="Change Name" />
+		     {editField === 'name' ? 
+		      <ExpandLess color="secondary"/> :
+		      <ExpandMore color="secondary"/>}
+		   </ListItem>
+		   <Collapse in={editField === 'name'} timeout="auto" unmountOnExit>
+		     <div className={classes.action}>
+		       <div>
+			 <ListItemText className={classes.edit} primary={
+			     <TextField
+				 id="edit_name"
+				     autoFocus
+				     required
+				     className={classes.textField}
+				     margin="normal"
+				     variant="outlined"
+				     fullWidth
+				     value={name !== null ? name: data.user.firstName}
+			             onInput={() => this.handleNameInput(data.user.firstName)}
+			     />
+			 }/>
+			 <Typography variant="body2" className={classes.fine}>
+			   This change will take effect on your next notification
+			 </Typography>
+		       </div>
+		       {loading ? (
+			   <span className={classes.progressWrapper}>
+			     <CircularProgress size={24} className={classes.progress}/>
+			   </span>
+		       ):(
+			   <IconButton
+			       className={canSubmit ? classes.button : classes.disabledButton}
+			       onClick={() => {this.updateName(user_mutation, refetch)}}
+			       >
+			     <SubmitIcon />
+			   </IconButton>
+		       )}
+		     </div>
+		   </Collapse>
 		   <CustomDivider />
 		   <ListItem
 		       button
