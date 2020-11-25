@@ -188,7 +188,7 @@ class Bot extends Component {
 		      />
 		    </div>
   		    {
-			expanded ? (
+			expanded || node.description.length <= DEFAULT_TRUNCATE_LENGTH ? (
 			    <CustomMarkdown safe source={node.description} />
 			):(
 			    <Typography variant="body2" className={classes.description}>

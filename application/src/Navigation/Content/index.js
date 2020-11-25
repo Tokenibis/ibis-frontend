@@ -187,23 +187,23 @@ function ContentLoader({ match, location }) {
 	    );
 	    pageName = pageName ? pageName : 'BotList';
 	    break;
-	case 'Reward':
+	case 'Activity':
 	    nav = (
 		<div>
 		  <MainBar cycle={BotVal} />
 		  <TabBar options={botOptions} value={1} />
 		</div>
 	    );
-	    pageName = pageName ? pageName : 'RewardList';
+	    pageName = pageName ? pageName : 'ActivityList';
 	    break;
-	case 'Activity':
+	case 'Reward':
 	    nav = (
 		<div>
 		  <MainBar cycle={BotVal} />
 		  <TabBar options={botOptions} value={2} />
 		</div>
 	    );
-	    pageName = pageName ? pageName : 'ActivityList';
+	    pageName = pageName ? pageName : 'RewardList';
 	    break;
 	default:
 	    return "Error, Page not Found";
