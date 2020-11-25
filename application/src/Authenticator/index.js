@@ -36,6 +36,7 @@ import Grid from '@material-ui/core/Grid';
 import {
     GoogleLoginButton,
     FacebookLoginButton,
+    MicrosoftLoginButton,
     createButton,
 } from "react-social-login-buttons";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -43,9 +44,9 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import BackIcon from '@material-ui/icons/KeyboardBackspace';
-import StudentIcon from '@material-ui/icons/School';
+import SignUpIcon from '@material-ui/icons/AccountCircle';
+import SignInIcon from '@material-ui/icons/ExitToApp';
 import OrganizationIcon from '@material-ui/icons/StoreOutlined';
-import PersonIcon from '@material-ui/icons/PeopleOutlined';
 import axios from "axios";
 
 import { IbisProvider } from '../Context'
@@ -119,9 +120,9 @@ const styles = theme => ({
 });
 
 
-const StudentSelectButton = createButton({
-    icon: StudentIcon,
-    text: "Student",
+const SignUpButton = createButton({
+    icon: SignUpIcon,
+    text: "Sign up",
     activeStyle: {
 	borderStyle: 'solid',
 	borderWidth: '2px',
@@ -133,6 +134,21 @@ const StudentSelectButton = createButton({
 	borderWidth: '2px',
 	borderColor: '#84ab3f',
 	background: '#84ab3f',
+    },
+});
+
+const SignInButton = createButton({
+    icon: SignInIcon,
+    text: "Sign in",
+    activeStyle: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: '#84ab3f',
+    },
+    style: {
+	borderStyle: 'solid',
+	borderWidth: '2px',
+	borderColor: 'white',
     },
 });
 
@@ -149,28 +165,6 @@ const OrganizationSelectButton = createButton({
 	borderWidth: '2px',
 	borderColor: 'white',
     },
-});
-
-const OtherSelectButton = createButton({
-    icon: PersonIcon,
-    text: "Non-Student",
-    activeStyle: {
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: '#84ab3f',
-    },
-    style: {
-	borderStyle: 'solid',
-	borderWidth: '2px',
-	borderColor: 'white',
-    },
-});
-
-const UnmLoginButton = createButton({
-    icon: StudentIcon,
-    activeStyle: { background: "rgb(149, 6, 27)" },
-    style: { background: "rgb(186, 10, 38)" },
-    text: "Login with UNM",
 });
 
 const OrganizationLoginButton = createButton({
@@ -198,7 +192,7 @@ class Authenticator extends Component {
 	    width: Math.ceil(Math.min(window.innerWidth, context.maxWindowWidth)),
 	    organizationClicks: 0,
 	    loginEnabled: false,
-	    loginMode: '',
+	    menuMode: 'root',
 	};
     };
 
@@ -340,50 +334,58 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, userType, width, loginMode, loginEnabled  } = this.state;
+	let { userID, userType, width, menuMode, loginEnabled  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)
 
-	let loginSelect = (
+	let rootSelect = (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <IbisIcon className={classes.icon} />
 	      <Typography variant="body2" className={classes.welcome}>
 		Welcome to Token Ibis
 	      </Typography>
-	      <StudentSelectButton
+	      <SignUpButton
 		  Button
 		  className={classes.button}
-		  onClick={() => this.setState({ loginMode: 'student'})}
+		  onClick={() => this.setState({ menuMode: 'signUp'})}
 		/>
-	      <OtherSelectButton
+	      <SignInButton
 		  Button
 		  className={classes.button}
-		  onClick={() => this.setState({ loginMode: 'other'})}
-		/>
-	      <OrganizationSelectButton
-		  Button
-		  className={classes.button}
-		  onClick={() => this.setState({ loginMode: 'organization'})}
+		  onClick={() => this.setState({ menuMode: 'signIn'})}
 		/>
 	    </Grid>
 	);
 
-	let loginStudent = (
+	let signUpSelect = (
   	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <UnmLoginButton className={classes.button} onClick={this.microsoftLogin}/>
-	      <Typography variant="body2" className={classes.disclaimer}>
-		Token Ibis Inc. is not affiliated with UNM in anyway.
-		Logging in with your NetID just lets us authenticate
-		you and give you more free money.
-	      </Typography>
+	      <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
+	      <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
+	      <MicrosoftLoginButton className={classes.button} onClick={this.microsoftLogin}/>
 	      <IconButton>
-		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
+		<BackIcon className={classes.back} onClick={() => this.setState({ menuMode: 'root' })}/>
 	      </IconButton>
 	    </Grid>
 	);
 
-	let loginOrganization  = (
+	let signInSelect = (
+  	    <Grid container direction="column" justify="center" alignItems="center" >
+	      <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
+	      <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
+	      <MicrosoftLoginButton className={classes.button} onClick={this.microsoftLogin}/>
+	      <OrganizationSelectButton
+		  Button
+		  className={classes.button}
+		  onClick={() => this.setState({ menuMode: 'organization'})}
+		/>
+	      <IconButton>
+		<BackIcon className={classes.back} onClick={() => this.setState({ menuMode: 'root' })}/>
+	      </IconButton>
+	    </Grid>
+	);
+
+	let organizationSelect  = (
   	    <Grid container direction="column" justify="center" alignItems="center" >
 	      <TextField
 		  id="form_username"
@@ -417,17 +419,7 @@ class Authenticator extends Component {
 	      <div className={classes.orgSpacer}/>
 	      <OrganizationLoginButton className={classes.button} onClick={this.passLogin}/>
 	      <IconButton>
-		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
-	      </IconButton>
-	    </Grid>
-	);
-
-	let loginOther = (
-  	    <Grid container direction="column" justify="center" alignItems="center" >
-	      <FacebookLoginButton className={classes.button} onClick={this.facebookLogin}/>
-	      <GoogleLoginButton className={classes.button} onClick={this.googleLogin}/>
-	      <IconButton>
-		<BackIcon className={classes.back} onClick={() => this.setState({ loginMode: '' })}/>
+		<BackIcon className={classes.back} onClick={() => this.setState({ menuMode: 'signIn' })}/>
 	      </IconButton>
 	    </Grid>
 	);
@@ -465,21 +457,25 @@ class Authenticator extends Component {
 		      }}
 		      className={classes.content}
 		  >
-		    {loginMode === '' ? (
-			loginSelect
+		    {menuMode === 'root' ? (
+			rootSelect
 		    ):(
-			loginMode === 'student' ? (
-			    loginStudent
+			menuMode === 'signUp' ? (
+			    signUpSelect
 			):(
-			    loginMode === 'organization' ? (
-				loginOrganization
+			    menuMode === 'signIn' ? (
+				signInSelect
 			    ):(
-				loginOther
+				menuMode === 'organization' ? (
+				    organizationSelect
+				):(
+				    rootSelect
+				)
 			    )
 			)
 		    )}
 		  </div>
-		  {loginMode !== '' && (
+		  {menuMode !== '' && (
 		      <Typography 
 			  variant="body2"
 			  style={{ width: width * 0.7 }}
