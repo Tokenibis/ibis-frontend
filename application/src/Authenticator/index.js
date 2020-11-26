@@ -47,6 +47,7 @@ import BackIcon from '@material-ui/icons/KeyboardBackspace';
 import SignUpIcon from '@material-ui/icons/AccountCircle';
 import SignInIcon from '@material-ui/icons/ExitToApp';
 import OrganizationIcon from '@material-ui/icons/StoreOutlined';
+import Cookies from 'universal-cookie';
 import axios from "axios";
 
 import { IbisProvider } from '../Context'
@@ -54,6 +55,8 @@ import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
 import UserAgreement from '../__Common__/UserAgreement'
+
+const cookies = new Cookies();
 
 const styles = theme => ({
     img: {
@@ -208,7 +211,7 @@ class Authenticator extends Component {
     facebookLogin = () => {
 	axios('/auth/social/facebook/auth-server/', {
 	    method: 'post',
-	    withCredentials: true
+	    withCredentials: true,
 	}).then(response => {
 	    window.location.href = response.data.url;
 	}).catch(error => {
@@ -221,7 +224,7 @@ class Authenticator extends Component {
     googleLogin = () => {
 	axios('/auth/social/google/auth-server/', {
 	    method: 'post',
-	    withCredentials: true
+	    withCredentials: true,
 	}).then(response => {
 	    window.location.href = response.data.url;
 	}).catch(error => {
@@ -234,7 +237,7 @@ class Authenticator extends Component {
     microsoftLogin = () => {
 	axios('/auth/social/microsoft/auth-server/', {
 	    method: 'post',
-	    withCredentials: true
+	    withCredentials: true,
 	}).then(response => {
 	    window.location.href = response.data.url;
 	}).catch(error => {
@@ -285,19 +288,27 @@ class Authenticator extends Component {
 	    let code = url.searchParams.get('code');
 	    let state = url.searchParams.get('state');
 
+	    let formData = new FormData();
+	    formData.append('code', code);
+	    formData.append('state', state);
+	    formData.append('mode', cookies.get('mode'));
+
 	    axios(`/auth/social/${path[1]}/login/`, {
 		method: 'post',
-		data: {
-		    code: code,
-		    state: state
-		},
+		data: formData,
 		withCredentials: true
 	    }).then(response => {
+		let options = {
+		    method: 'post',
+		    withCredentials: true
+		}
+
+		if (cookies.get('mode') === 'sign_up' && cookies.get('referral')) {
+		    options.data = { referral: cookies.get('referral') };
+		}
+
 		if ('data' in response && 'key' in response.data) {
-		    return axios('/ibis/login/', {
-			method: 'post',
-			withCredentials: true
-		    });
+		    return axios('/ibis/login/', options);
 		} else {
 		    console.error('Did not receive data or key in social auth response');
 		    console.error(response);
@@ -348,12 +359,18 @@ class Authenticator extends Component {
 	      <SignUpButton
 		  Button
 		  className={classes.button}
-		  onClick={() => this.setState({ menuMode: 'signUp'})}
+		  onClick={() => {
+		      cookies.set('mode', 'sign_up', { path: '/', sameSite: 'strict'});
+		      this.setState({ menuMode: 'signUp'})}
+		  }
 		/>
 	      <SignInButton
 		  Button
 		  className={classes.button}
-		  onClick={() => this.setState({ menuMode: 'signIn'})}
+		  onClick={() => {
+		      cookies.set('mode', 'sign_in', { path: '/', sameSite: 'strict'});
+		      this.setState({ menuMode: 'signIn'})}
+		  }
 		/>
 	    </Grid>
 	);
@@ -438,6 +455,12 @@ class Authenticator extends Component {
 	    );
 	} else if (userID === '' && path[0] !== 'redirect') {
 	    // app has identified that no user is logged in and not redirecting
+
+	    let referral = (new URLSearchParams(window.location.search)).get('referral');
+	    if (referral) {
+		cookies.set('referral', referral, { path: '/', sameSite: 'strict'});
+	    }
+
 	    window.addEventListener('resize', this.resizeImage);
 	    return (
   		<Grid container direction="column" justify="center" alignItems="center" >
@@ -514,4 +537,3 @@ function AuthenticatorWrapper(props) {
 }
 
 export default withStyles(styles)(AuthenticatorWrapper);
-

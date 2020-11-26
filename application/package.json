@@ -34,7 +34,8 @@
     "react-swipeable-views": "^0.13.3",
     "remove-markdown": "^0.3.0",
     "showdown": "^1.9.1",
-    "typescript": "*"
+    "typescript": "*",
+    "universal-cookie": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
