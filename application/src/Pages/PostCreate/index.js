@@ -135,7 +135,7 @@ class PostCreate extends Component {
 			variant="outlined"
 			fullWidth
 			multiline
-			rows={5}
+		        inputProps={{ rowsMin: 5 }}
 			label="Post"
 			onChange={() => this.handleChange()}
 			addMention={(x) => this.setState({ mention: Object.assign({}, mention, x)})}

@@ -218,7 +218,7 @@ class NewsCreate extends Component {
 			variant="outlined"
 			fullWidth
 			multiline
-			rows={5}
+		        inputProps={{ rowsMin: 5 }}
 			label="Content"
 		        value={description}
 			onChange={() => this.handleChange()}

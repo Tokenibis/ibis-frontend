@@ -263,7 +263,7 @@ class ActivityCreate extends Component {
 			variant="outlined"
 			fullWidth
 			multiline
-			rows={5}
+		        inputProps={{ rowsMin: 5 }}
 			label="Description"
 		        value={description}
 			onChange={() => this.handleChange()}
