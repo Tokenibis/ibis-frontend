@@ -104,9 +104,16 @@ const LINKS = {
 };
 
 function NotificationPoll({ children, refetch }) {
+
+    let focused = true;
+    window.addEventListener('focus', () => { focused = true; });
+    window.addEventListener('blur', () => { focused = false; });
+
     useEffect(() => {
 	const interval = setInterval(() => {
-	    refetch();
+	    if (focused) {
+		refetch();
+	    }
 	}, POLL);
 	return () => clearInterval(interval);
     }, []);
