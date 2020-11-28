@@ -30,6 +30,8 @@ import CommentIcon from '@material-ui/icons/Comment';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import AvatarIcon from '@material-ui/icons/Portrait';
+import PhoneIcon from '@material-ui/icons/Phone';
+import EditIcon from '@material-ui/icons/Edit';
 import BannerIcon from '@material-ui/icons/Wallpaper';
 import SubmitIcon from '@material-ui/icons/DoneOutline';
 import Switch from '@material-ui/core/Switch';
@@ -38,6 +40,7 @@ import axios from "axios";
 import CustomDivider from '../../__Common__/CustomDivider';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Confirmation from '../../__Common__/Confirmation';
+import Verification from '../../__Common__/Verification';
 
 const styles = theme => ({
     root: {
@@ -89,6 +92,10 @@ const styles = theme => ({
     edit: {
 	paddingLeft: theme.spacing(9),
     },
+    phone: {
+	color: theme.palette.tertiary.main,
+	paddingLeft: theme.spacing(9),
+    },
     action: {
 	display: 'flex',
 	justifyContent: 'space-between',
@@ -121,6 +128,10 @@ const styles = theme => ({
 		borderColor: theme.palette.tertiary.main,
 	    },
 	},
+    },
+    verifyWrapper: {
+	paddingLeft: theme.spacing(5),
+	paddingRight: theme.spacing(5),
     },
 });
 
@@ -331,6 +342,15 @@ class Settings extends Component {
 	    loading,
 	} = this.state;
 
+	let phoneString;
+
+	if (data.user.person.verified && data.user.person.phoneNumber) {
+	    let phone = data.user.person.phoneNumber;
+	    phoneString = `(${phone.slice(1, 4)}) ${phone.slice(4, 7)} - ${phone.slice(7, 11)}`;
+	} else {
+	    phoneString = 'None';
+	}
+
 	return (
 	    <div className={classes.root}>
 	      <Dialog
@@ -348,6 +368,47 @@ class Settings extends Component {
 		      </ListSubheader>
 		  }
 	      >
+		<CustomDivider />
+		<ListItem
+		    button
+		    onClick={(e) => {
+			this.setState({ editField: editField !== 'avatar' ? 'avatar': '' })
+		    }}
+		>
+		  <ListItemIcon>
+		    <AvatarIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Change Avatar" />
+		  {editField === 'avatar' ? 
+		   <ExpandLess color="secondary"/> :
+		   <ExpandMore color="secondary"/>}
+		</ListItem>
+		<Collapse in={editField === 'avatar'} timeout="auto" unmountOnExit>
+		  <div className={classes.action}>
+		    <div className={classes.fileWrapper}>
+		      <input
+			  accept="image/*"
+			  className={classes.file}
+			  id="upload_avatar"
+			  multiple
+			  type="file"
+		          onChange={(e) => this.handleAvatarInput(e)}
+		      />
+		    </div>
+		    {loading ? (
+			<span className={classes.progressWrapper}>
+			  <CircularProgress size={24} className={classes.progress}/>
+			</span>
+		    ):(
+			<IconButton
+			  className={canSubmit ? classes.button : classes.disabledButton}
+			  onClick={() => {this.updateAvatar(user_mutation, refetch)}}
+			    >
+			  <SubmitIcon />
+			</IconButton>
+		    )}
+		  </div>
+		</Collapse>
 		<CustomDivider />
 		<ListItem
 		    button
@@ -451,263 +512,253 @@ class Settings extends Component {
 		    </Confirmation>
 		  </div>
 		</Collapse>
-		<CustomDivider />
-		<ListItem
-		    button
-		    onClick={(e) => {
-			this.setState({ editField: editField !== 'avatar' ? 'avatar': '' })
-		    }}
-		>
-		  <ListItemIcon>
-		    <AvatarIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Change Avatar" />
-		  {editField === 'avatar' ? 
-		   <ExpandLess color="secondary"/> :
-		   <ExpandMore color="secondary"/>}
-		</ListItem>
-		<Collapse in={editField === 'avatar'} timeout="auto" unmountOnExit>
-		  <div className={classes.action}>
-		    <div className={classes.fileWrapper}>
-		      <input
-			  accept="image/*"
-			  className={classes.file}
-			  id="upload_avatar"
-			  multiple
-			  type="file"
-		          onChange={(e) => this.handleAvatarInput(e)}
-		      />
-		    </div>
-		    {loading ? (
-			<span className={classes.progressWrapper}>
-			  <CircularProgress size={24} className={classes.progress}/>
-			</span>
-		    ):(
-			<IconButton
-			  className={canSubmit ? classes.button : classes.disabledButton}
-			  onClick={() => {this.updateAvatar(user_mutation, refetch)}}
-			    >
-			  <SubmitIcon />
+	    {context.userType === 'Person' && (
+		<div>
+		  <CustomDivider />
+		  <ListItem
+		      button
+		      onClick={(e) => {
+			  this.setState({ editField: editField !== 'phone' ? 'phone': '' })
+		      }}
+		  >
+		    <ListItemIcon>
+		      <PhoneIcon />
+		    </ListItemIcon>
+		    <ListItemText className={classes.text} primary="Change Phone Number" />
+		    {editField === 'phone' ? 
+		     <ExpandLess color="secondary"/> :
+		     <ExpandMore color="secondary"/>}
+		  </ListItem>
+		  <Collapse in={editField === 'phone'} timeout="auto" unmountOnExit>
+		    <div className={classes.action}>
+		      <Typography variant="body2" className={classes.phone}>
+			{phoneString}
+		      </Typography>
+		      <Verification>
+			<IconButton className={classes.button}>
+			  <EditIcon />
 			</IconButton>
-		    )}
-		  </div>
-		</Collapse>
-		{context.userType === 'Organization' &&
-		 <div>
-		   <CustomDivider />
-		   <ListItem
-		       button
-		       onClick={(e) => {
-			   this.setState({ editField: editField !== 'name' ? 'name': '' })
-		       }}
-		     >
-		     <ListItemIcon>
-		       <NameIcon />
-		     </ListItemIcon>
-		     <ListItemText className={classes.text} primary="Change Name" />
-		     {editField === 'name' ? 
-		      <ExpandLess color="secondary"/> :
-		      <ExpandMore color="secondary"/>}
-		   </ListItem>
-		   <Collapse in={editField === 'name'} timeout="auto" unmountOnExit>
-		     <div className={classes.action}>
-		       <div>
-			 <ListItemText className={classes.edit} primary={
-			     <TextField
-				 id="edit_name"
-				     autoFocus
-				     required
-				     className={classes.textField}
-				     margin="normal"
-				     variant="outlined"
-				     fullWidth
-				     value={name !== null ? name: data.user.firstName}
-			             onInput={() => this.handleNameInput(data.user.firstName)}
-			     />
-			 }/>
-			 <Typography variant="body2" className={classes.fine}>
-			   This change will take effect on your next notification
-			 </Typography>
-		       </div>
-		       {loading ? (
-			   <span className={classes.progressWrapper}>
-			     <CircularProgress size={24} className={classes.progress}/>
-			   </span>
-		       ):(
-			   <IconButton
-			       className={canSubmit ? classes.button : classes.disabledButton}
-			       onClick={() => {this.updateName(user_mutation, refetch)}}
-			       >
-			     <SubmitIcon />
-			   </IconButton>
-		       )}
-		     </div>
-		   </Collapse>
-		   <CustomDivider />
-		   <ListItem
-		       button
-		       onClick={(e) => {
-			   this.setState({ editField: editField !== 'email' ? 'email': '' })
-		       }}
-		     >
-		     <ListItemIcon>
-		       <EmailIcon />
-		     </ListItemIcon>
-		     <ListItemText className={classes.text} primary="Change Email" />
-		     {editField === 'email' ? 
-		      <ExpandLess color="secondary"/> :
-		      <ExpandMore color="secondary"/>}
-		   </ListItem>
-		   <Collapse in={editField === 'email'} timeout="auto" unmountOnExit>
-		     <div className={classes.action}>
-		       <div>
-			 <ListItemText className={classes.edit} primary={
-			     <TextField
-				 id="edit_email"
-				     autoFocus
-				     required
-				     className={classes.textField}
-				     margin="normal"
-				     variant="outlined"
-				     fullWidth
-				     value={email !== null ? email: data.user.email}
-			             onInput={() => this.handleEmailInput(data.user.email)}
-			     />
-			 }/>
-			 <Typography variant="body2" className={classes.fine}>
-			   This change will take effect on your next notification
-			 </Typography>
-		       </div>
-		       {loading ? (
-			   <span className={classes.progressWrapper}>
-			     <CircularProgress size={24} className={classes.progress}/>
-			   </span>
-		       ):(
-			   <IconButton
-			       className={canSubmit ? classes.button : classes.disabledButton}
-			       onClick={() => {this.updateEmail(user_mutation, refetch)}}
-			       >
-			     <SubmitIcon />
-			   </IconButton>
-		       )}
-		     </div>
-		   </Collapse>
-		   <CustomDivider />
-		   <ListItem
-		       button
-		       onClick={(e) => {
-			   this.setState({ editField: editField !== 'password' ? 'password': '' })
-		       }}
-		     >
-		     <ListItemIcon>
-		       <PasswordIcon />
-		     </ListItemIcon>
-		     <ListItemText className={classes.text} primary="Change Password" />
-		     {editField === 'password' ? 
-		      <ExpandLess color="secondary"/> :
-		      <ExpandMore color="secondary"/>}
-		   </ListItem>
-		   <Collapse in={editField === 'password'} timeout="auto" unmountOnExit>
-		     <div className={classes.action}>
-		       <div>
-			 <ListItemText className={classes.edit} primary={
-			     <TextField
-				 id="password_old"
-				     type="password"
-				     autoFocus
-				     required
-				     className={classes.textField}
-				     margin="normal"
-				     variant="outlined"
-				     fullWidth
-				     label="Old Password"
-			             onInput={() => this.handlePasswordInput(data.user.password)}
-			     />
-			 }/>
-			 <ListItemText className={classes.edit} primary={
-			     <TextField
-				 id="password_new"
-				     type="password"
-				     required
-				     className={classes.textField}
-				     margin="normal"
-				     variant="outlined"
-				     fullWidth
-				     label="New Password"
-			             onInput={() => this.handlePasswordInput(data.user.password)}
-			     />
-			 }/>
-			 <ListItemText className={classes.edit} primary={
-			     <TextField
-				 id="password_confirm"
-				     type="password"
-				     required
-				     className={classes.textField}
-				     margin="normal"
-				     variant="outlined"
-				     fullWidth
-				     label="Confirm Password"
-			             onInput={() => this.handlePasswordInput(data.user.password)}
-			     />
-			 }/>
-		       </div>
-		       {loading ? (
-			   <span className={classes.progressWrapper}>
-			     <CircularProgress size={24} className={classes.progress}/>
-			   </span>
-		       ):(
-			   <IconButton
-			       className={canSubmit ? classes.button : classes.disabledButton}
-			       onClick={() => {this.updatePassword(user_mutation, refetch)}}
-			       >
-			     <SubmitIcon />
-			   </IconButton>
-		       )}
-		     </div>
-		   </Collapse>
-		   <CustomDivider />
-		   <ListItem
-		       button
-		       onClick={(e) => {
-			   this.setState({ editField: editField !== 'banner' ? 'banner': '' })
-		       }}
-		     >
-		     <ListItemIcon>
-		       <BannerIcon />
-		     </ListItemIcon>
-		     <ListItemText className={classes.text} primary="Change Banner" />
-		     {editField === 'banner' ? 
-		      <ExpandLess color="secondary"/> :
-		      <ExpandMore color="secondary"/>}
-		   </ListItem>
-		   <Collapse in={editField === 'banner'} timeout="auto" unmountOnExit>
-		     <div className={classes.action}>
-		       <div className={classes.fileWrapper}>
-			 <input
-			     accept="image/*"
-			     className={classes.file}
-			     id="upload_banner"
-			     multiple
-			     type="file"
-		             onChange={(e) => this.handleBannerInput(e)}
+		      </Verification>
+		    </div>
+		  </Collapse>
+		</div>
+	    )}
+	    {context.userType === 'Organization' &&
+	     <div>
+	       <CustomDivider />
+	       <ListItem
+		   button
+		   onClick={(e) => {
+		       this.setState({ editField: editField !== 'name' ? 'name': '' })
+		   }}
+	       >
+		 <ListItemIcon>
+		   <NameIcon />
+		 </ListItemIcon>
+		 <ListItemText className={classes.text} primary="Change Name" />
+		 {editField === 'name' ? 
+		  <ExpandLess color="secondary"/> :
+		  <ExpandMore color="secondary"/>}
+	       </ListItem>
+	       <Collapse in={editField === 'name'} timeout="auto" unmountOnExit>
+		 <div className={classes.action}>
+		   <div>
+		     <ListItemText className={classes.edit} primary={
+			 <TextField
+			     id="edit_name"
+				 autoFocus
+				 required
+				 className={classes.textField}
+				 margin="normal"
+				 variant="outlined"
+				 fullWidth
+				 value={name !== null ? name: data.user.firstName}
+			         onInput={() => this.handleNameInput(data.user.firstName)}
 			 />
-		       </div>
-		       {loading ? (
-			   <span className={classes.progressWrapper}>
-			     <CircularProgress size={24} className={classes.progress}/>
-			   </span>
-		       ):(
-			   <IconButton
-			       className={canSubmit ? classes.button : classes.disabledButton}
-			       onClick={() => {this.updateBanner(user_mutation, refetch)}}
-			       >
-			     <SubmitIcon />
-			   </IconButton>
-		       )}
-		     </div>
-		   </Collapse>
+		     }/>
+		     <Typography variant="body2" className={classes.fine}>
+		       This change will take effect on your next notification
+		     </Typography>
+		   </div>
+		   {loading ? (
+		       <span className={classes.progressWrapper}>
+			 <CircularProgress size={24} className={classes.progress}/>
+		       </span>
+		   ):(
+		       <IconButton
+			   className={canSubmit ? classes.button : classes.disabledButton}
+			   onClick={() => {this.updateName(user_mutation, refetch)}}
+			   >
+			 <SubmitIcon />
+		       </IconButton>
+		   )}
 		 </div>
-		}
+	       </Collapse>
+	       <CustomDivider />
+	       <ListItem
+		   button
+		   onClick={(e) => {
+		       this.setState({ editField: editField !== 'email' ? 'email': '' })
+		   }}
+	       >
+		 <ListItemIcon>
+		   <EmailIcon />
+		 </ListItemIcon>
+		 <ListItemText className={classes.text} primary="Change Email" />
+		 {editField === 'email' ? 
+		  <ExpandLess color="secondary"/> :
+		  <ExpandMore color="secondary"/>}
+	       </ListItem>
+	       <Collapse in={editField === 'email'} timeout="auto" unmountOnExit>
+		 <div className={classes.action}>
+		   <div>
+		     <ListItemText className={classes.edit} primary={
+			 <TextField
+			     id="edit_email"
+				 autoFocus
+				 required
+				 className={classes.textField}
+				 margin="normal"
+				 variant="outlined"
+				 fullWidth
+				 value={email !== null ? email: data.user.email}
+			         onInput={() => this.handleEmailInput(data.user.email)}
+			 />
+		     }/>
+		     <Typography variant="body2" className={classes.fine}>
+		       This change will take effect on your next notification
+		     </Typography>
+		   </div>
+		   {loading ? (
+		       <span className={classes.progressWrapper}>
+			 <CircularProgress size={24} className={classes.progress}/>
+		       </span>
+		   ):(
+		       <IconButton
+			   className={canSubmit ? classes.button : classes.disabledButton}
+			   onClick={() => {this.updateEmail(user_mutation, refetch)}}
+			   >
+			 <SubmitIcon />
+		       </IconButton>
+		   )}
+		 </div>
+	       </Collapse>
+	       <CustomDivider />
+	       <ListItem
+		   button
+		   onClick={(e) => {
+		       this.setState({ editField: editField !== 'password' ? 'password': '' })
+		   }}
+	       >
+		 <ListItemIcon>
+		   <PasswordIcon />
+		 </ListItemIcon>
+		 <ListItemText className={classes.text} primary="Change Password" />
+		 {editField === 'password' ? 
+		  <ExpandLess color="secondary"/> :
+		  <ExpandMore color="secondary"/>}
+	       </ListItem>
+	       <Collapse in={editField === 'password'} timeout="auto" unmountOnExit>
+		 <div className={classes.action}>
+		   <div>
+		     <ListItemText className={classes.edit} primary={
+			 <TextField
+			     id="password_old"
+				 type="password"
+				 autoFocus
+				 required
+				 className={classes.textField}
+				 margin="normal"
+				 variant="outlined"
+				 fullWidth
+				 label="Old Password"
+			         onInput={() => this.handlePasswordInput(data.user.password)}
+			 />
+		     }/>
+		     <ListItemText className={classes.edit} primary={
+			 <TextField
+			     id="password_new"
+				 type="password"
+				 required
+				 className={classes.textField}
+				 margin="normal"
+				 variant="outlined"
+				 fullWidth
+				 label="New Password"
+			         onInput={() => this.handlePasswordInput(data.user.password)}
+			 />
+		     }/>
+		     <ListItemText className={classes.edit} primary={
+			 <TextField
+			     id="password_confirm"
+				 type="password"
+				 required
+				 className={classes.textField}
+				 margin="normal"
+				 variant="outlined"
+				 fullWidth
+				 label="Confirm Password"
+			         onInput={() => this.handlePasswordInput(data.user.password)}
+			 />
+		     }/>
+		   </div>
+		   {loading ? (
+		       <span className={classes.progressWrapper}>
+			 <CircularProgress size={24} className={classes.progress}/>
+		       </span>
+		   ):(
+		       <IconButton
+			   className={canSubmit ? classes.button : classes.disabledButton}
+			   onClick={() => {this.updatePassword(user_mutation, refetch)}}
+			   >
+			 <SubmitIcon />
+		       </IconButton>
+		   )}
+		 </div>
+	       </Collapse>
+	       <CustomDivider />
+	       <ListItem
+		   button
+		   onClick={(e) => {
+		       this.setState({ editField: editField !== 'banner' ? 'banner': '' })
+		   }}
+	       >
+		 <ListItemIcon>
+		   <BannerIcon />
+		 </ListItemIcon>
+		 <ListItemText className={classes.text} primary="Change Banner" />
+		 {editField === 'banner' ? 
+		  <ExpandLess color="secondary"/> :
+		  <ExpandMore color="secondary"/>}
+	       </ListItem>
+	       <Collapse in={editField === 'banner'} timeout="auto" unmountOnExit>
+		 <div className={classes.action}>
+		   <div className={classes.fileWrapper}>
+		     <input
+			 accept="image/*"
+			 className={classes.file}
+			 id="upload_banner"
+			 multiple
+			 type="file"
+		         onChange={(e) => this.handleBannerInput(e)}
+		     />
+		   </div>
+		   {loading ? (
+		       <span className={classes.progressWrapper}>
+			 <CircularProgress size={24} className={classes.progress}/>
+		       </span>
+		   ):(
+		       <IconButton
+			   className={canSubmit ? classes.button : classes.disabledButton}
+			   onClick={() => {this.updateBanner(user_mutation, refetch)}}
+			   >
+			 <SubmitIcon />
+		       </IconButton>
+		   )}
+		 </div>
+	       </Collapse>
+	     </div>
+	    }
 	      </List>
 	      <List
 		  subheader={
@@ -725,14 +776,14 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Follows" />
 		  <ListItemSecondaryAction>
 		    <Switch
-			edge="end"
-			checked={data.user.notifier.emailFollow}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailFollow',
-			    !data.user.notifier.emailFollow,
-			))}
+		    edge="end"
+		    checked={data.user.notifier.emailFollow}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailFollow',
+			!data.user.notifier.emailFollow,
+		    ))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -784,14 +835,14 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Comments" />
 		  <ListItemSecondaryAction>
 		    <Switch
-			edge="end"
-			checked={data.user.notifier.emailComment}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailComment',
-			    !data.user.notifier.emailComment,
-			))}
+		    edge="end"
+		    checked={data.user.notifier.emailComment}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailComment',
+			!data.user.notifier.emailComment,
+		    ))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -803,14 +854,14 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Mentions" />
 		  <ListItemSecondaryAction>
 		    <Switch
-			edge="end"
-			checked={data.user.notifier.emailMention}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailMention',
-			    !data.user.notifier.emailMention,
-			))}
+		    edge="end"
+		    checked={data.user.notifier.emailMention}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailMention',
+			!data.user.notifier.emailMention,
+		    ))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -822,14 +873,14 @@ class Settings extends Component {
 		  <ListItemText className={classes.text} primary="Deposits" />
 		  <ListItemSecondaryAction>
 		    <Switch
-			edge="end"
-			checked={data.user.notifier.emailDeposit}
-			onChange={() => (this.updateSetting(
-			    notifier_mutation,
-			    refetch,
-			    'emailDeposit',
-			    !data.user.notifier.emailDeposit,
-			))}
+		    edge="end"
+		    checked={data.user.notifier.emailDeposit}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailDeposit',
+			!data.user.notifier.emailDeposit,
+		    ))}
 		    />
 		  </ListItemSecondaryAction>
 		</ListItem>
@@ -844,9 +895,9 @@ class Settings extends Component {
 
 	return (
 	    <Query
-	      fetchPolicy="no-cache"
-	      query={query}
-	      variables={{ id: context.userID }}
+		fetchPolicy="no-cache"
+		query={query}
+		variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
@@ -857,8 +908,8 @@ class Settings extends Component {
 			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation
-				mutation={notifier_mutation}
-				variables={{ id: data.user.notifier.id}}
+			      mutation={notifier_mutation}
+			      variables={{ id: data.user.notifier.id}}
 				>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, user_mutation, notifier_mutation)

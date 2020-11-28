@@ -20,6 +20,7 @@ import { loader } from 'graphql.macro';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import OrganizationIcon from '@material-ui/icons/Store';
 import NewsIcon from '@material-ui/icons/ListAlt';
@@ -30,11 +31,13 @@ import PostIcon from '@material-ui/icons/Forum';
 import BotIcon from '@material-ui/icons/Android';
 import ActivityIcon from '@material-ui/icons/Casino';
 import RewardIcon from '@material-ui/icons/EmojiEvents';
+import Dialog from '@material-ui/core/Dialog';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../../__Common__/Sublist';
 import SublistItem from '../../__Common__/SublistItem';
-import Quote from './Quote'
+import Quote from './Quote';
+import Verification from '../../__Common__/Verification';
 import Amount from '../../__Common__/Amount';
 import Popup from '../../__Common__/Popup';
 
@@ -55,15 +58,19 @@ const styles = theme => ({
     name: {
 	color: theme.palette.primary.main,
     },
-    balance: {
+    money: {
+	width: '90%',
+	textAlign: 'center',
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
+	color: theme.palette.tertiary.main,
     },
     metrics: {
 	fontWeight: 'bold',
 	marginTop: theme.spacing(-2),
 	color: theme.palette.secondary.main,
 	paddingBottom: theme.spacing(2),
+	cursor: 'pointer',
     },
     notificationIcon: {
 	color: theme.palette.secondary.main,
@@ -86,7 +93,26 @@ const styles = theme => ({
 	paddingTop: theme.spacing(3),
 	width: '70%',
 	maxWidth: 360,
-    }
+    },
+    verifyWrapper: {
+	width: '90%',
+	maxWidth: 360,
+	marginBottom: theme.spacing(2),
+    },
+    verifyButton: {
+	width: '100%',
+	color: theme.palette.secondary.main,
+	backgroundColor: 'white',
+	borderStyle: 'solid',
+	borderWidth: '1px',
+	borderColor: theme.palette.secondary.main,
+	textTransform: 'none',
+    },
+    dialogPaper: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	width: '70%',
+    },
 });
 
 const query = loader('../../Static/graphql/app/Home.gql')
@@ -143,6 +169,8 @@ class Home extends Component {
 	balance: 0,
 	hasRecentEntry: null,
 	recentResponseRate: null,
+	total: 0,
+	verified: true,
     };
 
     handleExpand(expanded) {
@@ -164,6 +192,18 @@ class Home extends Component {
 	    let recentResponseRate = context.userType === 'Organization' ?
 				 results.data.user.organization.recentResponseRate :
 				 null
+	    let total;
+	    let verified = true;
+
+	    if (context.userType === 'Organization') {
+		total = results.data.user.organization.fundraised;
+	    } else if (context.userType === 'Person') {
+		total = results.data.user.person.donated;
+		verified = results.data.user.person.verified;
+	    } else if (context.userType === 'Bot') {
+		total = results.data.user.bot.rewarded;
+	    }
+
 	    this.setState({
 		avatar: results.data.user.avatar,
 		username: results.data.user.username,
@@ -171,6 +211,8 @@ class Home extends Component {
 		balance: results.data.user.balance,
 		hasRecentEntry,
 		recentResponseRate,
+		verified,
+		total,
 	    })
 	}).catch(error => {
 	    console.log(error);
@@ -188,6 +230,8 @@ class Home extends Component {
 	    balance,
 	    hasRecentEntry,
 	    recentResponseRate,
+	    total,
+	    verified,
 	} = this.state;
 
 	return (
@@ -212,9 +256,22 @@ class Home extends Component {
 		</Typography>
 		<Typography
 		    variant="body2"
-		    className={classes.balance}
+		    className={classes.money}
 		>
 		  <Amount amount={balance} label="Balance"/>
+		  {' | '}
+		  <Amount
+		      amount={total}
+		      label={context.userType === 'Organization' ? (
+			  'Fundraised'
+		      ):(
+			  context.userType === 'Person' ? (
+			      'Donated'
+			  ):(
+			      'Rewarded'
+			  )
+		      )}
+		  />
 		</Typography>
 		{context.userType === 'Organization' && (
 		    <Popup wide message={message}>
@@ -225,6 +282,15 @@ class Home extends Component {
 			{`Outreach: ${hasRecentEntry ? '✓' : '✗'} | Response: ${Math.round(recentResponseRate * 100)}%`}
 		      </Typography>
 		    </Popup>
+		)}
+		{context.userType === 'Person' && !verified && (
+		    <div className={classes.verifyWrapper}>
+		      <Verification onSuccess={() => this.setState({ verified: true })}>
+			<Button className={classes.verifyButton}>
+			  Verify Phone Number
+			</Button>
+		      </Verification>
+		    </div>
 		)}
 	      </Grid>
 	      <List
