@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Confirmation from '../Confirmation';
 
-const config = require('../../config.json');
+const config = require('../../__config__.json');
 
 const styles = theme => ({
     message: {

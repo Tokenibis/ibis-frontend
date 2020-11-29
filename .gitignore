@@ -3,4 +3,6 @@ application/package-lock.json
 
 application/config_dev.json
 application/config_prod.json
-application/src/config.json
+application/src/__config__.json
+application/src/__hash__.json
+application/public/__hash__.json

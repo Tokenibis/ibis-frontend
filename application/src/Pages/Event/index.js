@@ -24,7 +24,7 @@ import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../../__Commo
 import CommentTree from '../../__Common__/CommentTree';
 import CustomDate, { PreciseVal, LongVal } from '../../__Common__/CustomDate';
 
-const config = require('../../config.json');
+const config = require('../../__config__.json');
 
 const styles = theme => ({
     content: {

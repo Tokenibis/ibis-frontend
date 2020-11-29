@@ -17,7 +17,7 @@ import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
 
-const config = require('../../config.json');
+const config = require('../../__config__.json');
 
 const styles = theme => ({
     avatar: {

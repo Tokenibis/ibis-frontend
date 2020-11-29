@@ -10,7 +10,7 @@ import { IbisProvider } from './Context'
 import Authenticator from './Authenticator'
 import Content from './Navigation/Content'
 
-const config = require('./config.json');
+const config = require('./__config__.json');
 
 axios.defaults.baseURL = config.ibis.api
 axios.defaults.xsrfCookieName = 'csrftoken'

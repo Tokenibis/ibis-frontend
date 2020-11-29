@@ -17,8 +17,8 @@ if [ $# -ne 2 ]; then
    exit 1
 fi
 
-if [ ! $DIR/src/config.json ]; then
-    echo 'ERROR: src/config.json already exists. Aborting'
+if [ ! $DIR/src/__config__.json ]; then
+    echo 'ERROR: src/__config__.json already exists. Aborting'
     exit 1
 fi
 
@@ -37,13 +37,15 @@ if [ $1 == '--production' ] || [ $1 == '-p' ]; then
 	    echo 'ERROR: missing config_dev.json file'
 	    exit 1
 	fi
-	cp $DIR/config_prod.json $DIR/src/config.json
+	cp $DIR/config_prod.json $DIR/src/__config__.json
     fi
 elif [ $1  == '--development' ] || [ $1 == '-d' ]; then
-    cp $DIR/config_dev.json $DIR/src/config.json
+    cp $DIR/config_dev.json $DIR/src/__config__.json
 else
     echo 'ERROR: unrecognized arguments'
     exit 1
 fi
+
+echo -n [\"$( git diff HEAD | sha256sum | head -c 40 )\"] | tee $DIR/public/__hash__.json $DIR/src/__hash__.json > /dev/null
 
 yarn build && ssh $2 rm /srv/app/build -rf && scp -r build/ $2:/srv/app/build

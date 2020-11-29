@@ -92,16 +92,34 @@ const botOptions = [
 ]
 
 function HomeLoader()  {
-   return ( 
-       <div>
-	 <MainBar cycle={StandardVal} />
-	 <IbisConsumer>
-	   {context => (
-	       <Home context={context}/>
-	   )}
-	 </IbisConsumer> 
-       </div>
-   );
+
+    // compare local and remote hashes and reload the app if they differ
+    try {
+	const config = require('../../__config__.json');
+	const local = require('../../__hash__.json');
+	fetch(`${config.ibis.app}/__hash__.json`).then(response => {
+	    return response.json();
+	}).then(remote => {
+	    if (local && remote && local[0] !== remote[0]) {
+		alert('Token Ibis has updates! Please hold on for a literal second while we reload your page.');
+		window.location.reload(true);
+	    }
+	})
+    } catch(error) {
+	console.log('Cannot compare local and remote hashes')
+	console.log(error)
+    }
+
+    return (
+	<div>
+	  <MainBar cycle={StandardVal} />
+	  <IbisConsumer>
+	    {context => (
+		<Home context={context}/>
+	    )}
+	  </IbisConsumer>
+	</div>
+    );
 };
 
 function ContentLoader({ match, location }) {
