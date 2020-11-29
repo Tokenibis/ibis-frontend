@@ -1,6 +1,7 @@
 application/yarn.lock
 application/package-lock.json
 
+application/build.tgz
 application/config_dev.json
 application/config_prod.json
 application/src/__config__.json

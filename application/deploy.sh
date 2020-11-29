@@ -48,4 +48,8 @@ fi
 
 echo -n [\"$( git diff HEAD | sha256sum | head -c 40 )\"] | tee $DIR/public/__hash__.json $DIR/src/__hash__.json > /dev/null
 
-yarn build && ssh $2 rm /srv/app/build -rf && scp -r build/ $2:/srv/app/build
+yarn build && \
+    tar -czf build.tgz build/ && \
+    scp build.tgz $2:/tmp/build.tgz && \
+    ssh $2 "tar -xf /tmp/build.tgz -C /tmp/ && rm /srv/app/build -rf && mv /tmp/build /srv/app/build" && \
+    echo "Pushed"
