@@ -97,7 +97,7 @@ function HomeLoader()  {
     try {
 	const config = require('../../__config__.json');
 	const local = require('../../__hash__.json');
-	fetch(`${config.ibis.app}/__hash__.json`).then(response => {
+	fetch(`${config.ibis.app}/__hash__.json`, { cache: 'no-store' }).then(response => {
 	    return response.json();
 	}).then(remote => {
 	    if (local && remote && local[0] !== remote[0]) {
