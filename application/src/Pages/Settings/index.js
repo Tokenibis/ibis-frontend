@@ -344,7 +344,7 @@ class Settings extends Component {
 
 	let phoneString;
 
-	if (data.user.person.verified && data.user.person.phoneNumber) {
+	if (data.user.person && data.user.person.verified && data.user.person.phoneNumber) {
 	    let phone = data.user.person.phoneNumber;
 	    phoneString = `(${phone.slice(1, 4)}) ${phone.slice(4, 7)} - ${phone.slice(7, 11)}`;
 	} else {
