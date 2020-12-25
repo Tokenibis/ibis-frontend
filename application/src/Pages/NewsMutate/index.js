@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -72,6 +73,25 @@ const styles = theme => ({
     action: {
 	textAlign: 'center',
     },
+    fileLabel: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	paddingRight: theme.spacing(),
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    fileWrapper: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	overflow: 'hidden',
+    },
+    fine: {
+	marginTop: theme.spacing(-2),
+	paddingBottom: theme.spacing(2),
+	paddingRight: theme.spacing(),
+	fontSize: '12px',
+	color: theme.palette.tertiary.main,
+    },
 });
 
 const query = loader('../../Static/graphql/app/News.gql')
@@ -85,7 +105,6 @@ class NewsCreate extends Component {
     state = {
 	enableNews: false,
 	title: '',
-	image: '',
 	link: '',
 	description: '',
 	mention: {},
@@ -120,9 +139,12 @@ class NewsCreate extends Component {
 	let variables = {
 	    user: context.userID,
 	    title: document.getElementById(`news_title`).value,
-	    image: document.getElementById(`news_image`).value,
 	    link: document.getElementById(`news_link`).value,
 	    description: document.getElementById(`news_description`).value,
+	}
+
+	if (document.getElementById(`news_image`).files) {
+	    variables.image = document.getElementById(`news_image`).files[0];
 	}
 
 	if (id) {
@@ -143,24 +165,29 @@ class NewsCreate extends Component {
     };
 
     handleChange() {
-	let title = document.getElementById('news_title').value
-	let image = document.getElementById('news_image').value
-	let link = document.getElementById('news_link').value
-	let description = document.getElementById('news_description').value
+	let { id } = this.props;
+
+	let title = document.getElementById('news_title').value;
+	let image = document.getElementById('news_image');
+	let link = document.getElementById('news_link').value;
+	let description = document.getElementById('news_description').value;
+
+	if (image.files.length > 1) {
+	    alert('You can only upload one featured image');
+	    image.value = null;
+	}
 
 	this.setState({
 	    title,
-	    image,
 	    link,
 	    description,
-	    enableNews: title && image && description,
+	    enableNews: title && (image.files || id) && description,
 	});
     }
 
     render() {
-	let { classes } = this.props;
-	let { enableNews, title, image, link, description, mention } = this.state;
-	console.log(mention)
+	let { classes, id } = this.props;
+	let { enableNews, title, link, description, mention } = this.state;
 
 	return (
 	    <div>
@@ -181,19 +208,26 @@ class NewsCreate extends Component {
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>
-		  <Grid item xs={12}>
-		    <TextField
-			id="news_image"
-			required
-			defaultValue=""
- 			className={classes.textField}
-			margin="normal"
-			variant="outlined"
-			fullWidth
-			label="Image (URL)"
-		        value={image}
-			onChange={() => this.handleChange()}
-		    />
+		  <Grid item xs={4}>
+		    <Typography variant="body2" className={classes.fileLabel}>
+		      Image*
+		    </Typography>
+		    {id && (
+			<Typography variant="body2" className={classes.fine}>
+			  Ignore to keep old
+			</Typography>
+		    )}
+		  </Grid>
+		  <Grid item xs={8}>
+		    <div className={classes.fileWrapper}>
+		      <input
+			  accept="image/*"
+			  id="news_image"
+			  multiple
+			  type="file"
+		          onChange={(e) => this.handleChange()}
+		      />
+		    </div>
 		  </Grid>
 		  <Grid item xs={12}>
 		    <TextField

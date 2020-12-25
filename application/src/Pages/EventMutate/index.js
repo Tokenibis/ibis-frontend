@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { withApollo } from "react-apollo";
 import { loader } from 'graphql.macro';
+import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
+import Checkbox from '@material-ui/core/Checkbox';
 
 import Confirmation from '../../__Common__/Confirmation';
 import EntryTextField from '../../__Common__/EntryTextField';
@@ -74,6 +75,29 @@ const styles = theme => ({
     action: {
 	textAlign: 'center',
     },
+    label: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	paddingRight: theme.spacing(),
+	fontWeight: 'bold',
+	color: theme.palette.tertiary.main,
+    },
+    fileWrapper: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+	overflow: 'hidden',
+    },
+    fine: {
+	marginTop: theme.spacing(-2),
+	paddingBottom: theme.spacing(2),
+	paddingRight: theme.spacing(),
+	fontSize: '12px',
+	color: theme.palette.tertiary.main,
+    },
+    checkbox: {
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
+    }
 });
 
 const query = loader('../../Static/graphql/app/Event.gql')
@@ -87,12 +111,12 @@ class EventCreate extends Component {
     state = {
 	enableEvent: false,
 	title: '',
-	image: '',
 	link: '',
 	description: '',
 	date: '',
 	duration: '',
 	address: '',
+	virtual: false,
 	mention: {}
     };
 
@@ -115,12 +139,12 @@ class EventCreate extends Component {
 		console.log(date_str)
 		this.setState({
 		    title: results.data.event.title,
-		    image: results.data.event.image,
 		    link: results.data.event.link,
 		    description: results.data.event.description,
 		    date: date_str,
 		    duration: results.data.event.duration,
 		    address: results.data.event.address,
+		    virtual: results.data.event.virtual,
 		    enableEvent: true,
 		});
 	    }).catch(error => {
@@ -132,16 +156,21 @@ class EventCreate extends Component {
 
     handleMutate(mutation) {
 	let { context, client, history, id } = this.props;
+	let { virtual } = this.state;
 
 	let variables = {
 	    user: context.userID,
 	    title: document.getElementById(`event_title`).value,
-	    image: document.getElementById(`event_image`).value,
 	    link: document.getElementById(`event_link`).value,
 	    description: document.getElementById(`event_description`).value,
 	    date: document.getElementById(`event_date`).value,
 	    duration: document.getElementById(`event_duration`).value,
 	    address: document.getElementById(`event_address`).value,
+	    virtual,
+	}
+
+	if (document.getElementById(`event_image`).files) {
+	    variables.image = document.getElementById(`event_image`).files[0];
 	}
 
 	if (id) {
@@ -162,37 +191,43 @@ class EventCreate extends Component {
     };
 
     handleChange() {
-	let title = document.getElementById('event_title').value
-	let image = document.getElementById('event_image').value
-	let link = document.getElementById('event_link').value
-	let description = document.getElementById('event_description').value
-	let date = document.getElementById('event_date').value
-	let duration = document.getElementById('event_duration').value
-	let address = document.getElementById('event_address').value
+	let { id } = this.props;
+
+	let title = document.getElementById('event_title').value;
+	let image = document.getElementById('event_image');
+	let link = document.getElementById('event_link').value;
+	let description = document.getElementById('event_description').value;
+	let date = document.getElementById('event_date').value;
+	let duration = document.getElementById('event_duration').value;
+	let address = document.getElementById('event_address').value;
+
+	if (image.files.length > 1) {
+	    alert('You can only upload one featured image');
+	    image.value = null;
+	}
 
 	this.setState({
 	    title,
-	    image,
 	    link,
 	    description,
 	    date,
 	    duration,
 	    address,
-	    enableEvent: title && image && description && date && duration,
+	    enableEvent: title && (image.files || id) && description && date && duration,
 	});
     }
 
     render() {
-	let { classes } = this.props;
+	let { classes, id } = this.props;
 	let {
 	    enableEvent,
 	    title,
-	    image,
 	    link,
 	    description,
 	    date,
 	    duration,
 	    address,
+	    virtual,
 	    mention,
 	} = this.state;
 	
@@ -215,19 +250,26 @@ class EventCreate extends Component {
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>
-		  <Grid item xs={12}>
-		    <TextField
-			id="event_image"
-			required
-			defaultValue=""
- 			className={classes.textField}
-			margin="normal"
-			variant="outlined"
-			fullWidth
-			label="Image (URL)"
-		        value={image}
-			onChange={() => this.handleChange()}
-		    />
+		  <Grid item xs={4}>
+		    <Typography variant="body2" className={classes.label}>
+		      Image*
+		    </Typography>
+		    {id && (
+			<Typography variant="body2" className={classes.fine}>
+			  Ignore to keep old
+			</Typography>
+		    )}
+		  </Grid>
+		  <Grid item xs={8}>
+		    <div className={classes.fileWrapper}>
+		      <input
+			  accept="image/*"
+			  id="event_image"
+			  multiple
+			  type="file"
+		          onChange={(e) => this.handleChange()}
+		      />
+		    </div>
 		  </Grid>
 		  <Grid item xs={12}>
 		    <EntryTextField
@@ -249,6 +291,24 @@ class EventCreate extends Component {
 			}}
 		    />
 		  </Grid>
+		  <Grid item xs={4}>
+		    <Typography variant="body2" className={classes.label}>
+		      Virtual?*
+		    </Typography>
+		    <Typography variant="body2" className={classes.fine}>
+		      i.e. check if this is an online-only event
+		    </Typography>
+		  </Grid>
+		  <Grid item xs={8}>
+		    <Checkbox
+			className={classes.checkbox}
+			color="secondary"
+			checked={virtual}
+			onClick={() => {this.setState({ virtual: !virtual })}}
+			value="primary"
+			inputProps={{ 'aria-label': 'primary checkbox' }}
+		    />
+		  </Grid>
 		  <Grid item xs={12}>
 		    <TextField
 			id="event_address"
@@ -259,7 +319,7 @@ class EventCreate extends Component {
 			fullWidth
 			multiline
 		        inputProps={{ rowsMin: 5 }}
-			label="Address"
+			label={`${virtual ? 'Join information (e.g. Zoom or Google Hangouts)' : 'Physical Address'}`}
 		        value={address}
 			onChange={() => this.handleChange()}
 		    />
@@ -272,7 +332,7 @@ class EventCreate extends Component {
 			margin="normal"
 			variant="outlined"
 			fullWidth
-			label="Link"
+			label="Link to original article"
 		        value={link}
 			onChange={() => this.handleChange()}
 		    />

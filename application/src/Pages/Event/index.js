@@ -274,7 +274,7 @@ class Event extends Component {
 		</Grid>
 		<Grid className={classes.content} item xs={12}>
 		  <div style={{ height: 20 }}/>
-		  {node.address && 
+		  {node.address && !node.virtual && (
 		   <iframe
 		       title="google_map"
 		       style={{
@@ -287,7 +287,7 @@ class Event extends Component {
 		       allowFullScreen
 		       >
 		   </iframe>
-		  }
+		  )}
 		  {new Date(node.modified) - new Date(node.created) > 1000 * 10 &&
   		   <Typography variant="body2" className={classes.edited}>
   		     (Edited on <CustomDate variant="precise" date={node.modified} />)
