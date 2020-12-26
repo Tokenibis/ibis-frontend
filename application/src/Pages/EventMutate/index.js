@@ -9,9 +9,13 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { withRouter } from "react-router-dom";
 import Checkbox from '@material-ui/core/Checkbox';
+import Datetime from 'react-datetime';
+import moment from 'moment';
 
 import Confirmation from '../../__Common__/Confirmation';
 import EntryTextField from '../../__Common__/EntryTextField';
+
+import "react-datetime/css/react-datetime.css";
 
 const styles = theme => ({
     content: {
@@ -113,7 +117,7 @@ class EventCreate extends Component {
 	title: '',
 	link: '',
 	description: '',
-	date: '',
+	date: moment.now(),
 	duration: '',
 	address: '',
 	virtual: false,
@@ -129,19 +133,11 @@ class EventCreate extends Component {
 		variables: { id, self: context.userID },
 		fetchPolicy: "no-cache",
 	    }).then(results => {
-		let d = new Date(results.data.event.date);
-		console.log(d)
-		let date_str = ('0000' + d.getFullYear()).slice(-4) + '-' +
-			       ('00' + (d.getMonth() + 1)).slice(-2) + '-' +
-			       ('00' + d.getDate()).slice(-2) + 'T' +
-			       ('00' + d.getHours()).slice(-2) + ':' +
-			       ('00' + d.getMinutes()).slice(-2)
-		console.log(date_str)
 		this.setState({
 		    title: results.data.event.title,
 		    link: results.data.event.link,
 		    description: results.data.event.description,
-		    date: date_str,
+		    date: moment(results.data.event.date).valueOf(),
 		    duration: results.data.event.duration,
 		    address: results.data.event.address,
 		    virtual: results.data.event.virtual,
@@ -156,14 +152,14 @@ class EventCreate extends Component {
 
     handleMutate(mutation) {
 	let { context, client, history, id } = this.props;
-	let { virtual } = this.state;
+	let { virtual, date } = this.state;
 
 	let variables = {
 	    user: context.userID,
 	    title: document.getElementById(`event_title`).value,
 	    link: document.getElementById(`event_link`).value,
 	    description: document.getElementById(`event_description`).value,
-	    date: document.getElementById(`event_date`).value,
+	    date: moment(date).toISOString(),
 	    duration: document.getElementById(`event_duration`).value,
 	    address: document.getElementById(`event_address`).value,
 	    virtual,
@@ -192,12 +188,12 @@ class EventCreate extends Component {
 
     handleChange() {
 	let { id } = this.props;
+	let { date } = this.state;
 
 	let title = document.getElementById('event_title').value;
 	let image = document.getElementById('event_image');
 	let link = document.getElementById('event_link').value;
 	let description = document.getElementById('event_description').value;
-	let date = document.getElementById('event_date').value;
 	let duration = document.getElementById('event_duration').value;
 	let address = document.getElementById('event_address').value;
 
@@ -210,10 +206,9 @@ class EventCreate extends Component {
 	    title,
 	    link,
 	    description,
-	    date,
 	    duration,
 	    address,
-	    enableEvent: title && (image.files || id) && description && date && duration,
+	    enableEvent: !!(title && (image.files.length === 1 || id) && description && date && duration),
 	});
     }
 
@@ -343,12 +338,13 @@ class EventCreate extends Component {
 		    </Typography>
 		  </Grid>
 		  <Grid item xs={8}>
-		    <TextField
-			id="event_date"
-			type="datetime-local"
-			value={date}
-			className={classes.textField}
-			onChange={() => this.handleChange()}
+		    <Datetime
+		        value={date}
+	                input={false}
+			onChange={picked => {
+			    this.setState({ date: picked });
+			    this.handleChange();
+			}}
 		    />
 		  </Grid>
 		  <Grid item xs={4}>

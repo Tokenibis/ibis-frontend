@@ -80,7 +80,7 @@ class Confirmation extends Component {
     };
 
     handleClose() {
-	this.setState({ opened: false });
+	this.setState({ opened: false, confirmed: false });
     };
     
     handleClick(e) {
