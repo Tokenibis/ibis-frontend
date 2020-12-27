@@ -90,6 +90,7 @@ class TabBar extends Component {
 		    className={classes.tabs}
 		>
 		  <IconButton
+		      id="tutorial-filter"
 		      className={classes.filterButton}
 		      onClick={(e) => this.handleFilterOpen(e, value)}
 		  >
@@ -100,6 +101,7 @@ class TabBar extends Component {
 			  key={i}
 			  onClick={(e) => this.handleTabClick(i)}
 			  label={opt[0]}
+			  id={`tutorial-tab-${i}`}
 		      />
 		  ))}
 		</Tabs>

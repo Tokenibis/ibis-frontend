@@ -140,7 +140,7 @@ class Invite extends Component {
 		  </IconButton>
 		</div>
 	      </Dialog>
-	      <div className={classes.buttonWrapper}>
+	      <div className={classes.buttonWrapper} id="tutorial-invite">
 		<Button
 		    className={classes.newButton}
 		    onClick={() => this.invite(link)}

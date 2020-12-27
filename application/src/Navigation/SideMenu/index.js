@@ -273,7 +273,7 @@ class SideMenu extends Component {
 	);
 
 	return (
-	    <div>
+	    <div id="tutorial-menu">
 	      <IconButton 
 		  color="inherit" 
 		  onClick={(e) => this.toggleDrawer(true)} >

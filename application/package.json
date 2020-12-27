@@ -35,8 +35,10 @@
     "react-social-login-buttons": "^2.3.0",
     "react-swipeable-views": "^0.13.3",
     "react-text-mask": "^5.4.3",
+    "reactour": "^1.18.0",
     "remove-markdown": "^0.3.0",
     "showdown": "^1.9.1",
+    "styled-components": "^4.0.0",
     "typescript": "*",
     "universal-cookie": "^4.0.4"
   },

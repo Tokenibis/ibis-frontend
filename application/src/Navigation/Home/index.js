@@ -60,7 +60,7 @@ const styles = theme => ({
 	color: theme.palette.primary.main,
     },
     money: {
-	width: '90%',
+	maxWidth: '90%',
 	textAlign: 'center',
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
@@ -256,6 +256,7 @@ class Home extends Component {
 		  {`${name}`}
 		</Typography>
 		<Typography
+		    id="tutorial-balance"
 		    variant="body2"
 		    className={classes.money}
 		>
@@ -295,6 +296,7 @@ class Home extends Component {
 		)}
 	      </Grid>
 	      <List
+		id="tutorial-navigation" 
 		component="nav"
 		className={classes.list}
 	      >

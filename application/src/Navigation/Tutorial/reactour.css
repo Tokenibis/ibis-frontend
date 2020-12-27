@@ -1,0 +1,13 @@
+.reactour-mask {
+    color: #9b9b9;
+    opacity: 0.25;
+    filter: alpha(opacity=25);
+}
+
+nav[data-tour-elem="navigation"] > button:first-child {
+    display: none;
+}
+
+nav[data-tour-elem="navigation"] > button:last-child {
+    display: none;
+}

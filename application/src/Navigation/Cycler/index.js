@@ -62,8 +62,8 @@ class Cycler extends Component {
 		<Typography color="inherit" variant="button">
 		  {title && title}
 		</Typography>
-		<Link to={`/${cycleMap[Object.keys(cycleMap)[nextVal]]}`}>
-		  <IconButton color="inherit" className={classes.arrow}>
+		<Link to={`/${cycleMap[Object.keys(cycleMap)[nextVal]]}`} id="tutorial-arrow-next">
+		  <IconButton color="inherit" className={classes.arrow}  >
 		    <ArrowRightIcon />
 		  </IconButton>
 		</Link>

@@ -28,6 +28,7 @@ import { PostFilter } from '../../Pages/PostList';
 import { BotFilter } from '../../Pages/BotList';
 import { ActivityFilter } from '../../Pages/ActivityList';
 import { RewardFilter } from '../../Pages/RewardList';
+import Tutorial from '../Tutorial';
 
 import { IbisConsumer } from '../../Context';
 
@@ -257,6 +258,11 @@ function Content() {
 	    <Route path="/" exact component={HomeLoader} />
 	    <Route path="/:mode/:page?" exact component={ContentLoader} />
 	  </Router>
+	  <IbisConsumer>
+	    {context => (
+		<Tutorial context={context}/>
+	    )}
+	  </IbisConsumer>
 	</div>
     );
 };

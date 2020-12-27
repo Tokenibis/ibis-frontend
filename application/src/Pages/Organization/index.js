@@ -257,6 +257,7 @@ class Organization extends Component {
 		    </div>
 		    {context.userType === 'Person' && (
 			<Button
+			    id="tutorial-donate"
 			    component={Link}
 			    to={`/Organization/DonationCreate?target=${id}`}
 			    className={classes.actionDonate}
