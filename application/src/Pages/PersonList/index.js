@@ -116,7 +116,9 @@ class Invite extends Component {
 	let { classes, context } = this.props;
 	let { dialog, copied, sharing } = this.state;
 
-	let link = `${config.ibis.app}/?referral=${context.userID}`;
+	let link = context.userType === 'Person' ?
+		   `${config.ibis.app}/?referral=${context.userID}` :
+		   config.ibis.app;
 
 	return (
 	    <div>
