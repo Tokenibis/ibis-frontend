@@ -122,6 +122,8 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...ot
 	});
     }
 
+    source = source.replace('_](', '\\_](');
+
     return (
 	<Typography variant="body2" className={classes.message}>
 	  <ReactMarkdown
