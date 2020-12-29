@@ -60,9 +60,8 @@ const mutation = gql`mutation TutorialUpdate($id: ID! $tutorial: String!) {
 class Tutorial extends Component {
 
     state = {
-	open: true,
+	open: false,
 	tours: null,
-	tutorial: false,
 	step: 1,
 	tour: 0,
     }
@@ -257,7 +256,7 @@ That's it, have fun changing the world, blah bla blah.
 	    }
 
 	    this.setState({
-		tutorial: results.data.notifier.tutorial,
+		open: results.data.notifier.tutorial,
 		tours,
 	    });
 	})
@@ -265,9 +264,9 @@ That's it, have fun changing the world, blah bla blah.
 
     render() {
 	let { classes, context, toggleMenu } = this.props;
-	let { open, tutorial, tours, tour, step } = this.state;
+	let { open, tours, tour, step } = this.state;
 
-	if (context.userType !== 'Person' || !tours || !tutorial) {
+	if (context.userType !== 'Person' || !tours || !open) {
 	    return null;
 	}
 
@@ -291,9 +290,6 @@ That's it, have fun changing the world, blah bla blah.
 	    }
 	};
 
-	//TODO: set isOpen to open
-	//  implement workflow to signal that tutorial has been taken
-	
 	return (
 	    <Tour
 		className={classes.helper}
@@ -317,7 +313,7 @@ That's it, have fun changing the world, blah bla blah.
 		}
 		closeWithMask={false}
 		onRequestClose={() => this.setState({ open: false })}
-		isOpen={false}
+		isOpen={open}
 	    />
 	);
     }
