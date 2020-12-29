@@ -332,12 +332,12 @@ class EventCreate extends Component {
 			onChange={() => this.handleChange()}
 		    />
 		  </Grid>
-		  <Grid item xs={4}>
+		  <Grid item xs={12}>
 		    <Typography variant="body2" className={classes.label}>
 		      Start Time *
 		    </Typography>
 		  </Grid>
-		  <Grid item xs={8}>
+		  <Grid item xs={12}>
 		    <Datetime
 		        value={date}
 	                input={false}
