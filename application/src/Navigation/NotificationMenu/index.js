@@ -9,7 +9,7 @@ import { Query, Mutation, withApollo } from "react-apollo";
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import DepositIcon from '@material-ui/icons/LocalAtm';
+import ExchangeIcon from '@material-ui/icons/LocalAtm';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import RewardIcon from '@material-ui/icons/SwapHoriz';
@@ -75,7 +75,8 @@ const seen_mutation = loader('../../Static/graphql/app/NotifierSeen.gql')
 
 const CATEGORIES = {
     ubp: <UbpIcon color="secondary"/>,
-    deposit: <DepositIcon color="secondary"/>,
+    deposit: <ExchangeIcon color="secondary"/>,
+    withdrawal: <ExchangeIcon color="secondary"/>,
     follow: <FollowIcon color="secondary"/>,
     donation: <DonationIcon color="secondary"/>,
     reward: <RewardIcon color="secondary"/>,
@@ -101,6 +102,7 @@ const LINKS = {
     Post: (id) => ('/Post/Post?id=' + id),
     Activity: (id) => ('/Activity/Activity?id=' + id),
     Deposit: (id) => ('/_/Deposit?id='),
+    Withdrawal: (id) => ('/_/Withdrawal'),
 };
 
 function NotificationPoll({ children, refetch }) {

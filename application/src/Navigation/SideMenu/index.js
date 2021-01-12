@@ -28,7 +28,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import WithdrawalIcon from '@material-ui/icons/Atm';
 import HomeIcon from '@material-ui/icons/Home';
-import InfoIcon from '@material-ui/icons/Help';
+import HelpIcon from '@material-ui/icons/Help';
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../../__Common__/Sublist';
@@ -256,11 +256,11 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      <Link to="/_/Info">
+	      <Link to="/_/Help">
 		<SublistItem
-		    label="Info"
+		    label="Help"
 		    classes={classes}
-		    icon={<InfoIcon />}
+		    icon={<HelpIcon />}
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>

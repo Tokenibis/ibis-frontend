@@ -145,6 +145,8 @@ const query_balance = loader('../../Static/graphql/app/Finance.gql')
 
 const message = 'This is a history of your "withdrawals", a.k.a. real-money donations that Token Ibis has passed on your organization. In general, these will occur no later than on a monthly basis as long as the outstanding balance is more than $100. However, if you would like to expedit a payment, please email at __info@tokenibis.org__';
 
+const warning = 'This page is typically only meant for organizations. Are you sure you\'re logged onto the right account?'
+
 class WithdrawalList extends Component {
 
     makeLabel = (node) => {
@@ -235,7 +237,9 @@ class Withdrawal extends Component {
 			</Typography>
 		      </Grid>
 		      <Grid item xs={12}>
-			<CustomMarkdown noLink source={message}/>
+			<CustomMarkdown noLink source={
+			context.userType === 'Organization' ? message : warning
+			}/>
 		      </Grid>
 		      <Grid item xs={6}>
 			<Typography variant="body2" className={classes.label}>

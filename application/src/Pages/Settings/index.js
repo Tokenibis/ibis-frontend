@@ -28,7 +28,7 @@ import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import RewardIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
-import DepositIcon from '@material-ui/icons/LocalAtm';
+import ExchangeIcon from '@material-ui/icons/LocalAtm';
 import AvatarIcon from '@material-ui/icons/Portrait';
 import PhoneIcon from '@material-ui/icons/Phone';
 import EditIcon from '@material-ui/icons/Edit';
@@ -866,24 +866,45 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
-		    <DepositIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Deposits" />
-		  <ListItemSecondaryAction>
-		    <Switch
-		    edge="end"
-		    checked={data.user.notifier.emailDeposit}
-		    onChange={() => (this.updateSetting(
-			notifier_mutation,
-			refetch,
-			'emailDeposit',
-			!data.user.notifier.emailDeposit,
-		    ))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
+		{context.userType === 'Organization' ? (
+		    <ListItem>
+		      <ListItemIcon>
+			<ExchangeIcon />
+		      </ListItemIcon>
+		      <ListItemText className={classes.text} primary="Withdrawals" />
+		      <ListItemSecondaryAction>
+			<Switch
+			edge="end"
+			checked={data.user.notifier.emailWithdrawal}
+			onChange={() => (this.updateSetting(
+			    notifier_mutation,
+			    refetch,
+			    'emailWithdrawal',
+			    !data.user.notifier.emailWithdrawal,
+			))}
+			/>
+		      </ListItemSecondaryAction>
+		    </ListItem>
+		):(
+		    <ListItem>
+		      <ListItemIcon>
+			<ExchangeIcon />
+		      </ListItemIcon>
+		      <ListItemText className={classes.text} primary="Deposits" />
+		      <ListItemSecondaryAction>
+			<Switch
+			edge="end"
+			checked={data.user.notifier.emailDeposit}
+			onChange={() => (this.updateSetting(
+			    notifier_mutation,
+			    refetch,
+			    'emailDeposit',
+			    !data.user.notifier.emailDeposit,
+			))}
+			/>
+		      </ListItemSecondaryAction>
+		    </ListItem>
+		)}
 	      </List>
 	    </div>
 	);
