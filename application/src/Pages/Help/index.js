@@ -27,22 +27,13 @@ growing type of technology that you can visit from anywhere (like a
 normal website) but download to your phone (like a mobile app). Here's
 how to download it:
 
+* __iOS + Safari__
+    1. Share icon (square with arrow pointing out)
+    2. Add to Home Screen
+
 * __Android + Chrome__
     1. Main Menu (triple dots)
     2. Add to Home Screen
-
-* __Android + Samsung Internet__
-    1. Main Menu (hamburger menu) 
-    2. Add page to
-    3. Home screen
-
-* __iOS + Safari__
-    1. Do something
-
-For iPhone users, you _must_ download with Safari, even if you use
-another browser like Chrome. Don't worry, you won't really how you
-downloaded it after it's done. If you use some other type of device,
-please let us know.
 
 ## Formatting Posts and Comments
 
@@ -71,12 +62,13 @@ our mission at [tokenibis.org](https://tokenibis.org).
 const styles = theme => ({
     inner: {
 	width: '90%',
-	paddingBottom: theme.spacing(2),
+	paddingBottom: theme.spacing(1),
     },
     agreement: {
 	color: theme.palette.tertiary.main,
 	width: '90%',
 	textAlign: 'center',
+	paddingTop: theme.spacing(1),
 	paddingBottom: theme.spacing(4),
     },
     buttonWrapper: {

@@ -1,7 +1,7 @@
 .reactour-mask {
     color: #9b9b9;
-    opacity: 0.25;
-    filter: alpha(opacity=25);
+    opacity: 0.40;
+    filter: alpha(opacity=40);
 }
 
 nav[data-tour-elem="navigation"] > button:first-child {

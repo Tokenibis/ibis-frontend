@@ -37,6 +37,10 @@ const styles = theme => ({
 	padding: theme.spacing(2),
 	textAlign: 'center',
     },
+    closeWrapper: {
+	width: '100%',
+	textAlign: 'center',
+    },
     paperProps: {
 	width: '60%',
 	margin: theme.spacing(1),
@@ -256,16 +260,19 @@ That\'s everything! Now you’re free to go brighten people’s days and help ch
 
 ---
 
-_If you ever need to get back to the tutorial, please visit:
+_If you ever need to get back to the tutorial, please visit:_
 
-__Main Menu -> Help -> Start Tutorial__._
+___Main Menu > Help > Start Tutorial.___
 `}/>
-			  <Button
-			      className={classes.dialogClose}
-			      onClick={() => this.onExit()}
-			  >
-			    Close
-			  </Button>
+
+			  <div className={classes.closeWrapper}>
+			    <Button
+				className={classes.dialogClose}
+				onClick={() => this.onExit()}
+			    >
+			      Close
+			    </Button>
+			  </div>
 			</div>
 		    ),
 		    action: () => { window.location.href = '/#/'; },
@@ -335,7 +342,10 @@ __Main Menu -> Help -> Start Tutorial__._
 			</div>
 		    ):(
 			<div>
-			  <CustomMarkdown source={'Okay! If you ever need to get back to the tutorial, please visit the main __Menu -> Help -> Start Tutorial__'}/>
+			  <CustomMarkdown source={`
+Okay! If you ever need to get back to the tutorial, please visit: 
+
+__Main Menu > Help > Start Tutorial__`}/>
 			  <Button
 			      className={classes.dialogClose}
 			      onClick={() => this.onExit()}
@@ -388,6 +398,7 @@ __Main Menu -> Help -> Start Tutorial__._
 		prevStep={prevStep}
 		nextStep={nextStep}
 		rounded={10}
+		showCloseButton={!(tour === tours.length - 1 && step === tours[tour].length - 2)}
 		prevButton={
 		    <Typography className={classes.nav}>
 		      Prev
