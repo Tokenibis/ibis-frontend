@@ -278,6 +278,7 @@ class Home extends Component {
 		{context.userType === 'Organization' && (
 		    <Popup wide message={message}>
 		      <Typography
+			id="tutorial-metrics"
 			variant="body2"
 			className={classes.metrics}
 			>

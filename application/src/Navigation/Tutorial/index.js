@@ -81,181 +81,173 @@ class Tutorial extends Component {
 	dialog: '',
     }
 
-    componentDidMount() {
+    getPersonTour(results) {
+	let { classes } = this.props;
 
-	let { classes, client, context } = this.props;
+	let organization = results.data.allOrganizations.edges[0].node.id;
+	let name = results.data.notifier.user.firstName;
 
-	client.query({
-	    query: query,
-	    variables: { id: context.userID },
-	    fetchPolicy:"no-cache",
-	}).then(results => {
-
-	    let organization = results.data.allOrganizations.edges[0].node.id;
-	    let name = results.data.notifier.user.firstName;
-
-	    let startSteps = [
-		{
-		    content: <CustomMarkdown source={`
+	let startSteps = [
+	    {
+		content: <CustomMarkdown source={`
 ## Welcome to Token Ibis, ${name}!
 
 We give you free money to donate to any of our partner nonprofits,
 plus fun opportunities to earn more and amplify your impact.
 
 This tutorial will guide you through the app’s features.
-		    `} />,
-		    action: () => { window.location.href = '/#/'; },
-		},
-		{
-		    selector: '#tutorial-balance',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/'; },
+	    },
+	    {
+		selector: '#tutorial-balance',
+		content: <CustomMarkdown source={`
 Here is your balance. Every week that you’re active, we’ll add more
 money to your account for free so you can keep donating!
-		    `} />,
-		},
-		{
-		    selector: '#tutorial-navigation',
-		    content: <CustomMarkdown source={`
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-navigation',
+		content: <CustomMarkdown source={`
 Now we’ll guide you through everything you can do on the app. Let’s
 head to “Organizations” first.
-`} />,
-		    action: () => { window.location.href = '/#/'; },
-		},
-	    ]
+		`} />,
+		action: () => { window.location.href = '/#/'; },
+	    },
+	];
 
-	    let organizationSteps = [
-		{
-		    content: <CustomMarkdown source={`
+	let organizationSteps = [
+	    {
+		content: <CustomMarkdown source={`
 ## Nonprofit Organizations
 
 Here are all the wonderful nonprofits that you can learn about and
 donate to through Token Ibis.
-`} />,
-		    action: () => { window.location.href = '/#/Organization/OrganizationList'; },
-		},
-		{
-		    selector: '#tutorial-item-0',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+	    },
+	    {
+		selector: '#tutorial-item-0',
+		content: <CustomMarkdown source={`
 Click on any organization to find out more about it.
-`} />,
-		    action: () => { window.location.href = '/#/Organization/OrganizationList'; },
-		},
-		{
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+	    },
+	    {
+		content: <CustomMarkdown source={`
 This is the profile page that explains what they do.
-`} />,
-		    action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
-		},
-		{
-		    selector: '#tutorial-donate',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+	    },
+	    {
+		selector: '#tutorial-donate',
+		content: <CustomMarkdown source={`
 Maybe you like what you see, so you donate.
-`} />,
-		    action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
-		},
-		{
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+	    },
+	    {
+		content: <CustomMarkdown source={`
 Here’s where you donate; just add an amount you want to give and a
 short message to the organization.
-`} />,
-		    action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
-		},
-		{
-		    selector: '#tutorial-arrow-next',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
+	    },
+	    {
+		selector: '#tutorial-arrow-next',
+		content: <CustomMarkdown source={`
 Once you do, your donation will be added to the others from members of
 the community. Now let’s go to the “People” tab to see some of the
 social aspects of the app.
-`} />,
-		    action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
-		},
-	    ]
+		`} />,
+		action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
+	    },
+	];
 
-	    let personSteps = [
-		{
-		    content: <CustomMarkdown source={`
+	let personSteps = [
+	    {
+		content: <CustomMarkdown source={`
 ## Other Users
 
 Here the most recently active users. They're pretty cool people.
-`} />,
-		    action: () => { window.location.href = '/#/Person/PersonList'; },
-		},
-		{
-		    selector: '#tutorial-invite',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Person/PersonList'; },
+	    },
+	    {
+		selector: '#tutorial-invite',
+		content: <CustomMarkdown source={`
 You can invite friends to join the app and you’ll both receive extra money to donate.
-`} />,
-		},
-		{
-		    selector: '#tutorial-tab-1',
-		    content: <CustomMarkdown source={`
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-tab-1',
+		content: <CustomMarkdown source={`
 This tab shows the most recent donations by the community.
-`} />,
-		    action: () => { window.location.href = '/#/Donation/DonationList'; },
-		},
-		{
-		    selector: '#tutorial-filter',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Donation/DonationList'; },
+	    },
+	    {
+		selector: '#tutorial-filter',
+		content: <CustomMarkdown source={`
 Looking for something specific? You can always filter the results here.
-`} />,
-		},
-		{
-		    selector: '#tutorial-arrow',
-		    content: <CustomMarkdown source={`
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-arrow',
+		content: <CustomMarkdown source={`
 Now onto the last major section of the app, “Bots”.
-`} />,
-		    action: () => { window.location.href = '/#/Donation/DonationList'; },
-		},
-	    ]
+		`} />,
+	    },
+	];
 
-	    let botSteps = [
-		{
-		    content: <CustomMarkdown source={`
+	let botSteps = [
+	    {
+		content: <CustomMarkdown source={`
 ## Token Ibis Bots
 
 Bots are the way to earn even more money and boost your impact.
-`} />,
-		    action: () => { window.location.href = '/#/Bot/BotList'; },
-		},
-		{
-		    selector: '#tutorial-tab-1',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Bot/BotList'; },
+	    },
+	    {
+		selector: '#tutorial-tab-1',
+		content: <CustomMarkdown source={`
 Check out all of the activities you can participate in and the rewards that are possible to earn.
-`} />,
-		    action: () => { window.location.href = '/#/Activity/ActivityList'; },
-		},
-		{
-		    selector: '#tutorial-tab-2',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Activity/ActivityList'; },
+	    },
+	    {
+		selector: '#tutorial-tab-2',
+		content: <CustomMarkdown source={`
 And here’s where you can see the rewards that have already been sent out by the Token Ibis Bots. 
 
-`} />,
-		    action: () => { window.location.href = '/#/Reward/RewardList'; },
-		},
-		{
-		    selector: '#tutorial-menu',
-		    content: <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/Reward/RewardList'; },
+	    },
+	    {
+		selector: '#tutorial-menu',
+		content: <CustomMarkdown source={`
 That’s it for the main parts of the platform. Finally, we’ll show you one more thing...
-`} />,
-		    action: () => { window.location.href = '/#/Reward/RewardList'; },
-		},
-	    ]
+		`} />,
+		action: () => { window.location.href = '/#/Reward/RewardList'; },
+	    },
+	]
 
-	    let endSteps = [
-		{
-		    content: <CustomMarkdown source={`
+	let endSteps = [
+	    {
+		content: <CustomMarkdown source={`
 ## Deposits
 
 In case you want to donate even more you can also deposit your own
 money into your balance. We accept any amount that PayPal allows and,
 as always we charge $0 fees on our end.
-`} />,
-		    action: () => { window.location.href = '/#/_/Deposit'; },
-		},
-		{
-		    content: (
-			<div>
-			  <CustomMarkdown source={`
+		`} />,
+		action: () => { window.location.href = '/#/_/Deposit'; },
+	    },
+	    {
+		content: (
+		    <div>
+		      <CustomMarkdown source={`
 That\'s everything! Now you’re free to go brighten people’s days and help change the world.
 
 ---
@@ -263,29 +255,206 @@ That\'s everything! Now you’re free to go brighten people’s days and help ch
 _If you ever need to get back to the tutorial, please visit:_
 
 ___Main Menu > Help > Start Tutorial.___
-`}/>
+		      `}/>
 
-			  <div className={classes.closeWrapper}>
-			    <Button
-				className={classes.dialogClose}
-				onClick={() => this.onExit()}
-			    >
-			      Close
-			    </Button>
-			  </div>
-			</div>
-		    ),
-		    action: () => { window.location.href = '/#/'; },
-		},
-	    ]
+		      <div className={classes.closeWrapper}>
+			<Button
+			  className={classes.dialogClose}
+			  onClick={() => this.onExit()}
+			>
+			  Close
+			</Button>
+		      </div>
+		    </div>
+		),
+		action: () => { window.location.href = '/#/'; },
+	    },
+	];
 
-	    let tours = [
-		startSteps,
-		organizationSteps,
-		personSteps,
-		botSteps,
-		endSteps,
-	    ]
+	return [
+	    startSteps,
+	    organizationSteps,
+	    personSteps,
+	    botSteps,
+	    endSteps,
+	];
+    };
+
+    getOrganizationTour(results) {
+	let { classes, context } = this.props;
+
+	let name = results.data.notifier.user.firstName;
+	let organization = context.userID;
+
+	let startSteps = [
+	    {
+		content: <CustomMarkdown source={`
+## Welcome to Token Ibis, ${name}!
+
+We're here to help you get connected with a community of diverse and
+engaged grassroots donors. Our community loves when organizations stay
+active, this tutorial will walk through all the ways you can engage.
+		`} />,
+		action: () => { window.location.href = '/#/'; },
+	    },
+	    {
+		selector: '#tutorial-metrics',
+		content: <CustomMarkdown source={`
+The platform itself rewards tracts and rewards your activity. Since we
+believe in transparency, you can always see how we calculate your
+score here.
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-navigation',
+		content: <CustomMarkdown source={`
+Okay. Let's check out what the users actually see when they head to
+the "Organizations" tab.
+		`} />,
+		action: () => { window.location.href = '/#/'; },
+	    },
+	];
+
+	let organizationSteps = [
+	    {
+		content: <CustomMarkdown source={`
+## Organization List
+
+This is where users discover new organizations. Responding to donations
+and posting news/events with keep you higher on this list. Let's head
+to your organization's profile page.
+		`} />,
+		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+	    },
+	    {
+		content: <CustomMarkdown source={`
+This is where users will learn about your work. On their version of
+the app, there will be a large "Donate" button on this screen.
+		`} />,
+		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+	    },
+	    {
+		selector: '#tutorial-menu',
+		content: <CustomMarkdown source={`
+You can easily update your name, description, pictures, and more by
+going to __Menu > Settings__.
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-tab-1',
+		content: <CustomMarkdown source={`
+Next, we'll head to the __News__ section of the app.
+		`} />,
+		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+	    },
+	];
+
+	let newsEventSteps = [
+	    {
+		content: <CustomMarkdown source={`
+## News
+
+Here is where you can post news articles and blog posts. The entire
+community will see the headline in an email when they get their weekly
+UBP payout (Thursdays at midnight). Your followers will also get a
+special on-app notification.
+		`} />,
+		action: () => { window.location.href = '/#/News/NewsList'; },
+	    },
+	    {
+		selector: '#tutorial-new-news',
+		content: <CustomMarkdown source={`
+Click this button to post a new article.
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-tab-2',
+		content: <CustomMarkdown source={`
+Events work basically the same way, but you'll have to add dates and
+locations. Users will also be able to RSVP.
+		`} />,
+	    },
+	    {
+		selector: '#tutorial-menu',
+		content: <CustomMarkdown source={`
+Finally, let's take a look at the __Withdrawal__ page in the __Main Menu__.
+		`} />,
+		action: () => { window.location.href = '/#/News/NewsList'; },
+	    },
+	];
+
+	let endSteps = [
+	    {
+		content: <CustomMarkdown source={`
+## Withdrawals
+
+At the end of every month, we total up all of your on-app donations
+and send you a physical check through the mail. Your balance will
+zero-out and you'll get notified about the "Withdrawal" here. Please
+allow about one week for the check to arrive.
+		`} />,
+		action: () => { window.location.href = '/#/_/Withdrawal'; },
+	    },
+	    {
+		content: (
+		    <div>
+		      <CustomMarkdown source={`
+# The End
+
+Well, that covers most of it! But remember: our platform is open to
+_everyone_, so if you ever want to get even more out of Token Ibis,
+then just invite more users from your network and organization. The
+more people you help us onboard, the stronger our community will be,
+and the more money can raise to fund this project. Thanks for helping
+make social impact accessible to everyone!
+
+---
+
+_If you ever need to get back to the tutorial, please visit:_
+
+___Main Menu > Help > Start Tutorial.___
+		      `}/>
+
+		      <div className={classes.closeWrapper}>
+			<Button
+			  className={classes.dialogClose}
+			  onClick={() => this.onExit()}
+			>
+			  Close
+			</Button>
+		      </div>
+		    </div>
+		),
+		action: () => { window.location.href = '/#/'; },
+	    },
+	]
+
+	return [
+	    startSteps,
+	    organizationSteps,
+	    newsEventSteps,
+	    endSteps,
+	]
+	
+    };
+
+    componentDidMount() {
+
+	let { classes, client, context } = this.props;
+
+	if (!(context.userType === 'Person' || context.userType === 'Organization')) {
+	    return;
+	}
+
+	client.query({
+	    query: query,
+	    variables: { id: context.userID },
+	    fetchPolicy:"no-cache",
+	}).then(results => {
+
+	    let tours = context.userType === 'Person' ?
+		       this.getPersonTour(results) :
+		       this.getOrganizationTour(results);
 
 	    for (let i = 0; i < tours.length; i++) {
 		tours[i].unshift({});
@@ -297,7 +466,7 @@ ___Main Menu > Help > Start Tutorial.___
 		tours,
 	    });
 	})
-    }
+    };
 
     onExit() {
 	let { context, client }  = this.props;
@@ -359,7 +528,7 @@ __Main Menu > Help > Start Tutorial__`}/>
 	    );
 	}
 
-	if (context.userType !== 'Person' || !tours || !open) {
+	if (!tours || !open) {
 	    return null;
 	}
 

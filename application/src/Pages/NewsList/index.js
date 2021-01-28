@@ -258,6 +258,7 @@ class NewsList extends Component {
 	      {!minimal && context.userType === 'Organization' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
+		     id="tutorial-new-news"
 		     component={Link}
 		     to={`/News/NewsMutate`}
 		     className={classes.newButton}
