@@ -14,7 +14,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Query } from "react-apollo";
+import { Query, withApollo } from "react-apollo";
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -58,91 +58,95 @@ class QueryHelper extends Component {
     constructor({ variables }) {
 	super();
 	this.state = {
-	    variables,
-	    dataOld: [],
+	    data: [],
+	    hasMore: true,
+	    page: 0,
+	    position: 0,
 	}
     }
 
     componentWillReceiveProps({ variables }) {
 	this.setState({
 	    variables,
-	    dataOld: [],
+	    data: [],
 	});
     }
-    
-    paginate(dataCurrent) {
-	let { variables } = this.state;
-	variables.after = dataCurrent[dataCurrent.length - 1].cursor;
 
-	this.setState({
+    componentDidUpdate() {
+	let { page } = this.state;
+	if (page <= 1) {
+	    window.scrollTo(0,document.body.scrollHeight);
+	}
+    }
+
+    paginate = () => {
+	let { client, variables, query } = this.props;
+	let { data, page } = this.state;
+
+	if (data.length) {
+	    variables.after = data[data.length - 1].cursor;
+	}
+
+	client.query({
+	    query,
 	    variables,
-	    dataOld: dataCurrent
-	});
+	    fetchPolicy:"no-cache",
+	}).then(response => {
+	    let dataNew = response.data[Object.keys(response.data)[0]].edges;
+	    let hasMore = response.data[Object.keys(response.data)[0]].pageInfo.hasNextPage;
+	    data = data.concat(dataNew);
+	    this.setState({ data, hasMore, page: page + 1 });
+	}).catch(error => {
+	    this.setState({ data: null });
+	})
     }
 
     render() {
-	let { variables, classes, query, make, scroll } = this.props;
-	let { dataOld } = this.state;
+	let { variables, classes, query, make, scroll, reverseScroll } = this.props;
+	let { data, hasMore } = this.state;
+
+	if (data === null) {
+	    return `Error loading results`;
+	}
 
 	if (scroll) {
 	    return (
 		<div>
-		  {dataOld && make(dataOld)}
-		  <Query
-		      fetchPolicy="no-cache"
-		      query={query}
-		      variables={variables}
-		      partialRefetch={true}
+		  <InfiniteScroll
+		      pageStart={0}
+		      hasMore={hasMore}
+		      isReverse={reverseScroll}
+		      loadMore={(!data.length || scroll === 'infinite') ? (
+			  () => this.paginate()
+		      ):(
+			  () => {}
+		      )}
+		      loader={scroll === 'infinite' ? (
+			  <Typography key={data.length} type="body2" className={classes.loader}>
+			    Loading more results...
+			  </Typography>
+		      ):(
+			  <div className={classes.manualWrapper}>
+			    <Button onClick={() => this.paginate()} >
+			      <Typography variant="body2" className={classes.manual}>
+				Click to Load More
+			      </Typography>
+			    </Button>
+			  </div>
+		      )}
 		  >
-		    {({ loading, error, data }) => {
-			if (loading) return <LinearProgress className={classes.progress} />;
-			if (error) return `Error! ${error.message}`;
-
-			let dataCurrent = dataOld.concat(data[Object.keys(data)[0]].edges)
-
-			return (
-			    <div>
-			      <InfiniteScroll
-				  pageStart={0}
-				  className={classes.infiniteScroll}
-				  loadMore={(!dataOld.length || scroll === 'infinite') ? (
-				      () => this.paginate(dataCurrent)
-				  ):(
-				      () => {}
-				  )}
-				  hasMore={(dataCurrent.length > dataOld.length) || data[Object.keys(data)[0]].pageInfo.hasNextPage}
-				  loader={scroll === 'infinite' ? (
-				      <Typography
-					  key={dataCurrent.length}
-					  type="body2" className={classes.loader}
-				      >
-					Loading more results...
-				      </Typography>
-				  ):(
-				      <div className={classes.manualWrapper}>
-					<Button onClick={() => this.paginate(dataCurrent)} >
-					  <Typography
-					    variant="body2"
-				            className={classes.manual}
-					  >
-					    Load more results
-					  </Typography>
-				      </Button>
-				      </div>
-				  )}
-				>
-				<div key={0}></div>
-			      </InfiniteScroll>
-			      {
-				  (dataCurrent.length === 0) &&
-				  <Typography type="body2" className={classes.empty}>
-				    Nothing to see here
-				  </Typography>
-			      }
-			    </div>
+		    {data ? (
+			make(data)
+		    ):(
+			hasMore ? (
+			    <LinearProgress className={classes.progress}/>
+			):(
+			    <Typography type="body2" className={classes.empty}>
+			      Nothing to see here
+			    </Typography>
 			)
-		    }}
-		  </Query>
+		    )}
+		  </InfiniteScroll>
 		</div>
 	    );
 	} else {
@@ -176,4 +180,4 @@ QueryHelper.propTypes = {
 };
 
 
-export default withStyles(styles)(QueryHelper);
+export default withApollo(withStyles(styles)(QueryHelper));
