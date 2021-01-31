@@ -12,6 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExchangeIcon from '@material-ui/icons/LocalAtm';
 import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
+import MessageIcon from '@material-ui/icons/Send';
 import RewardIcon from '@material-ui/icons/SwapHoriz';
 import LikeIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/CommentOutlined';
@@ -28,6 +29,7 @@ import NotificationIconNo from '@material-ui/icons/Notifications';
 import CustomDivider from '../../__Common__/CustomDivider';
 import QueryHelper from '../../__Common__/QueryHelper';
 import CustomDate from '../../__Common__/CustomDate';
+import Poller from '../../__Common__/Poller';
 
 const styles = theme => ({
     unseenWrapper: {
@@ -77,6 +79,7 @@ const CATEGORIES = {
     ubp: <UbpIcon color="secondary"/>,
     deposit: <ExchangeIcon color="secondary"/>,
     withdrawal: <ExchangeIcon color="secondary"/>,
+    message: <MessageIcon color="secondary"/>,
     follow: <FollowIcon color="secondary"/>,
     donation: <DonationIcon color="secondary"/>,
     reward: <RewardIcon color="secondary"/>,
@@ -103,26 +106,8 @@ const LINKS = {
     Activity: (id) => ('/Activity/Activity?id=' + id),
     Deposit: (id) => ('/_/Deposit?id='),
     Withdrawal: (id) => ('/_/Withdrawal'),
+    Message: (id) => ('/_/MessageList?id=' + id),
 };
-
-function NotificationPoll({ children, refetch }) {
-
-    let focused = true;
-    window.addEventListener('focus', () => { focused = true; });
-    window.addEventListener('blur', () => { focused = false; });
-
-    useEffect(() => {
-	const interval = setInterval(() => {
-	    if (focused) {
-		refetch();
-	    }
-	}, POLL);
-	return () => clearInterval(interval);
-    }, []);
-
-    return children
-}
-
 
 class NotificationMenu extends Component {
 
@@ -223,7 +208,7 @@ class NotificationMenu extends Component {
 			      <NotificationIconNo />
 			    </IconButton>
 			    ):(
-				<NotificationPoll refetch={refetch}>
+				<Poller action={refetch} pollTime={POLL}>
 				  <Mutation mutation={seen_mutation}>
 				    {mutation => (
 					data.user.notifier.unseenCount > 0 ? (
@@ -256,7 +241,7 @@ class NotificationMenu extends Component {
 					)
 				    )}
 				  </Mutation>
-				</NotificationPoll>
+				</Poller>
 			)}
 			<SwipeableDrawer
 			    open={drawer}

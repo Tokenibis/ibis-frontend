@@ -151,7 +151,7 @@ class EventList extends Component {
 	      </div>
 	      <Link to={`/Event/Event?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
-		  Go to page
+		  Details
 		</Typography>
 	      </Link>
 	    </div>

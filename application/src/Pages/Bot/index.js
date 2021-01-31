@@ -11,6 +11,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import IconButton from '@material-ui/core/IconButton';
+import MessageIcon from '@material-ui/icons/SendOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
@@ -114,6 +116,9 @@ const styles = theme => ({
     bottom: {
 	height: theme.spacing(5),
     },
+    icons: {
+	display: 'flex',
+    },
     none: {},
 })
 
@@ -207,13 +212,20 @@ class Bot extends Component {
 		      <div className={classes.edgeMutations}>
 			{
 			    node.id !== context.userID &&
-			    <SimpleEdgeMutation
-				variant={FollowVal}
-				user={context.userID}
-				target={node.id}
-				initial={node.isFollowing.edges.length === 1}
-				countCallback={followerCallback}
-			    />
+			    <div className={classes.icons}>
+			      <SimpleEdgeMutation
+				  variant={FollowVal}
+				  user={context.userID}
+				  target={node.id}
+				  initial={node.isFollowing.edges.length === 1}
+				  countCallback={followerCallback}
+			      />
+			      <Link to={`/_/MessageList?id=${node.id}`}>
+				<IconButton color="secondary">
+				  <MessageIcon />
+				</IconButton>
+			      </Link>
+			    </div>
 			}
 		      </div>
 		      {

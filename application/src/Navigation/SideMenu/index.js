@@ -25,6 +25,7 @@ import BotIcon from '@material-ui/icons/Android';
 import ActivityIcon from '@material-ui/icons/Casino';
 import RewardIcon from '@material-ui/icons/EmojiEvents';
 import SettingsIcon from '@material-ui/icons/Settings';
+import MessageIcon from '@material-ui/icons/Send';
 import DepositIcon from '@material-ui/icons/LocalAtm';
 import WithdrawalIcon from '@material-ui/icons/Atm';
 import HomeIcon from '@material-ui/icons/Home';
@@ -230,6 +231,14 @@ class SideMenu extends Component {
 		  />
 		</Link>
 	      </Sublist>
+	      <Link to="/_/MessageInbox">
+		<SublistItem
+		    label="Messages"
+		    classes={classes}
+		    icon={<MessageIcon />}
+		    onClick={(e) => this.toggleDrawer(false)}
+		/>
+	      </Link>
 	      <Link to="/_/Deposit">
 		<SublistItem
 		    label="Deposit"

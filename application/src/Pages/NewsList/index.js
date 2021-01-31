@@ -147,7 +147,7 @@ class NewsList extends Component {
 	      </div>
 	      <Link to={`/News/News?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
-		  Go to page
+		  Details
 		</Typography>
 	      </Link>
 	    </div>

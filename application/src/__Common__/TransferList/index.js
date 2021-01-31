@@ -138,7 +138,7 @@ class TransferList extends Component {
 		  variant="body2"
 		  className={classes.details}
 	      >
-		Go to page
+		Details
 	      </Typography>
 	    </div>
 	);

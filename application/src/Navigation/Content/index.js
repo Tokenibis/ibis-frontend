@@ -136,7 +136,7 @@ function ContentLoader({ match, location }) {
 	case '_':
 	    nav = (
 		<div>
-		  <MainBar cycle={StandardVal} />
+		  <MainBar cycle={StandardVal} position="fixed"/>
 		</div>
 	    );
 	    if (pageName === undefined) {

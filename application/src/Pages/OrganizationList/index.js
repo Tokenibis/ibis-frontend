@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import MessageIcon from '@material-ui/icons/SendOutlined';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
@@ -41,7 +43,10 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
-    }
+    },
+    icons: {
+	display: 'flex',
+    },
 });
 
 const query = loader('../../Static/graphql/app/OrganizationList.gql')
@@ -90,20 +95,27 @@ class OrganizationList extends Component {
 	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={FollowVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.isFollowing.edges.length === 1}
-		  hide={context.userID === node.id}
-	      />
+	      <div className={classes.icons}>
+		<SimpleEdgeMutation
+		    variant={FollowVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.isFollowing.edges.length === 1}
+		    hide={context.userID === node.id}
+		/>
+		<Link to={`/_/MessageList?id=${node.id}`}>
+		  <IconButton color="secondary">
+		    <MessageIcon />
+		  </IconButton>
+		</Link>
+	      </div>
 	      <Typography
 		  component={Link}
 		  to={`/Organization/Organization?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
-		{`Go to page${context.userType === 'Person' ? ' | Donate' : ''}`}
+		{`Profile${context.userType === 'Person' ? ' | Donate' : ''}`}
 	      </Typography>
 	    </div>
 	);

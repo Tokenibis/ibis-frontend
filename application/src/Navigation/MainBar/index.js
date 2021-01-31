@@ -13,6 +13,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import { IbisConsumer } from '../../Context';
 import Link from '../../__Common__/CustomLink';
@@ -41,28 +42,34 @@ const styles = theme => ({
 	marginLeft: -12,
 	marginRight: 20,
     },
+    toolbar: {
+	visibility: 'hidden',
+    },
 });
 
-function MainBar({ classes, context, cycle }) {
+function MainBar({ classes, context, cycle, position = 'static' }) {
 
     return (
-	<AppBar color="primary" position="static">
-	  <div className={classes.flex}>
-	    <IbisConsumer>
-	      {context => (
-		  <SideMenu context={context}/>
-	      )}
-	    </IbisConsumer> 
-	    <Typography variant="h6" color="inherit" className={classes.grow}>
-	      <Cycler value={cycle} />
-	    </Typography>
-	    <IbisConsumer>
-	      {context => (
-		  <NotificationMenu context={context}/>
-	      )}
-	    </IbisConsumer> 
-	  </div>
-	</AppBar>
+	<div>
+	  <AppBar color="primary" position={position}>
+	    <div className={classes.flex}>
+	      <IbisConsumer>
+		{context => (
+		    <SideMenu context={context}/>
+		)}
+	      </IbisConsumer> 
+	      <Typography variant="h6" color="inherit" className={classes.grow}>
+		<Cycler value={cycle} />
+	      </Typography>
+	      <IbisConsumer>
+		{context => (
+		    <NotificationMenu context={context}/>
+		)}
+	      </IbisConsumer> 
+	    </div>
+	  </AppBar>
+	  {position === 'fixed' && <Toolbar className={classes.toolbar}/>}
+	</div>
     );
 };
 

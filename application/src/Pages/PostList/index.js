@@ -147,7 +147,7 @@ class PostList extends Component {
 		  variant="body2"
 		  className={classes.info}
 	      >
-		Go to page
+		Details
 	      </Typography>
 	    </div>
 	);

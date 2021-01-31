@@ -19,6 +19,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import InfiniteScroll from 'react-infinite-scroller';
+import Poller from '../../__Common__/Poller';
 
 const styles = theme => ({
     progress: {
@@ -26,7 +27,7 @@ const styles = theme => ({
     },
     loader: {
 	height: '80px',
-	marginTop: theme.spacing(2),
+	marginTop: theme.spacing(4),
 	margin: '0 auto',
 	fontWeight: 'bold',
 	color: theme.palette.tertiary.main,
@@ -60,28 +61,71 @@ class QueryHelper extends Component {
 	this.state = {
 	    data: [],
 	    hasMore: true,
-	    page: 0,
 	    position: 0,
+	    oriented: false,
+	    keepBottom: false,
 	}
     }
 
-    componentWillReceiveProps({ variables }) {
-	this.setState({
-	    variables,
-	    data: [],
-	});
+    componentWillReceiveProps({ variables, refreshTrigger }) {
+	if (refreshTrigger && refreshTrigger !== this.props.refreshTrigger) {
+	    this.refresh();
+	}
     }
 
     componentDidUpdate() {
-	let { page } = this.state;
-	if (page <= 1) {
-	    window.scrollTo(0,document.body.scrollHeight);
+	let { reverseScroll } = this.props;
+	let { oriented, keepBottom } = this.state;
+	if (reverseScroll) {
+	    // scroll down when first load
+	    if (!oriented) {
+		window.scrollTo(0, document.body.scrollHeight);
+		this.setState({ oriented: true });
+	    }
+	    if (keepBottom) {
+		window.scrollTo(0, document.body.scrollHeight);
+	    }
+	}
+    }
+
+    refresh = (dataRefresh = [], force = true) => {
+	let { client, query, onRefresh } = this.props;
+	let { data } = this.state;
+	let variables = JSON.parse(JSON.stringify(this.props.variables));
+
+	let index = data.length > 0 ?
+		    dataRefresh.map(item => item.node.id).indexOf(data[0].node.id) :
+		    dataRefresh.length;
+
+	if (index < 0 || force) {
+	    if (dataRefresh.length) {
+		variables.after = dataRefresh[dataRefresh.length - 1].cursor;
+	    } else {
+		delete variables.after;
+	    }
+	    variables.first = 1;
+
+	    client.query({
+		query,
+		variables,
+		fetchPolicy:"no-cache",
+	    }).then(response => {
+		let dataNew = response.data[Object.keys(response.data)[0]].edges;
+		this.refresh(dataRefresh.concat(dataNew), false);
+	    }).catch(error => {
+		this.setState({ data: null });
+	    })
+	} else {
+	    this.setState({
+		keepBottom: (window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2,
+		data: dataRefresh.slice(0, index).concat(data)
+	    });
 	}
     }
 
     paginate = () => {
 	let { client, variables, query } = this.props;
-	let { data, page } = this.state;
+	let { data } = this.state;
 
 	if (data.length) {
 	    variables.after = data[data.length - 1].cursor;
@@ -95,14 +139,23 @@ class QueryHelper extends Component {
 	    let dataNew = response.data[Object.keys(response.data)[0]].edges;
 	    let hasMore = response.data[Object.keys(response.data)[0]].pageInfo.hasNextPage;
 	    data = data.concat(dataNew);
-	    this.setState({ data, hasMore, page: page + 1 });
+	    this.setState({ data, hasMore });
 	}).catch(error => {
 	    this.setState({ data: null });
 	})
     }
 
     render() {
-	let { variables, classes, query, make, scroll, reverseScroll } = this.props;
+	let {
+	    variables,
+	    classes,
+	    query,
+	    make,
+	    scroll,
+	    reverseScroll,
+	    pollTime,
+	    emptyMessage,
+	} = this.props;
 	let { data, hasMore } = this.state;
 
 	if (data === null) {
@@ -111,7 +164,7 @@ class QueryHelper extends Component {
 
 	if (scroll) {
 	    return (
-		<div>
+		<Poller action={this.refresh} pollTime={pollTime}>
 		  <InfiniteScroll
 		      pageStart={0}
 		      hasMore={hasMore}
@@ -121,7 +174,7 @@ class QueryHelper extends Component {
 		      ):(
 			  () => {}
 		      )}
-		      loader={scroll === 'infinite' ? (
+		      loader={(scroll === 'infinite' || (!data.length && hasMore)) ? (
 			  <Typography key={data.length} type="body2" className={classes.loader}>
 			    Loading more results...
 			  </Typography>
@@ -135,19 +188,19 @@ class QueryHelper extends Component {
 			  </div>
 		      )}
 		  >
-		    {data ? (
+		    {data.length ? (
 			make(data)
 		    ):(
 			hasMore ? (
-			    <LinearProgress className={classes.progress}/>
+			    <div></div>
 			):(
 			    <Typography type="body2" className={classes.empty}>
-			      Nothing to see here
+			      {emptyMessage ? emptyMessage : 'Nothing to see here'}
 			    </Typography>
 			)
 		    )}
 		  </InfiniteScroll>
-		</div>
+		</Poller>
 	    );
 	} else {
 	    return (

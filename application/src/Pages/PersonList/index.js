@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import CopyIcon from '@material-ui/icons/FileCopyOutlined';
+import MessageIcon from '@material-ui/icons/SendOutlined';
 
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Link from '../../__Common__/CustomLink';
@@ -78,6 +79,9 @@ const styles = theme => ({
     paperProps: {
 	width: '70%',
 	margin: theme.spacing(1),
+    },
+    icons: {
+	display: 'flex',
     },
 })
 
@@ -202,20 +206,27 @@ class PersonList extends Component {
 	let { classes, context } = this.props;
 	return (
 	    <div className={classes.action}>
-	      <SimpleEdgeMutation
-		  variant={FollowVal}
-		  user={context.userID}
-		  target={node.id}
-		  initial={node.isFollowing.edges.length === 1}
-		  hide={context.userID === node.id}
-	      />
+	      <div className={classes.icons}>
+		<SimpleEdgeMutation
+		    variant={FollowVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.isFollowing.edges.length === 1}
+		    hide={context.userID === node.id}
+		/>
+		<Link to={`/_/MessageList?id=${node.id}`}>
+		  <IconButton color="secondary">
+		    <MessageIcon />
+		  </IconButton>
+		</Link>
+	      </div>
 	      <Typography
 		  component={Link}
 		  to={`/Person/Person?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
-		{`Go to page${context.userType === 'Bot' ? ' | Donate' : ''}`}
+		{`Profile${context.userType === 'Bot' ? ' | Reward' : ''}`}
 	      </Typography>
 	    </div>
 	);
