@@ -27,6 +27,7 @@ import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import RewardIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
+import MessageIcon from '@material-ui/icons/Send';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import ExchangeIcon from '@material-ui/icons/LocalAtm';
 import AvatarIcon from '@material-ui/icons/Portrait';
@@ -783,6 +784,25 @@ class Settings extends Component {
 			refetch,
 			'emailFollow',
 			!data.user.notifier.emailFollow,
+		    ))}
+		    />
+		  </ListItemSecondaryAction>
+		</ListItem>
+		<CustomDivider />
+		<ListItem>
+		  <ListItemIcon>
+		    <MessageIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Messages" />
+		  <ListItemSecondaryAction>
+		    <Switch
+		    edge="end"
+		    checked={data.user.notifier.emailMessage}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailMessage',
+			!data.user.notifier.emailMessage,
 		    ))}
 		    />
 		  </ListItemSecondaryAction>
