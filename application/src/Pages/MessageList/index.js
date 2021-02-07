@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MessageIcon from '@material-ui/icons/Send';
 
 import CustomDate from '../../__Common__/CustomDate';
+import CustomMarkdown from '../../__Common__/CustomMarkdown';
 
 const styles = theme => ({
     body: {
@@ -19,6 +20,9 @@ const styles = theme => ({
 	paddingRight: theme.spacing(2),
 	paddingBottom: theme.spacing(14),
     }, 
+    message: {
+	color: theme.palette.primary.main,
+    },
     content: {
 	marginTop: theme.spacing(-2),
     },
@@ -175,9 +179,7 @@ class MessageList extends Component {
 		  item.node.user.id === context.userID ?
 		  classes.outgoing: classes.incoming
 		  }>
-		    <Typography variant="body2">
-		      {item.node.description}
-		    </Typography>
+		    <CustomMarkdown source={item.node.description} messageProps={classes.message}/>
 		    <Typography variant="body2" className={classes.date}>
 		    <CustomDate date={item.node.created} />
 		    </Typography>

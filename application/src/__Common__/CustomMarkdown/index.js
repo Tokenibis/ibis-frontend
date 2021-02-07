@@ -111,7 +111,7 @@ class CustomMarkdownImage extends Component {
     };
 };
 
-function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...other }) {
+function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, messageProps, ...other }) {
     if (mention) {
 	Object.keys(mention).forEach((x) => {
 	    source = ` ${source} `.replace(
@@ -125,7 +125,7 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, ...ot
     source = source.replace('_](', '\\_](');
 
     return (
-	<Typography variant="body2" className={classes.message}>
+	<Typography variant="body2" className={messageProps ? messageProps : classes.message}>
 	  <ReactMarkdown
 	      source={source}
 	      renderers={{
