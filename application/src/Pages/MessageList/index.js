@@ -179,7 +179,7 @@ class MessageList extends Component {
 		  item.node.user.id === context.userID ?
 		  classes.outgoing: classes.incoming
 		  }>
-		    <CustomMarkdown source={item.node.description} messageProps={classes.message}/>
+		    <CustomMarkdown safe source={item.node.description} messageProps={classes.message}/>
 		    <Typography variant="body2" className={classes.date}>
 		    <CustomDate date={item.node.created} />
 		    </Typography>

@@ -181,7 +181,7 @@ class NewsCreate extends Component {
 	    title,
 	    link,
 	    description,
-	    enableNews: title && (image.files || id) && description,
+	    enableNews: title && (image.files.length === 1 || id) && description,
 	});
     }
 
