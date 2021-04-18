@@ -12,6 +12,7 @@ import MessageIcon from '@material-ui/icons/Send';
 
 import CustomDate from '../../__Common__/CustomDate';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
+import Confirmation from '../../__Common__/Confirmation';
 
 const styles = theme => ({
     body: {
@@ -144,13 +145,18 @@ class MessageBar extends Component {
 			onFocus={(e) => {if (e.type === 'focus') window.scrollTo(0, document.body.scrollHeight)}}
 			className={classes.textField}
 		    />
-		    <IconButton
-			className={classes.sendIcon}
-			disabled={!enableSend}
-			onClick={this.send}
+		    <Confirmation
+		      disabled={!enableSend}
+		      onClick={this.send}
+		      message="Are you sure you want to __send__ this message?"
+		      preview={() => (document.getElementById('message_text').value)}
 		    >
-		      <MessageIcon/>
-		    </IconButton>
+		      <IconButton
+			  className={classes.sendIcon}
+		      >
+			<MessageIcon/>
+		      </IconButton>
+		    </Confirmation>
 		  </div>
 		</div>
 	      </Toolbar>
