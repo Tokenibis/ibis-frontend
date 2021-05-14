@@ -111,7 +111,7 @@ class TransferCreate extends Component {
 
 	let description = document.getElementById(`transfer_description`).value
 	let amount_str = document.getElementById(`transfer_amount`).value
-	let amount = Math.floor(Number(amount_str) * 100)
+	let amount = Math.round(Number(amount_str) * 100)
 
 	return client.mutate({
 	    mutation: VARIANTS[variant].mutation,
@@ -182,7 +182,7 @@ class TransferCreate extends Component {
 	let { classes, context, target, variant, history } = this.props;
 	let { enableTransfer, amount, mention, thanks, destination } = this.state;
 
-	let amount_final = Math.floor(amount * 100)
+	let amount_final = Math.round(Number(amount) * 100)
 
 	return (
 	    <div>
