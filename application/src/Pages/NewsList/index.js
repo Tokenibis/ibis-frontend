@@ -26,6 +26,17 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
+    bubbles: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+    },
+    bubble: {
+	backgroundColor: 'white',
+	height: 16,
+	width: 16,
+	margin: 2,
+    },
     title: {
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
@@ -154,6 +165,22 @@ class NewsList extends Component {
 	);
     };
 
+    makeDecoration = (node) => {
+	let { classes } = this.props;
+
+	return (
+	    <div className={classes.bubbles}>
+	      {node.commenterRecursive.edges.slice(0, 3).reverse().map(item => (
+		  <Avatar
+  		      alt="bubble"
+    		      src={item.node.avatar}
+    		      className={classes.bubble}
+		  />
+	      ))}
+	    </div>
+	)
+    }
+
     render() {
 	let { classes, context, minimal, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
@@ -181,6 +208,7 @@ class NewsList extends Component {
 		    makeMedia={this.makeMedia}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
+		    makeDecoration={this.makeDecoration}
 		    data={data}
 		/>
 	    );

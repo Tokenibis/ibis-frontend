@@ -27,6 +27,17 @@ const styles = theme => ({
   	borderWidth: '2px',
   	borderColor: theme.palette.secondary.main,
     },
+    bubbles: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+    },
+    bubble: {
+	backgroundColor: 'white',
+	height: 16,
+	width: 16,
+	margin: 2,
+    },
     toIcon: {
 	marginBottom: -7,
 	marginLeft: 4,
@@ -144,6 +155,22 @@ class TransferList extends Component {
 	);
     };
 
+    makeDecoration = (node) => {
+	let { classes } = this.props;
+
+	return (
+	    <div className={classes.bubbles}>
+	      {node.commenterRecursive.edges.slice(0, 3).reverse().map(item => (
+		  <Avatar
+  		      alt="bubble"
+    		      src={item.node.avatar}
+    		      className={classes.bubble}
+		  />
+	      ))}
+	    </div>
+	)
+    }
+
     render() {
 	let { classes, context, minimal, variant, filterValue, count } = this.props;
 	let infiniteScroll, make, variables;
@@ -178,6 +205,7 @@ class TransferList extends Component {
 		    makeLabel={this.makeLabel}
 		    makeBody={this.makeBody}
 		    makeActions={this.makeActions}
+		    makeDecoration={this.makeDecoration}
 		    data={data}
 		/>
 	    )

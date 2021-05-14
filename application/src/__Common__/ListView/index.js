@@ -44,7 +44,7 @@ const styles = theme => ({
     item: {
 	width: '90%',
     },
-    image: {
+    listItem: {
 	marginLeft: '0px',
 	paddingLeft: '0px',
     },
@@ -95,6 +95,7 @@ class ListView extends Component {
 	    makeMedia,
 	    makeBody,
 	    makeActions,
+	    makeDecoration,
 	    filter
 	} = this.props;
 	let { expandedAll, expanded } = this.state;
@@ -114,10 +115,10 @@ class ListView extends Component {
 			(filter === undefined || filter(item.node) === true) &&
 			<div className={classes.item} key={i} id={`tutorial-item-${i}`}>
 			  <ListItem
-			      button
+			      button={!expandedAll}
 			      key={i}
-			      className={classes.image}
-			      onClick={(e) => {this.handleExpand(i)}}
+			      className={classes.listItem}
+			      onClick={expandedAll ? () => {} : (e) => {this.handleExpand(i)}}
 			    >
 			    {
 				makeImage && 
@@ -126,10 +127,14 @@ class ListView extends Component {
 				</ListItemIcon>
 			    }
 			    <ListItemText primary={makeLabel(item.node)} />
-			    {!expandedAll && (makeBody || makeActions) && (
-				expanded === i ?
-				<ExpandLess color="secondary"/> :
-				<ExpandMore color="secondary"/>)}
+			    {expandedAll ? (
+				makeDecoration && makeDecoration(item.node)
+			    ):(
+				(makeBody || makeActions) && (
+				    expanded === i ?
+				    <ExpandLess color="secondary"/> :
+				    <ExpandMore color="secondary"/>)
+			    )}
 			  </ListItem>
 			  <Collapse in={expandedAll || expanded === i} timeout="auto" unmountOnExit>
 			    {
