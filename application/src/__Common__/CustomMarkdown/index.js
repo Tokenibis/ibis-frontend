@@ -7,6 +7,7 @@ import ReactPlayer from 'react-player';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Confirmation from '../Confirmation';
+import HashtagDialog from '../HashtagDialog';
 
 const config = require('../../__config__.json');
 
@@ -41,6 +42,15 @@ function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
 
     let followLink = (destination) => {
 	window.location = destination;
+    }
+
+    if (other.href.startsWith(`${config.ibis.app}/__hashtag__/`)) {
+	let hashtag = other.href.split('/').slice(-1)[0];
+	return (
+	    <HashtagDialog hashtag={hashtag}>
+	      <span className={classes.link} {...other} />
+	    </HashtagDialog>
+	)
     }
 
     let domain = (new URL(config.ibis.app)).hostname;
@@ -123,6 +133,9 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, messa
     }
 
     source = source.replace('_](', '\\_](');
+
+    // replace [$ ](#\w+)\W
+    source = ` ${source} `.replace(new RegExp(`(\\s)#(\\w+)`, 'g'), `$1[ #$2](${config.ibis.app}/__hashtag__/$2)`).slice(1, -1)
 
     return (
 	<Typography variant="body2" className={messageProps ? messageProps : classes.message}>

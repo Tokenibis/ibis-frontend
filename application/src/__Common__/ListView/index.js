@@ -127,7 +127,7 @@ class ListView extends Component {
 				</ListItemIcon>
 			    }
 			    <ListItemText primary={makeLabel(item.node)} />
-			    {expandedAll ? (
+			    {(expandedAll || (!makeBody && !makeActions)) ? (
 				makeDecoration && makeDecoration(item.node)
 			    ):(
 				(makeBody || makeActions) && (
