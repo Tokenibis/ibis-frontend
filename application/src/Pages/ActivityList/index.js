@@ -30,12 +30,17 @@ const styles = theme => ({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
+	paddingLeft: theme.spacing(1),
     },
     bubble: {
 	backgroundColor: 'white',
 	height: 16,
 	width: 16,
 	margin: 2,
+	filter: 'grayscale(100%)',
+	borderStyle: 'solid',
+	borderWidth: '1px',
+	borderColor: theme.palette.tertiary.main,
     },
     title: {
 	fontWeight: 'bold',
