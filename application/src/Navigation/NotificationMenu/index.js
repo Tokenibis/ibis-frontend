@@ -31,6 +31,8 @@ import QueryHelper from '../../__Common__/QueryHelper';
 import CustomDate from '../../__Common__/CustomDate';
 import Poller from '../../__Common__/Poller';
 
+const config = require('../../__config__.json');
+
 const styles = theme => ({
     unseenWrapper: {
 	display: 'flex',
@@ -198,6 +200,15 @@ class NotificationMenu extends Component {
 			<NotificationIconNo />
 		      </IconButton>
 		  )
+
+		  document.title = `${data.user.notifier.unseenCount > 0 ? '('+ data.user.notifier.unseenCount + ')' : ''}${config.ibis.title}`
+
+		  let refetchWrapper = () => {
+		      refetch().then(result => {
+			  document.title = `${result.data.user.notifier.unseenCount > 0 ? '('+ result.data.user.notifier.unseenCount + ')' : ''}${config.ibis.title}`
+		      });
+		  }
+
 		  return (
 		      <div>
 			{error ? (
@@ -208,7 +219,7 @@ class NotificationMenu extends Component {
 			      <NotificationIconNo />
 			    </IconButton>
 			    ):(
-				<Poller action={refetch} pollTime={POLL}>
+				<Poller action={refetchWrapper} pollTime={POLL}>
 				  <Mutation mutation={seen_mutation}>
 				    {mutation => (
 					data.user.notifier.unseenCount > 0 ? (
