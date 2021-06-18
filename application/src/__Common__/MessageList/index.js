@@ -10,9 +10,9 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import MessageIcon from '@material-ui/icons/Send';
 
-import CustomDate from '../../__Common__/CustomDate';
-import CustomMarkdown from '../../__Common__/CustomMarkdown';
-import Confirmation from '../../__Common__/Confirmation';
+import CustomDate from '../CustomDate';
+import CustomMarkdown from '../CustomMarkdown';
+import Confirmation from '../Confirmation';
 
 const styles = theme => ({
     body: {
@@ -28,6 +28,8 @@ const styles = theme => ({
 	marginTop: theme.spacing(-2),
     },
     date: {
+	display: 'flex',
+	justifyContent: 'space-between',
 	color: theme.palette.tertiary.main,
 	fontSize: '12px',
 	textAlign: 'right',
@@ -69,13 +71,10 @@ const styles = theme => ({
     },
 })
 
-const query = loader('../../Static/graphql/app/MessageList.gql')
-
-const query_user = loader('../../Static/graphql/app/MessageUser.gql')
-
-const mutation = loader('../../Static/graphql/app/MessageCreate.gql')
-
 const POLL = 4000;
+
+const queryDirectName = loader('../../Static/graphql/app/MessageDirectName.gql');
+const queryChannelName = loader('../../Static/graphql/app/MessageChannelName.gql');
 
 class MessageBar extends Component {
 
@@ -85,7 +84,11 @@ class MessageBar extends Component {
     }
 
     send = () => {
-	let { context, client, id, refresh } = this.props;
+	let { context, client, id, refresh, variant } = this.props;
+
+	let mutation = variant === 'direct' ?
+		       loader('../../Static/graphql/app/MessageDirectCreate.gql') :
+		       loader('../../Static/graphql/app/MessageChannelCreate.gql');
 
 	client.mutate({
 	    mutation,
@@ -104,7 +107,7 @@ class MessageBar extends Component {
     }
 
     render() {
-	let { classes, context, id } = this.props;
+	let { classes, context, id, variant } = this.props;
 	let { enableSend } = this.state;
 
 	return (
@@ -119,7 +122,7 @@ class MessageBar extends Component {
 		}}>
 		  <Query
 		      fetchPolicy="no-cache"
-		      query={query_user}
+		      query={variant === 'direct' ? queryDirectName : queryChannelName}
 		      variables={{ id: id }}
 		  >
 		    {({ loading, error, data, refetch }) => {
@@ -127,7 +130,7 @@ class MessageBar extends Component {
 			if (error) return 'Error: user not found';
 			return (
 			    <Typography variant="body2" className={classes.name}>
-			      {`To: ${data.user.name}`}
+			      {`To: ${variant === 'direct' ? data.user.name : data.channel.name}`}
 			    </Typography>
 			)
 		    }}
@@ -176,7 +179,7 @@ class MessageList extends Component {
     }
 
     make = (data) => {
-	let { classes, context } = this.props;
+	let { classes, context, variant } = this.props;
 
 	return (
 	    <div className={classes.content}>
@@ -185,9 +188,14 @@ class MessageList extends Component {
 		  item.node.user.id === context.userID ?
 		  classes.outgoing: classes.incoming
 		  }>
-		    <CustomMarkdown safe source={item.node.description} messageProps={classes.message}/>
+		    <CustomMarkdown safe source={
+		    variant === 'channel' && item.node.user.id !== context.userID ?
+		    `__${item.node.user.name}:__ ${item.node.description}`:
+		    item.node.description
+		    } messageProps={classes.message}/>
 		    <Typography variant="body2" className={classes.date}>
-		    <CustomDate date={item.node.created} />
+		      <span>{variant === 'direct' || item.node.user.id === context.userID ? '' : item.node.user.username}</span>
+		      <CustomDate date={item.node.created} />
 		    </Typography>
 		  </div>
 	      ))}
@@ -200,8 +208,23 @@ class MessageList extends Component {
     }
     
     render() {
-	let { classes, context, id, client } = this.props;
+	let { classes, context, id, client, variant } = this.props;
 	let { refreshTrigger, oldHeight } = this.state;
+
+	let query, variables;
+	if (variant === 'direct') {
+	    query = loader('../../Static/graphql/app/MessageDirectList.gql');
+	    variables = {
+		withUser: id,
+		first: 25,
+	    }
+	} else {
+	    query = loader('../../Static/graphql/app/MessageChannelList.gql');
+	    variables = {
+		withChannel: id,
+		first: 25,
+	    }
+	}
 
 	// handles first resize when autofocus brings up keyboard on mobile
 	window.addEventListener('resize', (x, y) => {
@@ -215,11 +238,7 @@ class MessageList extends Component {
 	    <div className={classes.body}>
 	      <QueryHelper
 		  query={query}
-		  variables={{
-		      user: id,
-		      withUser: id,
-		      first: 25
-		  }}
+		  variables={variables}
 		  make={this.make}
 	          scroll={'manual'}
 		  reverseScroll
@@ -233,10 +252,13 @@ class MessageList extends Component {
 		  id={id}
 		  client={client}
 		  refresh={this.refresh}
+		  variant={variant}
 	      />
 	    </div>
 	)
     }
 };
 
+export const DirectVal = 'direct';
+export const ChannelVal = 'channel';
 export default withApollo(withStyles(styles)(MessageList));

@@ -67,7 +67,7 @@ class QueryHelper extends Component {
 	}
     }
 
-    componentWillReceiveProps({ variables, refreshTrigger }) {
+    componentWillReceiveProps({ query, variables, refreshTrigger }) {
 	if (refreshTrigger && refreshTrigger !== this.props.refreshTrigger) {
 	    this.refresh();
 	}

@@ -92,6 +92,10 @@ const botOptions = [
     [ 'Rewards', makeRewardFilter, 'Reward', 'RewardList' ],
 ]
 
+function PageNotFound() {
+    return 'Error, page not found. Perhaps this page moved or you clicked on a bad link.'
+}
+
 function HomeLoader()  {
 
     // compare local and remote hashes and reload the app if they differ
@@ -225,10 +229,24 @@ function ContentLoader({ match, location }) {
 	    pageName = pageName ? pageName : 'RewardList';
 	    break;
 	default:
-	    return "Error, Page not Found";
+	    nav = (
+		<div>
+		  <MainBar cycle={StandardVal} position="fixed"/>
+		</div>
+	    );
     };
 
-    let Page = require(`../../Pages/${pageName}`).default;
+    let Page;
+
+    // TEMPORARY: redirects
+    let redirects = {
+	MessageList: 'MessageDirectList',
+    }
+    if (pageName in redirects) {
+	pageName = redirects[pageName];
+    }
+
+    Page = require(`../../Pages/${pageName}`).default;
 
     let urlParams = location.search.slice(1).split('&').reduce((obj, x) =>
 	Object.assign(obj, { [x.split('=')[0]]: x.split('=').slice(1).join('=') }), {});

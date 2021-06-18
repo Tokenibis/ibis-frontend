@@ -7,13 +7,15 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MessageIcon from '@material-ui/icons/ForumOutlined';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
 import CreateIcon from '@material-ui/icons/Create';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import Dialog from '@material-ui/core/Dialog';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import ChannelIcon from '@material-ui/icons/Group';
 
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
@@ -83,7 +85,7 @@ const styles = theme => ({
 	alignItems: 'center',
 	paddingLeft: theme.spacing(6),
     },
-    you: {
+    sender: {
 	fontWeight: 'bold',
 	paddingBottom: theme.spacing(2),
 	color: theme.palette.tertiary.main,
@@ -142,36 +144,41 @@ const styles = theme => ({
 	alignItems: 'center',
 	justifyContent: 'center',
     },
+    tabSelected: {
+	color: theme.palette.tertiary.main,
+	opacity: 1,
+    },
+    tabUnselected: {
+	color: theme.palette.secondary.main,
+	opacity: 1,
+    },
 })
 
-const query = loader('../../Static/graphql/app/MessageInbox.gql')
+const queryDirect = loader('../../Static/graphql/app/MessageDirectInbox.gql')
 
-const disclaimer = `
-# What is this?
+const queryChannel = loader('../../Static/graphql/app/MessageChannelInbox.gql')
 
-Token Ibis supports private direct messages! This is a quick-and-dirty
-way for you to chat and exchange information with other Token Ibis
-community members and organizations (and bots).
-
-# How private is it?
-
-We try our best, but that's not always very good, so _please, please_
-don't send anything sensitive or weird here. Consider using a
-messaging app that was developed by actual professionals.
-
-Also, we occasionally have to monitor and move around data for coding
-and research purposes, so as a rule of thumb, don't send anything that
-you wouldn't feel comfortable with Token Ibis administrators seeing.
-`
+const StyledTabs = withStyles((theme) => ({
+    indicator: {
+	display: 'flex',
+	justifyContent: 'center',
+	backgroundColor: 'transparent',
+	'& > span': {
+	    width: '50%',
+	    backgroundColor: theme.palette.tertiary.main,
+	},
+    },
+}))((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
 
 class MessageInbox extends Component {
 
     state = {
 	search: false,
 	filterValue: '',
+	tab: 0,
     }
 
-    makeImage = (node) => {
+    makeImageDirect = (node) => {
 	let { classes  } = this.props;
 	return (
     	    <Avatar
@@ -193,10 +200,17 @@ class MessageInbox extends Component {
 	)
     };
 
-    makeLabel = (node) => {
+    makeImageChannel = (node) => {
+	let { classes  } = this.props;
+	return (
+	    <ChannelIcon />
+	);
+    }
+
+    makeLabelDirect = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Link to={`/_/MessageList?id=${node.id}`}>
+	    <Link to={`/_/MessageDirectList?id=${node.id}`}>
 	      <div className={classes.titleWrapper}>
   		<Typography variant="body2" className={classes.title}>
   		  {`${node.name}`}
@@ -209,17 +223,58 @@ class MessageInbox extends Component {
 	);
     }
 
-    makeBody = (node) => {
+    makeLabelChannel = (node) => {
+	let { classes } = this.props;
+	return (
+	    <Link to={`/_/MessageChannelList?id=${node.id}`}>
+	      <div className={classes.titleWrapper}>
+  		<Typography variant="body2" className={classes.title}>
+  		  {`${node.name}`}
+  		</Typography>
+  		<Typography variant="body2" className={classes.subtitle}>
+		  <CustomDate date={node.messages.edges[0].node.created} />
+  		</Typography>
+	      </div>
+	    </Link>
+	);
+    }
+
+    makeBodyDirect = (node) => {
 	let { classes, context } = this.props;
 	return (
-	    <Link to={`/_/MessageList?id=${node.id}`}>
+	    <Link to={`/_/MessageDirectList?id=${node.id}`}>
 	      <div className={classes.body}>
-  		{node.messages.edges[0].node.user.id === context.userID && (
-		    <Typography variant="body2" className={classes.you}>
-		      You:&nbsp;
-  		    </Typography>
-		)}
 		<Typography variant="body2" className={classes.message}>
+  		  {node.messages.edges[0].node.user.id === context.userID && (
+		      <span className={classes.sender}>
+			You:&nbsp;
+  		      </span>
+		  )}
+  		  {node.messages.edges[0].node.description}
+  		</Typography>
+		<IconButton className={classes.icon}>
+		  <MessageIcon />
+		</IconButton>
+	      </div>
+	    </Link>
+	);
+    }
+
+    makeBodyChannel = (node) => {
+	let { classes, context } = this.props;
+	return (
+	    <Link to={`/_/MessageChannelList?id=${node.id}`}>
+	      <div className={classes.body}>
+		<Typography variant="body2" className={classes.message}>
+  		  {node.messages.edges[0].node.user.id === context.userID ? (
+		      <span className={classes.sender}>
+			You:&nbsp;
+  		      </span>
+		  ):(
+		      <span className={classes.sender}>
+			{node.messages.edges.length && node.messages.edges[0].node.user.name}:&nbsp;
+  		      </span>
+		  )}
   		  {node.messages.edges[0].node.description}
   		</Typography>
 		<IconButton className={classes.icon}>
@@ -238,23 +293,33 @@ class MessageInbox extends Component {
 
     onSearchClick = (node) => {
 	let { history } = this.props;
-	history.push(`/_/MessageList?id=${node.id}`)
+	history.push(`/_/MessageDirectList?id=${node.id}`)
     }
 
     render() {
 	let { classes, context, minimal, count } = this.props;
-	let { search, filterValue } = this.state;
+	let { search, filterValue, tab } = this.state;
 
 	let variables = {
 	    user: context.userID,
 	    orderBy: '-messaged_last',
 	}
 
-	let make = (data) => (
+	let makeDirect = (data) => (
 	    <ListView
-		makeImage={this.makeImage}
-		makeLabel={this.makeLabel}
-		makeBody={this.makeBody}
+		makeImage={this.makeImageDirect}
+		makeLabel={this.makeLabelDirect}
+		makeBody={this.makeBodyDirect}
+		data={data}
+		expandedAll
+	    />
+	)
+
+	let makeChannel = (data) => (
+	    <ListView
+		makeImage={this.makeImageChannel}
+		makeLabel={this.makeLabelDirect}
+		makeBody={this.makeBodyChannel}
 		data={data}
 		expandedAll
 	    />
@@ -263,18 +328,27 @@ class MessageInbox extends Component {
 	return (
 	    <div className={classes.root}>
   	      <Grid container direction="column" justify="center" alignItems="center" >
+
 		<div className={classes.topWrapper}>
 		  <div className={classes.headingWrapper}>
-		    <Typography variant="button" className={classes.heading} >
-		      Inbox
-		    </Typography>
-		    <Popup wide message={disclaimer}>
-		      <IconButton color="secondary">
-			<InfoIcon />
-		      </IconButton>
-		    </Popup>
+		    <div className={classes.demo2}>
+		      <StyledTabs value={tab} onChange={(e, i) => {this.setState({ tab: i })}}>
+			<Tab
+			    disableRipple
+			    className={tab === 0 ? classes.tabSelected : classes.tabUnselected}
+			    label="Inbox"
+			/>
+			<Tab
+			    disableRipple
+			    className={tab === 1 ? classes.tabSelected : classes.tabUnselected}
+			    label="Channels"
+			/>
+		      </StyledTabs>
+		      <Typography className={classes.padding} />
+		    </div>
+
 		  </div>
-		  {search ? (
+		  {tab !== 0 ? '' : search ? (
 		      <div className={classes.search}>
 			<div className={classes.searchIcon}>
 			  <SearchIcon />
@@ -308,12 +382,23 @@ class MessageInbox extends Component {
 		  <CustomDivider />
 		</div>
 	      </Grid>
-	      <QueryHelper
-		  query={query}
-		  variables={variables}
-		  make={make}
-		  scroll={'infinite'}
-	      />
+	      {tab === 0 ? (
+		  <QueryHelper
+		      query={queryDirect}
+		      variables={variables}
+		      make={makeDirect}
+		      scroll={'infinite'}
+		      key={tab}
+		  />
+	      ):(
+		  <QueryHelper
+		      query={queryChannel}
+		      variables={variables}
+		      make={makeChannel}
+		      scroll={'infinite'}
+		      key={tab}
+		  />
+	      )}
 	      {filterValue && (
 		  <Dialog
 		      PaperProps={{ className: classes.dialogPaper }}

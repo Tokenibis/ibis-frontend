@@ -108,7 +108,8 @@ const LINKS = {
     Activity: (id) => ('/Activity/Activity?id=' + id),
     Deposit: (id) => ('/_/Deposit?id='),
     Withdrawal: (id) => ('/_/Withdrawal'),
-    Message: (id) => ('/_/MessageList?id=' + id),
+    MessageDirect: (id) => ('/_/MessageDirectList?id=' + id),
+    MessageChannel: (id) => ('/_/MessageChannelList?id=' + id),
 };
 
 class NotificationMenu extends Component {
@@ -201,11 +202,11 @@ class NotificationMenu extends Component {
 		      </IconButton>
 		  )
 
-		  document.title = `${data.user.notifier.unseenCount > 0 ? '('+ data.user.notifier.unseenCount + ')' : ''}${config.ibis.title}`
+		  document.title = `${data.user.notifier.unseenCount > 0 ? '('+ data.user.notifier.unseenCount + ') ' : ''}${config.ibis.title}`
 
 		  let refetchWrapper = () => {
 		      refetch().then(result => {
-			  document.title = `${result.data.user.notifier.unseenCount > 0 ? '('+ result.data.user.notifier.unseenCount + ')' : ''}${config.ibis.title}`
+			  document.title = `${result.data.user.notifier.unseenCount > 0 ? '('+ result.data.user.notifier.unseenCount + ') ' : ''}${config.ibis.title}`
 		      });
 		  }
 
