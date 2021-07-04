@@ -231,9 +231,11 @@ class MessageInbox extends Component {
   		<Typography variant="body2" className={classes.title}>
   		  {`${node.name}`}
   		</Typography>
-  		<Typography variant="body2" className={classes.subtitle}>
-		  <CustomDate date={node.messages.edges[0].node.created} />
-  		</Typography>
+		{node.messages.edges.length > 0 && (
+  		    <Typography variant="body2" className={classes.subtitle}>
+		      <CustomDate date={node.messages.edges[0].node.created} />
+  		    </Typography>
+		)}
 	      </div>
 	    </Link>
 	);
@@ -265,18 +267,24 @@ class MessageInbox extends Component {
 	return (
 	    <Link to={`/_/MessageChannelList?id=${node.id}`}>
 	      <div className={classes.body}>
-		<Typography variant="body2" className={classes.message}>
-  		  {node.messages.edges[0].node.user.id === context.userID ? (
-		      <span className={classes.sender}>
-			You:&nbsp;
-  		      </span>
-		  ):(
-		      <span className={classes.sender}>
-			{node.messages.edges.length && node.messages.edges[0].node.user.name}:&nbsp;
-  		      </span>
-		  )}
-  		  {node.messages.edges[0].node.description}
-  		</Typography>
+		{node.messages.edges.length > 0 ? (
+		    <Typography variant="body2" className={classes.message}>
+  		      {node.messages.edges[0].node.user.id === context.userID ? (
+			  <span className={classes.sender}>
+			    You:&nbsp;
+  			  </span>
+		      ):(
+			  <span className={classes.sender}>
+			    {node.messages.edges[0].node.user.name}:&nbsp;
+  			  </span>
+		      )}
+  		      {node.messages.edges[0].node.description}
+  		    </Typography>
+		):(
+		    <Typography variant="body2" className={classes.message}>
+		      No messages yet.
+		    </Typography>
+		)}
 		<IconButton className={classes.icon}>
 		  <MessageIcon />
 		</IconButton>
@@ -318,7 +326,7 @@ class MessageInbox extends Component {
 	let makeChannel = (data) => (
 	    <ListView
 		makeImage={this.makeImageChannel}
-		makeLabel={this.makeLabelDirect}
+		makeLabel={this.makeLabelChannel}
 		makeBody={this.makeBodyChannel}
 		data={data}
 		expandedAll
@@ -336,7 +344,7 @@ class MessageInbox extends Component {
 			<Tab
 			    disableRipple
 			    className={tab === 0 ? classes.tabSelected : classes.tabUnselected}
-			    label="Inbox"
+			    label="Direct"
 			/>
 			<Tab
 			    disableRipple

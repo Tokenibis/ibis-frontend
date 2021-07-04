@@ -190,11 +190,11 @@ class MessageList extends Component {
 		  }>
 		    <CustomMarkdown safe source={
 		    variant === 'channel' && item.node.user.id !== context.userID ?
-		    `__${item.node.user.name}:__ ${item.node.description}`:
+		    `__${item.node.user.firstName}:__ ${item.node.description}`:
 		    item.node.description
 		    } messageProps={classes.message}/>
 		    <Typography variant="body2" className={classes.date}>
-		      <span>{variant === 'direct' || item.node.user.id === context.userID ? '' : item.node.user.username}</span>
+		      <span>{variant === 'direct' || item.node.user.id === context.userID ? '' : `@${item.node.user.username}`}</span>
 		      <CustomDate date={item.node.created} />
 		    </Typography>
 		  </div>
