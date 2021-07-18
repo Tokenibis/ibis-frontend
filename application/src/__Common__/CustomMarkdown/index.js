@@ -59,6 +59,7 @@ function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
     try {
 	let destinationDomain = (new URL(other.href)).hostname
 	isExternal = destinationDomain && destinationDomain !== domain
+	domain = destinationDomain;
     } catch (error) {
 	isExternal = false;
     }
@@ -70,7 +71,7 @@ function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
     return (
 	<Confirmation
 	  onClick={() => (!noClick && followLink(other.href))}
-	  message={`You're about to leave the app for a user-posted link to __${(new URL(other.href)).hostname}__. Are you sure you want to continue?`}
+	  message={`You're about to leave the app for a user-posted link to __${domain}__. Are you sure you want to continue?`}
 	  autoconfirm={noClick || safe || !isExternal}
 	>
 	  <span className={classes.link} {...other} />
