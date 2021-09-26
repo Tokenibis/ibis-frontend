@@ -153,9 +153,9 @@ const styles = theme => ({
 
 const DEFAULT_COUNT = 25;
 
-const FEE_FIXED = 30;
+const FEE_FIXED = 49;
 
-const FEE_PERCENT = 0.022;
+const FEE_PERCENT = 0.0199;
 
 const MAX_AMOUNT = 100000;
 
@@ -334,7 +334,7 @@ class Deposit extends Component {
     updateServer(orderID) {
 	let { numDeposits } = this.state;
 
-	axios('/ibis/payment/', {
+	axios('/distribution/payment/', {
 	    method: 'post',
 	    withCredentials: true,
 	    data: { orderID },
