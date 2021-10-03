@@ -37,6 +37,12 @@ function CustomDate({ date, variant, duration }) {
 		minute: 'numeric',
 	    })
 	}
+    } else if (variant === 'date') {
+	return time.toLocaleDateString('en-us', {
+	    month: 'numeric',
+	    day: 'numeric',
+	    year: '2-digit',
+	})
     } else if (variant === 'long') { 
 	return time.toLocaleDateString('en-us', {
 	    weekday: 'long',
@@ -85,3 +91,4 @@ function CustomDate({ date, variant, duration }) {
 export default CustomDate;
 export const LongVal = 'long';
 export const PreciseVal = 'precise';
+export const DateVal = 'date';

@@ -79,7 +79,7 @@ const seen_mutation = loader('../../Static/graphql/app/NotifierSeen.gql')
 
 const CATEGORIES = {
     ubp: <UbpIcon color="secondary"/>,
-    deposit: <ExchangeIcon color="secondary"/>,
+    grant: <ExchangeIcon color="secondary"/>,
     withdrawal: <ExchangeIcon color="secondary"/>,
     message: <MessageIcon color="secondary"/>,
     follow: <FollowIcon color="secondary"/>,
@@ -106,7 +106,7 @@ const LINKS = {
     Event: (id) => ('/Event/Event?id=' + id),
     Post: (id) => ('/Post/Post?id=' + id),
     Activity: (id) => ('/Activity/Activity?id=' + id),
-    Deposit: (id) => ('/_/Deposit?id='),
+    Grant: (id) => ('/_/Grant?id=' + id),
     Withdrawal: (id) => ('/_/Withdrawal'),
     MessageDirect: (id) => ('/_/MessageDirectList?id=' + id),
     MessageChannel: (id) => ('/_/MessageChannelList?id=' + id),

@@ -236,13 +236,11 @@ That’s it for the main parts of the platform. Finally, we’ll show you one mo
 	let endSteps = [
 	    {
 		content: <CustomMarkdown source={`
-## Deposits
+## Grants
 
-In case you want to donate even more you can also deposit your own
-money into your balance. We accept any amount that PayPal allows and,
-as always we charge $0 fees on our end.
+If you want to contribute your money to this project, you can make an grant in our community right on the app. We promise to distribute 100% of grants to other users to donate to worthy nonprofits. In fact, you can see exactly where your money goes right on this page.
 		`} />,
-		action: () => { window.location.href = '/#/_/Deposit'; },
+		action: () => { window.location.href = '/#/_/Grant'; },
 	    },
 	    {
 		content: (

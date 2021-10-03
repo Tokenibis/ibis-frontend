@@ -23,13 +23,13 @@ import UsernameIcon from '@material-ui/icons/FontDownloadOutlined';
 import NameIcon from '@material-ui/icons/FontDownloadOutlined';
 import EmailIcon from '@material-ui/icons/EmailOutlined';
 import PasswordIcon from '@material-ui/icons/LockOutlined';
-import FollowIcon from '@material-ui/icons/HowToReg';
 import DonationIcon from '@material-ui/icons/MonetizationOnOutlined';
 import RewardIcon from '@material-ui/icons/SwapHoriz';
 import CommentIcon from '@material-ui/icons/Comment';
 import MessageIcon from '@material-ui/icons/Send';
 import MentionIcon from '@material-ui/icons/RecordVoiceOver';
 import ExchangeIcon from '@material-ui/icons/LocalAtm';
+import GrantIcon from '@material-ui/icons/CardGiftcard';
 import AvatarIcon from '@material-ui/icons/Portrait';
 import PhoneIcon from '@material-ui/icons/Phone';
 import EditIcon from '@material-ui/icons/Edit';
@@ -772,25 +772,6 @@ class Settings extends Component {
 		<CustomDivider />
 		<ListItem>
 		  <ListItemIcon>
-		    <FollowIcon />
-		  </ListItemIcon>
-		  <ListItemText className={classes.text} primary="Follows" />
-		  <ListItemSecondaryAction>
-		    <Switch
-		    edge="end"
-		    checked={data.user.notifier.emailFollow}
-		    onChange={() => (this.updateSetting(
-			notifier_mutation,
-			refetch,
-			'emailFollow',
-			!data.user.notifier.emailFollow,
-		    ))}
-		    />
-		  </ListItemSecondaryAction>
-		</ListItem>
-		<CustomDivider />
-		<ListItem>
-		  <ListItemIcon>
 		    <MessageIcon />
 		  </ListItemIcon>
 		  <ListItemText className={classes.text} primary="Messages" />
@@ -925,6 +906,25 @@ class Settings extends Component {
 		      </ListItemSecondaryAction>
 		    </ListItem>
 		)}
+		<CustomDivider />
+		<ListItem>
+		  <ListItemIcon>
+		    <GrantIcon />
+		  </ListItemIcon>
+		  <ListItemText className={classes.text} primary="Grants" />
+		  <ListItemSecondaryAction>
+		    <Switch
+		    edge="end"
+		    checked={data.user.notifier.emailGrant}
+		    onChange={() => (this.updateSetting(
+			notifier_mutation,
+			refetch,
+			'emailGrant',
+			!data.user.notifier.emailGrant,
+		    ))}
+		    />
+		  </ListItemSecondaryAction>
+		</ListItem>
 	      </List>
 	    </div>
 	);
@@ -936,9 +936,9 @@ class Settings extends Component {
 
 	return (
 	    <Query
-		fetchPolicy="no-cache"
-		query={query}
-		variables={{ id: context.userID }}
+	      fetchPolicy="no-cache"
+	      query={query}
+	      variables={{ id: context.userID }}
 	    >
 	      {({ loading, error, data, refetch }) => {
 		  if (loading) return <LinearProgress className={classes.progress} />;
@@ -949,8 +949,8 @@ class Settings extends Component {
 			  variables={{ id: context.userID}}>
 			{user_mutation => (
 			    <Mutation
-			      mutation={notifier_mutation}
-			      variables={{ id: data.user.notifier.id}}
+				mutation={notifier_mutation}
+				variables={{ id: data.user.notifier.id}}
 				>
 			      {notifier_mutation => (
 				  this.inner(data, refetch, user_mutation, notifier_mutation)

@@ -54,6 +54,7 @@ const styles = theme => ({
     },
     subtitle: {
 	color: theme.palette.tertiary.main,
+	fontStyle: 'italic',
     },
     action: {
 	display: 'flex',
@@ -114,7 +115,7 @@ class TransferList extends Component {
     };
 
     makeLabel = (node) => {
-	let { classes } = this.props;
+	let { classes, variant } = this.props;
 	return (
 	    <div>
 	      <Typography variant="body2" className={classes.title}>
@@ -122,6 +123,11 @@ class TransferList extends Component {
 		{<ToIcon className={classes.toIcon} />}
 		{node.target.name}
 	      </Typography>
+	      {variant === 'donation' && node.grantdonationSet && node.grantdonationSet.edges.length == 1 && (
+		  <Typography variant="body2" className={classes.subtitle}>
+		    {`Your grant funded $${(node.grantdonationSet.edges[0].node.amount/100).toFixed(2)} (${Math.round(100 * Math.min(1, node.grantdonationSet.edges[0].node.amount/node.amount))}%)`}
+		  </Typography>
+	      )}
 	    </div>
 	);
     }
@@ -245,6 +251,14 @@ class TransferList extends Component {
 	    case 'Bookmarked':
 		variables = {
 		    bookmarkBy: context.userID,
+		    orderBy: "-created",
+		    first: count,
+		}
+		break;
+	    case 'Grant':
+		variables = {
+		    withGrant: filterValue.split(':')[1],
+		    includeGrant: true,
 		    orderBy: "-created",
 		    first: count,
 		}

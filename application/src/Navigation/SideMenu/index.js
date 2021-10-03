@@ -26,7 +26,7 @@ import ActivityIcon from '@material-ui/icons/Casino';
 import RewardIcon from '@material-ui/icons/EmojiEvents';
 import SettingsIcon from '@material-ui/icons/Settings';
 import MessageIcon from '@material-ui/icons/Send';
-import DepositIcon from '@material-ui/icons/LocalAtm';
+import GrantIcon from '@material-ui/icons/CardGiftcard';
 import WithdrawalIcon from '@material-ui/icons/Atm';
 import HomeIcon from '@material-ui/icons/Home';
 import HelpIcon from '@material-ui/icons/Help';
@@ -239,11 +239,11 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      <Link to="/_/Deposit">
+	      <Link to="/_/Grant">
 		<SublistItem
-		    label="Deposit"
+		    label="Grants"
 		    classes={classes}
-		    icon={<DepositIcon />}
+		    icon={<GrantIcon />}
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>

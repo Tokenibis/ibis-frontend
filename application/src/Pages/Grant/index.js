@@ -12,17 +12,17 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Dialog from '@material-ui/core/Dialog';
-import GiftIcon from '@material-ui/icons/CakeOutlined';
 import Checkbox from '@material-ui/core/Checkbox';
+import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from "axios";
 
 import Popup from '../../__Common__/Popup';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
-import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
+import CustomDate, { DateVal } from '../../__Common__/CustomDate';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import IbisIcon from '../../__Common__/IbisIcon';
-import PaypalIcon from '../../__Common__/PaypalIcon';
+import Link from '../../__Common__/CustomLink';
 
 const config = require('../../__config__.json');
 
@@ -35,18 +35,28 @@ const styles = theme => ({
 	paddingBottom: theme.spacing(2),
 	width: '80%',
     },
+    toIcon: {
+	marginRight: 4,
+	transform: 'scaleX(-1)',
+    },
     info: {
-	marginTop: theme.spacing(-0.5),
+	fontWeight: 'bold',
+	color: theme.palette.secondary.main,
+	textDecoration: 'none',
+	paddingTop: theme.spacing(2),
+	paddingBottom: theme.spacing(2),
     },
     progressWrapper: {
 	padding: theme.spacing(3),
     },
-    balanceProgress: {
-	marginTop: theme.spacing(2.5),
+    grantBody: {
+	paddingLeft: theme.spacing(6),
     },
-    balance: {
-	paddingTop: theme.spacing(2),
-	color: theme.palette.tertiary.main,
+    action: {
+	display: 'flex',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	paddingRight: theme.spacing(2),
     },
     headingTitle: {
 	paddingTop: theme.spacing(2),
@@ -117,6 +127,13 @@ const styles = theme => ({
     },
     title: {
 	color: theme.palette.primary.main,
+	display: 'flex',
+	alignItems: 'center',
+    },
+    distributionProgress: {
+	height: '100%',
+	display: 'flex',
+	alignItems: 'center',
     },
     amount: {
 	fontWeight: 'bold',
@@ -161,80 +178,102 @@ const MAX_AMOUNT = 100000;
 
 const MIN_AMOUNT = 1000;
 
-const message = `## Payment Guide
+const message = `
+Want to do even more to kickstart Universal Basic Philanthropy? Token Ibis is already chugging along, but to get the next level, we'll need more contributions from many more people. Now, you can help!
 
-### Where is my money going?
+By making a grant here, you'll be adding to Token Ibis's community money that we redistributed weekly to everyone on the app. Importantly, you'll be able to see _exactly_ where every penny of your money goes right on this page. Make your first grant and try it out today!
+`;
 
-By making a deposit on this page, you will be exchanging real money
-(from your credit card, Paypal, etc) in exchange for donable ibis
-tokens on the app.
+const query = loader('../../Static/graphql/app/GrantList.gql')
 
-### Are you sure this is safe?
-
-Yes! Token Ibis does not store your actual payment information at any
-__ever__. The entire workflow goes through _Paypal_, so you can feel
-safe making this payment as long as you trust them.
-
-### Can anybody else see this deposit?
-
-The details will not appear on app, but by making a donation
-here, you are agreeing to be recognized on various Token Ibis
-donor gratitude materials.
-
-### What is this fee?
-
-Token Ibis collects zero fees. However, all credit card rewards
-have a hidden fee that's usually silently charged to the vendor; in
-this case, the fee goes to _Paypal_. Please note that similar charges
-apply no matter where you make your online donation, so going through
-Ibis _does not_ add any more fees to the processes. If you would like
-to put money into your account without any fees at all, please get in
-contact with us and we will be happy to arrange for a donation via
-physical check or money transfer.
-
-### Something went wrong, what do I do?
-
-No need to panic. The most likely explanation is either a temporary
-network hiccup or a bug in our code. Assuming that Paypal engineers
-know what they're doing, your money is either in our bank account or
-still in yours. Please get in contact at __info@tokenibis.org__ to let
-us know about the bug and so that we can credit your balance as
-necessary.`;
-
-const query = loader('../../Static/graphql/app/DepositList.gql')
-
-const query_balance = loader('../../Static/graphql/app/Finance.gql')
-
-class DepositList extends Component {
+class GrantList extends Component {
 
     makeImage = (node) => {
 	let { classes } = this.props;
-	switch (node.category.title) {
-	    case 'paypal':
-		return <PaypalIcon className={classes.icon} />
-	    case 'ubp':
-		return <GiftIcon className={classes.icon} />
-	    default:
-		return <IbisIcon className={classes.icon} />
-	}
+
+	return (
+	    <IbisIcon className={classes.icon} />
+	);
     };
 
     makeLabel = (node) => {
 	let { classes } = this.props;
 
+	console.log()
 	return (
 	    <div>
 	      <Typography variant="body2" className={classes.title}>
-		<span className={classes.amount}>{`$${(node.amount/100).toFixed(2)}`} - </span>
-		<CustomDate variant={PreciseVal} date={node.created} />
+		{<ToIcon className={classes.toIcon} />}
+		<span className={classes.amount}>{`$${(node.amount/100).toFixed(2)} from ${node.name}`}</span>
+	      </Typography>
+	    </div>
+	);
+    };
+
+    makeBody = (node) => {
+	let { classes } = this.props;
+
+	return (
+	    <Typography variant="body2" className={classes.grantBody}>
+  	      <Grid container>
+		{node.description && (
+		    <Grid item xs={4}>
+		      Description
+		    </Grid>
+		)}
+		{node.description && (
+		    <Grid item xs={8}>
+		      {node.description}
+		    </Grid>
+		)}
+		<Grid item xs={4}>
+		  Timeline
+		</Grid>
+		<Grid item xs={8}>
+		  <CustomDate variant={DateVal} date={node.created}/> {`(${node.duration} week${node.duration === 1 ? '' : 's'})`}
+		</Grid>
+		<Grid item xs={4}>
+		  Funded
+		</Grid>
+		<Grid item xs={8}>
+		  {`${node.numDonations} donation${node.numDonations === 1 ? '' : 's'} to ${node.numOrganizations} org${node.numOrganizations === 1 ? '' : 's'}`}
+		</Grid>
+		<Grid item xs={4}>
+		  Progress
+		</Grid>
+		<Grid item xs={8}>
+		  <div className={classes.distributionProgress}>
+		    <div style={{height: 8, width: 120, borderStyle: 'solid', borderWidth: 2, borderColor: '#ffcfcf'}}>
+		      <div style={{height: 6, margin: 1, width: 118 * Math.min(1, node.fundedAmount / node.amount), background: "#ffcfcf"}} />
+		    </div>
+		  </div>
+		</Grid>
+	      </Grid>
+	    </Typography>
+	);
+    }
+
+    makeActions = (node) => {
+	let { classes, context } = this.props;
+	
+	return (
+	    <div className={classes.action}>
+	      <div></div>
+	      <Typography
+		  component={Link}
+		  to={`/Donation/DonationList?filterValue=Grant:${node.id}`}
+		  variant="body2"
+		  className={classes.info}
+	      >
+		See Funded Donations
 	      </Typography>
 	    </div>
 	);
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-	let { numDeposits } = this.props;
-	return numDeposits !== nextProps.numDeposits
+	let { numGrants } = this.props;
+	return numGrants !== nextProps.numGrants
     };
 
     render() {
@@ -246,13 +285,15 @@ class DepositList extends Component {
 	    <ListView
 		makeImage={this.makeImage}
 		makeLabel={this.makeLabel}
+		makeBody={this.makeBody}
+		makeActions={this.makeActions}
+		expandedAll
 		data={data}
 	    />
 	);
 
 	let variables = {
 	    user: context.userID,
-	    orderBy: "-created",
 	    first: count,
 	}
 
@@ -269,18 +310,18 @@ class DepositList extends Component {
     };
 };
 
-DepositList.propTypes = {
+GrantList.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-class Deposit extends Component {
+class Grant extends Component {
 
     state = {
 	sdkLoaded: false,
 	ordering: false,
 	amount: '0.00',
-	enableDeposit: false,
-	numDeposits: 0,
+	enableGrant: false,
+	numGrants: 0,
 	dialog: '',
 	checked: true,
     };
@@ -292,7 +333,7 @@ class Deposit extends Component {
     }
 
     handleChangeAmount() {
-	let value = document.getElementById('deposit_amount').value;
+	let value = document.getElementById('grant_amount').value;
 
 	// handle negatives 
 	if (!isNaN(value) && Number(value) <= 0) {
@@ -309,8 +350,8 @@ class Deposit extends Component {
 	    value = MAX_AMOUNT / 100;
 	}
 
-	let enableDeposit = Number(value) >= MIN_AMOUNT / 100;
-	this.setState({ enableDeposit, amount: parseFloat(value).toFixed(2)});
+	let enableGrant = Number(value) >= MIN_AMOUNT / 100;
+	this.setState({ enableGrant, amount: parseFloat(value).toFixed(2)});
     }
 
     componentDidMount() {
@@ -332,9 +373,9 @@ class Deposit extends Component {
     };
 
     updateServer(orderID) {
-	let { numDeposits } = this.state;
+	let { numGrants } = this.state;
 
-	axios('/distribution/payment/', {
+	axios('/ibis/payment/', {
 	    method: 'post',
 	    withCredentials: true,
 	    data: { orderID },
@@ -342,16 +383,16 @@ class Deposit extends Component {
 	    this.setState({
 		ordering: false,
 		amount: '0.00',
-		enableDeposit: false,
-		numDeposits: numDeposits + 1,
+		enableGrant: false,
+		numGrants: numGrants + 1,
 	    });
-	    if (response.data.depositID) {
-		this.setState({ dialog: '__Deposit successful.__ Thanks, have fun changing the world!' });
+	    if (response.data.grantID) {
+		this.setState({ dialog: '__Grant successful.__ Thank you for doing your part to make a difference in, stay tuned to see what happens!' });
 	    } else {
-	    alert('Uh-oh. Something went wrong. This can happen if your connection was interrupted mid-payment. Please check your (normal) payment history and Ibis deposits to make sure they match up. If not, then email info@tokenibis.org');
+	    alert('Uh-oh. Something went wrong. This can happen if your connection was interrupted mid-payment. Please check your (normal) payment history and Ibis grants to make sure they match up. If not, then email info@tokenibis.org');
 	    }
 	}).catch(error => {
-	    alert('Uh-oh. Something went wrong. This can happen if your connection was interrupted mid-payment. Please check your (normal) payment history and Ibis deposits to make sure they match up. If not, then email info@tokenibis.org');
+	    alert('Uh-oh. Something went wrong. This can happen if your connection was interrupted mid-payment. Please check your (normal) payment history and Ibis grants to make sure they match up. If not, then email info@tokenibis.org');
 	    console.log(error);
 	    console.log(error.response);
 	})
@@ -372,9 +413,9 @@ class Deposit extends Component {
 	let {
 	    sdkLoaded,
 	    ordering,
-	    enableDeposit,
+	    enableGrant,
 	    amount,
-	    numDeposits,
+	    numGrants,
 	    dialog,
 	    checked
 	} = this.state;
@@ -392,7 +433,7 @@ class Deposit extends Component {
 	    });
 	    paypalButton = (
 		<div
-		    className={(sdkLoaded && enableDeposit) ? (
+		    className={(sdkLoaded && enableGrant) ? (
 			ordering ? (
 			    classes.buttonOrdering
 			):(
@@ -432,7 +473,7 @@ class Deposit extends Component {
 	    <React.Fragment>
 	      <Prompt
 		  when={ordering}
-		  message='Wait! Leaving may interrupt the deposit process. Are you sure you want to continue?'
+		  message='Wait! Leaving may interrupt the grant process. Are you sure you want to continue?'
 	      />
   	      <Grid container direction="column" justify="center" alignItems="center" >
 		<Dialog
@@ -440,7 +481,7 @@ class Deposit extends Component {
 		    onClose={() => window.location.reload()}
 		>
 		  <div className={classes.dialogInner}>
-		    <CustomMarkdown noLink source={dialog}/>
+		    <CustomMarkdown source={dialog}/>
 		  </div>
 		</Dialog>
 		<Card raised className={classes.card}>
@@ -448,40 +489,11 @@ class Deposit extends Component {
 		    <Grid container className={classes.content}>
 		      <Grid item xs={12} style={{ textAlign: 'center'}}>
 			<Typography variant="h6" className={classes.headingTitle} >
-			  Make Deposit 
+			  Make Grant 
 			</Typography>
-			<div>
-			  <Popup wide message={message}>
-			    <Typography variant="body2" className={classes.readme} >
-			      Read me
-			    </Typography>
-			  </Popup>
+			<div style={{ textAlign: 'left'}}>
+			  <CustomMarkdown noLink source={message}/>
 			</div>
-		      </Grid>
-		      <Grid item xs={4}>
-			<Typography variant="body2" className={classes.label}>
-			  Balance
-			</Typography>
-		      </Grid>
-		      <Grid item xs={8}>
-			{!ordering && 
-			 <Query
-			     fetchPolicy="no-cache"
-			     query={query_balance}
-			     variables={{ id: context.userID }}
-			     >
-			   {({ loading, error, data, refetch }) => {
-			       if (loading) return (
-				   <CircularProgress size={10} className={classes.balanceProgress}/>
-			       )
-			       if (error) return `Error! ${error.message}`; return (
-				   <Typography variant="body2" className={classes.balance}>
-				     ${(data.user.balance/100).toFixed(2)}
-				   </Typography>
-			       )
-			   }}
-			 </Query>
-			}
 		      </Grid>
 		      <Grid item xs={4}>
 			<Typography variant="body2" className={classes.label}>
@@ -493,8 +505,7 @@ class Deposit extends Component {
 		      </Grid>
 		      <Grid item xs={8}>
 			<TextField
-			    id="deposit_amount"
-			    autoFocus
+			    id="grant_amount"
 			    required
  			    className={classes.textField}
 			    margin="normal"
@@ -543,10 +554,10 @@ class Deposit extends Component {
 		  </Grid>
 		</Card>
 		<Typography variant="button" className={classes.heading} >
-		  Deposit History
+		  Grant History
 		</Typography>
 	      </Grid>
-	      <DepositList classes={classes} context={context} numDeposits={numDeposits}/>
+	      <GrantList classes={classes} context={context} numGrants={numGrants}/>
 	      <Grid item xs={12}><div className={classes.bottom} /></Grid>
 	    </React.Fragment>
 
@@ -554,4 +565,4 @@ class Deposit extends Component {
     };
 };
 
-export default withStyles(styles)(Deposit);
+export default withStyles(styles)(Grant);
