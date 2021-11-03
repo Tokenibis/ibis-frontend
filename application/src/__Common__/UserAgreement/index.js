@@ -45,7 +45,7 @@ Token Ibis retains the right to implement and alter the
 distribution algorithms in any way that promotes engagement,
 security, and fairness.
 
-## Token Ibis Organization Responsibilities
+## Token Ibis Responsibilities
 
 Token Ibis is responsible for handling and transferring your money
 (converted to philanthropy) both safely and securely. Token Ibis
@@ -53,14 +53,29 @@ also is responsible for due diligence to ensure that
 organizations are legitimate nonprofits committed to fulfilling
 their tax-exempt purposes.
 
+## Organization Responsibilities
+
+Each organization is responsible for the conduct of their organization
+and their staff on the app and toward other Token Ibis Users.
+Organizations may NOT offer goods or services of any kind to Token
+Ibis users in exchange for a donation. For additional clarification,
+please seek legal counsel concerning "Quid Pro Quo" laws.
+
+Token Ibis retains the right to add or remove organizations for
+violating these terms and conditions or for any other reason.
+
 ## User Responsibilities
 
-You are responsible for maintaining control of any IDs, passwords, or
-codes that you use to access your Token Ibis account. You may close
-your Token Ibis account at any time without any cost to you. However,
-if your account has any philanthropy dollars in it at the time of
-closing, you may not convert this back to currency in compliance with
-the currency conversion statement above.
+Each user is responsible for the conduct of toward other Token Ibis
+Users on the app. You are responsible for maintaining control of any
+IDs, passwords, or codes that you use to access your Token Ibis
+account. You may close your Token Ibis account at any time without any
+cost to you. However, if your account has any philanthropy dollars in
+it at the time of closing, you may not convert this back to currency
+in compliance with the currency conversion statement above.
+
+Token Ibis retains the right to add or remove organizations for
+violating these terms and conditions or for any other reason.
 
 ## Privacy Policy
 
