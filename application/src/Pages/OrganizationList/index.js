@@ -61,7 +61,7 @@ class OrganizationList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Organization/Organization?id=${node.id}`}
+		to={`/organization?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -103,7 +103,7 @@ class OrganizationList extends Component {
 		    initial={node.isFollowing.edges.length === 1}
 		    hide={context.userID === node.id}
 		/>
-		<Link to={`/_/MessageList?id=${node.id}`}>
+		<Link to={`/message-list?id=${node.id}`}>
 		  <IconButton color="secondary">
 		    <MessageIcon />
 		  </IconButton>
@@ -111,11 +111,11 @@ class OrganizationList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`/Organization/Organization?id=${node.id}`}
+		  to={`/organization?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
-		{`Profile${context.userType === 'Person' ? ' | Donate' : ''}`}
+		{`Profile${context.userType === 'person' ? ' | Donate' : ''}`}
 	      </Typography>
 	    </div>
 	);
@@ -228,4 +228,5 @@ function OrganizationFilter(props) {
 
 export { OrganizationFilter };
 export default withStyles(styles)(OrganizationList);
+
 

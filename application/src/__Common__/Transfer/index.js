@@ -127,8 +127,8 @@ class Transfer extends Component {
     		    <Avatar
 			component={Link}
 			to={variant === 'donation' ?
-			    `/Person/Person?id=${node.user.id}` :
-			    `/Bot/Bot?id=${node.user.id}`}
+			    `/person?id=${node.user.id}` :
+			    `/bot?id=${node.user.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}
@@ -157,8 +157,8 @@ class Transfer extends Component {
 		    <Typography
 			component={Link}
 			to={variant === 'donation' ?
-			    `/Person/Person?id=${node.user.id}` :
-			    `/Bot/Bot?id=${node.user.id}`}
+			    `/person?id=${node.user.id}` :
+			    `/bot?id=${node.user.id}`}
 			variant="body2"
 			className={classes.userLink}
 		    >
@@ -179,9 +179,9 @@ class Transfer extends Component {
 		    <Typography
 			component={Link}
 			to={variant === 'donation' ? (
-			    `/Organization/Organization?id=${node.target.id}`
+			    `/organization?id=${node.target.id}`
 			):(
-			    `/Person/Person?id=${node.target.id}`
+			    `/person?id=${node.target.id}`
 			)}
 			variant="body2"
 			className={classes.userLink}
@@ -275,7 +275,7 @@ class Transfer extends Component {
 		    {variant !== 'donation' && node.relatedActivity && (
 			<Typography
 			    component={Link}
-			    to={`/Activity/Activity?id=${node.relatedActivity.id}`}
+			    to={`/activity?id=${node.relatedActivity.id}`}
 			    variant="body2"
 			    className={classes.details}
 			    >

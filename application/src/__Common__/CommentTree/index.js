@@ -281,7 +281,7 @@ class CommentTree extends Component {
 		  <ListItemIcon>
     		    <Avatar
 			component={Link}
-			to={`/_/${node.user.userType}?id=${node.user.id}`}
+			to={`/${node.user.userType}?id=${node.user.id}`}
   			alt="Ibis"
     			src={node.user.avatar}
     			className={classes.avatar}

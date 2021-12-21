@@ -15,7 +15,7 @@ function RewardFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      <Filter
-		  options={context.userType === 'Bot' ?
+		  options={context.userType === 'bot' ?
 			   ['All', 'Following', 'Mine', 'Bookmarked'] :
 			   ['All', 'Following', 'Bookmarked']
 		  }

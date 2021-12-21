@@ -120,7 +120,7 @@ class Invite extends Component {
 	let { classes, context } = this.props;
 	let { dialog, copied, sharing } = this.state;
 
-	let link = context.userType === 'Person' ?
+	let link = context.userType === 'person' ?
 		   `${config.ibis.app}/?referral=${context.userID}` :
 		   config.ibis.app;
 
@@ -172,7 +172,7 @@ class PersonList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Person/Person?id=${node.id}`}
+		to={`/person?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -214,7 +214,7 @@ class PersonList extends Component {
 		    initial={node.isFollowing.edges.length === 1}
 		    hide={context.userID === node.id}
 		/>
-		<Link to={`/_/MessageList?id=${node.id}`}>
+		<Link to={`/message-list?id=${node.id}`}>
 		  <IconButton color="secondary">
 		    <MessageIcon />
 		  </IconButton>
@@ -222,11 +222,11 @@ class PersonList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`/Person/Person?id=${node.id}`}
+		  to={`/person?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
-		{`Profile${context.userType === 'Bot' ? ' | Reward' : ''}`}
+		{`Profile${context.userType === 'bot' ? ' | Reward' : ''}`}
 	      </Typography>
 	    </div>
 	);

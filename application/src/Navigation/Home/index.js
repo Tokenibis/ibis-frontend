@@ -187,21 +187,21 @@ class Home extends Component {
 	    variables: { id: context.userID },
 	    fetchPolicy:"no-cache",
 	}).then(results => {
-	    let hasRecentEntry = context.userType === 'Organization' ?
+	    let hasRecentEntry = context.userType === 'organization' ?
 				 results.data.user.organization.hasRecentEntry :
 				 null
-	    let recentResponseRate = context.userType === 'Organization' ?
+	    let recentResponseRate = context.userType === 'organization' ?
 				 results.data.user.organization.recentResponseRate :
 				 null
 	    let total;
 	    let verified = true;
 
-	    if (context.userType === 'Organization') {
+	    if (context.userType === 'organization') {
 		total = results.data.user.organization.fundraised;
-	    } else if (context.userType === 'Person') {
+	    } else if (context.userType === 'person') {
 		total = results.data.user.person.donated;
 		verified = results.data.user.person.verified;
-	    } else if (context.userType === 'Bot') {
+	    } else if (context.userType === 'bot') {
 		total = results.data.user.bot.rewarded;
 	    }
 
@@ -240,13 +240,13 @@ class Home extends Component {
   	      <Grid container direction="column" justify="center" alignItems="center" >
   		<Avatar
 		    component={Link}
-		    to={`/_/${context.userType}?id=${context.userID}`}
+		    to={`/${context.userType}?id=${context.userID}`}
   		    src={avatar}
   		    className={classes.avatar}
 		/>
 		<Typography
 		    component={Link}
-		    to={`/_/${context.userType}?id=${context.userID}`}
+		    to={`/${context.userType}?id=${context.userID}`}
 		    variant="body2"
 		    className={classes.username}
 		>
@@ -264,10 +264,10 @@ class Home extends Component {
 		  {' | '}
 		  <Amount
 		      amount={total}
-		      label={context.userType === 'Organization' ? (
+		      label={context.userType === 'organization' ? (
 			  'Fundraised'
 		      ):(
-			  context.userType === 'Person' ? (
+			  context.userType === 'person' ? (
 			      'Donated'
 			  ):(
 			      'Rewarded'
@@ -275,7 +275,7 @@ class Home extends Component {
 		      )}
 		  />
 		</Typography>
-		{context.userType === 'Organization' && (
+		{context.userType === 'organization' && (
 		    <Popup wide message={message}>
 		      <Typography
 			id="tutorial-metrics"
@@ -286,7 +286,7 @@ class Home extends Component {
 		      </Typography>
 		    </Popup>
 		)}
-		{context.userType === 'Person' && !verified && (
+		{context.userType === 'person' && !verified && (
 		    <div className={classes.verifyWrapper}>
 		      <Verification onSuccess={() => this.setState({ verified: true })}>
 			<Button className={classes.verifyButton}>
@@ -307,21 +307,21 @@ class Home extends Component {
 		    icon={<OrganizationIcon />}
 		    onClick={(e) => {this.handleExpand('Organization')}}
 		>
-		  <Link to="/Organization">
+		  <Link to="/organization-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Organizations" 
 			icon={<OrganizationIcon />} 
 		    />
 		  </Link>
-		  <Link to="/News">
+		  <Link to="/news-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="News" 
 			icon={<NewsIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Event">
+		  <Link to="/event-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Events" 
@@ -335,21 +335,21 @@ class Home extends Component {
 		    icon={<PersonIcon />}
 		    onClick={(e) => {this.handleExpand('Person')}}
 		>
-		  <Link to="/Person">
+		  <Link to="/person-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="People" 
 			icon={<PersonIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Donation">
+		  <Link to="/donation-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Donations" 
 			icon={<DonationIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Post">
+		  <Link to="/post-list">
 		    <SublistItem
 			onClick={() => {}}
 			label="Posts"
@@ -363,21 +363,21 @@ class Home extends Component {
 		    icon={<BotIcon />}
 		    onClick={(e) => {this.handleExpand('Bot')}}
 		>
-		  <Link to="/Bot">
+		  <Link to="/bot-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Bots" 
 			icon={<BotIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Activity">
+		  <Link to="/activity-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Activities" 
 			icon={<ActivityIcon />} 
 		    />
 		  </Link>
-		  <Link to="/Reward">
+		  <Link to="/reward-list">
 		    <SublistItem 
 			onClick={() => {}} 
 			label="Rewards" 

@@ -124,34 +124,34 @@ head to “Organizations” first.
 Here are all the wonderful nonprofits that you can learn about and
 donate to through Token Ibis.
 		`} />,
-		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+		action: () => { window.location.href = '/#/organization-list'; },
 	    },
 	    {
 		selector: '#tutorial-item-0',
 		content: <CustomMarkdown source={`
 Click on any organization to find out more about it.
 		`} />,
-		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+		action: () => { window.location.href = '/#/organization-list'; },
 	    },
 	    {
 		content: <CustomMarkdown source={`
 This is the profile page that explains what they do.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+		action: () => { window.location.href = `/#/organization?id=${organization}`; },
 	    },
 	    {
 		selector: '#tutorial-donate',
 		content: <CustomMarkdown source={`
 Maybe you like what you see, so you donate.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+		action: () => { window.location.href = `/#/organization?id=${organization}`; },
 	    },
 	    {
 		content: <CustomMarkdown source={`
 Here’s where you donate; just add an amount you want to give and a
 short message to the organization.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
+		action: () => { window.location.href = `/#/organization-donate?target=${organization}`; },
 	    },
 	    {
 		selector: '#tutorial-arrow-next',
@@ -160,7 +160,7 @@ Once you do, your donation will be added to the others from members of
 the community. Now let’s go to the “People” tab to see some of the
 social aspects of the app.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/DonationCreate?target=${organization}`; },
+		action: () => { window.location.href = `/#/organization-donate?target=${organization}`; },
 	    },
 	];
 
@@ -171,7 +171,7 @@ social aspects of the app.
 
 Here the most recently active users. They're pretty cool people.
 		`} />,
-		action: () => { window.location.href = '/#/Person/PersonList'; },
+		action: () => { window.location.href = '/#/person-list'; },
 	    },
 	    {
 		selector: '#tutorial-invite',
@@ -184,7 +184,7 @@ You can invite friends to join the app and you’ll both receive extra money to 
 		content: <CustomMarkdown source={`
 This tab shows the most recent donations by the community.
 		`} />,
-		action: () => { window.location.href = '/#/Donation/DonationList'; },
+		action: () => { window.location.href = '/#/donation-list'; },
 	    },
 	    {
 		selector: '#tutorial-filter',
@@ -207,14 +207,14 @@ Now onto the last major section of the app, “Bots”.
 
 Bots are the way to earn even more money and boost your impact.
 		`} />,
-		action: () => { window.location.href = '/#/Bot/BotList'; },
+		action: () => { window.location.href = '/#/bot-list'; },
 	    },
 	    {
 		selector: '#tutorial-tab-1',
 		content: <CustomMarkdown source={`
 Check out all of the activities you can participate in and the rewards that are possible to earn.
 		`} />,
-		action: () => { window.location.href = '/#/Activity/ActivityList'; },
+		action: () => { window.location.href = '/#/activity-list'; },
 	    },
 	    {
 		selector: '#tutorial-tab-2',
@@ -222,14 +222,14 @@ Check out all of the activities you can participate in and the rewards that are 
 And here’s where you can see the rewards that have already been sent out by the Token Ibis Bots. 
 
 		`} />,
-		action: () => { window.location.href = '/#/Reward/RewardList'; },
+		action: () => { window.location.href = '/#/reward-list'; },
 	    },
 	    {
 		selector: '#tutorial-menu',
 		content: <CustomMarkdown source={`
 That’s it for the main parts of the platform. Finally, we’ll show you one more thing...
 		`} />,
-		action: () => { window.location.href = '/#/Reward/RewardList'; },
+		action: () => { window.location.href = '/#/reward-list'; },
 	    },
 	]
 
@@ -240,7 +240,7 @@ That’s it for the main parts of the platform. Finally, we’ll show you one mo
 
 If you want to contribute your money to this project, you can make an grant in our community right on the app. We promise to distribute 100% of grants to other users to donate to worthy nonprofits. In fact, you can see exactly where your money goes right on this page.
 		`} />,
-		action: () => { window.location.href = '/#/_/Grant'; },
+		action: () => { window.location.href = '/#/grant'; },
 	    },
 	    {
 		content: (
@@ -322,14 +322,14 @@ This is where users discover new organizations. Responding to donations
 and posting news/events with keep you higher on this list. Let's head
 to your organization's profile page.
 		`} />,
-		action: () => { window.location.href = '/#/Organization/OrganizationList'; },
+		action: () => { window.location.href = '/#/organization-list'; },
 	    },
 	    {
 		content: <CustomMarkdown source={`
 This is where users will learn about your work. On their version of
 the app, there will be a large "Donate" button on this screen.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+		action: () => { window.location.href = `/#/organization?id=${organization}`; },
 	    },
 	    {
 		selector: '#tutorial-menu',
@@ -343,7 +343,7 @@ going to __Menu > Settings__.
 		content: <CustomMarkdown source={`
 Next, we'll head to the __News__ section of the app.
 		`} />,
-		action: () => { window.location.href = `/#/Organization/Organization?id=${organization}`; },
+		action: () => { window.location.href = `/#/organization?id=${organization}`; },
 	    },
 	];
 
@@ -357,7 +357,7 @@ community will see the headline in an email when they get their weekly
 UBP payout (Thursdays at midnight). Your followers will also get a
 special on-app notification.
 		`} />,
-		action: () => { window.location.href = '/#/News/NewsList'; },
+		action: () => { window.location.href = '/#/news-list'; },
 	    },
 	    {
 		selector: '#tutorial-new-news',
@@ -377,7 +377,7 @@ locations. Users will also be able to RSVP.
 		content: <CustomMarkdown source={`
 Finally, let's take a look at the __Withdrawal__ page in the __Main Menu__.
 		`} />,
-		action: () => { window.location.href = '/#/News/NewsList'; },
+		action: () => { window.location.href = '/#/news-list'; },
 	    },
 	];
 
@@ -391,7 +391,7 @@ and send you a physical check through the mail. Your balance will
 zero-out and you'll get notified about the "Withdrawal" here. Please
 allow about one week for the check to arrive.
 		`} />,
-		action: () => { window.location.href = '/#/_/Withdrawal'; },
+		action: () => { window.location.href = '/#/withdrawal'; },
 	    },
 	    {
 		content: (
@@ -440,7 +440,7 @@ ___Main Menu > Help > Start Tutorial.___
 
 	let { classes, client, context } = this.props;
 
-	if (!(context.userType === 'Person' || context.userType === 'Organization')) {
+	if (!(context.userType === 'person' || context.userType === 'organization')) {
 	    return;
 	}
 
@@ -450,7 +450,7 @@ ___Main Menu > Help > Start Tutorial.___
 	    fetchPolicy:"no-cache",
 	}).then(results => {
 
-	    let tours = context.userType === 'Person' ?
+	    let tours = context.userType === 'person' ?
 		       this.getPersonTour(results) :
 		       this.getOrganizationTour(results);
 

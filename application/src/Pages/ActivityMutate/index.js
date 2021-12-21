@@ -162,7 +162,7 @@ class ActivityCreate extends Component {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let activity_id = response.data[Object.keys(response.data, 0)].activity.id
-	    history.push(`/${path[0]}/Activity?id=${activity_id}`)
+	    history.push(`/activity?id=${activity_id}`)
 	}).catch(error => {
 	    console.log(error);
 	});

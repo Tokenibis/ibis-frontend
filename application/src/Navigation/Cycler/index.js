@@ -23,9 +23,9 @@ const styles = theme => ({
 
 const cycleMap = {
     '': null,
-    'Orgs': 'Organization',
-    'People': 'Person',
-    'Bots': 'Bot',
+    'Orgs': 'organization-list',
+    'People': 'person-list',
+    'Bots': 'bot-list',
 };
 
 

@@ -118,7 +118,7 @@ class SideMenu extends Component {
 		  </Link>
 		  <Typography
 		      component={Link}
-		      to={`/_/${context.userType}?id=${context.userID}`}
+		      to={`/${context.userType}?id=${context.userID}`}
   		      alt="Ibis"
 		      variant="body2"
 		      className={classes.username}
@@ -144,7 +144,7 @@ class SideMenu extends Component {
 		  icon={<OrganizationIcon />}
 		  onClick={(e) => {this.handleExpand('Organization')}}
 	      >
-		<Link to="/Organization">
+		<Link to="/organization-list">
 		  <SublistItem
 		      label="Organizations"
 		      classes={classes}
@@ -152,7 +152,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/News">
+		<Link to="/news-list">
 		  <SublistItem
 		      label="News"
 		      classes={classes}
@@ -160,7 +160,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Event">
+		<Link to="/event-list">
 		  <SublistItem
 		      label="Events"
 		      classes={classes}
@@ -175,7 +175,7 @@ class SideMenu extends Component {
 		  icon={<PersonIcon />}
 		  onClick={(e) => {this.handleExpand('Person')}}
 	      >
-		<Link to="/Person">
+		<Link to="/person-list">
 		  <SublistItem
 		      label="People"
 		      classes={classes}
@@ -183,7 +183,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Donation">
+		<Link to="/donation-list">
 		  <SublistItem
 		      label="Donations"
 		      classes={classes}
@@ -191,7 +191,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Post">
+		<Link to="/post-list">
 		  <SublistItem
 		      label="Posts"
 		      classes={classes}
@@ -206,7 +206,7 @@ class SideMenu extends Component {
 		  icon={<BotIcon />}
 		  onClick={(e) => {this.handleExpand('Bot')}}
 	      >
-		<Link to="/Bot">
+		<Link to="/bot-list">
 		  <SublistItem
 		      label="Bots"
 		      classes={classes}
@@ -214,7 +214,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Activity">
+		<Link to="/activity-list">
 		  <SublistItem
 		      label="Activities"
 		      classes={classes}
@@ -222,7 +222,7 @@ class SideMenu extends Component {
 		      onClick={(e) => this.toggleDrawer(false)}
 		  />
 		</Link>
-		<Link to="/Reward">
+		<Link to="/reward-list">
 		  <SublistItem
 		      label="Rewards"
 		      classes={classes}
@@ -231,7 +231,7 @@ class SideMenu extends Component {
 		  />
 		</Link>
 	      </Sublist>
-	      <Link to="/_/MessageInbox">
+	      <Link to="/message-inbox">
 		<SublistItem
 		    label="Messages"
 		    classes={classes}
@@ -239,7 +239,7 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      <Link to="/_/Grant">
+	      <Link to="/grant">
 		<SublistItem
 		    label="Grants"
 		    classes={classes}
@@ -247,8 +247,8 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      {context.userType !== 'Person' &&
-	       <Link to="/_/Withdrawal">
+	      {context.userType !== 'person' &&
+	       <Link to="/withdrawal">
 		 <SublistItem
 		     label="Withdrawal"
 		     classes={classes}
@@ -257,7 +257,7 @@ class SideMenu extends Component {
 		 />
 	       </Link>
 	      }
-	      <Link to="/_/Settings">
+	      <Link to="/settings">
 		<SublistItem
 		    label="Settings"
 		    classes={classes}
@@ -265,7 +265,7 @@ class SideMenu extends Component {
 		    onClick={(e) => this.toggleDrawer(false)}
 		/>
 	      </Link>
-	      <Link to="/_/Help">
+	      <Link to="/help">
 		<SublistItem
 		    label="Help"
 		    classes={classes}

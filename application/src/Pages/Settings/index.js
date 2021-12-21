@@ -513,7 +513,7 @@ class Settings extends Component {
 		    </Confirmation>
 		  </div>
 		</Collapse>
-	    {context.userType === 'Person' && (
+	    {context.userType === 'person' && (
 		<div>
 		  <CustomDivider />
 		  <ListItem
@@ -544,7 +544,7 @@ class Settings extends Component {
 		  </Collapse>
 		</div>
 	    )}
-	    {context.userType === 'Organization' &&
+	    {context.userType === 'organization' &&
 	     <div>
 	       <CustomDivider />
 	       <ListItem
@@ -789,7 +789,7 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		{context.userType === 'Person' ? (
+		{context.userType === 'person' ? (
 		    <ListItem>
 		      <ListItemIcon>
 			<RewardIcon />
@@ -867,7 +867,7 @@ class Settings extends Component {
 		  </ListItemSecondaryAction>
 		</ListItem>
 		<CustomDivider />
-		{context.userType === 'Organization' ? (
+		{context.userType === 'organization' ? (
 		    <ListItem>
 		      <ListItemIcon>
 			<ExchangeIcon />

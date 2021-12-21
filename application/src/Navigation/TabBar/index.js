@@ -54,7 +54,7 @@ class TabBar extends Component {
 
     handleTabClick(tabValue) {
 	let { options } = this.props
-	this.props.history.push(`/${options[tabValue][2]}/${options[tabValue][3]}`)
+	this.props.history.push(`/${options[tabValue][2]}`)
     };
 
     handleFilterOpen(event, openedFilter) {
@@ -68,7 +68,7 @@ class TabBar extends Component {
 
 	if (filterValue) {
 	    let params = `?filterValue=${filterValue}`;
-	    this.props.history.push(`/${options[tabValue][2]}/${options[tabValue][3]}${params}`)
+	    this.props.history.push(`/${options[tabValue][2]}${params}`)
 	}
 	this.setState({
 	    openedFilter: -1,

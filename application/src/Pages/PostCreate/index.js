@@ -91,7 +91,7 @@ class PostCreate extends Component {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let post_id = response.data.createPost.post.id
-	    history.push(`/${path[0]}/Post?id=${post_id}`)
+	    history.push(`/post?id=${post_id}`)
 	}).catch(error => {
 	    console.log(error);
 	});

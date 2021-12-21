@@ -94,7 +94,7 @@ class UserList_ extends Component {
 	):(
     	    <Avatar
 		component={Link}
-		to={`/_/${node.userType}?id=${node.id}`}
+		to={`/${node.userType}?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}

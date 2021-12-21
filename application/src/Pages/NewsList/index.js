@@ -96,7 +96,7 @@ class NewsList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Organization/Organization?id=${node.user.id}`}
+		to={`/organization?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -161,7 +161,7 @@ class NewsList extends Component {
 		    initial={node.hasLiked.edges.length === 1}
 		/>
 	      </div>
-	      <Link to={`/News/News?id=${node.id}`}>
+	      <Link to={`/news?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Details
 		</Typography>
@@ -288,12 +288,12 @@ class NewsList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'Organization' &&
+	      {!minimal && context.userType === 'organization' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     id="tutorial-new-news"
 		     component={Link}
-		     to={`/News/NewsMutate`}
+		     to={`/news-mutate`}
 		     className={classes.newButton}
 		   >
 		   New Article
@@ -320,7 +320,7 @@ function NewsFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      <Filter
-		  options={context.userType === 'Organization' ?
+		  options={context.userType === 'organization' ?
 			   ['All', 'Following', 'Mine', 'Bookmarked'] :
 			   ['All', 'Following', 'Bookmarked']
 		  }

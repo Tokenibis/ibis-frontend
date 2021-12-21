@@ -261,7 +261,7 @@ class GrantList extends Component {
 	      <div></div>
 	      <Typography
 		  component={Link}
-		  to={`/Donation/DonationList?filterValue=Grant:${node.id}`}
+		  to={`/donation-list?filterValue=Grant:${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >

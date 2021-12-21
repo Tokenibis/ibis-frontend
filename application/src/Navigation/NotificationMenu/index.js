@@ -98,18 +98,18 @@ const CATEGORIES = {
 // This maps the backend reference to the front-end pages. So far, the names are the same,
 // but things could conceivably change
 const LINKS = {
-    Organization: (id) => ('/Organization/Organization?id=' + id),
-    Donation: (id) => ('/Donation/Donation?id=' + id),
-    Person: (id) => ('/Person/Person?id=' + id),
-    Reward: (id) => ('/Reward/Reward?id=' + id),
-    News: (id) => ('/News/News?id=' + id),
-    Event: (id) => ('/Event/Event?id=' + id),
-    Post: (id) => ('/Post/Post?id=' + id),
-    Activity: (id) => ('/Activity/Activity?id=' + id),
-    Grant: (id) => ('/_/Grant?id=' + id),
-    Withdrawal: (id) => ('/_/Withdrawal'),
-    MessageDirect: (id) => ('/_/MessageDirectList?id=' + id),
-    MessageChannel: (id) => ('/_/MessageChannelList?id=' + id),
+    Organization: (id) => ('/organization?id=' + id),
+    Donation: (id) => ('/donation?id=' + id),
+    Person: (id) => ('/person?id=' + id),
+    Reward: (id) => ('/reward?id=' + id),
+    News: (id) => ('/news?id=' + id),
+    Event: (id) => ('/event?id=' + id),
+    Post: (id) => ('/post?id=' + id),
+    Activity: (id) => ('/activity?id=' + id),
+    Grant: (id) => ('/grant?id=' + id),
+    Withdrawal: (id) => ('/withdrawal'),
+    MessageDirect: (id) => ('/message-direct-list?id=' + id),
+    MessageChannel: (id) => ('/message-channel-list?id=' + id),
 };
 
 class NotificationMenu extends Component {

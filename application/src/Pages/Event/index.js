@@ -182,7 +182,7 @@ class Event extends Component {
 		    <ListItemIcon>
     		      <Avatar
 		      component={Link}
-		      to={`/Organization/Organization?id=${node.user.id}`}
+		      to={`/organization?id=${node.user.id}`}
   		      alt="Ibis"
     		      src={node.user.avatar}
     		      className={classes.avatar}

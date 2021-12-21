@@ -220,7 +220,7 @@ class Bot extends Component {
 				  initial={node.isFollowing.edges.length === 1}
 				  countCallback={followerCallback}
 			      />
-			      <Link to={`/_/MessageList?id=${node.id}`}>
+			      <Link to={`/message-list?id=${node.id}`}>
 				<IconButton color="secondary">
 				  <MessageIcon />
 				</IconButton>
@@ -263,7 +263,7 @@ class Bot extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Activity/ActivityList?filterValue=_User:${id}`}
+		      to={`/activity-list?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -292,7 +292,7 @@ class Bot extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Reward/RewardList?filterValue=_User:${id}`}
+		      to={`/reward-list?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >

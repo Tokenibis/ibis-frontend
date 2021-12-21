@@ -94,7 +94,7 @@ class EventList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Organization/Organization?id=${node.user.id}`}
+		to={`/organization?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -125,7 +125,7 @@ class EventList extends Component {
 	return (
   	    <CardMedia
 		component={Link}
-		to={`/Event/Event?id=${node.id}`}
+		to={`/event?id=${node.id}`}
 	        style={{ height: imageHeight }}
     		image={node.image}
   		title={node.title}
@@ -165,7 +165,7 @@ class EventList extends Component {
 		    initial={node.hasLiked.edges.length === 1}
 		/>
 	      </div>
-	      <Link to={`/Event/Event?id=${node.id}`}>
+	      <Link to={`/event?id=${node.id}`}>
 		<Typography variant="body2" className={classes.info} >
 		  Details
 		</Typography>
@@ -310,11 +310,11 @@ class EventList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'Organization' &&
+	      {!minimal && context.userType === 'organization' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
-		     to={`/Event/EventMutate`}
+		     to={`/event-mutate`}
 		     className={classes.newButton}
 		   >
 		   New Event

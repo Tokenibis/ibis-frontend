@@ -123,10 +123,8 @@ class TransferCreate extends Component {
 	    },
 	}).then(response => {
 	    let url = new URL(window.location.href);
-	    let path = url.hash.split('/').slice(1);
-	    let page = variant === 'donation' ? 'Donation' : 'Reward';
 	    let result = response.data[Object.keys(response.data)[0]];
-	    let destination = `/${path[0]}/${page}?id=${result[Object.keys(result)[0]].id}`
+	    let destination = `/${variant}?id=${result[Object.keys(result)[0]].id}`
 
 	    if (variant === 'donation') {
 		this.setState({

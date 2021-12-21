@@ -105,8 +105,8 @@ class TransferList extends Component {
     	    <Avatar
 		component={Link}
 		to={variant === 'donation' ?
-		    `/Person/Person?id=${node.user.id}` :
-		    `/Bot/Bot?id=${node.user.id}`}
+		    `/person?id=${node.user.id}` :
+		    `/bot?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -156,7 +156,7 @@ class TransferList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`${variant === 'donation' ? '/Donation/Donation' : '/Reward/Reward'}?id=${node.id}`}
+		  to={`${variant === 'donation' ? '/donation' : '/reward'}?id=${node.id}`}
 		  variant="body2"
 		  className={classes.details}
 	      >
@@ -285,13 +285,12 @@ class TransferList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && ((context.userType === 'Person' && variant === 'donation') ||
-			    (context.userType === 'Bot' && variant === 'reward')) && (
+	      {!minimal && ((context.userType === 'person' && variant === 'donation') ||
+			    (context.userType === 'bot' && variant === 'reward')) && (
 		  <div className={classes.buttonWrapper}>
 		    <Button
 			component={Link}
-			to={variant === 'donation' ? '/Organization/OrganizationList':
-			    '/Person/PersonList'}
+			to={variant === 'donation' ? '/organization-list': '/person-list'}
 			className={classes.newButton}
 		      >
 		      {variant === 'donation' ? 'New Donation' : 'New Reward'}

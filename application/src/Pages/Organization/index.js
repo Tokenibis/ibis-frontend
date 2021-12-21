@@ -246,7 +246,7 @@ class Organization extends Component {
 				initial={node.isFollowing.edges.length === 1}
 				countCallback={followerCallback}
 			    />
-			    <Link to={`/_/MessageList?id=${node.id}`}>
+			    <Link to={`/message-list?id=${node.id}`}>
 			      <IconButton color="secondary">
 				<MessageIcon />
 			      </IconButton>
@@ -267,11 +267,11 @@ class Organization extends Component {
 			  )
 		      }
 		    </div>
-		    {context.userType === 'Person' && (
+		    {context.userType === 'person' && (
 			<Button
 			    id="tutorial-donate"
 			    component={Link}
-			    to={`/Organization/DonationCreate?target=${id}`}
+			    to={`/organization-donate?target=${id}`}
 			    className={classes.actionDonate}
 			    disabled={!node.isActive}
 			    >
@@ -300,7 +300,7 @@ class Organization extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/News/NewsList?filterValue=_Author:${id}`}
+		      to={`/news-list?filterValue=_Author:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -325,7 +325,7 @@ class Organization extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Event/EventList?filterValue=_Host:${id}`}
+		      to={`/event-list?filterValue=_Host:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -354,7 +354,7 @@ class Organization extends Component {
 		  />
 		    <Typography
 			component={Link}
-			to={`/Donation/DonationList?filterValue=_User:${id}`}
+			to={`/donation-list?filterValue=_User:${id}`}
 			variant="body2"
 			className={classes.viewAll}
 		    >

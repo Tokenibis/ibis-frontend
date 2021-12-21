@@ -220,7 +220,7 @@ class Person extends Component {
 				  initial={node.isFollowing.edges.length === 1}
 				  countCallback={followerCallback}
 			      />
-			      <Link to={`/_/MessageList?id=${node.id}`}>
+			      <Link to={`/message-list?id=${node.id}`}>
 				<IconButton color="secondary">
 				  <MessageIcon />
 				</IconButton>
@@ -241,10 +241,10 @@ class Person extends Component {
 			  )
 		      }
 		    </div>
-		    {context.userType === 'Bot' && (
+		    {context.userType === 'bot' && (
 			<Button
 			    component={Link}
-			    to={`/Reward/RewardCreate?target=${id}`}
+			    to={`/person-reward?target=${id}`}
 			    className={classes.actionPay}
 			    >
 			  Reward
@@ -272,7 +272,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Post/PostList?filterValue=_User:${id}`}
+		      to={`/post-list?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -297,7 +297,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Donation/DonationList?filterValue=_User:${id}`}
+		      to={`/donation-list?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >
@@ -326,7 +326,7 @@ class Person extends Component {
 		  />
 		  <Typography
 		      component={Link}
-		      to={`/Reward/RewardList?filterValue=_User:${id}`}
+		      to={`/reward-list?filterValue=_User:${id}`}
 		      variant="body2"
 		      className={classes.viewAll}
 		  >

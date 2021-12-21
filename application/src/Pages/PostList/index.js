@@ -107,7 +107,7 @@ class PostList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Person/Person?id=${node.user.id}`}
+		to={`/person?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -159,7 +159,7 @@ class PostList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`/Post/Post?id=${node.id}`}
+		  to={`/post?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
@@ -277,11 +277,11 @@ class PostList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'Person' &&
+	      {!minimal && context.userType === 'person' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
-		     to={`/Post/PostCreate`}
+		     to={`/post-create`}
 		     className={classes.postButton}
 		   >
 		   New Post
@@ -309,7 +309,7 @@ function PostFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      <Filter
-		  options={context.userType === 'Person' ?
+		  options={context.userType === 'person' ?
 			   ['All', 'Following', 'Mine', 'Bookmarked'] :
 			   ['All', 'Following', 'Bookmarked']
 		  }

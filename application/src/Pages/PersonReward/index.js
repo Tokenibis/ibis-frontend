@@ -2,10 +2,10 @@ import React from 'react';
 
 import TransferCreate, { RewardVal } from '../../__Common__/TransferCreate';
 
-function RewardCreate(props) {
+function PersonReward(props) {
     return (
 	<TransferCreate variant={RewardVal} {...props} />
     );
 };
 
-export default RewardCreate;
+export default PersonReward;

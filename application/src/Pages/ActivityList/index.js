@@ -111,7 +111,7 @@ class ActivityList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Bot/Bot?id=${node.user.id}`}
+		to={`/bot?id=${node.user.id}`}
   		alt="Ibis"
     		src={node.user.avatar}
     		className={classes.avatar}
@@ -180,7 +180,7 @@ class ActivityList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`/Activity/Activity?id=${node.id}`}
+		  to={`/activity?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >
@@ -298,11 +298,11 @@ class ActivityList extends Component {
 
 	return (
 	    <div className={classes.root}>
-	      {!minimal && context.userType === 'Bot' &&
+	      {!minimal && context.userType === 'bot' &&
 	       <div className={classes.buttonWrapper}>
 		 <Button
 		     component={Link}
-		     to={`/Activity/ActivityMutate`}
+		     to={`/activity-mutate`}
 		     className={classes.activityButton}
 		   >
 		   New Activity
@@ -330,7 +330,7 @@ function ActivityFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      <Filter
-		  options={context.userType === 'Bot' ?
+		  options={context.userType === 'bot' ?
 			   ['All', 'Following', 'Mine', 'Bookmarked'] :
 			   ['All', 'Following', 'Bookmarked']
 		  }

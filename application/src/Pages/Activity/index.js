@@ -154,7 +154,7 @@ class Activity extends Component {
 		    <ListItemIcon>
     		      <Avatar
 		      component={Link}
-		      to={`/Bot/Bot?id=${node.user.id}`}
+		      to={`/bot?id=${node.user.id}`}
   		      alt="Ibis"
     		      src={node.user.avatar}
     		      className={classes.avatar}

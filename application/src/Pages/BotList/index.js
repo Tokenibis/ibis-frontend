@@ -66,7 +66,7 @@ class BotList extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={`/Bot/Bot?id=${node.id}`}
+		to={`/bot?id=${node.id}`}
   		alt="Ibis"
     		src={node.avatar}
     		className={classes.avatar}
@@ -108,7 +108,7 @@ class BotList extends Component {
 		    initial={node.isFollowing.edges.length === 1}
 		    hide={context.userID === node.id}
 		/>
-		<Link to={`/_/MessageList?id=${node.id}`}>
+		<Link to={`/message-list?id=${node.id}`}>
 		  <IconButton color="secondary">
 		    <MessageIcon />
 		  </IconButton>
@@ -116,7 +116,7 @@ class BotList extends Component {
 	      </div>
 	      <Typography
 		  component={Link}
-		  to={`/Bot/Bot?id=${node.id}`}
+		  to={`/bot?id=${node.id}`}
 		  variant="body2"
 		  className={classes.info}
 	      >

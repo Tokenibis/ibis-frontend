@@ -99,7 +99,7 @@ class EventFilter extends Component {
 	      {context => (
 		  <Filter 
 		      defaultVal={DEFAULT_FILTER}
-		      options={context.userType === 'Organization' ? organization_options : options}
+		      options={context.userType === 'organization' ? organization_options : options}
 		      custom={(
 			  <div>
 			    <ListItem button onClick={() => this.handleExpand()}>

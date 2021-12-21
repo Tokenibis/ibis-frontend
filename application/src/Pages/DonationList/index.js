@@ -15,7 +15,7 @@ function DonationFilter(props) {
 	<IbisConsumer>
 	  {context => (
 	      <Filter
-		  options={context.userType === 'Person' ?
+		  options={context.userType === 'person' ?
 			   ['All', 'Following', 'Mine', 'Bookmarked'] :
 			   ['All', 'Following', 'Bookmarked']
 		  }

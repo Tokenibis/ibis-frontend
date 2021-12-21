@@ -183,13 +183,13 @@ class MessageInbox extends Component {
 	return (
     	    <Avatar
 		component={Link}
-		to={node.userType === 'Organization' ? (
-		    `/Organization/Organization?id=${node.id}`
+		to={node.userType === 'organization' ? (
+		    `/organization?id=${node.id}`
 		):(
-		    node.userType === 'Person' ? (
-			`/Person/Person?id=${node.id}`
+		    node.userType === 'person' ? (
+			`/person?id=${node.id}`
 		    ):(
-			`/Bot/Bot?id=${node.id}`
+			`/bot?id=${node.id}`
 		    )
 			
 		)}
@@ -210,7 +210,7 @@ class MessageInbox extends Component {
     makeLabelDirect = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Link to={`/_/MessageDirectList?id=${node.id}`}>
+	    <Link to={`/message-direct-list?id=${node.id}`}>
 	      <div className={classes.titleWrapper}>
   		<Typography variant="body2" className={classes.title}>
   		  {`${node.name}`}
@@ -226,7 +226,7 @@ class MessageInbox extends Component {
     makeLabelChannel = (node) => {
 	let { classes } = this.props;
 	return (
-	    <Link to={`/_/MessageChannelList?id=${node.id}`}>
+	    <Link to={`/message-channel-list?id=${node.id}`}>
 	      <div className={classes.titleWrapper}>
   		<Typography variant="body2" className={classes.title}>
   		  {`${node.name}`}
@@ -244,7 +244,7 @@ class MessageInbox extends Component {
     makeBodyDirect = (node) => {
 	let { classes, context } = this.props;
 	return (
-	    <Link to={`/_/MessageDirectList?id=${node.id}`}>
+	    <Link to={`/message-direct-list?id=${node.id}`}>
 	      <div className={classes.body}>
 		<Typography variant="body2" className={classes.message}>
   		  {node.messages.edges[0].node.user.id === context.userID && (
@@ -265,7 +265,7 @@ class MessageInbox extends Component {
     makeBodyChannel = (node) => {
 	let { classes, context } = this.props;
 	return (
-	    <Link to={`/_/MessageChannelList?id=${node.id}`}>
+	    <Link to={`/message-channel-list?id=${node.id}`}>
 	      <div className={classes.body}>
 		{node.messages.edges.length > 0 ? (
 		    <Typography variant="body2" className={classes.message}>
@@ -301,7 +301,7 @@ class MessageInbox extends Component {
 
     onSearchClick = (node) => {
 	let { history } = this.props;
-	history.push(`/_/MessageDirectList?id=${node.id}`)
+	history.push(`/message-direct-list?id=${node.id}`)
     }
 
     render() {

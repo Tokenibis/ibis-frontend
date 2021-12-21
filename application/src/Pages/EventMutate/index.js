@@ -180,7 +180,7 @@ class EventCreate extends Component {
 	    let url = new URL(window.location.href);
 	    let path = url.hash.split('/').slice(1);
 	    let event_id = response.data[Object.keys(response.data, 0)].event.id
-	    history.push(`/${path[0]}/Event?id=${event_id}`)
+	    history.push(`/event?id=${event_id}`)
 	}).catch(error => {
 	    console.log(error);
 	});
