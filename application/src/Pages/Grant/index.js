@@ -186,6 +186,8 @@ By making a grant here, you'll be adding to Token Ibis's community money that we
 
 const query = loader('../../Static/graphql/app/GrantList.gql')
 
+const query_finance = loader('../../Static/graphql/app/Finance.gql')
+
 class GrantList extends Component {
 
     makeImage = (node) => {
@@ -451,7 +453,7 @@ class Grant extends Component {
 				  amount: {
 				      value: amount_final.toString(),
 				  },
-				  custom_id: context.userID,
+				  custom_id: context.userID + ':' + document.getElementById('grant_recognition').value,
 			      }],
 			      application_context: {
 				  shipping_preference: 'NO_SHIPPING',
@@ -500,7 +502,7 @@ class Grant extends Component {
 			  Amount
 			</Typography>
 			<Typography variant="body2" className={classes.min}>
-			  Min $10.00
+			  Min ${parseFloat(MIN_AMOUNT / 100).toFixed(2)}
 			</Typography>
 		      </Grid>
 		      <Grid item xs={8}>
@@ -519,6 +521,39 @@ class Grant extends Component {
 				startAdornment: <InputAdornment position="start">$</InputAdornment>,
 			    }}
 			/>
+		      </Grid>
+		      <Grid item xs={4}>
+			<Typography variant="body2" className={classes.label}>
+			  Recognition
+			</Typography>
+			<Typography variant="body2" className={classes.min}>
+			  Could say anything...
+			</Typography>
+		      </Grid>
+		      <Grid item xs={8}>
+			 <Query
+			     fetchPolicy="no-cache"
+			     query={query_finance}
+			     variables={{ id: context.userID }}
+			     >
+			   {({ loading, error, data, refetch }) => {
+			       if (loading) return (
+				   <CircularProgress size={10} className={classes.balanceProgress}/>
+			       )
+			       if (error) return `Error! ${error.message}`;
+			       return (
+				   <TextField
+				       id="grant_recognition"
+				       required
+ 				       className={classes.textField}
+				       margin="normal"
+				       variant="outlined"
+				       fullWidth
+				       defaultValue={data.user.name}
+				   />
+			       )
+			   }}
+			 </Query>
 		      </Grid>
 		      <Grid item xs={4}>
 			<Typography variant="body2" className={classes.label}>

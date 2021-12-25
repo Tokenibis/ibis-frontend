@@ -141,7 +141,7 @@ const DEFAULT_COUNT = 25;
 
 const query = loader('../../Static/graphql/app/WithdrawalList.gql')
 
-const query_balance = loader('../../Static/graphql/app/Finance.gql')
+const query_finance = loader('../../Static/graphql/app/Finance.gql')
 
 const message = 'This is a history of your "withdrawals", a.k.a. real-money donations that Token Ibis has passed on your organization. In general, these will occur no later than on a monthly basis as long as the outstanding balance is more than $100. However, if you would like to expedit a payment, please email at __info@tokenibis.org__';
 
@@ -249,7 +249,7 @@ class Withdrawal extends Component {
 		      <Grid item xs={6}>
 			 <Query
 			     fetchPolicy="no-cache"
-			     query={query_balance}
+			     query={query_finance}
 			     variables={{ id: context.userID }}
 			     >
 			   {({ loading, error, data, refetch }) => {
