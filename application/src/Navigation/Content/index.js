@@ -176,6 +176,7 @@ function Content() {
 	  <Router>
 	    <Route path="/" exact component={HomeLoader} />
 	    <Route path="/:page" exact component={ContentLoader} />
+	    <Route path="/:mode/:page" exact component={ContentLoader} />
 	  </Router>
 	  <IbisConsumer>
 	    {context => (
