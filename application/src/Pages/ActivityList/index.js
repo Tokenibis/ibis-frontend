@@ -12,7 +12,6 @@ import Filter from '../../__Common__/Filter';
 import Link from '../../__Common__/CustomLink';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
-import CustomDivider from '../../__Common__/CustomDivider';
 import CustomDate from '../../__Common__/CustomDate';
 import { IbisConsumer } from '../../Context';
 
@@ -138,7 +137,7 @@ class ActivityList extends Component {
     }
 
     makeBody = (node) => {
-	let { classes, context } = this.props;
+	let { classes } = this.props;
 
 	let reward_str = node.active ? (
 	    Math.round(node.rewardMin/100) === Math.round((node.rewardMin + node.rewardRange)/100) ? (

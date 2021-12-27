@@ -88,8 +88,6 @@ class PostCreate extends Component {
 		description,
 	    },
 	}).then(response => {
-	    let url = new URL(window.location.href);
-	    let path = url.hash.split('/').slice(1);
 	    let post_id = response.data.createPost.post.id
 	    history.push(`/post?id=${post_id}`)
 	}).catch(error => {

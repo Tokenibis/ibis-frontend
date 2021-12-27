@@ -10,7 +10,6 @@ import Button from '@material-ui/core/Button';
 import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
-import CustomDate from '../../__Common__/CustomDate';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
@@ -123,7 +122,7 @@ class TransferList extends Component {
 		{<ToIcon className={classes.toIcon} />}
 		{node.target.name}
 	      </Typography>
-	      {variant === 'donation' && node.grantdonationSet && node.grantdonationSet.edges.length == 1 && (
+	      {variant === 'donation' && node.grantdonationSet && node.grantdonationSet.edges.length === 1 && (
 		  <Typography variant="body2" className={classes.subtitle}>
 		    {`Your grant funded $${(node.grantdonationSet.edges[0].node.amount/100).toFixed(2)} (${Math.round(100 * Math.min(1, node.grantdonationSet.edges[0].node.amount/node.amount))}%)`}
 		  </Typography>

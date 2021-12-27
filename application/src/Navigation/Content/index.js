@@ -132,7 +132,6 @@ function HomeLoader()  {
 };
 
 function ContentLoader({ match, location }) {
-    console.log('here')
     let name = match.params.page.toLowerCase()
     let module;
     try {
@@ -185,14 +184,6 @@ function Content() {
 	  </IbisConsumer>
 	</div>
     );
-};
-
-function WithNav(nav) {
-    return nav;
-    console.log('hey')
-    return (elm) => {
-	return elm;
-    }
 };
 
 export default Content;

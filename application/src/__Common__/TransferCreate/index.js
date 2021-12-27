@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { withRouter } from "react-router-dom";
-import Checkbox from '@material-ui/core/Checkbox';
 
 import Confirmation from '../Confirmation';
 import EntryTextField from '../../__Common__/EntryTextField';
@@ -122,7 +121,6 @@ class TransferCreate extends Component {
 		description,
 	    },
 	}).then(response => {
-	    let url = new URL(window.location.href);
 	    let result = response.data[Object.keys(response.data)[0]];
 	    let destination = `/${variant}?id=${result[Object.keys(result)[0]].id}`
 

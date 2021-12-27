@@ -31,8 +31,6 @@ import PostIcon from '@material-ui/icons/Forum';
 import BotIcon from '@material-ui/icons/Android';
 import ActivityIcon from '@material-ui/icons/Casino';
 import RewardIcon from '@material-ui/icons/EmojiEvents';
-import Dialog from '@material-ui/core/Dialog';
-import axios from "axios";
 
 import Link from '../../__Common__/CustomLink';
 import Sublist from '../../__Common__/Sublist';

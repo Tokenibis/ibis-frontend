@@ -42,7 +42,6 @@ import {
 import CircularProgress from '@material-ui/core/CircularProgress';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
 import BackIcon from '@material-ui/icons/KeyboardBackspace';
 import SignUpIcon from '@material-ui/icons/AccountCircle';
 import SignInIcon from '@material-ui/icons/ExitToApp';
@@ -345,7 +344,7 @@ class Authenticator extends Component {
     render() {
 
 	let { classes, children, context } = this.props;
-	let { userID, userType, width, menuMode, loginEnabled  } = this.state;
+	let { userID, userType, width, menuMode  } = this.state;
 
 	let url = new URL(window.location.href);
 	let path = url.pathname.split('/').slice(1)

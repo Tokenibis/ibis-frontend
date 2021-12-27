@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 function Poller({ children, action, pollTime }) {
 
@@ -16,7 +16,7 @@ function Poller({ children, action, pollTime }) {
 	    }
 	}, pollTime);
 	return () => clearInterval(interval);
-    }, []);
+    });
 
     return children;
 }

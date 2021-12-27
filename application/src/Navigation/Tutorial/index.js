@@ -9,14 +9,10 @@
 */
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import gql from "graphql-tag";
 import { withApollo } from 'react-apollo';
 import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import Dialog from '@material-ui/core/Dialog';
 import Tour from 'reactour'
 
@@ -246,7 +242,7 @@ If you want to contribute your money to this project, you can make an grant in o
 		content: (
 		    <div>
 		      <CustomMarkdown source={`
-That\'s everything! Now you’re free to go brighten people’s days and help change the world.
+That's everything! Now you’re free to go brighten people’s days and help change the world.
 
 ---
 
@@ -438,7 +434,7 @@ ___Main Menu > Help > Start Tutorial.___
 
     componentDidMount() {
 
-	let { classes, client, context } = this.props;
+	let { client, context } = this.props;
 
 	if (!(context.userType === 'person' || context.userType === 'organization')) {
 	    return;
@@ -482,7 +478,7 @@ ___Main Menu > Help > Start Tutorial.___
     }
 
     render() {
-	let { classes, context, toggleMenu } = this.props;
+	let { classes } = this.props;
 	let { open, tours, tour, step, dialog } = this.state;
 
 	if (dialog) {

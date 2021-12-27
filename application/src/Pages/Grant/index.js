@@ -16,7 +16,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import ToIcon from '@material-ui/icons/ArrowRightAlt';
 import axios from "axios";
 
-import Popup from '../../__Common__/Popup';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import CustomDate, { DateVal } from '../../__Common__/CustomDate';
@@ -256,7 +255,7 @@ class GrantList extends Component {
     }
 
     makeActions = (node) => {
-	let { classes, context } = this.props;
+	let { classes } = this.props;
 	
 	return (
 	    <div className={classes.action}>

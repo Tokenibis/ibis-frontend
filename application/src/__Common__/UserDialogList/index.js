@@ -80,10 +80,10 @@ const DEFAULT_COUNT = 25;
 
 const query = loader('../../Static/graphql/app/UserList.gql')
 
-class UserList_ extends Component {
+class UserListLocal extends Component {
 
     makeImage = (node) => {
-	let { classes, context, onClick } = this.props;
+	let { classes, onClick } = this.props;
 	return onClick ? (
     	    <Avatar
   		alt="Ibis"
@@ -205,7 +205,7 @@ class UserList_ extends Component {
 };
 
 
-UserList_.propTypes = {
+UserListLocal.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
@@ -236,7 +236,7 @@ class UserDialogList extends Component {
 	      >
 		<IbisConsumer>
 		  {context => (
-		      <UserList_
+		      <UserListLocal
 			  classes={classes}
 			  context={context}
 			  filterValue={`${VARIANTS[variant].filter}:${node}`}
@@ -265,5 +265,5 @@ export const FollowingVal = 'following';
 export const FollowerVal = 'follower';
 export const LikeVal = 'like';
 export const RsvpVal = 'rsvp';
-export const UserList = withStyles(styles)(UserList_);
+export const UserList = withStyles(styles)(UserListLocal);
 export default withStyles(styles)(UserDialogList);

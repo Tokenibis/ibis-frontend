@@ -10,14 +10,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from "react-router-dom";
-import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import IconButton from '@material-ui/core/IconButton';
 
 import FilterIcon from '../../__Common__/FilterIcon';
-import SearchIcon from '@material-ui/icons/Search';
 
 const styles = theme => ({
     root: {

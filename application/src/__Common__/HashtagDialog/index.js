@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import DonationIcon from '@material-ui/icons/MonetizationOn';
-import PostIcon from '@material-ui/icons/Forum';
-import NewsIcon from '@material-ui/icons/ListAlt';
-import EventIcon from '@material-ui/icons/Event';
-import ActivityIcon from '@material-ui/icons/Casino';
-import RewardIcon from '@material-ui/icons/EmojiEvents';
-import GoIcon from '@material-ui/icons/ExitToApp';
 
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import CustomDivider from '../CustomDivider';
@@ -92,7 +82,7 @@ class HashtagDialog extends Component {
     };
     
     makeImage = (node) => {
-	let { classes, onClick } = this.props;
+	let { classes } = this.props;
 
 	return (
     	    <Avatar
@@ -121,8 +111,6 @@ class HashtagDialog extends Component {
     }
 
     makeBody = (node) => {
-	let { classes } = this.props;
-
 	return (
 	    <Typography variant="body2">
   	      <Truncated text={node.description} length={160}/>

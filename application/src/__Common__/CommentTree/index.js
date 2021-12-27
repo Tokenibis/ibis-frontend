@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { loader } from 'graphql.macro';
-import { Query } from "react-apollo";
 import { withApollo } from "react-apollo";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -16,7 +15,6 @@ import Collapse from '@material-ui/core/Collapse';
 
 import Link from '../CustomLink';
 import CustomMarkdown from '../CustomMarkdown';
-import CustomDivider from '../CustomDivider';
 import UserDialogList, { LikeVal as DialogLikeVal} from '../UserDialogList';
 import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
 import Confirmation from '../Confirmation';
@@ -165,7 +163,7 @@ class CommentTree extends Component {
     };
 
     onSubmitBottom(id) {
-	let { parent, depth } = this.props;
+	let { parent } = this.props;
 
 	this.onSubmitChild(id)
 	this.setState({ data: null });
@@ -261,7 +259,7 @@ class CommentTree extends Component {
     };
 
     renderComment(node, depth) {
-	let { classes, context, onSubmitRoot } = this.props;
+	let { classes, context } = this.props;
 	let { showReplyChild } = this.state;
 
 	return (
@@ -358,7 +356,7 @@ class CommentTree extends Component {
     };
 
     renderCommentTree(depth) {
-	let { classes, client, context, parent } = this.props;
+	let { classes, client, context } = this.props;
 	let { data, showReplyChild } = this.state;
 
 	return (
@@ -460,7 +458,7 @@ class CommentTree extends Component {
     }
 	    
     render() {
-	let { classes, context, parent, depth, showReplyRoot, show } = this.props;
+	let { classes, depth, showReplyRoot } = this.props;
 	let { data } = this.state;
 
 	// depth will typically be undefined when calling CommentTree externally

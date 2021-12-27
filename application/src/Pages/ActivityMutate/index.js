@@ -116,12 +116,6 @@ class ActivityCreate extends Component {
 		variables: { id, self: context.userID },
 		fetchPolicy: "no-cache",
 	    }).then(results => {
-		let d = new Date(results.data.activity.date);
-		let date_str = ('0000' + d.getFullYear()).slice(-4) + '-' +
-			       ('00' + (d.getMonth() + 1)).slice(-2) + '-' +
-			       ('00' + d.getDate()).slice(-2) + 'T' +
-			       ('00' + d.getHours()).slice(-2) + ':' +
-			       ('00' + d.getMinutes()).slice(-2)
 		this.setState({
 		    title: results.data.activity.title,
 		    description: results.data.activity.description,
@@ -159,8 +153,6 @@ class ActivityCreate extends Component {
 	    mutation: id ? update_mutation : create_mutation,
 	    variables,
 	}).then(response => {
-	    let url = new URL(window.location.href);
-	    let path = url.hash.split('/').slice(1);
 	    let activity_id = response.data[Object.keys(response.data, 0)].activity.id
 	    history.push(`/activity?id=${activity_id}`)
 	}).catch(error => {

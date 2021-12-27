@@ -89,7 +89,7 @@ class QueryHelper extends Component {
     }
 
     refresh = (dataRefresh = [], force = true) => {
-	let { client, query, onRefresh } = this.props;
+	let { client, query } = this.props;
 	let { data } = this.state;
 	let variables = JSON.parse(JSON.stringify(this.props.variables));
 

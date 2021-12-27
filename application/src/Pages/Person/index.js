@@ -20,7 +20,6 @@ import UserDialogList, { FollowingVal, FollowerVal } from '../../__Common__/User
 import PostList from '../PostList';
 import DonationList from '../DonationList';
 import RewardList from '../RewardList';
-import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated, { DEFAULT_TRUNCATE_LENGTH } from '../../__Common__/Truncated';
 import Amount from '../../__Common__/Amount';

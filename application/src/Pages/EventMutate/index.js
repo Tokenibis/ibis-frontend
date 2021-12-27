@@ -48,11 +48,6 @@ const styles = theme => ({
 	fontWeight: 'bold',
 	color: theme.palette.primary.main,
     },
-    label: {
-	paddingTop: theme.spacing(2),
-	fontWeight: 'bold',
-	color: theme.palette.tertiary.main,
-    },
     buttonWrapper: {
 	paddingTop: theme.spacing(4),
 	paddingRight: theme.spacing(1),
@@ -177,8 +172,6 @@ class EventCreate extends Component {
 	    mutation: id ? update_mutation : create_mutation,
 	    variables,
 	}).then(response => {
-	    let url = new URL(window.location.href);
-	    let path = url.hash.split('/').slice(1);
 	    let event_id = response.data[Object.keys(response.data, 0)].event.id
 	    history.push(`/event?id=${event_id}`)
 	}).catch(error => {

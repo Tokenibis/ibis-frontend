@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import axios from "axios";
 
-import Link from '../../__Common__/CustomLink';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 
 const styles = theme => ({
@@ -238,8 +237,6 @@ class Verification extends Component {
 	let { classes, children, onSuccess } = this.props;
 	let {
 	    step,
-	    valueNumber,
-	    valueCode,
 	    canSubmitNumber,
 	    canSubmitCode,
 	    codeError,

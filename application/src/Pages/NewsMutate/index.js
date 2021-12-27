@@ -155,8 +155,6 @@ class NewsCreate extends Component {
 	    mutation: id ? update_mutation : create_mutation,
 	    variables,
 	}).then(response => {
-	    let url = new URL(window.location.href);
-	    let path = url.hash.split('/').slice(1);
 	    let news_id = response.data[Object.keys(response.data, 0)].news.id
 	    history.push(`/news?id=${news_id}`)
 	}).catch(error => {

@@ -143,9 +143,9 @@ const MAX_USERNAME_LEN = 15
 const query = loader('../../Static/graphql/app/Settings.gql')
 
 const user_mutations = {
-    'Person': loader('../../Static/graphql/app/PersonUpdate.gql'),
-    'Organization': loader('../../Static/graphql/app/OrganizationUpdate.gql'),
-    'Bot': loader('../../Static/graphql/app/BotUpdate.gql'),
+    'person': loader('../../Static/graphql/app/PersonUpdate.gql'),
+    'organization': loader('../../Static/graphql/app/OrganizationUpdate.gql'),
+    'bot': loader('../../Static/graphql/app/BotUpdate.gql'),
 }
 
 const notifier_mutation = loader('../../Static/graphql/app/NotifierUpdate.gql')
@@ -283,7 +283,7 @@ class Settings extends Component {
 
     handleEmailInput(current) {
 	let email = document.getElementById('edit_email').value.toString()
-	let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	let canSubmit = email !== current && re.test(email.toLowerCase());
 	this.setState({ email, canSubmit });
     }

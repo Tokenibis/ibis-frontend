@@ -7,8 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MessageIcon from '@material-ui/icons/ForumOutlined';
-import CreateIcon from '@material-ui/icons/Create';
-import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -22,12 +20,7 @@ import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import CustomDate from '../../__Common__/CustomDate';
 import CustomDivider from '../../__Common__/CustomDivider';
-import Truncated from '../../__Common__/Truncated';
-import Popup from '../../__Common__/Popup';
-import Filter from '../../__Common__/Filter';
 import { UserList } from '../../__Common__/UserDialogList';
-
-const config = require('../../__config__.json');
 
 const styles = theme => ({
     root: {
@@ -201,7 +194,6 @@ class MessageInbox extends Component {
     };
 
     makeImageChannel = (node) => {
-	let { classes  } = this.props;
 	return (
 	    <ChannelIcon />
 	);
@@ -305,7 +297,7 @@ class MessageInbox extends Component {
     }
 
     render() {
-	let { classes, context, minimal, count } = this.props;
+	let { classes, context } = this.props;
 	let { search, filterValue, tab } = this.state;
 
 	let variables = {
