@@ -86,14 +86,17 @@ class Confirmation extends Component {
     handleClick(e) {
 	let { onClick } = this.props;
 
-	this.setState({ opened: false, confirmed: false });
+
+	this.setState({ confirmed: true });
 	try {
 	    onClick(e).then(response => {
 		this.setState({ opened: false, confirmed: false });
 	    }).catch(error => {
+		this.setState({ opened: false, confirmed: false });
 		console.log(error);
 	    });
 	} catch (error) {
+	    this.setState({ opened: false, confirmed: false });
 	    console.log(error);
 	}
     };

@@ -41,7 +41,7 @@ const styles = theme => ({
 function CustomMarkdownLink({ classes, safe, noLink, noClick, ...other }) {
 
     let followLink = (destination) => {
-	window.location = destination;
+	window.open(destination, '_blank');
     }
 
     if (other.href.startsWith(`${config.ibis.app}/__hashtag__/`)) {
@@ -133,7 +133,7 @@ function CustomMarkdown({ classes, source, safe, noLink, noClick, mention, messa
 	});
     }
 
-    source = source.replace('_](', '\\_](');
+    source = source ? source.replace('_](', '\\_](') : '';
 
     // replace [$ ](#\w+)\W
     source = ` ${source} `.replace(new RegExp(`(\\s)#(\\w+)`, 'g'), `$1[ #$2](${config.ibis.app}/__hashtag__/$2)`).slice(1, -1)
