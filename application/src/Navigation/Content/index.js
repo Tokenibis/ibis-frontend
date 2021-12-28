@@ -163,7 +163,7 @@ function ContentLoader({ match, location }) {
     );
 
     return (
-	<div>
+	<div >
 	  {nav}
 	  {page}
 	</div>

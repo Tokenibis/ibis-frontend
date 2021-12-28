@@ -187,6 +187,14 @@ class NotificationMenu extends Component {
 	let { drawer } = this.state;
 	let { classes, context } = this.props;
 
+	if (!context.userID) {
+	    return (
+		<IconButton color="inherit">
+		  <NotificationIconNo />
+		</IconButton>
+	    );
+	}
+
 	return (
 	    <Query
 	      fetchPolicy="no-cache"

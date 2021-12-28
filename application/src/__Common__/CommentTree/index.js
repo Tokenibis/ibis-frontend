@@ -453,17 +453,27 @@ class CommentTree extends Component {
     }
 
     componentDidMount() {
-	let { parent } = this.props;
-	this.fetchComments(parent);
+	let { context, parent } = this.props;
+	if (context.userID) {
+	    this.fetchComments(parent);
+	}
     }
 	    
     render() {
-	let { classes, depth, showReplyRoot } = this.props;
+	let { classes, context, depth, showReplyRoot } = this.props;
 	let { data } = this.state;
 
 	// depth will typically be undefined when calling CommentTree externally
 	if (!depth) {
 	    depth = 0;
+	}
+
+	if (!context.userID) {
+	    return (
+		<div>
+		  {this.renderReplyForm(depth)}
+		</div>
+	    );
 	}
 
 	if (!data) {

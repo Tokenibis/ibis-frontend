@@ -332,35 +332,37 @@ class Organization extends Component {
 		    View all events
 		  </Typography>
 		</Grid>
-  		<Grid
-		    container
-		    direction="column"
-		    justify="center"
-		    alignItems="center"
-		    className={
+		{context.userID && (
+  		    <Grid
+			container
+			direction="column"
+			justify="center"
+			alignItems="center"
+			className={
 		        (node.donationWithCount) === 0 ?
 		        classes.hide :
 		        classes.none
-		    }
-		>
-		  <Typography variant="button" className={classes.heading} >
-		    Donation History
-		  </Typography>
-		  <DonationList
-		      minimal
-		      context={context}
-		      filterValue={`_User:${id}`}
-		      count={3}
-		  />
-		    <Typography
+			}
+			>
+		      <Typography variant="button" className={classes.heading} >
+			Donation History
+		      </Typography>
+		      <DonationList
+			  minimal
+			  context={context}
+			  filterValue={`_User:${id}`}
+			  count={3}
+		      />
+		      <Typography
 			component={Link}
 			to={`/donation-list?filterValue=_User:${id}`}
 			variant="body2"
 			className={classes.viewAll}
-		    >
-		      View all donations
-		    </Typography>
-		</Grid>
+			>
+			View all donations
+		      </Typography>
+		    </Grid>
+		)}
 		<Grid item xs={12}><div className={classes.bottom} /></Grid>
 	      </div>
 	    </div>

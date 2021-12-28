@@ -50,8 +50,8 @@ const theme = createMuiTheme({
     },
 });
 
-
 function App() {
+
     return (
 	<ApolloProvider client={client}>
 	  <MuiThemeProvider theme={theme}>

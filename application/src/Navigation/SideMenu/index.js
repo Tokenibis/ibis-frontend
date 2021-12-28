@@ -81,6 +81,11 @@ class SideMenu extends Component {
 
     componentDidMount() {
 	let { context, client } = this.props;
+
+	if (!context.userID) {
+	    return;
+	}
+
 	client.query({
 	    query: query,
 	    variables: { id: context.userID },

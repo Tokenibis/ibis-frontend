@@ -54,6 +54,7 @@ import { IbisConsumer } from '../Context';
 
 import IbisIcon from '../__Common__/IbisIcon';
 import UserAgreement from '../__Common__/UserAgreement'
+import Confirmation from '../__Common__/Confirmation'
 
 const cookies = new Cookies();
 
@@ -119,8 +120,20 @@ const styles = theme => ({
 	backgroundColor: 'white',
 	width: '90%',
     },
+    preview: {
+	opacity: '80%',
+	pointerEvents: 'none',
+    }
 });
 
+const previews = [
+    '#/organization',
+    '#/organization-list',
+    '#/news',
+    '#/news-list',
+    '#/event',
+    '#/event-list',
+];
 
 const SignUpButton = createButton({
     icon: SignUpIcon,
@@ -183,6 +196,33 @@ const OrganizationLoginButton = createButton({
 	borderColor: 'white',
     },
 });
+
+class Preview extends Component {
+    state = {
+	dialog: false,
+    }
+
+    onClick() {
+	window.location = '/#/';
+	window.location.reload(true);
+    }
+
+    render() {
+	let { dialog } = this.state;
+	let { classes, children, value } = this.props;
+
+	return (
+	    <Confirmation
+		onClick={() => this.onClick()}
+		message="Sorry, you must be signed in to do that. Would you like to head to the login page now?"
+	    >
+	      <div className={classes.preview}>
+		{children}
+	      </div>
+	    </Confirmation>
+	);
+    }
+};
 
 class Authenticator extends Component {
 
@@ -439,6 +479,7 @@ class Authenticator extends Component {
 	      </IconButton>
 	    </Grid>
 	);
+	console.log(window.location.hash.split('?')[0])
 
 	if (userID) {
 	    // app has successfully authenticated
@@ -451,6 +492,12 @@ class Authenticator extends Component {
 		}}>
 		  {children}
 		</IbisProvider>
+	    );
+	} else if (userID === '' && previews.includes(window.location.hash.split('?')[0])) {
+	    return (
+		<Preview classes={classes}>
+		  {children}
+		</Preview>
 	    );
 	} else if (userID === '' && path[0] !== 'redirect') {
 	    // app has identified that no user is logged in and not redirecting
