@@ -20,6 +20,7 @@ import UserDialogList, { LikeVal as DialogLikeVal } from '../../__Common__/UserD
 import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/SimpleEdgeMutation';
 import CommentTree from '../../__Common__/CommentTree';
 import CustomDate from '../../__Common__/CustomDate';
+import Share from '../../__Common__/Share';
 
 const styles = theme => ({
     content: {
@@ -188,6 +189,12 @@ class News extends Component {
 				target={node.id}
 				initial={node.hasBookmarked.edges.length === 1}
 			    />
+			    <Share
+				context={context}
+				title="Token Ibis News"
+				text={node.title}
+				url={window.location.href}
+			    />
 			    <div className={classes.personDialogWrapper}>
 			      <UserDialogList
 				  variant={DialogLikeVal}
@@ -219,6 +226,12 @@ class News extends Component {
 			      target={node.id}
 			      initial={node.hasLiked.edges.length === 1}
 		              countCallback={likeCallback}
+			  />
+			  <Share
+			      context={context}
+			      title="Token Ibis News"
+			      text={node.title}
+			      url={window.location.href}
 			  />
 			  <div className={classes.personDialogWrapper}>
 			    <UserDialogList

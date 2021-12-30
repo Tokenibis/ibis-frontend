@@ -5,18 +5,15 @@ import { loader } from 'graphql.macro';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import CopyIcon from '@material-ui/icons/FileCopyOutlined';
 import MessageIcon from '@material-ui/icons/SendOutlined';
 
-import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Link from '../../__Common__/CustomLink';
 import QueryHelper from '../../__Common__/QueryHelper';
 import ListView from '../../__Common__/ListView';
 import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
+import Share from '../../__Common__/Share';
 
 const config = require('../../__config__.json');
 
@@ -55,31 +52,6 @@ const styles = theme => ({
 	color: theme.palette.secondary.main,
 	textDecoration: 'none',
     },
-    buttonWrapper: {
-	width: '100%',
-	textAlign: 'center',
-	paddingTop: theme.spacing(2),
-    },
-    newButton: {
-	width: '90%',
-	color: theme.palette.secondary.main,
-	backgroundColor: 'white',
-	borderStyle: 'solid',
-	borderWidth: '1px',
-	borderColor: theme.palette.secondary.main,
-	marginBottom: theme.spacing(1),
-    },
-    dialogInner: {
-	padding: theme.spacing(2),
-	textAlign: 'center',
-	display: 'flex',
-	marginRight: 'auto',
-	marginLeft: 'auto',
-    },
-    paperProps: {
-	width: '70%',
-	margin: theme.spacing(1),
-    },
     icons: {
 	display: 'flex',
     },
@@ -90,82 +62,7 @@ const DEFAULT_FILTER = 'All';
 
 const query = loader('../../Static/graphql/app/PersonList.gql')
 
-class Invite extends Component {
-    state = {
-	dialog: false,
-	copied: false,
-	sharing: false,
-    }
-
-    invite = (link) => {
-	if (navigator.share) {
-	    this.setState({ sharing: true });
-	    navigator.share({
-		title: 'Token Ibis Link',
-		text: 'Albuquerque\'s least profitable pyramid scheme:',
-		url: link,
-	    }).then(() => {
-		alert('Success!')
-		this.setState({ sharing: false });
-	    }).catch((error) => {
-		alert('Darn, something went wrong')
-		this.setState({ sharing: false });
-	    });
-	} else {
-	    this.setState({ dialog: true });
-	}
-    };
-
-    render() {
-	let { classes, context } = this.props;
-	let { dialog, copied, sharing } = this.state;
-
-	let link = context.userType === 'person' ?
-		   `${config.ibis.app}/?referral=${context.userID}` :
-		   config.ibis.app;
-
-	return (
-	    <div>
-	      <Dialog
-		  open={dialog}
-		  onClose={() => this.setState({ dialog: false, copied: false })}
-		  PaperProps={{ className: classes.paperProps}}
-	      >
-		<div className={classes.dialogInner}>
-		  <CustomMarkdown noLink source={
-		  copied ? 'Copied to clipboard' : `Referal link: ${link}`
-		  } />
-		  <IconButton
-		      color="secondary"
-		      onClick={() => {
-			  navigator.clipboard.writeText(link);
-			  this.setState({ copied: true });
-		      }}
-		  >
-		    <CopyIcon/>
-		  </IconButton>
-		</div>
-	      </Dialog>
-	      <div className={classes.buttonWrapper} id="tutorial-invite">
-		<Button
-		    className={classes.newButton}
-		    onClick={() => this.invite(link)}
-		    disabled={sharing}
-		>
-		  Invite New User
-		</Button>
-	      </div>
-	    </div>
-	);
-    }
-
-}
-
 class PersonList extends Component {
-
-    state = {
-	dialog: false,
-    }
 
     makeImage = (node) => {
 	let { classes  } = this.props;
@@ -214,11 +111,13 @@ class PersonList extends Component {
 		    initial={node.isFollowing.edges.length === 1}
 		    hide={context.userID === node.id}
 		/>
-		<Link to={`/message-list?id=${node.id}`}>
-		  <IconButton color="secondary">
-		    <MessageIcon />
-		  </IconButton>
-		</Link>
+		{context.userID !== node.id && (
+		    <Link to={`/message-direct-list?id=${node.id}`}>
+		      <IconButton color="secondary">
+			<MessageIcon />
+		      </IconButton>
+		    </Link>
+		)}
 	      </div>
 	      <Typography
 		  component={Link}
@@ -328,9 +227,21 @@ class PersonList extends Component {
 
 	variables.self = context.userID
 
+	let url = context.userType === 'person' ?
+		   `${config.ibis.app}/?referral=${context.userID}` :
+		   config.ibis.app;
+
 	return (
 	    <div>
-	      <Invite classes={classes} context={context}/>
+	      <div id="tutorial-invite">
+		<Share
+		    context={context}
+	            title="Token Ibis Link"
+	            text="Albuquerque's least profitable pyramid scheme:"
+	            label="Invite New User"
+		    url={url}
+		/>
+	      </div>
 	      <QueryHelper
 		  query={query}
 		  variables={variables}

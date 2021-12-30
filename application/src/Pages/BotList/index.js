@@ -108,7 +108,7 @@ class BotList extends Component {
 		    initial={node.isFollowing.edges.length === 1}
 		    hide={context.userID === node.id}
 		/>
-		<Link to={`/message-list?id=${node.id}`}>
+		<Link to={`/message-direct-list?id=${node.id}`}>
 		  <IconButton color="secondary">
 		    <MessageIcon />
 		  </IconButton>

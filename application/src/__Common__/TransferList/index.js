@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import Link from '../CustomLink';
 import QueryHelper from "../QueryHelper";
 import ListView from '../ListView';
-import SimpleEdgeMutation, { LikeVal } from '../SimpleEdgeMutation';
+import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../SimpleEdgeMutation';
 import Truncated from '../Truncated';
 
 const styles = theme => ({
@@ -145,6 +145,12 @@ class TransferList extends Component {
 	return (
 	    <div className={classes.action}>
 	      <div className={classes.likeBookmark}>
+		<SimpleEdgeMutation
+		    variant={BookmarkVal}
+		    user={context.userID}
+		    target={node.id}
+		    initial={node.hasBookmarked.edges.length === 1}
+		/>
 		<SimpleEdgeMutation
 		    variant={LikeVal}
 		    user={context.userID}

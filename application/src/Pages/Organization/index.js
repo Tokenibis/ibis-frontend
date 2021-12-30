@@ -24,6 +24,7 @@ import EventList from '../EventList';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated, { DEFAULT_TRUNCATE_LENGTH } from '../../__Common__/Truncated';
 import Amount from '../../__Common__/Amount';
+import Share from '../../__Common__/Share';
 
 const styles = theme => ({
     root: {
@@ -237,7 +238,7 @@ class Organization extends Component {
 		    <div className={classes.action}>
 		      <div className={classes.edgeMutations}>
 		      {
-			  node.id !== context.userID &&
+			  node.id !== context.userID && (
 			  <div className={classes.icons}>
 			    <SimpleEdgeMutation
 				variant={FollowVal}
@@ -246,13 +247,19 @@ class Organization extends Component {
 				initial={node.isFollowing.edges.length === 1}
 				countCallback={followerCallback}
 			    />
-			    <Link to={`/message-list?id=${node.id}`}>
+			    <Link to={`/message-direct-list?id=${node.id}`}>
 			      <IconButton color="secondary">
 				<MessageIcon />
 			      </IconButton>
 			    </Link>
 			  </div>
-		      }
+		      )}
+			<Share
+			    context={context}
+			    title="Token Ibis Organization"
+			    text={node.name}
+			    url={window.location.href}
+			/>
 		      </div>
 		      {
 			  node.description && node.description.length > DEFAULT_TRUNCATE_LENGTH && (

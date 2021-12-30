@@ -479,7 +479,6 @@ class Authenticator extends Component {
 	      </IconButton>
 	    </Grid>
 	);
-	console.log(window.location.hash.split('?')[0])
 
 	if (userID) {
 	    // app has successfully authenticated

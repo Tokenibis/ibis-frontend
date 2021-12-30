@@ -14,6 +14,7 @@ import EventFilter, { DefaultFilter } from './filter';
 import SimpleEdgeMutation, { LikeVal, BookmarkVal, RsvpVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
 import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
+import Share from '../../__Common__/Share';
 
 const styles = theme => ({
     root: {
@@ -158,11 +159,19 @@ class EventList extends Component {
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
 		/>
-		<SimpleEdgeMutation
-		    variant={LikeVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
+		{context.userID !== node.user.id && (
+		    <SimpleEdgeMutation
+			variant={LikeVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.hasLiked.edges.length === 1}
+		    />
+		)}
+		<Share
+		    context={context}
+		    title="Token Ibis Event"
+		    text={node.title}
+		    url={`${window.location.origin}/#/event?id=${node.id}`}
 		/>
 	      </div>
 	      <Link to={`/event?id=${node.id}`}>

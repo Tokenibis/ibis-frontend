@@ -217,7 +217,6 @@ class Settings extends Component {
 
     updateEmail = (mutation, refetch) => {
 	let email = document.getElementById('edit_email').value;
-	console.log(email)
 	mutation({ variables: { email } }).then(response => {
 	    refetch();
 	    this.setState({ editField: '', loading: false, dialog: 'Success!' });

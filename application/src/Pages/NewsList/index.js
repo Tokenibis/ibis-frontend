@@ -15,6 +15,7 @@ import SimpleEdgeMutation, { LikeVal, BookmarkVal } from '../../__Common__/Simpl
 import Truncated from '../../__Common__/Truncated';
 import CustomDate from '../../__Common__/CustomDate';
 import { IbisConsumer } from '../../Context';
+import Share from '../../__Common__/Share';
 
 const styles = theme => ({
     root: {
@@ -154,11 +155,19 @@ class NewsList extends Component {
 		    target={node.id}
 		    initial={node.hasBookmarked.edges.length === 1}
 		/>
-		<SimpleEdgeMutation
-		    variant={LikeVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.hasLiked.edges.length === 1}
+		{context.userID !== node.user.id && (
+		    <SimpleEdgeMutation
+			variant={LikeVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.hasLiked.edges.length === 1}
+		    />
+		)}
+		<Share
+		    context={context}
+		    title="Token Ibis News"
+		    text={node.title}
+		    url={`${window.location.origin}/#/news?id=${node.id}`}
 		/>
 	      </div>
 	      <Link to={`/news?id=${node.id}`}>

@@ -13,6 +13,7 @@ import ListView from '../../__Common__/ListView';
 import Filter from '../../__Common__/Filter';
 import SimpleEdgeMutation, { FollowVal } from '../../__Common__/SimpleEdgeMutation';
 import Truncated from '../../__Common__/Truncated';
+import Share from '../../__Common__/Share';
 
 const styles = theme => ({
     avatar: {
@@ -96,18 +97,28 @@ class OrganizationList extends Component {
 	return (
 	    <div className={classes.action}>
 	      <div className={classes.icons}>
-		<SimpleEdgeMutation
-		    variant={FollowVal}
-		    user={context.userID}
-		    target={node.id}
-		    initial={node.isFollowing.edges.length === 1}
-		    hide={context.userID === node.id}
-		/>
-		<Link to={`/message-list?id=${node.id}`}>
-		  <IconButton color="secondary">
-		    <MessageIcon />
-		  </IconButton>
-		</Link>
+		{context.id !== node.id && (
+		    <SimpleEdgeMutation
+			variant={FollowVal}
+			user={context.userID}
+			target={node.id}
+			initial={node.isFollowing.edges.length === 1}
+			hide={context.userID === node.id}
+		    />
+		)}
+		{context.id !== node.id && (
+		    <Link to={`/message-direct-list?id=${node.id}`}>
+		      <IconButton color="secondary">
+			<MessageIcon />
+		      </IconButton>
+		    </Link>
+		)}
+	    <Share
+		context={context}
+		title="Token Ibis Organization"
+		text={node.name}
+		url={`${window.location.origin}/#/organization?id=${node.id}`}
+	    />
 	      </div>
 	      <Typography
 		  component={Link}

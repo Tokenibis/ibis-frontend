@@ -1,0 +1,14 @@
+diff a/application/src/Pages/PersonList/index.js b/application/src/Pages/PersonList/index.js	(rejected hunks)
+@@ -214,11 +214,11 @@ class PersonList extends Component {
+ 		    initial={node.isFollowing.edges.length === 1}
+ 		    hide={context.userID === node.id}
+ 		/>
+-		<Link to={`/message-list?id=${node.id}`}>
+ 		  <IconButton color="secondary">
+ 		    <MessageIcon />
+ 		  </IconButton>
+ 		</Link>
++		    <Link to={`/message-direct-list?id=${node.id}`}>
+ 	      </div>
+ 	      <Typography
+ 		  component={Link}
