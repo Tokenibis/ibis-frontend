@@ -86,6 +86,12 @@ that it aims to support. In addition, we retain the right to share
 user data with other organizations for research purposes. Any formal
 studies that arises from such collaborations will be overseen by an
 Institutional Review Board to ensure ethical behavior.
+
+## Facebook Data Deletion
+
+In accordance with Facebook’s privacy policy, users who use Facebook
+social login may request deletion of Token Ibis data by sending an
+email to info@tokenibis.org.
 `;
 
 function UserAgreement({ text, using }) {
