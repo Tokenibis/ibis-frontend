@@ -237,7 +237,7 @@ class PersonList extends Component {
 		<Share
 		    context={context}
 	            title="Token Ibis Link"
-	            text="Albuquerque's least profitable pyramid scheme:"
+	            text="Join the platform to let you make an impact for free"
 	            label="Invite New User"
 		    url={url}
 		/>
