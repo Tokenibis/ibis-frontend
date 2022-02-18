@@ -218,6 +218,23 @@ class Transfer extends Component {
 		</Grid>
 		<Grid item xs={2}></Grid>
 
+		{variant === 'donation' && node.grantdonationSet.edges.length > 0 && (
+		    <Grid container>
+		      <Grid item xs={3}></Grid>
+		      <Grid item xs={2}>
+			<Typography variant="body2" className={classes.label}>
+			  Grant:
+			</Typography>
+		      </Grid>
+		      <Grid item xs={5}>
+			<Typography variant="body2" className={classes.info}>
+			  {node.grantdonationSet.edges.map(x => x.node.grant.name).join(', ')}
+			</Typography>
+		      </Grid>
+		      <Grid item xs={2}></Grid>
+		    </Grid>
+		)}
+
 		<Grid item xs={3}></Grid>
 		<Grid item xs={7}>
 		  <div className={classes.divider}>
