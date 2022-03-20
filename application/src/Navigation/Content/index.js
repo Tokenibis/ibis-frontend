@@ -121,7 +121,11 @@ function HomeLoader()  {
 
     return (
 	<div>
-	  <MainBar cycle={StandardVal} />
+	  <IbisConsumer>
+	    {context => (
+		<MainBar context={context} cycle={StandardVal} />
+	    )}
+	  </IbisConsumer>
 	  <IbisConsumer>
 	    {context => (
 		<Home context={context}/>
@@ -144,7 +148,11 @@ function ContentLoader({ match, location }) {
     let Page = module.default;
     let nav = (({cycle, value}) => (
 	<div>
-	  <MainBar cycle={cycle} position={cycle === StandardVal ? 'fixed' : 'static'}/>
+	  <IbisConsumer>
+	    {context => (
+		<MainBar context={context} cycle={cycle} position={cycle === StandardVal ? 'fixed' : 'static'}/>
+	    )}
+	  </IbisConsumer>
 	  {cycle !== StandardVal && (<TabBar options={options[cycle]} value={value} />)}
 	</div>
     ))(navigation[name.split('-')[0]] || navigation[null])

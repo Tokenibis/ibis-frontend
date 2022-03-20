@@ -48,21 +48,13 @@ function MainBar({ classes, context, cycle, position = 'static' }) {
 
     return (
 	<div>
-	  <AppBar color="primary" position={position}>
+	  <AppBar color={context.userType === 'person' ? 'primary' : 'secondary'} position={position}>
 	    <div className={classes.flex}>
-	      <IbisConsumer>
-		{context => (
-		    <SideMenu context={context}/>
-		)}
-	      </IbisConsumer> 
+	      <SideMenu context={context}/>
 	      <Typography variant="h6" color="inherit" className={classes.grow}>
 		<Cycler value={cycle} />
 	      </Typography>
-	      <IbisConsumer>
-		{context => (
-		    <NotificationMenu context={context}/>
-		)}
-	      </IbisConsumer> 
+	      <NotificationMenu context={context}/>
 	    </div>
 	  </AppBar>
 	  {position === 'fixed' && <Toolbar className={classes.toolbar}/>}
