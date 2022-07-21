@@ -211,7 +211,7 @@ class Activity extends Component {
 			  </div>
 			  <IconButton
 			      component={Link}
-			      to={`ActivityMutate?id=${node.id}`}
+			      to={`activity-mutate?id=${node.id}`}
 			      className={classes.editButton}
 			    >
 			    <EditIcon/>

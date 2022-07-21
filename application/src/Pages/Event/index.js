@@ -327,7 +327,7 @@ class Event extends Component {
 			  </div>
 			  <IconButton
 			      component={Link}
-			      to={`EventMutate?id=${node.id}`}
+			      to={`event-mutate?id=${node.id}`}
 			      className={classes.editButton}
 			    >
 			    <EditIcon/>

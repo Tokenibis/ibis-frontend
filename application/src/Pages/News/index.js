@@ -205,7 +205,7 @@ class News extends Component {
 			  </div>
 			  <IconButton
 			      component={Link}
-			      to={`NewsMutate?id=${node.id}`}
+			      to={`news-mutate?id=${node.id}`}
 			      className={classes.editButton}
 			    >
 			    <EditIcon/>
