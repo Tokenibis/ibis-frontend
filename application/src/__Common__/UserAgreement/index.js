@@ -87,11 +87,25 @@ user data with other organizations for research purposes. Any formal
 studies that arises from such collaborations will be overseen by an
 Institutional Review Board to ensure ethical behavior.
 
-## Facebook Data Deletion
+## Data Deletion Policy
 
-In accordance with Facebook’s privacy policy, users who use Facebook
-social login may request deletion of Token Ibis data by sending an
-email to info@tokenibis.org.
+At any time, users may request that their personal data be deleted by emailing __info@tokenibis.org__. With the following information:
+
+* Subject: Data Deletion Request
+* Body (please include the following information):
+  * Your Token Ibis username
+  * Any other comments or requests or special instructions.
+
+Once received, we will send a confirmation link as a private message from @tokenibis on the app.
+If you confirm, then we will delete all information associated with your Token Ibis account and activity history EXCEPT for anonymized historical donation amounts, which is needed for financial auditing.
+This includes (but is not limited to) the following information:
+
+* Any custom profile settings associated with your account.
+* All historical donation descriptions, posts, and comments. 
+* All private messages to other users or nonprofits.
+* Any association between the deleted profile and external platforms including Facebook, Google, or Microsoft.
+
+Please expect a confirmation of the completed request within 5 business days.
 `;
 
 function UserAgreement({ text, using }) {
