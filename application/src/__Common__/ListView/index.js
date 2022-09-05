@@ -43,6 +43,7 @@ const styles = theme => ({
     },
     item: {
 	width: '90%',
+	overflow: 'hidden',
     },
     listItem: {
 	marginLeft: '0px',
