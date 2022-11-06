@@ -6,6 +6,7 @@ import { loader } from 'graphql.macro';
 import { Query } from "react-apollo";
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 
@@ -14,6 +15,9 @@ import ListView from '../../__Common__/ListView';
 import CustomDate, { PreciseVal } from '../../__Common__/CustomDate';
 import CustomMarkdown from '../../__Common__/CustomMarkdown';
 import Truncated from '../../__Common__/Truncated';
+import DownloadIcon from '@material-ui/icons/CloudDownloadOutlined';
+
+const config = require('../../__config__.json');
 
 const styles = theme => ({
     root: {
@@ -60,6 +64,10 @@ const styles = theme => ({
     },
     dialogInner: {
 	padding: theme.spacing(2),
+	textAlign: 'center',
+    },
+    download: {
+	paddingTop: theme.spacing(2),
 	textAlign: 'center',
     },
     label: {
@@ -143,7 +151,7 @@ const query = loader('../../Static/graphql/app/WithdrawalList.gql')
 
 const query_finance = loader('../../Static/graphql/app/Finance.gql')
 
-const message = 'This is a history of your "withdrawals", a.k.a. real-money donations that Token Ibis has passed on your organization. In general, these will occur no later than on a monthly basis as long as the outstanding balance is more than $100. However, if you would like to expedit a payment, please email at __info@tokenibis.org__';
+const message = 'This is a history of your "withdrawals", a.k.a. real-money donations that Token Ibis has passed on your organization. In general, these will occur no later than on a monthly basis as long as the outstanding balance is more than $100. However, if you would like to expedite a payment, please email at __info@tokenibis.org__';
 
 const warning = 'This page is typically only meant for organizations. Are you sure you\'re logged onto the right account?'
 
@@ -238,7 +246,7 @@ class Withdrawal extends Component {
 		      </Grid>
 		      <Grid item xs={12}>
 			<CustomMarkdown noLink source={
-			context.userType === 'Organization' ? message : warning
+			context.userType === 'organization' ? message : warning
 			}/>
 		      </Grid>
 		      <Grid item xs={6}>
@@ -264,6 +272,14 @@ class Withdrawal extends Component {
 			       )
 			   }}
 			 </Query>
+		      </Grid>
+		      <Grid item xs={12} className={classes.download}>
+			<IconButton
+			    color="secondary"
+			    onClick={() => {window.location = `${config.ibis.api}/ibis/statement/`}}
+			>
+			  <DownloadIcon  />
+			</IconButton>
 		      </Grid>
 		    </Grid>
 		  </Grid>
